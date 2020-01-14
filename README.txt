@@ -16,6 +16,11 @@ REQUIREMENTS:
 
 (*) http://tljh.jupyter.org/en/latest/howto/admin/enable-extensions.html
 
+- build the book's site HTML locally
+
+https://jupyterbook.org/guide/publish/book-html.html#install-ruby-plugins
+
+- 
 
 -----------------------------------
 HOW TO OPEN AND BUILD JUPYTER BOOKS
@@ -33,4 +38,4 @@ Then build the website
 
 $ bundle exec jekyll serve
 
-Open the "Server address: http://127.0.0.1:4000/magmaNotes/" in the browser.
+Open the server address: "http://127.0.0.1:4000/magmaNotes/" in the browser.
