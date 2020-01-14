@@ -16,11 +16,14 @@ REQUIREMENTS:
 
 (*) http://tljh.jupyter.org/en/latest/howto/admin/enable-extensions.html
 
-- build the book's site HTML locally
+- useful links
+https://jupyterbook.org/guide/02_create.html
+https://jupyterbook.org/guide/03_build.html#Create-an-online-repository-for-your-book
+https://jupyterbook.org/guide/publish/github-pages.html
+
+And perhaps
 
 https://jupyterbook.org/guide/publish/book-html.html#install-ruby-plugins
-
-- 
 
 -----------------------------------
 HOW TO OPEN AND BUILD JUPYTER BOOKS
@@ -28,9 +31,9 @@ HOW TO OPEN AND BUILD JUPYTER BOOKS
 
 In the figs folder:
 
-$ jupyter-book build magmaNotebooks --overwrite
+$ jupyter-book build magmaNotebook --overwrite
 
-In the magmaNotebooks folder, check if port is available
+In the magmaNotebook folder, check if port is available
 
 $ lsof -wni tcp:4000
 
