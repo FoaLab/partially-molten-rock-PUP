@@ -1,0 +1,66 @@
+# This file contains the order and numbering for all sections in the book.
+#
+# Each entry has the following schema:
+#
+# - title: mytitle   # Title of chapter or section
+#   url: /myurl  # URL of section relative to the /content/ folder.
+#   sections:  # Contains a list of more entries that make up the chapter's sections
+#   not_numbered: true  # if the section shouldn't have a number in the sidebar
+#     (e.g. Introduction or appendices)
+#   expand_sections: true  # if you'd like the sections of this chapter to always
+#     be expanded in the sidebar.
+#   external: true  # Whether the URL is an external link or points to content in the book
+#
+# Below are some special values that trigger specific behavior:
+# - search: true  # Will provide a link to a search page
+# - divider: true  # Will insert a divider in the sidebar
+# - header: My Header  # Will insert a header with no link in the sidebar
+
+
+- title: Home
+  url: /ch_intro
+  not_numbered: true
+
+- title: A review of one-phase mantle dynamics
+  url: /ch03
+  not_numbered: true
+
+- title: Material properties
+  url: /ch05
+  not_numbered: true
+
+- title: Compaction and its inherent length scale
+  url: /ch06
+  not_numbered: true
+
+- title: Porosity-band emergence under deformation
+  url: /ch07
+  not_numbered: true
+
+- title: Conservation of energy
+  url: /ch08
+  not_numbered: true
+
+- title: Conservation of chemical-species mass
+  url: /ch09
+  not_numbered: true
+
+- title: Petrological thermodynamics of liquid and solid phases
+  url: /ch10
+  not_numbered: true
+
+- title: Melting column models
+  url: /ch11
+  not_numbered: true
+
+- title: Reactive flow and the emergence of melt channels
+  url: /ch12
+  not_numbered: true
+
+- title: Tectonic-scale models and modelling tools
+  url: /ch13
+  not_numbered: true
+
+- title: Numerical modelling of two-phase flow
+  url: /ch14
+  not_numbered: true
