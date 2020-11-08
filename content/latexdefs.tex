@@ -58,6 +58,7 @@
 \newcommand{\liq}{^\liquid}
 \newcommand{\sol}{^\solid}
 \newcommand{\melt}{^{\Gamma}}
+\newcommand{\lith}{^\text{lith}}
 \newcommand{\interface}{\mathcal{I}}
 \newcommand{\intfc}{^\interface}
 \newcommand{\solsol}{_{\solid\solid}}
@@ -100,6 +101,7 @@
 \newcommand{\effstressten}{\obar{\stressten}^\text{eff}}
 
 %% CONSTITUTIVE MACROS
+\newcommand{\cmpviscconst}{C}
 \newcommand{\grainsize}{d}
 \newcommand{\meangrainsize}{\langle{d}\rangle}
 \newcommand{\liquidvisc}{\mu\liq}
@@ -200,8 +202,9 @@
 \newcommand{\effvel}[1]{w^{\dico_{#1}}}
 \newcommand{\effvelcon}[1]{{w}^{\dico_{#1}}_0}
 \newcommand{\coltime}[1]{\tau^\text{col}_{#1}}
-\newcommand{\velratio}{v^r}
+\newcommand{\velratio}{v_r}
 \newcommand{\freezelength}{\delta_f}
+\newcommand{\fluxpar}{\mathcal{Q}}
 
 %% REACTIVE CHANNELIZATION MACROS
 \newcommand{\Kk}{\mathcal{K}}
@@ -229,7 +232,7 @@
 \newcommand{\buoynumber}{\textrm{B}}
 
 %% MICROSTRUCTURE
-\newcommand{\sfce}{\gamma}  % \upgamma is not supported by Jupyter notebooks
+\newcommand{\sfce}{\upgamma}
 \newcommand{\dihed}{\Theta}
 
 %% SOLITARY WAVES
@@ -242,7 +245,7 @@
 \newcommand{\sfcten}{\tau}
 \newcommand{\intarea}{\mathcal{A}}
 \newcommand{\sfctenpar}{\mathcal{S}}
-\newcommand{\sfctenvshear}{\text{Di}}
+\newcommand{\sfctenvshear}{\text{D}_\interface}
 
 %% MELT FOCUSING PROBLEM
 \newcommand{\sfc}{\text{sfc}}
@@ -267,12 +270,3 @@
 \newcommand{\cmpforce}{F_\manufac}
 \newcommand{\stokesforce}{\boldsymbol{G}_\manufac}
 \newcommand{\LambertW}{\mathcal{W}}
-
-%% CUSTOM ENVIRONMENTS ETC
-\newenvironment{rcases}{\left.\begin{aligned}}{\end{aligned}\right\rbrace}
-\def\mydate{\leavevmode\hbox{\the\day/\the\month/\the\year}}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "book"
-%%% End:
