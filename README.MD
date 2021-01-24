@@ -19,17 +19,12 @@ University of Oxford
 
 ## How to open and build Jupyter books
 
-In the figs folder:
+In the `partially-molten-rock-PUP` folder, the command below will build the HTML files based on the `contents` folder:
 ```
-$ jupyter-book build magmaNotebook --overwrite
+$ jupyter-book build ../partially-molten-rock-PUP
 ```
 
-In the magmaNotebook folder, check if port is available
+In order to publish the changes, just type
 ```
-$ lsof -wni tcp:4000
+$ ghp-import -n -p -f _build 
 ```
-Then build the website
-```
-$ bundle exec jekyll serve
-```
-Open the server address: http://127.0.0.1:4000/magmaNotes/ in the browser.
