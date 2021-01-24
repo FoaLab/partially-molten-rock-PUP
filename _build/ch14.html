@@ -11,7 +11,7 @@ prev_page:
 next_page:
   url: 
 suffix: .ipynb
-search: d solitary numerical wave instantaneous chapter modelling phase flow dependent manufactured solution magmatic waves benchmark solutions
+search: left right eq num manufac equation prime mm begin cmp end eqref b boldsymbol array label permexp mathbf solution npor omegae k basis j m finite stencil align basisj error cos pi aprx x compaction vector nz below int basise infd omega flow eqn difference matrix shown vel sol pres phi psi scalarpotential discretisation form cmpeqn where c element basisi line marks grad y numerical instantaneous diff z dz discrete posvec into s given python system solwave sume assembly analytical figure plots solutions solid manufactured dimensional nummfcsolgovcompaction div mobility yhat nummfcsolgovstokes delta por grayscale vectors illustrate chapter d computed column
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -22,7 +22,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Chapter-14---Numerical-modelling-of-two-phase-flow">Chapter 14 - Numerical modelling of two-phase flow<a class="anchor-link" href="#Chapter-14---Numerical-modelling-of-two-phase-flow"> </a></h1><h2 id="The-1-D-solitary-wave-(instantaneous)">The 1-D solitary wave (instantaneous)<a class="anchor-link" href="#The-1-D-solitary-wave-(instantaneous)"> </a></h2>
+<h1 id="Chapter-14---Numerical-modelling-of-two-phase-flow">Chapter 14 - Numerical modelling of two-phase flow<a class="anchor-link" href="#Chapter-14---Numerical-modelling-of-two-phase-flow"> </a></h1>
 </div>
 </div>
 </div>
@@ -30,11 +30,22 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="jb_cell">
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-1-D-solitary-wave-(time-dependent)">The 1-D solitary wave (time-dependent)<a class="anchor-link" href="#The-1-D-solitary-wave-(time-dependent)"> </a></h2>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">brentq</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">as</span> <span class="nn">spla</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
+
 </div>
 </div>
 
@@ -42,7 +53,41 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-2-D-manufactured-solution-(instantaneous)">A 2-D manufactured solution (instantaneous)<a class="anchor-link" href="#A-2-D-manufactured-solution-(instantaneous)"> </a></h2>
+<h2 id="The-1-D-solitary-wave-(instantaneous)">The 1-D solitary wave (instantaneous)<a class="anchor-link" href="#The-1-D-solitary-wave-(instantaneous)"> </a></h2><p>The compaction equation reads</p>
+\begin{equation}
+  \label{eq:num-cmp-eqn}
+  \diff{}{z}\npor^\permexp\diff{\cmp}{z} - \cmp = \diff{\npor^\permexp}{z}.
+\end{equation}<h3 id="Finite-Difference-Discretisation">Finite Difference Discretisation<a class="anchor-link" href="#Finite-Difference-Discretisation"> </a></h3><p>The finite-difference form of equation \eqref{eq:num-cmp-eqn} is
+\begin{equation}
+  \label{eq:num-cmpeqn-stencil}
+  \left[\begin{array}{ccc}
+      \npor^\permexp_{i-1/2}, &amp; -\left(\Dz^2+\npor^\permexp_{i-1/2}+
+                               \npor^\permexp_{i+1/2}\right), &amp; \npor^\permexp_{i+1/2}
+    \end{array} \right]\aprx{\cmp}_i = \Dz\left(\npor_{i+1/2}^\permexp -
+    \npor_{i-1/2}^\permexp\right).
+\end{equation}</p>
+<p><strong>NOTE</strong>: In stencil notation, multiplication of a stencil $\left[S_a,\;\;S_b,\;\;S_c\right]$ with a discrete variable $q_i$ is computed as $S_aq_{i-1} + S_bq_{i} + S_cq_{i+1}$}.</p>
+<p>To make progress toward solving for $\aprx{\cmp}_i$, we write \eqref{eq:num-cmpeqn-stencil} in the form
+$\mathbf{A}\posvec = \boldsymbol{b}$, where $\boldsymbol{b}$ is a column vector with $b_i=\Dz\left(\npor_{i+1/2}^\permexp - \npor_{i-1/2}^\permexp\right)$. The unknowns go into column vector $\posvec$. The stencil is used to fill a tridiagonal band in the matrix $\mathbf{A}$. The first and last rows in  $\mathbf{A}$ and $\boldsymbol{b}$ are constructed to satisfy the boundary conditions. The result is
+\begin{equation}
+  \label{eq:num-fd-matrix-equation}
+  \left(\begin{array}{cccccc}
+          1 &amp; 0 &amp; &amp; &amp; &amp;  \\[1mm]
+          [\,\, &amp; S_2 &amp; \,\,] &amp; &amp; &amp;  \\[1mm]
+            &amp; [\,\, &amp; S_3 &amp; \,\,] &amp;  &amp;  \\[1mm]
+            &amp; &amp; &amp; \ddots &amp; &amp; \\[1mm]
+            &amp; &amp;  &amp; [\,\, &amp; S_{N_z-1}&amp; \,\,] \\[1mm]
+            &amp; &amp; &amp; &amp; 0 &amp; 1 \end{array}\right)
+        \left(\begin{array}{c}\aprx{\cmp}_1 \\[1mm] \aprx{\cmp}_2 \\[1mm] 
+                \aprx{\cmp}_3 \\[1mm] \vdots \\[1mm] \aprx{\cmp}_{N_z-1} \\[1mm] 
+                \aprx{\cmp}_{N_z}\end{array}\right) = 
+            \left(\begin{array}{c} 0 \\[1mm] 
+                 b_2 \\[1mm] b_3 \\[1mm]  \vdots \\[1mm] 
+                 b_{N_z-1} \\[1mm] 0\end{array}\right),
+\end{equation}
+where $[\;\;S_i\;\;]$ is the $i^\text{th}$ stencil, given in equation \eqref{eq:num-cmpeqn-stencil} above.</p>
+<p>The Python function below solves the system $\mathbf{A}\posvec = \boldsymbol{b}$:</p>
+
 </div>
 </div>
 </div>
@@ -50,11 +95,939 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="jb_cell">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">SolveCompactionRateFiniteDifference</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dz</span><span class="p">):</span>
+    <span class="c1"># matrix size</span>
+    <span class="n">n_</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="c1"># form permeability</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="c1"># form RHS</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dz</span><span class="o">*</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># create sparse matrix</span>
+    <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">n_</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">dz</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>  <span class="c1"># diagonal</span>
+    <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># sub-diagonal</span>
+    <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># sup-diagonal</span>
+    <span class="n">mtx</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_</span><span class="p">,</span> <span class="n">n_</span><span class="p">))</span>
+    <span class="n">mtx</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">spla</span><span class="o">.</span><span class="n">dsolve</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Magmatic-solitary-waves-as-a-benchmark-for-numerical-solutions">Magmatic solitary waves as a benchmark for numerical solutions<a class="anchor-link" href="#Magmatic-solitary-waves-as-a-benchmark-for-numerical-solutions"> </a></h2>
+<h3 id="Finite-Element-Discretisation">Finite Element Discretisation<a class="anchor-link" href="#Finite-Element-Discretisation"> </a></h3><p>The Finite Element form of equation \eqref{eq:num-cmp-eqn} is</p>
+\begin{equation}
+  \label{eq:num-solwave-discrete-elementwise}
+  \sum_{i=1}^{N_z}c_i\int_{\Omega_e} \left(K\basis_e^\prime\basis_i^\prime +
+    \basis_e\basis_i\right)\infd\Omega = 
+  \int_{\Omega_e} K\basis_e^\prime\infd\Omega.
+\end{equation}<p>Equation \eqref{eq:num-solwave-discrete-elementwise} can be expressed in terms of a matrix-vector product $\mathbf{A}\boldsymbol{x} = \boldsymbol{b}$, where</p>
+\begin{align*}
+    \mathbf{A} &amp;= \sum_e \int_{\Omega_e} \left(K\basis_e^\prime\basis_i^\prime +
+    \basis_e\basis_i\right)\infd\Omega \\
+    \boldsymbol{b} &amp;= \sum_e \int_{\Omega_e} K\basis_e^\prime\infd\Omega,
+\end{align*}<p>and the vector of unknowns $\boldsymbol{x}$ represents the coefficients $c_i$.  In the equation above, $\sum_e$ is the assembly operator. To clarify the assembly operation, we write the bilinear and linear forms evaluated over one element $\Omega_j$, which is written as the sub-matrix and sub-vector</p>
+\begin{align}
+    \mathbf{A}^{\Omega_e} &amp;= \int_{\Omega_e} 
+      \left(\begin{array}{cc}
+        K\basis_j^\prime\basis_j^\prime + \basis_j\basis_j
+        &amp; K\basis_j^\prime\basis_{j+1}^\prime + \basis_j\basis_{j+1} \\
+        K\basis_{j+1}^\prime\basis_j^\prime + \basis_{j+1}\basis_j
+        &amp; K\basis_{j+1}^\prime\basis_{j+1}^\prime + \basis_{j+1}\basis_{j+1}
+      \end{array}\right)\infd\Omega,\\
+    \label{eq:num-solwave-linear-form-subvec}
+    \boldsymbol{b}^{\Omega_e} &amp;=  \int_{\Omega_e} \left(\begin{array}{c}
+      K\basis_{j}^\prime \\
+      K\basis_{j+1}^\prime
+     \end{array}\right)\infd\Omega.
+\end{align}<p>Then the assembly of the global matrix $\mathbf{A}$ and global vector $\boldsymbol{b}$ involve summing the entries of
+$\mathbf{A}^{\Omega_e}$ and $\boldsymbol{b}^{\Omega_e}$ into the correct locations (recalling that $\mathbf{A}$ is symmetrical).</p>
+<p>The Python function below solves the system $\mathbf{A}\boldsymbol{x} = \boldsymbol{b}$:</p>
+
 </div>
 </div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">SolveCompactionRateFiniteElement</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dz</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>  <span class="c1"># number of nodes</span>
+    <span class="n">N_elements</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># number of elements</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">dok_matrix</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>  <span class="c1"># allocate memory</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>  <span class="c1"># allocate memory</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_elements</span><span class="p">):</span>  <span class="c1"># loop over elements</span>
+        <span class="n">A</span><span class="p">[</span><span class="n">e</span><span class="p">:</span><span class="n">e</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span><span class="n">e</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># initializing matrix</span>
+
+    <span class="n">Me</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">dok_matrix</span><span class="p">([[</span><span class="mf">1.</span><span class="o">/</span><span class="n">dz</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">dz</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">dz</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="n">dz</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+    <span class="n">Ce</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">dok_matrix</span><span class="p">([[</span><span class="n">dz</span><span class="o">/</span><span class="mf">3.</span><span class="p">,</span> <span class="n">dz</span><span class="o">/</span><span class="mf">6.</span><span class="p">],</span> <span class="p">[</span><span class="n">dz</span><span class="o">/</span><span class="mf">6.</span><span class="p">,</span> <span class="n">dz</span><span class="o">/</span><span class="mf">3.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+
+    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># form permeability at element centres</span>
+
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_elements</span><span class="p">):</span>  <span class="c1"># loop over elements</span>
+        <span class="c1"># element bilinear form</span>
+        <span class="n">Ae</span> <span class="o">=</span> <span class="n">Me</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+</span> <span class="n">Ce</span>
+        <span class="n">be</span> <span class="o">=</span> <span class="n">re</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>  <span class="c1"># element linear form</span>
+        <span class="c1"># cur_Ae = A[e:e+2, e:e+2]</span>
+        <span class="n">A</span><span class="p">[</span><span class="n">e</span><span class="p">:</span><span class="n">e</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span><span class="n">e</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Ae</span>  <span class="c1"># assemble global matrix</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">e</span><span class="p">:</span><span class="n">e</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">be</span>  <span class="c1"># assemble global RHS</span>
+
+    <span class="n">A</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">A</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># zero boundary rows</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># boundary condition</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">spla</span><span class="o">.</span><span class="n">dsolve</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># solve</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The analytical solution of the compact equation \eqref{eq:num-cmp-eqn} is given by</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">xi</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">f</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">f</span><span class="p">))</span><span class="o">/</span>
+                                                    <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">f</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="mf">1.</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">SolitaryWaveGenerator</span><span class="p">(</span><span class="n">Amplitude</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">z0</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">zeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">z0</span><span class="p">)</span>
+    <span class="n">fEpsilon</span> <span class="o">=</span> <span class="mf">1.000000001</span>
+    <span class="n">zetaEpsilon</span> <span class="o">=</span> <span class="n">xi</span><span class="p">(</span><span class="n">fEpsilon</span><span class="p">,</span> <span class="n">Amplitude</span><span class="p">)</span>
+    <span class="n">ifill</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">zeta</span> <span class="o">&lt;=</span> <span class="n">zetaEpsilon</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ifill</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">phi_</span><span class="p">:</span> <span class="n">xi</span><span class="p">(</span><span class="n">phi_</span><span class="p">,</span> <span class="n">Amplitude</span><span class="p">)</span><span class="o">-</span><span class="n">zeta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fEpsilon</span><span class="p">,</span> <span class="n">Amplitude</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Figure below plots the error $\error$ versus number of nodes $N_z$ for numerical solutions of the Compaction Equation \eqref{eq:num-cmp-eqn}. The solid line marks the error for the finite difference method \eqref{eq:num-cmpeqn-stencil}. The dashed line marks the error for the finite element method. The analytical solution is shown in chapter 6.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PAR</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">zm</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ni</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">])):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ls</span> <span class="o">=</span> <span class="n">ls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ls</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zm</span> <span class="o">=</span> <span class="n">zm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ni</span> <span class="o">=</span> <span class="n">ni</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+<span class="n">err_fd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">))</span>
+<span class="n">err_fe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">zm</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">zm</span><span class="p">,</span> <span class="n">ni</span><span class="p">)</span>
+    <span class="c1"># semi-analytical solitary wave profile</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">SolitaryWaveGenerator</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">Ls</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># analytical compaction rate</span>
+    <span class="n">a_cmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="p">(</span><span class="n">phi</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">phi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">phi</span> <span class="o">-</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">V</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span>
+    <span class="c1"># numerical compaction rate</span>
+    <span class="n">n_cmp_fd</span> <span class="o">=</span> <span class="n">SolveCompactionRateFiniteDifference</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">n_cmp_fe</span> <span class="o">=</span> <span class="n">SolveCompactionRateFiniteElement</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># error</span>
+    <span class="n">err_fd</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_cmp</span><span class="o">-</span><span class="n">n_cmp_fd</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_cmp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">err_fe</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_cmp</span><span class="o">-</span><span class="n">n_cmp_fe</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_cmp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">6.4</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">5.1</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+
+<span class="c1"># plotting</span>
+<span class="n">p1</span><span class="p">,</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">,</span> <span class="n">err_fd</span><span class="p">,</span> <span class="s1">&#39;-ok&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p2</span><span class="p">,</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">,</span> <span class="n">err_fe</span><span class="p">,</span> <span class="s1">&#39;--ok&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">],</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$N$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$E(\mathcal</span><span class="si">{C}</span><span class="s1">)$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="mi">190</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="sa">r</span><span class="s1">&#39;slope$=-2$&#39;</span><span class="p">,</span> 
+         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mi">36</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">3.e4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1.e-8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">leg</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;finite difference&#39;</span><span class="p">,</span> <span class="s1">&#39;finite element&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/ch14_11_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-2-D-manufactured-solution-(instantaneous)">A 2-D manufactured solution (instantaneous)<a class="anchor-link" href="#A-2-D-manufactured-solution-(instantaneous)"> </a></h2><p>We seek numerical solutions to the instantaneous flow problem for a given, two-dimensional porosity field</p>
+\begin{align}
+    \label{eq:num_mfcsol_gov_compaction}
+    -\Div\vel\sol + \Div\left[\mobility \left(\Grad\pres + \yhat\right)\right] &amp;= \cmpforce, \\
+    \label{eq:num_mfcsol_gov_stokes}
+    -\Grad\pres + \delta^2\delsq\vel\sol + 2\delta^2\Grad\left(\Div\vel\sol\right)
+    - \por\yhat &amp;= \stokesforce.
+\end{align}<p>where all symbols are now dimensionless; $\mobility = \left(\por/\por_0\right)^\permexp$ is the mobility, $\yhat = \gravity/g$ is the direction of gravitational acceleration, and $\delta = \cmplength_0/H$ is a non-dimensional compaction length ($\cmplength_0$ is the reference, dimensional compaction length). $\cmpforce$ and $\stokesforce$ are obtained by substituting analytical functions $\vel\sol_\manufac$ and $\pres_\manufac$ (the <em>manufactured solution</em>) into the augmented governing equations \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}.</p>
+<p>A reasonable choice (among many) is</p>
+\begin{align}
+    \label{eq:num-manufac-solution1}
+    \phi_\manufac &amp;= \phi_0\left[1 + \phi^*\cos\left(m\pi x\right)\cos\left(m\pi y\right)\right],\\
+    \label{eq:num-manufac-solution2}
+    \pres_\manufac &amp;= P^*\cos\left(m\pi x\right)\cos\left(m\pi y\right),\\
+    \label{eq:num-manufac-solution3}
+    \psi_\manufac &amp;= -\psi^*\left[1 - \cos\left(m\pi x\right)\right]\left[1 - \cos\left(m\pi y\right)\right],\\
+    \label{eq:num-manufac-solution4}
+    \scalarpotential_\manufac &amp;= \scalarpotential^* \cos\left(m\pi x\right)\cos\left(m\pi y\right),
+\end{align}<p>These functions are implemented in Python below:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">phi0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_psi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_U</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_P</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_CurlPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">Cpsi_x</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="n">Cpsi_y</span> <span class="o">=</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Cpsi_x</span><span class="p">,</span> <span class="n">Cpsi_y</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">GU_x</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">GU_y</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GU_x</span><span class="p">,</span> <span class="n">GU_y</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_DelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_U</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradDelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">GdelsqU_x</span><span class="p">,</span> <span class="n">GdelsqU_y</span> <span class="o">=</span> <span class="n">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">GdelsqU_x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">GdelsqU_x</span>
+    <span class="n">GdelsqU_y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">GdelsqU_y</span>
+    <span class="k">return</span> <span class="n">GdelsqU_x</span><span class="p">,</span> <span class="n">GdelsqU_y</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">GP_x</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">A_P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">GP_y</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">A_P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GP_x</span><span class="p">,</span> <span class="n">GP_y</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_VelS</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">=</span> <span class="n">MnfcSoln_CurlPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">Vxc</span><span class="p">,</span> <span class="n">Vyc</span> <span class="o">=</span> <span class="n">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Vx</span> <span class="o">+</span> <span class="n">Vxc</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">+</span> <span class="n">Vyc</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PAR</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">a_psi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">a_u</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">a_p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">a_phi</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phi0</span> <span class="o">=</span> <span class="n">phi0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="c1"># amplitudes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">=</span> <span class="n">a_psi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_U</span> <span class="o">=</span> <span class="n">a_u</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_P</span> <span class="o">=</span> <span class="n">a_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">=</span> <span class="n">a_phi</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Figure below plots the manufactured solution, computed using equations \eqref{eq:num-manufac-solution1}-\eqref{eq:num-manufac-solution4}, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. <strong>(a)</strong> The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. <strong>(b)</strong> The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. <strong>(c)</strong> The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">13.6</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">5.4</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+
+<span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">psi</span> <span class="o">=</span> <span class="n">MnfcSoln_psi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>  <span class="c1"># shear potential</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">=</span> <span class="n">MnfcSoln_CurlPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vx</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vy</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">MnfcSoln_U</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+<span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">=</span> <span class="n">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vx</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vy</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+<span class="n">phi</span> <span class="o">=</span> <span class="n">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+<span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">=</span> <span class="n">MnfcSoln_VelS</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vx</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">Vy</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="n">ss</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/ch14_16_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Finite-difference-discretisation">Finite difference discretisation<a class="anchor-link" href="#Finite-difference-discretisation"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PAR</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">a_psi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">a_u</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">a_p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">a_phi</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ni</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">82</span><span class="p">)):</span>  <span class="c1"># ni=(7, 12, 22, 42, 82, 162, 322)</span>
+        <span class="c1"># physics parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phi0</span> <span class="o">=</span> <span class="n">phi0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="c1"># manufactured solution parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">=</span> <span class="n">a_psi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_U</span> <span class="o">=</span> <span class="n">a_u</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_P</span> <span class="o">=</span> <span class="n">a_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">=</span> <span class="n">a_phi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ni</span> <span class="o">=</span> <span class="n">ni</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_F</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span> <span class="n">MnfcSoln_DelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">+</span> <span class="n">MnfcSoln_DivKGradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_DivKGradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">phi</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">phi0</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">Kx</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">phi0</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">MnfcSoln_GradPhi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">Ky</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">phi0</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">MnfcSoln_GradPhi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Kx</span> <span class="o">*</span> <span class="n">MnfcSoln_GradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">+</span> <span class="n">Ky</span> <span class="o">*</span> <span class="p">(</span><span class="n">MnfcSoln_GradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">K</span> <span class="o">*</span> <span class="n">MnfcSoln_DelsqP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_DelsqP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradPhi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">phi0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">phi0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_DelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_U</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_G</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">coeff</span> <span class="o">=</span> <span class="n">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="o">-</span> <span class="n">MnfcSoln_GradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> \
+           <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_CurlDelsqPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> \
+           <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_GradDelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> \
+           <span class="o">-</span> <span class="n">coeff</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_CurlDelsqPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+                                                  <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
+                                                   <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">phi0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">A_phi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_V</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">MnfcSoln_CurlPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">+</span> <span class="n">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_U</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_P</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradP</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_CurlPsi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">A_psi</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradDelsqU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">MnfcSoln_GradU</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">A_U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">AssembleMatrixAndRHS</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">Nj</span><span class="p">,</span> <span class="n">Ni</span> <span class="o">=</span> <span class="n">phi</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Ni</span><span class="o">*</span><span class="n">Nj</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">*</span><span class="n">Ni</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># node position</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="c1"># stokes equation, x - direction</span>
+    <span class="n">APx_stk</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span><span class="n">dx</span>  <span class="c1"># dP / dx</span>
+    <span class="c1"># delsq(u)</span>
+    <span class="n">Axu_stk</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+               <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span><span class="o">/</span><span class="n">dx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> \
+              <span class="o">+</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span><span class="o">/</span><span class="n">dx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># cmp stress</span>
+    <span class="c1"># cmp stress</span>
+    <span class="n">Acxv_stk</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="p">)</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span><span class="o">/</span><span class="n">dx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># stokes equation, y - direction</span>
+    <span class="n">APy_stk</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">dx</span>  <span class="c1"># dP / dy</span>
+    <span class="c1"># delsq(v)</span>
+    <span class="n">Ayv_stk</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+               <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span> <span class="o">/</span> <span class="n">dx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> \
+              <span class="o">+</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="p">))</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span> <span class="o">/</span> <span class="n">dx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># cmp stress</span>
+    <span class="c1"># cmp stress</span>
+    <span class="n">Acyu_stk</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="p">)</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">Ni</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">delta</span> <span class="o">/</span> <span class="n">dx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="c1"># compaction equation,</span>
+    <span class="n">Au_cmp</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">dx</span>  <span class="c1"># div(vs)</span>
+    <span class="n">Av_cmp</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ni</span><span class="p">))</span><span class="o">/</span><span class="n">dx</span>  <span class="c1"># div(vs)</span>
+
+    <span class="n">Kx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">phi</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">phi0</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">Ky</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">phi0</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="n">row_ind</span><span class="p">,</span> <span class="n">col_ind</span><span class="p">,</span> <span class="n">data_cmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="n">Ni</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Nj</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> \
+                                 <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="n">Ni</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Nj</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> \
+                                 <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="n">Ni</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Nj</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># indices counter</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># div K gradP</span>
+            <span class="n">row_ind</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="n">col_ind</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+            <span class="n">data_cmp</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span>
+                                         <span class="n">Kx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                         <span class="o">-</span><span class="p">(</span><span class="n">Kx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Kx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]),</span>
+                                         <span class="n">Kx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span>
+                                         <span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]])</span> <span class="o">/</span> <span class="p">(</span><span class="n">dx</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># for div darcy flow</span>
+    <span class="n">AP_cmp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">data_cmp</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="p">(</span><span class="n">row_ind</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">col_ind</span><span class="o">.</span><span class="n">flatten</span><span class="p">())),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Axu_stk</span><span class="p">,</span> <span class="n">Acxv_stk</span><span class="p">,</span> <span class="o">-</span><span class="n">APx_stk</span><span class="p">]),</span>
+                   <span class="n">sp</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Acyu_stk</span><span class="p">,</span> <span class="n">Ayv_stk</span><span class="p">,</span> <span class="o">-</span><span class="n">APy_stk</span><span class="p">]),</span>
+                   <span class="n">sp</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="o">-</span><span class="n">Au_cmp</span><span class="p">,</span> <span class="o">-</span><span class="n">Av_cmp</span><span class="p">,</span> <span class="n">AP_cmp</span><span class="p">])])</span>
+
+    <span class="c1"># right - hand side</span>
+    <span class="n">Gx</span> <span class="o">=</span> <span class="n">MnfcSoln_G</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Gy</span> <span class="o">=</span> <span class="n">MnfcSoln_G</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">MnfcSoln_F</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">Y</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">F</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">n</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="c1"># move natural forcing to the RHS, with the manufactured forcing</span>
+            <span class="n">b</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+            <span class="n">b</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">Ky</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">dx</span>
+
+    <span class="k">return</span> <span class="n">A</span><span class="o">.</span><span class="n">tocsr</span><span class="p">(),</span> <span class="n">b</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">InsertBoundaryConditions</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">Ni</span><span class="p">,</span> <span class="n">Nj</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># node position</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Ni</span><span class="o">*</span><span class="n">Nj</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">*</span><span class="n">Ni</span>
+    <span class="n">Xl</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Yl</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="c1"># zero u boundary rows</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">)),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">)),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="c1"># u boundary conditions</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">)),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+                      <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">))])</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="p">],</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">+</span> <span class="n">Ni</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="p">],</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="n">Ni</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="p">],</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="c1"># zero w boundary rows</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">))])</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># w boundary conditions</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+                          <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ni</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span> <span class="o">-</span> <span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span> <span class="o">-</span> <span class="n">N</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="n">N</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="n">N</span><span class="p">],</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="n">N</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="c1"># zero P boundary rows</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">)),</span>
+                            <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">)),</span>
+                            <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span>
+                            <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># p boundary conditions</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nj</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">],</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">+</span> <span class="n">Ni</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ni</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Nj</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="n">Ni</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">Xl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span> <span class="n">Yl</span><span class="p">[</span><span class="n">rows</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">],</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">SolveEquationsFiniteDifference</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">Nj</span><span class="p">,</span> <span class="n">Ni</span> <span class="o">=</span> <span class="n">phi</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Ni</span> <span class="o">*</span> <span class="n">Nj</span>
+
+    <span class="c1"># set up and solve discrete problem</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">AssembleMatrixAndRHS</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">InsertBoundaryConditions</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">Ni</span><span class="p">,</span> <span class="n">Nj</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">spla</span><span class="o">.</span><span class="n">dsolve</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="c1"># reshape solution vector into fields</span>
+    <span class="n">Vx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Nj</span><span class="p">,</span> <span class="n">Ni</span><span class="p">)</span>
+    <span class="n">Vy</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">N</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Nj</span><span class="p">,</span> <span class="n">Ni</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Nj</span><span class="p">,</span> <span class="n">Ni</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">P</span><span class="p">,</span> <span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Figure below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}. The solid line marks the velocity error; the dashed line marks the pressure error.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+
+<span class="n">ev</span><span class="p">,</span> <span class="n">ep</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">ni</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ni</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># node position</span>
+
+    <span class="c1"># solve the finite difference problem</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">MnfcSoln_phi</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Y</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">P</span><span class="p">,</span> <span class="n">Vx</span><span class="p">,</span> <span class="n">Vy</span> <span class="o">=</span> <span class="n">SolveEquationsFiniteDifference</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+
+    <span class="c1"># exclude buffer points</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Vx</span> <span class="o">=</span> <span class="n">Vx</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">Vy</span> <span class="o">=</span> <span class="n">Vy</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Vx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">Vy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+
+    <span class="c1"># manufactured solution</span>
+    <span class="n">P_mfc</span> <span class="o">=</span> <span class="n">MnfcSoln_P</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">Vx_mfc</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">Vy_mfc</span> <span class="o">=</span> <span class="n">MnfcSoln_V</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">V_mfc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Vx_mfc</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">Vy_mfc</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+
+    <span class="c1"># compute error norms</span>
+    <span class="n">ep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P_mfc</span> <span class="o">-</span> <span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P_mfc</span><span class="p">))</span>
+    <span class="n">ev</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">V_mfc</span> <span class="o">-</span> <span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">V_mfc</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/scipy/sparse/_index.py:126: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self._set_arrayXarray(i, j, x)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plotting</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">6.1</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">,</span> <span class="n">ev</span><span class="p">,</span> <span class="s1">&#39;-ok&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;velocity&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span><span class="s1">&#39;--ok&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pressure&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="mf">15.</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ni</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sqrt</span><span class="si">{N}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$E(P),\,E(v^s)$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;slope$=-2$&#39;</span><span class="p">,</span>
+         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mi">28</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1.e-4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="s1">&#39;large&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/ch14_24_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 
