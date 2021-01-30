@@ -21,10 +21,10 @@ University of Oxford
 
 In the `partially-molten-rock-PUP` folder, the command below will build the HTML files based on the `contents` folder:
 ```
-$ jupyter-book build ../partially-molten-rock-PUP
+$ jupyter-book build --overwrite ../partially-molten-rock-PUP
 ```
 
 In order to publish the changes, just type
 ```
-$ ghp-import -n -p -f _build 
+$ ghp-import -p -f _build 
 ```
