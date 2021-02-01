@@ -32,3 +32,6 @@ build:
 site: build
 	bundle exec jekyll build
 	touch _site/.nojekyll
+
+deploy:
+	ghp-import -p -f _build
