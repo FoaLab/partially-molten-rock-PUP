@@ -1,0 +1,1082 @@
+---
+interact_link: content/features/ch10.ipynb
+kernel_name: python3
+kernel_path: content/features
+has_widgets: false
+title: |-
+  Petrological thermodynamics of liquid and solid phases
+pagenum: 7
+prev_page:
+  url: /features/ch09.html
+next_page:
+  url: /features/ch11.html
+suffix: .ipynb
+search: np t rdmccalib ax var c k fontsize p r plot linewidth nbsp label n par f axb text axa left axd e rt x frac cbar len theta tm cref axc varisobar both thetai check y circc verticalalignment top horizontalalignment tickparams axis major labelsize grids cl array setxlabel setylabel pref right ones fig j equi ti setxlim setylim legend ci plt parcoj shape parcoefidealsolution tvar zeros mf length mathcal s nan import equation con tref linspace rdmcequilibrium gpa l raise exception isinstance pi parj pari wt color partition eq obar m phase kg equilibriumstate cs must transpose cbari b
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Petrological thermodynamics of liquid and solid phases</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Chapter 10 - Petrological thermodynamics of liquid and solid phases</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>%matplotlib inline
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import matplotlib.tri as mtri
+import numpy as np
+import numpy.matlib
+from scipy.optimize import fsolve, fminbound
+from scipy.interpolate import interp1d</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-equilibrium-state">The equilibrium state<a class="anchor-link" href="#The-equilibrium-state"> </a></h2><p>The partition coefficient $\parco_j$ is given by
+\begin{equation*}
+  \label{eq:equilibrium_partitioning_nonlinear}
+  \parco_j = \left[\frac{\sum_k\left(\obar{\con}_k/\molarmass_k\right)\parco_k}
+             {\sum_k\left(\obar{\con}_k/\molarmass_k\right)}\right]
+             \exp\left[\frac{\Delta\enthalpy_j^{m}}{R/\molarmass_j}
+             \left(\frac{1}{\temp} -
+             \frac{1}{\melttemp_j}\right)\right].\nonumber
+\end{equation*}</p>
+<p>In cases where, for example, we use a small set of fictitious <em>effective</em> components to approximate the full thermochemical system, the error that we make in taking $\phasemolarmass\liq/\phasemolarmass\sol \approx 1$ is acceptably small. With this approach, the partition coefficient $\parco_j$ becomes</p>
+\begin{equation*}
+  \label{eq:equilibrium_partitioning_simple}
+  \parco_j(P,T) = \exp\left[\frac{\latent_j}{R_j}\left(\frac{1}{\temp} - \frac{1}{\melttemp_j(P)}\right)\right],
+\end{equation*}<p>where $\latent_j\equiv-\Delta\enthalpy_j^m$ is the latent heat of melting for a solid composed of pure component $j$ and $R_j \equiv R/M_j$ is the modified gas constant.</p>
+<p>Partition coefficients $\parco_j$ give an implicit equation for the equilibrium melt fraction $\equi\mf$ as</p>
+\begin{equation*}
+  \label{eq:equilibrium-melt-frac-implicit}
+  \sum_{j=1}^N\frac{\obar{\con}_j \left[1-\parco_j(\temp,\pres)\right]}{\equi\mf + (1-\equi\mf)\parco_j(\temp,\pres)} = 0,
+\end{equation*}<p>Once a value of $\equi\mf$ has been numerically obtained, it can be used to determine the phase composition</p>
+\begin{align}
+    \label{eq:equilib-phase-comp-liquid}
+    \equi\con\liq_j &amp;= \frac{\obar{\con}_j}{\equi\mf +
+    (1-\equi\mf)\parco_j},\\
+    \label{eq:equilib-phase-comp-solid}
+    \equi\con\sol_j &amp;= \frac{\obar{\con}_j}{\equi\mf/\parco_j +
+                      (1-\equi\mf)}.
+\end{align}<p>Table below shows parameter values for the two- and three-component ideal-solution systems. These values are useful for the demonstration of ideal-solution phase diagrams but should not be taken as an optimal calibration for the mantle.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">$j$</th>
+<th style="text-align:center">&nbsp; &nbsp; &nbsp; &nbsp; $\melttemp_j(P=0)$ [$^\circ$C] &nbsp; &nbsp; &nbsp; &nbsp;</th>
+<th style="text-align:center">$\clapeyron_j$ [GPa/K]</th>
+<th style="text-align:center">$\latent_j$ [kJ/kg]</th>
+<th style="text-align:center">$R_j$ [J/kg/K]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">olivine</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">&nbsp; &nbsp; &nbsp; &nbsp; 1780 &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td style="text-align:center">1/50</td>
+<td style="text-align:center">600</td>
+<td style="text-align:center">70</td>
+</tr>
+<tr>
+<td style="text-align:center">basalt</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">&nbsp; &nbsp; &nbsp; &nbsp; 950 &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td style="text-align:center">1/100</td>
+<td style="text-align:center">450</td>
+<td style="text-align:center">30</td>
+</tr>
+<tr>
+<td style="text-align:center">hydrous basalt</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">&nbsp; &nbsp; &nbsp; &nbsp; 410 &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td style="text-align:center">1/50</td>
+<td style="text-align:center">330</td>
+<td style="text-align:center">30</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Application to a two-pseudo-component system</span>
+
+
+<span class="n">The</span> <span class="n">change</span> <span class="n">of</span> <span class="n">this</span> <span class="n">melting</span> <span class="n">temperature</span> <span class="k">with</span> <span class="n">pressure</span> <span class="ow">is</span> <span class="n">given</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Clausius</span><span class="o">-</span><span class="n">Clapeyron</span> <span class="n">equation</span><span class="o">.</span> <span class="n">For</span> <span class="n">simplicity</span><span class="p">,</span> <span class="n">we</span> <span class="n">assume</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">value</span> <span class="n">of</span> <span class="err">$</span>\<span class="n">clapeyron</span> <span class="o">=</span> \<span class="n">Delta</span>\<span class="n">entropy</span><span class="o">/</span>\<span class="n">Delta</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span>\<span class="n">density</span><span class="p">)</span><span class="err">$</span><span class="p">,</span> <span class="n">which</span> <span class="n">gives</span>
+
+\<span class="n">begin</span><span class="p">{</span><span class="n">equation</span><span class="p">}</span>
+  \<span class="n">label</span><span class="p">{</span><span class="n">eq</span><span class="p">:</span><span class="n">linear</span><span class="o">-</span><span class="n">solidus</span><span class="o">-</span><span class="n">relation</span><span class="p">}</span>
+  \<span class="n">temp</span><span class="o">^</span><span class="n">m_j</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">=</span> \<span class="n">left</span><span class="o">.</span>\<span class="n">temp</span><span class="o">^</span><span class="n">m_j</span>\<span class="n">right</span>\<span class="n">vert_</span><span class="p">{</span>\<span class="n">pres</span><span class="o">=</span><span class="mi">0</span><span class="p">}</span> <span class="o">+</span>
+  \<span class="n">pres</span><span class="o">/</span>\<span class="n">clapeyron</span><span class="o">.</span>
+\<span class="n">end</span><span class="p">{</span><span class="n">equation</span><span class="p">}</span>
+
+<span class="n">This</span> <span class="n">produces</span> <span class="n">the</span> <span class="n">straight</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">Figure</span> <span class="n">below</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="n">under</span> <span class="n">the</span> <span class="n">assumption</span> <span class="n">that</span> <span class="n">the</span> <span class="n">thermodynamic</span> <span class="n">pressure</span> <span class="ow">is</span> <span class="n">lithostatic</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="err">$</span>\<span class="n">Grad</span>\<span class="n">pres</span><span class="o">=</span>\<span class="n">density</span>\<span class="n">gravity</span><span class="err">$</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IdealSolutionParameters</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">clap</span><span class="p">,</span> <span class="n">Tm0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        par.L = latent heat in J/kg</span>
+<span class="sd">        par.R = specific gas constant in J/kg/K</span>
+<span class="sd">        par.Tm0 = melting point at P=0, K</span>
+<span class="sd">        par.clap = Clapeyron slope in GPa/K</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>        <span class="c1"># J/kg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">R</span>        <span class="c1"># J/kg/K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clap</span> <span class="o">=</span> <span class="n">clap</span>  <span class="c1"># GPa/K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tm0</span> <span class="o">=</span> <span class="n">Tm0</span>    <span class="c1"># K</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ThetaStructure</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tf</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>  <span class="c1"># f the melt fraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cl</span> <span class="o">=</span> <span class="n">cl</span>  <span class="c1"># liquid concentration vector (length n)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">=</span> <span class="n">cs</span>  <span class="c1"># solid concentration vector (length n)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ParCoef_IdealSolution</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    % Partition coefficient from ideal solution theory</span>
+<span class="sd">    %    returns K, the partition coefficient</span>
+<span class="sd">    %    inputs: T, temperature in Kelvin</span>
+<span class="sd">    %            P, pressure in GPa</span>
+<span class="sd">    %            par, parameter struct including</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Tm</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Tm0</span> <span class="o">+</span> <span class="n">P</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">clap</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">L</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">T</span> <span class="o">-</span> <span class="mf">1.</span><span class="o">/</span><span class="n">Tm</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">EquilibriumResidual</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">parco_func</span><span class="p">):</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">parco_func</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="n">par_j</span><span class="p">)</span> <span class="k">for</span> <span class="n">par_j</span> <span class="ow">in</span> <span class="n">par</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cc_j</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">K_</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ff</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">ff</span><span class="p">)</span> <span class="o">*</span> <span class="n">K_</span><span class="p">)</span> <span class="k">for</span> <span class="n">cc_j</span><span class="p">,</span> <span class="n">K_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">K</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">R</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>def EquilibriumState(n, cbar, T, P, par, parco_func):
+    """
+    % Partition coefficient from ideal solution theory
+    %    returns Theta structure containing
+    %       Theta.f = the melt fraction
+    %       Theta.cl = liquid concentration vector (length n)
+    %       Theta.cs = solid concentration vector (length n)
+    %    inputs: n, number of components
+    %            cbar = bulk composition (length n or n-1)
+    %            T, temperature in Kelvin
+    %            P, pressure in GPa
+    %            par, array of parameter structs of length n including
+    %               par.L = latent heat in J/kg
+    %               par.R = specific gas constant in J/kg/K
+    %               par.Tm0 = melting point at P=0, K
+    %               par.clap = Clapeyron slope in GPa/K
+    %            parco_func = function handle for computing partition coefficient
+    %               with interface K = parco_func(T,P,par)
+    """</p>
+
+<pre><code>if n == 1:
+    raise Exception('n must be greater than 1')
+
+if len(par) &lt; n:
+    if len(par) == 1:
+        par = [par] * n
+    else:
+        raise Exception('par array of structures must be length 1 or n')
+
+if isinstance(T, np.ndarray) and isinstance(P, np.float):
+    P = P * np.ones_like(T)
+if isinstance(P, np.ndarray) and isinstance(T, np.float):
+    T = T * np.ones_like(P)
+if isinstance(T, np.float) and isinstance(P, np.float):
+    r = cbar.shape[0]
+    T = np.ones((r,)) * T
+    P = np.ones((r,)) * P
+if len(T) != len(P):
+    raise Exception('length(T)={} and length(P)={} must be equal if both are greater than 1'.format(len(T), len(P)))
+
+r = len(T)
+if cbar.shape != (r, n) and cbar.shape != (1, n) and cbar.shape != (n,):
+    raise Exception('one dimension of the cbar array must have length n')
+if cbar.shape == (n, r):
+    cbar = cbar.transpose()
+if cbar.shape == (1, r) or cbar.shape == (n,):
+    cbar = np.matlib.repmat(cbar, r, 1)
+if cbar.shape != (r, n):
+    raise Exception('cbar must have shape ({}, {})'.format(r, n))
+
+Theta = []
+
+for T_i, P_i, cbar_i in zip(T, P, cbar):
+    Theta_i = ThetaStructure()
+    Theta_i.Ts = fsolve(lambda T_: EquilibriumResidual(T_, 0.0, P_i, cbar_i, par, ParCoef_IdealSolution), T_i)[0]
+    Theta_i.Tl = fsolve(lambda T_: EquilibriumResidual(T_, 1.0, P_i, cbar_i, par, ParCoef_IdealSolution), 
+                        0.5*(T_i+Theta_i.Ts))[0]
+
+    if T_i &lt; Theta_i.Ts:
+        Theta_i.f = 0.0
+    elif Theta_i.Tl &lt; T_i:
+        Theta_i.f = 1.0
+    else:
+        Theta_i.f = fsolve(lambda f_: EquilibriumResidual(T_i, f_, P_i, cbar_i, par, ParCoef_IdealSolution), 
+                           0.0)[0]
+
+    K = np.array([parco_func(T_i, P_i, par_j) for par_j in par])
+
+    Theta_i.cl = cbar_i / (Theta_i.f + (1. - Theta_i.f)*K)
+    Theta_i.cs = K * Theta_i.cl
+    Theta.append(Theta_i)
+
+if len(Theta) != len(T):
+    raise Exception('inconsistent number of ThetaStructure')
+
+return Theta</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ideal</span><span class="o">-</span><span class="n">solution</span> <span class="n">model</span> <span class="n">of</span> <span class="n">a</span> <span class="n">two</span><span class="o">-</span><span class="n">component</span> <span class="n">system</span> <span class="n">of</span> <span class="n">_olivine_</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="err">$</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_basalt_</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="err">$</span><span class="p">)</span><span class="o">.</span> <span class="n">Parameter</span> <span class="n">values</span> <span class="n">are</span> <span class="n">given</span> <span class="ow">in</span> <span class="n">table</span> <span class="n">above</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">__</span> <span class="n">Pure</span><span class="o">-</span><span class="n">component</span> <span class="n">melting</span> <span class="n">temperatures</span> <span class="err">$</span>\<span class="n">melttemp_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">linear</span> <span class="n">function</span> <span class="n">of</span> <span class="n">pressure</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="n">__</span> <span class="n">Partition</span> <span class="n">coefficients</span> <span class="err">$</span>\<span class="n">parco_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="n">at</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="n">__</span> <span class="n">Grey</span> <span class="n">lines</span> <span class="n">are</span> <span class="n">the</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">temperature</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">the</span> <span class="n">basalt</span> <span class="n">fraction</span> <span class="n">at</span> <span class="n">a</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">The</span> <span class="n">composition</span> <span class="n">along</span> <span class="n">the</span> <span class="n">solidus</span> <span class="n">curve</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">solid</span> <span class="n">phase</span><span class="p">;</span> <span class="n">that</span> <span class="n">along</span> <span class="n">the</span> <span class="n">liquidus</span> <span class="n">curve</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">liquid</span> <span class="n">phase</span><span class="o">.</span> <span class="n">Black</span> <span class="n">lines</span> <span class="n">indicate</span> <span class="n">the</span> <span class="n">compositional</span> <span class="n">evolution</span> <span class="n">of</span> <span class="n">a</span> <span class="n">closed</span> <span class="n">system</span> <span class="k">with</span> <span class="n">bulk</span> <span class="n">composition</span> <span class="n">of</span> <span class="mi">25</span><span class="o">%</span> <span class="n">basalt</span> <span class="n">component</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="n">__</span> <span class="n">Equilibrium</span> <span class="n">melt</span> <span class="n">fraction</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="k">for</span> <span class="n">a</span> <span class="n">bulk</span> <span class="n">composition</span> <span class="n">of</span> <span class="mi">25</span><span class="o">%</span> <span class="n">basalt</span> <span class="n">component</span> <span class="n">at</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">par</span> <span class="o">=</span> <span class="p">[</span><span class="n">IdealSolutionParameters</span><span class="p">(</span><span class="mf">600e3</span><span class="p">,</span> <span class="mf">70.</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">1780.</span> <span class="o">+</span> <span class="mf">273.</span><span class="p">),</span> 
+       <span class="n">IdealSolutionParameters</span><span class="p">(</span><span class="mf">450e3</span><span class="p">,</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="mf">950.</span> <span class="o">+</span> <span class="mf">273.</span><span class="p">)]</span>
+
+<span class="c1"># thermodynamic state</span>
+<span class="n">Pref</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">Pvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">Tref</span> <span class="o">=</span> <span class="mf">1350.</span> <span class="o">+</span> <span class="mf">273.</span>
+<span class="n">Tvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1050.</span><span class="p">,</span> <span class="mf">1950.</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">273</span>
+<span class="n">cref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">])</span>
+<span class="n">cvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">cvar</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">cvar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../images/features/ch10_10_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>fig, ((axA, axB), (axC, axD)) = plt.subplots(nrows=2, ncols=2, figsize=(18.0, 18.0))</p>
+<p>P  =  Pvar
+T  =  Tref
+c  =  cref
+Tm = np.array([par_i.Tm0 + P/par_i.clap for par_i in par]).transpose()</p>
+<p>axA.plot(P, Tm[:, 0]-273., '-k', linewidth=2, label=r'$T^\mathcal{S}_1$')
+axA.plot(P, Tm[:, 1]-273., '--k', linewidth=2, label=r'$T^\mathcal{S}_2$')
+axA.set_xlim(0.0, 7.0)
+axA.set_xlabel('$P$, GPa', fontsize=20)
+axA.set_ylim(900, 2100)
+axA.set_ylabel(r'$T$, $^\circ$C', fontsize=20)
+axA.text(0.1, 2000, r'(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axA.tick_params(axis='both', which='major', labelsize=13)
+axA.legend(loc='lower right', fontsize=15)</p>
+<p>P  =  Pref
+T  =  Tvar
+c  =  cref
+K = np.array([[ParCoef_IdealSolution(T_i, P, par_j) for par_j in par] for T_i in T])</p>
+<p>axB.plot(T-273., K[:, 0], '-k', linewidth=2, label=r'$\check{K}_1$')
+axB.plot(T-273., K[:, 1], '--k', linewidth=2, label=r'$\check{K}_2$')
+axB.set_yscale('log')
+axB.set_xlim(1050, 1950)
+axB.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+axB.set_ylim(0.01, 100)
+axB.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)
+axB.text(1100, 99.0, r'(b)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axB.tick_params(axis='both', which='major', labelsize=13)
+axB.legend(fontsize=15)</p>
+<p>T = Tvar
+P = Pref
+c = cref
+Theta = EquilibriumState(len(par), c, T, P, par, ParCoef_IdealSolution)</p>
+<p>axD.plot(Tvar-273., [t.f for t in Theta],'-k','linewidth',2)
+axD.set_xlim(1200., 1750.)
+axD.set_xticks((1200, 1300, 1400, 1500, 1600, 1700))
+axD.set_ylim(0.0, 1.0)
+axD.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+axD.set_ylabel(r'$\check{f}$, wt. frac.', fontsize=20)
+axD.tick_params(axis='both', which='major', labelsize=13)
+axD.text(1200.0, 0.99, r'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')</p>
+<p>cl_hold = np.array([t.cl[1] for t in Theta])
+cs_hold = np.array([t.cs[1] for t in Theta])
+f_hold = np.array([t.f for t in Theta])
+cl_hold[f_hold &lt; 1e-6] = np.nan
+cs_hold[1.-f_hold &lt; 1e-6] = np.nan</p>
+<p>c  = cvar
+P  = Pref
+T  = Tref
+Theta2 = EquilibriumState(len(par), c, T, P, par, ParCoef_IdealSolution)</p>
+<p>axC.plot(c[:, 1], [t.Ts - 273. for t in Theta2], '-', linewidth=4, color=[0.7, 0.7, 0.7])
+axC.plot(c[:, 1], [t.Tl - 273. for t in Theta2], '-', label='phase boundary', linewidth=4, color=[0.7, 0.7, 0.7])</p>
+<p>axC.plot(cl_hold, Tvar-273., '--k', label='$\check{c}^\ell_2$', linewidth=2)
+axC.plot(cs_hold, Tvar-273., '-k', linewidth=2, label='$\check{c}^\ell_2$')
+axC.set_xlim(0.0, 1.0)
+axC.set_xlabel('${c}^i_2$, wt. frac.', fontsize=20)
+axC.set_ylabel('$T$, $^\circ$C', fontsize=20)
+axC.text(0.1, 1400, '$(c)$', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axC.text(0.22, 1400, 'solid$+$liquid', fontsize=20)
+axC.text(0.72, 1500,'liquid', fontsize=20)
+axC.text(0.05, 1150,'solid', fontsize=20)
+axC.tick_params(axis='both', which='major', labelsize=13)
+axC.legend(fontsize=15)</p>
+<p>plt.show()</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Application to a three-pseudo-component system</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">par3</span> <span class="o">=</span> <span class="p">[</span><span class="n">IdealSolutionParameters</span><span class="p">(</span><span class="mf">600e3</span><span class="p">,</span> <span class="mf">70.</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">1780.</span> <span class="o">+</span> <span class="mf">273.</span><span class="p">),</span> 
+        <span class="n">IdealSolutionParameters</span><span class="p">(</span><span class="mf">450e3</span><span class="p">,</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="mf">950.</span> <span class="o">+</span> <span class="mf">273.</span><span class="p">),</span> 
+        <span class="n">IdealSolutionParameters</span><span class="p">(</span><span class="mf">330e3</span><span class="p">,</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">410.</span> <span class="o">+</span> <span class="mf">273.</span><span class="p">)]</span>
+
+<span class="n">Pref</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">Pvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">Tref</span> <span class="o">=</span> <span class="mf">1350.</span> <span class="o">+</span> <span class="mf">273.</span>
+<span class="n">Tvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1000.</span><span class="p">,</span> <span class="mf">1700.</span> <span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mf">273.</span>
+<span class="n">cref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.248</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>npts = 100
+conc_water_in_pure_component = 1e-4/cref[2]</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Figures</span> <span class="n">below</span> <span class="n">plot</span> <span class="n">the</span> <span class="n">ideal</span><span class="o">-</span><span class="n">solution</span> <span class="n">model</span> <span class="n">of</span> <span class="n">a</span> <span class="n">three</span><span class="o">-</span><span class="n">component</span> <span class="n">system</span> <span class="n">of</span> <span class="s2">&quot;olivine&quot;</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="err">$</span><span class="p">),</span> <span class="s2">&quot;basalt&quot;</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="err">$</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;hydrous basalt&quot;</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">3</span><span class="err">$</span><span class="p">)</span><span class="o">.</span> <span class="n">Parameter</span> <span class="n">values</span> <span class="n">are</span> <span class="n">given</span> <span class="ow">in</span> <span class="n">table</span> <span class="n">above</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">__</span> <span class="n">Pure</span><span class="o">-</span><span class="n">component</span> <span class="n">melting</span> <span class="n">temperatures</span> <span class="err">$</span>\<span class="n">melttemp_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">linear</span> <span class="n">function</span> <span class="n">of</span> <span class="n">pressure</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="n">__</span> <span class="n">Partition</span> <span class="n">coefficients</span> <span class="err">$</span>\<span class="n">parco_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="n">at</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="n">__</span> <span class="n">Surfaces</span> <span class="n">are</span> <span class="n">the</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">temperature</span> <span class="n">through</span> <span class="n">the</span> <span class="n">full</span><span class="p">,</span> <span class="mi">3</span><span class="o">-</span><span class="n">component</span> <span class="n">space</span> <span class="n">at</span> <span class="n">a</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">The</span> <span class="n">composition</span> <span class="n">along</span> <span class="n">the</span> <span class="n">solidus</span> <span class="n">surface</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">solid</span> <span class="n">phase</span><span class="p">;</span> <span class="n">that</span> <span class="n">along</span> <span class="n">the</span> <span class="n">liquidus</span> <span class="n">surface</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">liquid</span> <span class="n">phase</span><span class="o">.</span> <span class="n">The</span> <span class="n">compositional</span> <span class="n">evolution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">melt</span> <span class="k">for</span> <span class="n">a</span> <span class="n">closed</span> <span class="n">system</span> <span class="k">with</span> <span class="mi">75</span> <span class="n">wt</span>\<span class="o">%</span> <span class="n">olivine</span> <span class="ow">and</span> <span class="mf">0.2</span> <span class="n">wt</span>\<span class="o">%</span> <span class="n">hydrous</span> <span class="n">basalt</span> <span class="ow">is</span> <span class="n">shown</span> <span class="n">by</span> <span class="n">the</span> <span class="n">solid</span> <span class="n">line</span><span class="o">.</span>  <span class="n">It</span> <span class="n">starts</span> <span class="n">at</span> <span class="n">the</span> <span class="n">triangle</span> <span class="ow">and</span> <span class="n">progresses</span> <span class="n">toward</span> <span class="n">the</span> <span class="n">circle</span> <span class="k">with</span> <span class="n">increasing</span> <span class="err">$</span>\<span class="n">temp</span><span class="err">$</span> <span class="ow">and</span> <span class="err">$</span>\<span class="n">equi</span>\<span class="n">mf</span><span class="err">$</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="n">__</span> <span class="n">Equilibrium</span> <span class="n">melt</span> <span class="n">fraction</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="k">for</span> <span class="n">a</span> <span class="n">bulk</span> <span class="n">composition</span> <span class="n">of</span> <span class="mi">75</span> <span class="n">wt</span>\<span class="o">%</span> <span class="n">olivine</span> <span class="n">component</span> <span class="k">with</span> <span class="ow">and</span> <span class="n">without</span> <span class="mf">0.2</span> <span class="n">wt</span>\<span class="o">%</span> <span class="n">of</span> <span class="n">hydrated</span> <span class="n">basalt</span> <span class="n">component</span> <span class="n">at</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.legend.Legend at 0x7fdbc93754d0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../images/features/ch10_15_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>fig, ((axA, axB), (axC, axD)) = plt.subplots(nrows=2, ncols=2, figsize=(18.0, 18.0))</p>
+<p>P  =  Pvar
+T  =  Tref
+c  =  cref
+Tm = np.array([par_i.Tm0 + P/par_i.clap for par_i in par]).transpose()</p>
+<p>axA.plot(P, Tm[:, 0]-273., '-k', linewidth=2, label=r'$T^\mathcal{S}_1$')
+axA.plot(P, Tm[:, 1]-273., '--k', linewidth=2, label=r'$T^\mathcal{S}_2$')
+axA.plot(P, Tm[:, 2]-273., '--k', linewidth=2, label=r'$T^\mathcal{S}_3$')
+axA.set_xlim(0.0, 7.0)
+axA.set_xlabel('$P$, GPa', fontsize=20)
+axA.set_ylim(100., 2100.)
+axA.set_ylabel(r'$T$, $^\circ$C', fontsize=20)
+axA.text(0.1, 2050., r'(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axA.tick_params(axis='both', which='major', labelsize=13)
+axA.legend(loc='lower right', fontsize=15, ncol=3)</p>
+<p>P  =  Pref
+T  =  Tvar
+c  =  cref
+K = np.array([[ParCoef_IdealSolution(T_i, P, par_j) for par_j in par3] for T_i in T])</p>
+<p>axB.plot(T-273., K[:, 0], '-k', linewidth=2, label=r'$\check{K}_1$')
+axB.plot(T-273., K[:, 1], '--k', linewidth=2, label=r'$\check{K}_2$')
+axB.plot(T-273., K[:, 2], '--k', linewidth=2, label=r'$\check{K}_3$')
+axB.set_yscale('log')
+axB.set_xlim(1000., 1700.)
+axB.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+axB.set_ylim(1e-5, 100.)
+axB.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)
+axB.set_yticks((1e-4, 1e-2, 1e0))
+axB.text(1010., 90., r'(b)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axB.tick_params(axis='both', which='major', labelsize=13)
+axB.legend(fontsize=15)</p>
+<p>T = Tvar
+P = Pref
+cwet = cref
+Theta_wet = EquilibriumState(len(par3), cwet, T, P, par3, ParCoef_IdealSolution)</p>
+<p>cdry = np.array([0.75, 0.25, 0.])
+Theta_dry = EquilibriumState(len(par3), cdry, T, P, par3, ParCoef_IdealSolution)</p>
+<p>axD.plot(Tvar - 273., [t_wet.f for t_wet in Theta_wet], '-k', linewidth=2, label='wet')
+axD.plot(Tvar - 273., [t_dry.f for t_dry in Theta_dry], '--k', linewidth=2, label='dry')
+axD.set_xlabel('$T$, $^\circ$C', fontsize=20)
+axD.set_ylabel('$\check{f}$, wt. frac.', fontsize=20)
+axD.set_xlim(1000., 1500.)
+axD.set_ylim(0., 0.4)
+axD.set_yticks((0., 0.1, 0.2, 0.3, 0.4))
+axD.text(1450., 0.02,'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axD.tick_params(axis='both', which='major', labelsize=13)
+axD.legend(fontsize=15)</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Approaching the eutectic phase diagram</span>
+
+<span class="n">A</span> <span class="n">eutectic</span> <span class="n">phase</span> <span class="n">diagram</span> <span class="n">compared</span> <span class="k">with</span> <span class="n">ideal</span><span class="o">-</span><span class="n">solution</span> <span class="n">phase</span> <span class="n">loops</span> <span class="k">for</span> <span class="n">different</span> <span class="n">values</span> <span class="n">of</span> <span class="err">$</span><span class="n">R_2</span><span class="err">$</span><span class="o">.</span> <span class="n">Other</span> <span class="n">ideal</span><span class="o">-</span><span class="n">solution</span> 
+<span class="n">parameters</span> <span class="n">are</span> <span class="err">$</span><span class="n">R_1</span><span class="o">=</span><span class="mi">60</span><span class="err">$</span> <span class="n">J</span><span class="o">/</span><span class="n">kg</span><span class="o">/</span><span class="n">K</span><span class="p">,</span> <span class="err">$</span>\<span class="n">latent_1</span><span class="o">=</span>\<span class="n">latent_2</span><span class="o">=</span><span class="mi">500</span><span class="err">$</span> <span class="n">kJ</span><span class="o">/</span><span class="n">kg</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">__</span> <span class="n">Solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">curves</span> <span class="n">computed</span> <span class="k">with</span> <span class="n">ideal</span> <span class="n">solution</span> <span class="n">theory</span> <span class="n">compared</span> <span class="k">with</span> <span class="n">the</span> <span class="n">eutectic</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">liquidus</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="n">__</span> <span class="n">Isobaric</span> <span class="n">melting</span> <span class="n">curves</span> <span class="n">computed</span> <span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">phase</span> <span class="n">loops</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">eutectic</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../images/features/ch10_17_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>fig, ax = plt.subplots(nrows=1, ncols=2)
+fig.set_size_inches(18.0, 9.0)</p>
+<p>r_dmc_calib = R_DMC_Calibration()</p>
+<p>r2 = np.asarray([70, 50, 30, 10])
+cI = len(r2) + 1
+cp = 1200
+sf = 0.3
+H = np.linspace(-r_dmc_calib.L[0], r_dmc_calib.L[0] + cp * (r_dmc_calib.T0[0] - r_dmc_calib.T0[1]), 1000)</p>
+<p>var = VAR()
+var.C = np.zeros((r_dmc_calib.np, r_dmc_calib.nc))
+var.C[:, 1] = np.linspace(0, 1, r_dmc_calib.np)
+var.C[:, 0] = 1.0 - var.C[:, 1]
+var.P = np.ones(r_dmc_calib.np) <em> r_dmc_calib.Pref
+var.T = np.ones(r_dmc_calib.np) </em> r_dmc_calib.Tref
+var.f = np.zeros(r_dmc_calib.np)</p>
+<p>for i, r2i in enumerate(r2):
+    r_dmc_calib.r[1] = r2i
+    Tsol, Tliq = R_DMC_Equilibrium(var, r_dmc_calib, 'T')
+    ax[0].plot(var.C[:, 0], Tsol, '-', linewidth=2, color=[1-i/cI, 1-i/cI, 1-i/cI])
+    ax[0].plot(var.C[:, 1], Tliq, '-', linewidth=2, color=[1-i/cI, 1-i/cI, 1-i/cI])</p>
+<p>T = np.linspace(r_dmc_calib.T0[0], r_dmc_calib.T0[1])
+X = (T - r_dmc_calib.T0[1]) / (r_dmc_calib.T0[0] - r_dmc<em>calib.T0[1])
+C</em> = 1 - ((1 - sf) <em> X + sf </em> X ** 3)</p>
+<p>ax[0].plot(np.hstack([C_, 0.0, 0.0]), np.hstack([T, r_dmc_calib.T0[1], r_dmc_calib.T0[0]]), '--k', linewidth=2)
+ax[0].set_ylabel(r'$T$, $^\circ$C', fontsize=20)
+ax[0].set_ylim(900, 1900)
+ax[0].set_xlim(0.0, 1.0)
+ax[0].set_xlabel(r'${c}^i_2$, wt. frac.', fontsize=20)
+ax[0].text(0.99, 965.0, r'(a)', fontsize=18, verticalalignment='top', horizontalalignment='right')
+ax[0].tick_params(axis='both', which='major', labelsize=13)</p>
+<p>del var, T, X, C_</p>
+<p>var = VAR()
+var.T = r_dmc_calib.T_degC
+var.P = r_dmc_calib.Pref <em> np.ones(r_dmc_calib.np)
+var.f = np.zeros(r_dmc_calib.np)
+var.C = np.tile(r_dmc_calib.Cref, (r_dmc_calib.np, 1))
+"""
+for i, r2i in enumerate(r2):
+    r_dmc<em>calib.r[1] = r2i
+    f, </em> = R_DMC_Equilibrium(var, r_dmc_calib, 'E')
+    ax[1].plot(var.T, f, '-', linewidth=2, color=[1-i/cI, 1-i/cI, 1-i/cI], label=r'$R_2^</em>='+str(r2i)+'$ J/kg/K')
+"""</p>
+<p>H = np.linspace(-r_dmc_calib.L[0], r_dmc_calib.L[0] + cp * (r_dmc_calib.T0[0]-r_dmc_calib.T0[1]), 1000)
+TE, FE = meltFractionEutectic(H, r_dmc_calib.Cref, 2000, 1000, 500e3, cp, r_dmc_calib, sf)
+ax[1].plot(TE, FE, '--k', linewidth=2, label='eutectic')
+ax[1].set_xlim(950, 1900)
+ax[1].set_ylim(0, 1)
+ax[1].set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+ax[1].set_ylabel(r'$\check{f}$, wt. frac.', fontsize=20)
+ax[1].text(1800.0, 0.05, r'(b)', fontsize=18, verticalalignment='top', horizontalalignment='left')
+ax[1].tick_params(axis='both', which='major', labelsize=13)
+ax[1].legend()</p>
+<p>plt.show()</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Application to a three-pseudo-component system</span>
+
+<span class="n">Ideal</span><span class="o">-</span><span class="n">solution</span> <span class="n">model</span> <span class="n">of</span> <span class="n">a</span> <span class="n">three</span><span class="o">-</span><span class="n">component</span> <span class="n">system</span> <span class="n">of</span> <span class="o">*</span><span class="n">olivine</span><span class="o">*</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="err">$</span><span class="p">),</span> <span class="o">*</span><span class="n">basalt</span><span class="o">*</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="err">$</span><span class="p">)</span> <span class="ow">and</span> <span class="o">*</span><span class="n">hydrous</span> <span class="n">basalt</span><span class="o">*</span> <span class="p">(</span><span class="err">$</span><span class="n">j</span><span class="o">=</span><span class="mi">3</span><span class="err">$</span><span class="p">)</span><span class="o">.</span> <span class="n">Parameter</span> <span class="n">values</span> <span class="n">are</span> <span class="n">given</span> <span class="ow">in</span> <span class="n">table</span> <span class="n">above</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">__</span> <span class="n">Pure</span><span class="o">-</span><span class="n">component</span> <span class="n">melting</span> <span class="n">temperatures</span> <span class="err">$</span>\<span class="n">melttemp_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">linear</span> <span class="n">function</span> <span class="n">of</span> <span class="n">pressure</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="n">__</span> <span class="n">Partition</span> <span class="n">coefficients</span> <span class="err">$</span>\<span class="n">parco_j</span><span class="err">$</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="n">at</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="n">__</span> <span class="n">Surfaces</span> <span class="n">are</span> <span class="n">the</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">temperature</span> <span class="n">through</span> <span class="n">the</span> <span class="n">full</span><span class="p">,</span> <span class="mi">3</span><span class="o">-</span><span class="n">component</span> <span class="n">space</span> <span class="n">at</span> <span class="n">a</span> <span class="n">pressure</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">The</span> <span class="n">composition</span> <span class="n">along</span> <span class="n">the</span> <span class="n">solidus</span> <span class="n">surface</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">solid</span> <span class="n">phase</span><span class="p">;</span> <span class="n">that</span> <span class="n">along</span> <span class="n">the</span> <span class="n">liquidus</span> <span class="n">surface</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">liquid</span> <span class="n">phase</span><span class="o">.</span> <span class="n">The</span> <span class="n">compositional</span> <span class="n">evolution</span> <span class="n">of</span> <span class="n">the</span> <span class="n">melt</span> <span class="k">for</span> <span class="n">a</span> <span class="n">closed</span> <span class="n">system</span> <span class="k">with</span> <span class="mi">75</span> <span class="n">wt</span><span class="o">%</span> <span class="n">olivine</span> <span class="ow">and</span> <span class="mf">0.2</span> <span class="n">wt</span><span class="o">%</span> <span class="n">hydrous</span> <span class="n">basalt</span> <span class="ow">is</span> <span class="n">shown</span> <span class="n">by</span> <span class="n">the</span> <span class="n">solid</span> <span class="n">line</span><span class="o">.</span> <span class="n">It</span> <span class="n">starts</span> <span class="n">at</span> <span class="n">the</span> <span class="n">triangle</span> <span class="ow">and</span> <span class="n">progresses</span> <span class="n">toward</span> <span class="n">the</span> <span class="n">circle</span> <span class="k">with</span> <span class="n">increasing</span> <span class="err">$</span>\<span class="n">temp</span><span class="err">$</span> <span class="ow">and</span> <span class="err">$</span>\<span class="n">equi</span>\<span class="n">mf</span><span class="err">$</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="n">__</span> <span class="n">Equilibrium</span> <span class="n">melt</span> <span class="n">fraction</span> <span class="k">as</span> <span class="n">a</span> <span class="n">function</span> <span class="n">of</span> <span class="n">temperature</span> <span class="k">for</span> <span class="n">a</span> <span class="n">bulk</span> <span class="n">composition</span> <span class="n">of</span> <span class="mi">75</span> <span class="n">wt</span><span class="o">%</span> <span class="n">olivine</span> <span class="n">component</span> <span class="k">with</span> <span class="ow">and</span> <span class="n">without</span> <span class="mf">0.2</span> <span class="n">wt</span><span class="o">%</span> <span class="n">of</span> <span class="n">hydrated</span> <span class="n">basalt</span> <span class="n">component</span> <span class="n">at</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-46-649924b444e2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     61</span> var_isobar<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>zeros<span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>np<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     62</span> var_isobar<span class="ansi-blue-fg">.</span>C <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>tile<span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>Cref<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>np<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg"> </span>f_iso<span class="ansi-blue-fg">,</span> _ <span class="ansi-blue-fg">=</span> R_DMC_Equilibrium<span class="ansi-blue-fg">(</span>var_isobar<span class="ansi-blue-fg">,</span> r_dmc_calib<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     64</span> var_isobar<span class="ansi-blue-fg">.</span>Cs<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span> <span class="ansi-blue-fg">-</span> f_iso <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>nan
+<span class="ansi-green-intense-fg ansi-bold">     65</span> var_isobar<span class="ansi-blue-fg">.</span>Cl<span class="ansi-blue-fg">[</span>f_iso <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>nan
+
+<span class="ansi-green-fg">&lt;ipython-input-32-562263af8dad&gt;</span> in <span class="ansi-cyan-fg">R_DMC_Equilibrium</span><span class="ansi-blue-fg">(var, r_dmc_calib, type)</span>
+<span class="ansi-green-intense-fg ansi-bold">     29</span>     <span class="ansi-red-fg"># compute equilibrium f, C_s^i, C_l^i fraction at P,T,C^i</span>
+<span class="ansi-green-intense-fg ansi-bold">     30</span>     <span class="ansi-green-fg">elif</span> type <span class="ansi-green-fg">is</span> <span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 31</span><span class="ansi-red-fg">         </span>T<span class="ansi-blue-fg">,</span> f <span class="ansi-blue-fg">=</span> Equilibrium<span class="ansi-blue-fg">(</span>var<span class="ansi-blue-fg">,</span> r_dmc_calib<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     32</span>         <span class="ansi-green-fg">return</span> T<span class="ansi-blue-fg">,</span> f
+<span class="ansi-green-intense-fg ansi-bold">     33</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-30-44c220c0b423&gt;</span> in <span class="ansi-cyan-fg">Equilibrium</span><span class="ansi-blue-fg">(var, r_dmc_calib)</span>
+<span class="ansi-green-intense-fg ansi-bold">     39</span>                 <span class="ansi-green-fg">if</span> a <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>                     raise Exception(&#39;R_DMC module: Newton solver for equilibrium melt fraction did not converge &#39;
+<span class="ansi-green-fg">---&gt; 41</span><span class="ansi-red-fg">                                     &#39;with step size {}!&#39;.format(2 * a))
+</span><span class="ansi-green-intense-fg ansi-bold">     42</span>             var<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">=</span> var<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">-</span> a <span class="ansi-blue-fg">*</span> r <span class="ansi-blue-fg">/</span> dr_df
+<span class="ansi-green-intense-fg ansi-bold">     43</span> 
+
+<span class="ansi-red-fg">Exception</span>: R_DMC module: Newton solver for equilibrium melt fraction did not converge with step size 1.9073486328125e-06!</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../images/features/ch10_19_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>fig = plt.figure(figsize=plt.figaspect(2.))
+gs = fig.add_gridspec(2, 2)
+fig.set_size_inches(14.0, 14.0)</p>
+<p>r_dmc_calib = R_DMC_Calibration(_nc=3, _np=400, _CompStr=['olivine', 'basalt', 'wet basalt'],
+                                    _Tref=1350, _Tmin=1000, _Tmax=1700, _Pref=1, _Pmin=0, _Pmax=7,
+                                    _Cref=[0.75, 0.248, 0.002], _T0=[1780, 950, 410], _A=[50, 100, 50], _B=[3, 3, 3],
+                                    _L=[600e3, 450e3, 330e3], _r=[70, 30, 30])</p>
+<p>var = VAR()
+var.P = r_dmc_calib.P_GPa
+var.T = np.ones(r_dmc_calib.np) * r_dmc_calib.Tref
+var.C = r_dmc_calib.Cref</p>
+<p>Tm, K = R_DMC_Equilibrium(var, r_dmc_calib, 'K')</p>
+<p>ax00 = fig.add_subplot(gs[0, 0])</p>
+<p>ax00.plot(var.P, Tm[:, 0], '-k', linewidth=2, label=r'$T^\mathcal{S}_1$')
+ax00.plot(var.P, Tm[:, 1], '--k', linewidth=2, label=r'$T^\mathcal{S}_2$')
+ax00.plot(var.P, Tm[:, 2], '-.k', linewidth=2, label=r'$T^\mathcal{S}_3$')
+ax00.set_xlabel(r'$P$, GPa', fontsize=20)
+ax00.set_ylabel(r'$T$, $^\circ$C', fontsize=20)
+ax00.set_xlim(0, 7)
+ax00.set_xticks((0, 2, 4, 6))
+ax00.set_ylim(100, 2100)
+ax00.text(0.01, 2000, '(a)', fontsize=18, verticalalignment='top', horizontalalignment='left')
+ax00.tick_params(axis='both', which='major', labelsize=13)
+ax00.legend()</p>
+<p>del var, Tm, K</p>
+<p>var = VAR()
+var.T = r_dmc_calib.T_degC
+var.P = r_dmc_calib.Pref * np.ones(r_dmc_calib.np)
+var.C = r_dmc_calib.Cref</p>
+<p>Tm, K = R_DMC_Equilibrium(var, r_dmc_calib, 'K')</p>
+<p>ax01 = fig.add_subplot(gs[0, 1])</p>
+<p>ax01.plot(var.T, K[:, 0], '-k', linewidth=2, label=r'$\check{K}_1$')
+ax01.plot(var.T, K[:, 1], '--k', linewidth=2, label=r'$\check{K}_2$')
+ax01.plot(var.T, K[:, 2], '-.k', linewidth=2, label=r'$\check{K}_3$')
+ax01.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+ax01.set_xticks(np.arange(1000, 1701, 1000))
+ax01.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)</p>
+<h1 id="ax[01].set_ylim(1e-4,-1e1)">ax[01].set_ylim(1e-4, 1e1)<a class="anchor-link" href="#ax[01].set_ylim(1e-4,-1e1)"> </a></h1><h1 id="ax[01].set_yscale('log')">ax[01].set_yscale('log')<a class="anchor-link" href="#ax[01].set_yscale('log')"> </a></h1><p>ax01.text(0.01, 0.99, r'(b)', fontsize=18, verticalalignment='top', horizontalalignment='left')
+ax01.tick_params(axis='both', which='major', labelsize=13)
+ax01.legend()</p>
+<p>del var</p>
+<p>ax11 = fig.add_subplot(gs[1, 1])</p>
+<p>var_isobar = VAR()
+var_isobar.T = r_dmc_calib.T_degC
+var_isobar.P = r_dmc_calib.Pref * np.ones(r_dmc_calib.np)
+var_isobar.f = np.zeros(r_dmc_calib.np)
+var_isobar.C = np.tile(r_dmc_calib.Cref, (r_dmc_calib.np, 1))
+f<em>iso, </em> = R_DMC_Equilibrium(var_isobar, r_dmc_calib, 'E')
+var_isobar.Cs[1 - f_iso &lt; 1e-6, :] = np.nan
+var_isobar.Cl[f_iso &lt; 1e-6, :] = np.nan
+ax11.plot(var_isobar.T, f_iso, '-k', linewidth=2, label=r'wet')</p>
+<p>var = VAR()
+var.T = r_dmc_calib.T_degC
+var.P = r_dmc_calib.Pref * np.ones(r_dmc_calib.np)
+var.f = np.zeros(r_dmc_calib.np)
+var.C = np.tile(np.asarray([0.75, 0.25, 0.0]), (r_dmc_calib.np, 1))</p>
+<p>f, _ = R_DMC_Equilibrium(var, r_dmc_calib, 'E')</p>
+<p>var.Cs[1 - f &lt; 1e-6, :] = np.nan
+var.Cl[f &lt; 1e-6, :] = np.nan
+ax11.plot(var.T, f, '--k', linewidth=1, label='dry')
+ax11.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
+ax11.set_ylabel(r'$\check{f}$, wt. frac.', fontsize=20)
+ax11.set_xaxis(1000, 1500)
+ax11.set_yaxis(0.0, 0.4)
+ax11.text(0.01, 0.99, '(d)', fontsize=18, verticalalignment='top', horizontalalignment='left')
+ax11.tick_params(axis='both', which='major', labelsize=13)
+ax11.legend()</p>
+<p>del var, f</p>
+<p>ax10 = fig.add_subplot(gs[1, 0], projection='3d')</p>
+<p>C3 = np.linspace(0, 1, r_dmc_calib.np)
+C2 = np.linspace(0, 1, r_dmc_calib.np)
+C2, C3 = np.meshgrid(C2, C3)
+C2, C3 = C2.transpose().flatten(), C3.transpose().flatten()
+C1 = 1 - C2 - C3
+var = VAR()
+var.C = np.zeros((r_dmc_calib.np <em> r_dmc_calib.np, r_dmc_calib.nc))
+var.C[:, 0] = C1
+var.C[:, 1] = C2
+var.C[:, 2] = C3
+var.P = np.ones(r_dmc_calib.np </em> r_dmc_calib.np) <em> r_dmc_calib.Pref
+var.T = np.ones(r_dmc_calib.np </em> r_dmc_calib.np) * r_dmc_calib.Tref</p>
+<p>Tsol, Tliq = R_DMC_Equilibrium(var, r_dmc_calib, 'T')</p>
+<p>Tsol[var.C[:, 1] + var.C[:, 2] &gt; 1] = np.nan
+Tliq[var.C[:, 1] + var.C[:, 2] &gt; 1] = np.nan
+ax10.plot([0, 1, 0.5, 0], [0, 0, np.sin(1 / 3 * np.pi), 0], color=[0, 0, 0])
+m = 5
+grids = np.linspace(0, 100, m + 1)
+grids = grids[0:-1]
+labels = str(grids[1:])
+x3, y3 = terncoords(100 - grids, grids, np.zeros(len(grids)))
+x2, y2 = terncoords(grids, np.zeros(len(grids)), 100 - grids)
+x1, y1 = terncoords(np.zeros(len(grids)), 100 - grids, grids)
+n = m - 1
+for i in np.arange(1, m):
+    ax10.plot([x1[i], x2[n - i + 1]], [y1[i], y2[n - i + 1]], 'k:')
+    ax10.plot([x2[i], x3[n - i + 1]], [y2[i], y3[n - i + 1]], 'k:')
+    ax10.plot([x3[i], x1[n - i + 1]], [y3[i], y1[n - i + 1]], 'k:')
+X, Y = terncoords(var.C[:, 1], var.C[:, 2], var.C[:, 0])
+triangles = simpletri(r_dmc_calib.np)
+tri = mtri.Triangulation(X.ravel(), Y.ravel(), triangles)</p>
+<h1 id="ax10.plot_trisurf(tri,-Tsol)">ax10.plot_trisurf(tri, Tsol)<a class="anchor-link" href="#ax10.plot_trisurf(tri,-Tsol)"> </a></h1><h1 id="ax10.plot_trisurf(tri,-Tliq)">ax10.plot_trisurf(tri, Tliq)<a class="anchor-link" href="#ax10.plot_trisurf(tri,-Tliq)"> </a></h1><p>ax10.text(x3[1:]+0.09, y3[1:]-0.04, labels, fontsize=15)
+ax10.text(x2[1:]+0.04, y2[1:]-0.12, labels, fontsize=15)
+ax10.text(x1[1:]-0.09, y1[1:]+0.02, labels, fontsize=15)
+ax10.text(0.44, 0.9, '${c}_3^i$', fontsize=15)
+ax10.text(1.18, -0.09, '${c}_2^i$', fontsize=15)
+ax10.text(-0.13, -0.030, '${c}_1^i$', fontsize=15)
+ax10.plot(ternplot(var_isobar.Cl[:, 1], var_isobar.Cl[:, 2], var_isobar.Cl[:, 0]), '-k', linewidth=2)
+ax10.plot(ternplot(r_dmc_calib.Cref[1], r_dmc_calib.Cref[2], r_dmc_calib.Cref[0]), 'ok', linewidth=2, markersize=8)
+ax10.plot(ternplot(var_isobar.Cl[0, 1], var_isobar.Cl[0, 2], var_isobar.Cl[0, 0]), '&lt;k', linewidth=2, markersize=8)
+ax10.text(0.01, 0.99, '(c)', fontsize=18, verticalalignment='top', horizontalalignment='left')
+ax10.tick_params(axis='both', which='major', labelsize=13)</p>
+<p>plt.show()</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Linearising the two-component phase diagram</span>
+
+<span class="n">Phase</span> <span class="n">diagrams</span> <span class="n">constructed</span> <span class="k">with</span> <span class="n">ideal</span> <span class="n">solution</span> <span class="n">theory</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">useful</span> <span class="n">basis</span> <span class="k">for</span> <span class="n">developing</span> <span class="n">the</span> <span class="n">melting</span> <span class="n">relations</span> <span class="n">required</span> <span class="k">for</span> <span class="n">magma</span><span class="o">/</span><span class="n">mantle</span> <span class="n">dynamics</span><span class="o">.</span> <span class="n">Their</span> <span class="n">nonlinearity</span><span class="p">,</span> <span class="n">however</span><span class="p">,</span> <span class="n">precludes</span> <span class="n">a</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">analytical</span> <span class="n">calculations</span><span class="p">;</span> <span class="n">instead</span> <span class="n">they</span> <span class="n">must</span> <span class="n">be</span> <span class="n">handled</span> <span class="n">numerically</span><span class="o">.</span> <span class="n">It</span> <span class="ow">is</span> <span class="n">therefore</span> <span class="n">important</span> <span class="n">to</span> <span class="n">formulate</span> <span class="n">an</span> <span class="n">approximation</span> <span class="ow">in</span> <span class="n">which</span> <span class="n">the</span> <span class="n">equilibrium</span> <span class="n">state</span> <span class="ow">is</span> <span class="n">computed</span> <span class="n">analytically</span><span class="o">.</span>
+
+<span class="n">For</span> <span class="n">linear</span> <span class="n">variations</span> <span class="ow">in</span> <span class="n">pressure</span> <span class="ow">and</span> <span class="n">composition</span><span class="p">,</span> <span class="n">we</span> <span class="n">can</span> <span class="n">write</span>
+
+  \<span class="n">begin</span><span class="p">{</span><span class="n">align</span><span class="p">}</span>
+    \<span class="n">label</span><span class="p">{</span><span class="n">eq</span><span class="p">:</span><span class="n">col</span><span class="o">-</span><span class="n">twocomp</span><span class="o">-</span><span class="n">pd</span><span class="o">-</span><span class="n">solidus</span><span class="p">}</span>
+    \<span class="n">soltemp</span> <span class="o">&amp;=</span> \<span class="n">soltemp_</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">}</span> <span class="o">+</span> <span class="p">(</span>\<span class="n">pres</span><span class="o">-</span>\<span class="n">pres_</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">})</span><span class="o">/</span>\<span class="n">clapeyron</span>  <span class="o">+</span>
+               \<span class="n">solslope</span>\<span class="n">left</span><span class="p">(</span>\<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol</span> <span class="o">-</span> \<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol_</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">}}</span>\<span class="n">right</span><span class="p">),</span>\\
+  \<span class="n">label</span><span class="p">{</span><span class="n">eq</span><span class="p">:</span><span class="n">col</span><span class="o">-</span><span class="n">twocomp</span><span class="o">-</span><span class="n">pd</span><span class="o">-</span><span class="n">deltac</span><span class="p">}</span>
+    \<span class="n">equi</span>\<span class="n">con</span>\<span class="n">liq</span> <span class="o">&amp;=</span> \<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol</span> <span class="o">-</span> \<span class="n">Delta</span>\<span class="n">equi</span>\<span class="n">con</span><span class="p">,</span>
+  \<span class="n">end</span><span class="p">{</span><span class="n">align</span><span class="p">}</span>
+
+<span class="n">where</span> <span class="err">$</span>\<span class="n">solslope</span><span class="err">$</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">constant</span> <span class="n">slope</span> <span class="n">of</span> <span class="n">the</span> <span class="n">solidus</span> <span class="k">with</span> <span class="n">concentration</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">two</span> <span class="n">component</span> <span class="n">space</span> <span class="ow">and</span> <span class="err">$</span>\<span class="n">soltemp_</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">}</span><span class="err">$</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">reference</span> <span class="n">temperature</span> <span class="n">at</span> <span class="err">$</span>\<span class="n">pres</span><span class="o">=</span>\<span class="n">pres_</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">}</span><span class="err">$</span> <span class="ow">and</span> <span class="err">$</span>\<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol</span><span class="o">=</span>\<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol_</span>\<span class="n">text</span><span class="p">{</span><span class="n">ref</span><span class="p">}</span><span class="err">$</span><span class="o">.</span>  <span class="n">Also</span><span class="p">,</span> <span class="err">$</span>\<span class="n">Delta</span>\<span class="n">equi</span>\<span class="n">con</span> \<span class="n">equiv</span> \<span class="n">equi</span>\<span class="n">con</span>\<span class="n">sol</span> <span class="o">-</span> \<span class="n">equi</span>\<span class="n">con</span>\<span class="n">liq</span><span class="err">$</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">concentration</span> <span class="n">difference</span> <span class="n">between</span> <span class="n">the</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">liquidus</span><span class="o">.</span>  <span class="n">If</span> <span class="err">$</span>\<span class="n">Delta</span>\<span class="n">equi</span>\<span class="n">con</span><span class="err">$</span> <span class="ow">is</span> <span class="n">taken</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">then</span> <span class="n">the</span> <span class="n">liquidus</span> <span class="n">slope</span> <span class="err">$</span>\<span class="n">liqslope</span><span class="err">$</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">solidus</span> <span class="n">slope</span> <span class="err">$</span>\<span class="n">solslope</span><span class="err">$</span> <span class="n">are</span> <span class="n">equal</span><span class="o">.</span>
+
+
+
+<span class="n">Figure</span> <span class="n">below</span> <span class="n">plots</span> <span class="n">a</span> <span class="n">comparison</span> <span class="n">of</span> <span class="n">a</span> <span class="n">two</span><span class="o">-</span><span class="n">component</span><span class="p">,</span> <span class="n">ideal</span><span class="o">-</span><span class="n">solution</span> <span class="n">phase</span> <span class="n">loop</span> <span class="k">with</span> <span class="n">a</span> <span class="n">linearised</span> <span class="n">solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">at</span> <span class="mi">1</span> <span class="n">GPa</span><span class="o">.</span> <span class="n">The</span> <span class="n">phase</span> <span class="n">loop</span> <span class="n">uses</span> <span class="n">the</span> <span class="n">parameters</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">Table</span> <span class="n">above</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">__</span> <span class="n">Solidus</span> <span class="ow">and</span> <span class="n">liquidus</span> <span class="n">curves</span><span class="o">.</span>  <span class="n">Evolution</span> <span class="n">of</span> <span class="n">an</span> <span class="n">initially</span> <span class="n">unmolten</span> <span class="n">rock</span> <span class="k">with</span> <span class="mi">25</span> <span class="n">wt</span><span class="o">%</span> <span class="n">basaltic</span> <span class="n">component</span> <span class="k">for</span> <span class="n">increasing</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">along</span> <span class="n">the</span> <span class="n">linearised</span> <span class="n">phase</span> <span class="n">boundaries</span><span class="o">.</span> <span class="n">__</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="n">__</span> <span class="n">Isobaric</span> <span class="n">melting</span> <span class="n">curves</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:20: RuntimeWarning: divide by zero encountered in true_divide
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:8: RuntimeWarning: invalid value encountered in multiply
+  
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:9: RuntimeWarning: invalid value encountered in multiply
+  if __name__ == &#39;__main__&#39;:
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:15: RuntimeWarning: invalid value encountered in less_equal
+  from ipykernel import kernelapp as app
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:16: RuntimeWarning: invalid value encountered in greater_equal
+  app.launch_new_instance()
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:17: RuntimeWarning: invalid value encountered in less
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:18: RuntimeWarning: invalid value encountered in less
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:24: RuntimeWarning: invalid value encountered in less_equal
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:26: RuntimeWarning: invalid value encountered in greater_equal
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:37: RuntimeWarning: invalid value encountered in less
+/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:37: RuntimeWarning: invalid value encountered in greater
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../images/features/ch10_21_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">14.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">)</span>
+
+<span class="n">r_dmc_calib</span> <span class="o">=</span> <span class="n">R_DMC_Calibration</span><span class="p">(</span><span class="n">_Tref</span><span class="o">=</span><span class="mi">1350</span><span class="p">,</span> <span class="n">_Tmin</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">_Tmax</span><span class="o">=</span><span class="mi">1350</span><span class="p">,</span> <span class="n">_Cref</span><span class="o">=</span><span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">_Pref</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_Pmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">_Pmax</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                                    <span class="n">_T0</span><span class="o">=</span><span class="p">[</span><span class="mi">1780</span><span class="p">,</span> <span class="mi">950</span><span class="p">],</span> <span class="n">_A</span><span class="o">=</span><span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">112</span><span class="p">],</span> <span class="n">_B</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">_L</span><span class="o">=</span><span class="p">[</span><span class="mf">600e3</span><span class="p">,</span> <span class="mf">450e3</span><span class="p">],</span> <span class="n">_r</span><span class="o">=</span><span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="n">VAR</span><span class="p">()</span>
+<span class="n">var</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">nc</span><span class="p">))</span>
+<span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">var</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">)</span> <span class="o">*</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Pref</span>
+<span class="n">var</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">)</span> <span class="o">*</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Tref</span>
+
+<span class="n">Tsol</span><span class="p">,</span> <span class="n">Tliq</span> <span class="o">=</span> <span class="n">R_DMC_Equilibrium</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">)</span>
+
+<span class="n">Cint</span> <span class="o">=</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.999</span><span class="p">,</span> <span class="mf">1.001</span><span class="p">])</span>
+<span class="n">Tint</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Tsol</span><span class="p">)(</span><span class="n">Cint</span><span class="p">)</span>
+<span class="n">MS</span> <span class="o">=</span> <span class="p">(</span><span class="n">Tint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Tint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">Cint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Tref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Tint</span><span class="p">)</span>
+<span class="n">Cint</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">Tliq</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])(</span><span class="n">Tint</span><span class="p">)</span>
+<span class="n">ML</span> <span class="o">=</span> <span class="p">(</span><span class="n">Tint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Tint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">Cint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Cint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Cref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Cint</span><span class="p">)</span>
+<span class="n">F</span><span class="p">,</span> <span class="n">Cs</span><span class="p">,</span> <span class="n">Cl</span><span class="p">,</span> <span class="o">=</span> <span class="n">MeltFraction</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">T_degC</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ML</span><span class="p">,</span> <span class="n">MS</span><span class="p">,</span> <span class="n">Cref</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Tref</span><span class="p">)</span>
+
+<span class="n">gr</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Tsol</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Tliq</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+           <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$T^\mathcal</span><span class="si">{S}</span><span class="s1">,T^\mathcal</span><span class="si">{L}</span><span class="s1">$ (ideal soln.)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">SolLiqTemperature</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Cref</span><span class="p">,</span> <span class="n">ML</span><span class="p">,</span> <span class="n">Tref</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+           <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$T^\mathcal</span><span class="si">{S}</span><span class="s1">,T^\mathcal</span><span class="si">{L}</span><span class="s1">$ (linear)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">SolLiqTemperature</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">MS</span><span class="p">,</span> <span class="n">Tref</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+           <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">gr</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Cs</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">T_degC</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\check</span><span class="si">{c}</span><span class="s1">^s_2(T),\check</span><span class="si">{c}</span><span class="s1">^\ell_2(T)$, (linear)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Cl</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">T_degC</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$T$, $^\circ$C&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$</span><span class="si">{c}</span><span class="s1">^i_2$, wt. frac.&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">var</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="n">VAR</span><span class="p">()</span>
+<span class="n">var</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">T_degC</span>
+<span class="n">var</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Pref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">Cref</span><span class="p">,</span> <span class="p">(</span><span class="n">r_dmc_calib</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">R_DMC_Equilibrium</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">r_dmc_calib</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ideal soln.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$T$, $^\circ$C&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\check</span><span class="si">{f}</span><span class="s1">$, wt. frac.&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1350</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
