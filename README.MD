@@ -20,12 +20,13 @@ University of Oxford
 
 ## How to open and build Jupyter books
 
-In the `partially-molten-rock-PUP` folder, the command below will build the HTML files based on the `contents` folder:
-```
-$ jupyter-book build --overwrite ../partially-molten-rock-PUP
-```
+In the `partially-molten-rock-PUP` folder, type `make` to see the available options. In particular,
 
-In order to publish the changes, just type
 ```
-$ ghp-import -p -f _build 
+$ make build
 ```
+and 
+```
+$ make serve
+```
+will build and deploy the book's content locally. Just follow the command-line intructions.
