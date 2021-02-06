@@ -26,12 +26,6 @@ clean:
 serve:
 	bundle exec guard
 
-build:
-	jupyter-book build ./ --overwrite
-
-site: build
-	bundle exec jekyll build
+site:
+	bundle exec jekyll build --watch
 	touch _site/.nojekyll
-
-deploy:
-	ghp-import -p -f _build

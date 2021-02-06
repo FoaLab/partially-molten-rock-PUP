@@ -153,6 +153,25 @@ from scipy.interpolate import interp1d</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-2-00c5ec574fa6&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">4</span>
+<span class="ansi-red-fg">    The change of this melting temperature with pressure is given by the Clausius-Clapeyron equation. For simplicity, we assume a constant value of $\clapeyron = \Delta\entropy/\Delta(1/\density)$, which gives</span>
+             ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -353,6 +372,25 @@ return Theta</code></pre>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-7-389b02bc25f8&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    Ideal-solution model of a two-component system of _olivine_ ($j=1$) and _basalt_ ($j=2$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(c)__ Grey lines are the solidus and liquidus temperature as a function of the basalt fraction at a pressure of 1 GPa. The composition along the solidus curve refers to the solid phase; that along the liquidus curve refers to the liquid phase. Black lines indicate the compositional evolution of a closed system with bulk composition of 25% basalt component. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 25% basalt component at 1 GPa.</span>
+                       ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -387,13 +425,19 @@ return Theta</code></pre>
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-8-5d500d402490&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-red-fg"># thermodynamic state</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> Pref <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1.</span>
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg"> </span>Pvar <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>linspace<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">0.</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">7.</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">20</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> Tref <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1350.</span> <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">273.</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> Tvar <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>linspace<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1050.</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1950.</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">200</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">273</span>
 
-
-<div class="output_png output_subarea ">
-<img src="../images/features/ch10_10_0.png"
->
+<span class="ansi-red-fg">NameError</span>: name &#39;np&#39; is not defined</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -514,6 +558,30 @@ axC.legend(fontsize=15)</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-10-8a6862c11b6f&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> 
+<span class="ansi-green-intense-fg ansi-bold">      5</span> Pref <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1.</span>
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg"> </span>Pvar <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>linspace<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">0.0</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">7.0</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">20</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> Tref <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1350.</span> <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">273.</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> Tvar <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>linspace<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1000.</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1700.</span> <span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">200</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">273.</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;np&#39; is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -549,24 +617,14 @@ conc_water_in_pure_component = 1e-4/cref[2]</p>
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x7fdbc93754d0&gt;</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-11-9e3e0a5847ad&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    Figures below plot the ideal-solution model of a three-component system of &#34;olivine&#34; ($j=1$), &#34;basalt&#34; ($j=2$) and &#34;hydrous basalt&#34; ($j=3$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(c)__ Surfaces are the solidus and liquidus temperature through the full, 3-component space at a pressure of 1 GPa. The composition along the solidus surface refers to the solid phase; that along the liquidus surface refers to the liquid phase. The compositional evolution of the melt for a closed system with 75 wt\% olivine and 0.2 wt\% hydrous basalt is shown by the solid line.  It starts at the triangle and progresses toward the circle with increasing $\temp$ and $\equi\mf$. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 75 wt\% olivine component with and without 0.2 wt\% of hydrated basalt component at 1 GPa.</span>
+                ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
 </div>
-
-</div>
-</div>
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../images/features/ch10_15_1.png"
->
-</div>
-
 </div>
 </div>
 </div>
@@ -655,13 +713,14 @@ axD.legend(fontsize=15)</p>
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_png output_subarea ">
-<img src="../images/features/ch10_17_0.png"
->
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-12-60faa5cbd523&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">3</span>
+<span class="ansi-red-fg">    A eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution</span>
+             ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -757,43 +816,12 @@ ax[1].legend()</p>
 
 <div class="output_subarea output_text output_error">
 <pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-46-649924b444e2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">     61</span> var_isobar<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>zeros<span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>np<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     62</span> var_isobar<span class="ansi-blue-fg">.</span>C <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>tile<span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>Cref<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span>r_dmc_calib<span class="ansi-blue-fg">.</span>np<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg"> </span>f_iso<span class="ansi-blue-fg">,</span> _ <span class="ansi-blue-fg">=</span> R_DMC_Equilibrium<span class="ansi-blue-fg">(</span>var_isobar<span class="ansi-blue-fg">,</span> r_dmc_calib<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     64</span> var_isobar<span class="ansi-blue-fg">.</span>Cs<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span> <span class="ansi-blue-fg">-</span> f_iso <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>nan
-<span class="ansi-green-intense-fg ansi-bold">     65</span> var_isobar<span class="ansi-blue-fg">.</span>Cl<span class="ansi-blue-fg">[</span>f_iso <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>nan
-
-<span class="ansi-green-fg">&lt;ipython-input-32-562263af8dad&gt;</span> in <span class="ansi-cyan-fg">R_DMC_Equilibrium</span><span class="ansi-blue-fg">(var, r_dmc_calib, type)</span>
-<span class="ansi-green-intense-fg ansi-bold">     29</span>     <span class="ansi-red-fg"># compute equilibrium f, C_s^i, C_l^i fraction at P,T,C^i</span>
-<span class="ansi-green-intense-fg ansi-bold">     30</span>     <span class="ansi-green-fg">elif</span> type <span class="ansi-green-fg">is</span> <span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 31</span><span class="ansi-red-fg">         </span>T<span class="ansi-blue-fg">,</span> f <span class="ansi-blue-fg">=</span> Equilibrium<span class="ansi-blue-fg">(</span>var<span class="ansi-blue-fg">,</span> r_dmc_calib<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     32</span>         <span class="ansi-green-fg">return</span> T<span class="ansi-blue-fg">,</span> f
-<span class="ansi-green-intense-fg ansi-bold">     33</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-30-44c220c0b423&gt;</span> in <span class="ansi-cyan-fg">Equilibrium</span><span class="ansi-blue-fg">(var, r_dmc_calib)</span>
-<span class="ansi-green-intense-fg ansi-bold">     39</span>                 <span class="ansi-green-fg">if</span> a <span class="ansi-blue-fg">&lt;</span> <span class="ansi-cyan-fg">1e-6</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     40</span>                     raise Exception(&#39;R_DMC module: Newton solver for equilibrium melt fraction did not converge &#39;
-<span class="ansi-green-fg">---&gt; 41</span><span class="ansi-red-fg">                                     &#39;with step size {}!&#39;.format(2 * a))
-</span><span class="ansi-green-intense-fg ansi-bold">     42</span>             var<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">=</span> var<span class="ansi-blue-fg">.</span>f <span class="ansi-blue-fg">-</span> a <span class="ansi-blue-fg">*</span> r <span class="ansi-blue-fg">/</span> dr_df
-<span class="ansi-green-intense-fg ansi-bold">     43</span> 
-
-<span class="ansi-red-fg">Exception</span>: R_DMC module: Newton solver for equilibrium melt fraction did not converge with step size 1.9073486328125e-06!</pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-13-c9bf1182a944&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">3</span>
+<span class="ansi-red-fg">    Ideal-solution model of a three-component system of *olivine* ($j=1$), *basalt* ($j=2$) and *hydrous basalt* ($j=3$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(c)__ Surfaces are the solidus and liquidus temperature through the full, 3-component space at a pressure of 1 GPa. The composition along the solidus surface refers to the solid phase; that along the liquidus surface refers to the liquid phase. The compositional evolution of the melt for a closed system with 75 wt% olivine and 0.2 wt% hydrous basalt is shown by the solid line. It starts at the triangle and progresses toward the circle with increasing $\temp$ and $\equi\mf$. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 75 wt% olivine component with and without 0.2 wt% of hydrated basalt component at 1 GPa.</span>
+                       ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
 </div>
-</div>
-</div>
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../images/features/ch10_19_1.png"
->
-</div>
-
 </div>
 </div>
 </div>
@@ -962,36 +990,14 @@ ax10.tick_params(axis='both', which='major', labelsize=13)</p>
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:20: RuntimeWarning: divide by zero encountered in true_divide
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:8: RuntimeWarning: invalid value encountered in multiply
-  
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:9: RuntimeWarning: invalid value encountered in multiply
-  if __name__ == &#39;__main__&#39;:
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:15: RuntimeWarning: invalid value encountered in less_equal
-  from ipykernel import kernelapp as app
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:16: RuntimeWarning: invalid value encountered in greater_equal
-  app.launch_new_instance()
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:17: RuntimeWarning: invalid value encountered in less
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:18: RuntimeWarning: invalid value encountered in less
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:24: RuntimeWarning: invalid value encountered in less_equal
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:26: RuntimeWarning: invalid value encountered in greater_equal
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:37: RuntimeWarning: invalid value encountered in less
-/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:37: RuntimeWarning: invalid value encountered in greater
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-14-f8028e24aed6&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">3</span>
+<span class="ansi-red-fg">    Phase diagrams constructed with ideal solution theory provide a useful basis for developing the melting relations required for magma/mantle dynamics. Their nonlinearity, however, precludes a use in analytical calculations; instead they must be handled numerically. It is therefore important to formulate an approximation in which the equilibrium state is computed analytically.</span>
+                 ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
 </pre>
 </div>
-</div>
-</div>
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../images/features/ch10_21_1.png"
->
-</div>
-
 </div>
 </div>
 </div>
@@ -1069,6 +1075,30 @@ ax10.tick_params(axis='both', which='major', labelsize=13)</p>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-15-15fe2da8b431&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>fig<span class="ansi-blue-fg">,</span> ax <span class="ansi-blue-fg">=</span> plt<span class="ansi-blue-fg">.</span>subplots<span class="ansi-blue-fg">(</span>nrows<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> ncols<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> fig<span class="ansi-blue-fg">.</span>set_size_inches<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">14.0</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">7.0</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> 
+<span class="ansi-green-intense-fg ansi-bold">      4</span> r_dmc_calib = R_DMC_Calibration(_Tref=1350, _Tmin=900, _Tmax=1350, _Cref=[0.75, 0.25], _Pref=1, _Pmin=0, _Pmax=7,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>                                     _T0=[1780, 950], _A=[45, 112], _B=[0, 0], _L=[600e3, 450e3], _r=[70, 30])
+
+<span class="ansi-red-fg">NameError</span>: name &#39;plt&#39; is not defined</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 
