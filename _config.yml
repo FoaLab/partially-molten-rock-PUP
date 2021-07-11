@@ -20,7 +20,7 @@ title: The Dynamics of Partially Molten Rock
 author: Richard F. Katz
 email: YOUR EMAIL
 description: >-
-  This is an example book built with Jupyter Books.
+  This book was built with Jupyter Books.
 
 baseurl: /  # the subpath of your site, e.g. /blog. If there is no subpath for your site, use an empty string ""
 url: ''                        # the base hostname & protocol for your site, e.g. http://example.com
@@ -153,6 +153,7 @@ exclude:
 - vendor/cache/
 - vendor/gems/
 - vendor/ruby/
+- rock-env/
 
 plugins:
 - jekyll-redirect-from
