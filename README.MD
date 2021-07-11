@@ -20,13 +20,9 @@ University of Oxford
 
 ## How to open and build Jupyter books
 
-In the `partially-molten-rock-PUP` folder, type `make` to see the available options. In particular,
+In the `partially-molten-rock-PUP` folder, type
 
 ```
-$ make build
+$ jupyter-book build .
 ```
-and 
-```
-$ make serve
-```
-will build and deploy the book's content locally. Just follow the command-line intructions.
+and follow the command-line intructions.

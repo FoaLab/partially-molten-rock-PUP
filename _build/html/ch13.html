@@ -1,0 +1,897 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Corner-flow with magmatic segregation &#8212; The Dynamics of Partially Molten Rock</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The 1-D solitary wave (instantaneous)" href="ch14.html" />
+    <link rel="prev" title="Linearised stability analysis" href="ch12.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">The Dynamics of Partially Molten Rock</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch03.html">
+   Kinematic solutions for corner flow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch05.html">
+   The dihedral angle
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch06.html">
+   The compaction-press problem
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch07.html">
+   The (in)stability of perturbations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch08.html">
+   Dissipation-driven melting and compaction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch09.html">
+   Trace elements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch10.html">
+   The equilibrium state
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch11.html">
+   Melting-rate closures
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch12.html">
+   Linearised stability analysis
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Corner-flow with magmatic segregation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch14.html">
+   The 1-D solitary wave (instantaneous)
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ch13.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://https://github.com/FoaLab/partially-molten-rock-PUP"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://https://github.com/FoaLab/partially-molten-rock-PUP/issues/new?title=Issue%20on%20page%20%2Fch13.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/gh-pages?urlpath=tree/docs/ch13.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Corner-flow with magmatic segregation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#melt-focusing-through-a-sub-lithospheric-channel">
+   Melt focusing through a sub-lithospheric channel
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lateral-transport-in-semi-infinite-half-space">
+     Lateral transport in semi-infinite half-space
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lateral-transport-to-a-mid-ocean-ridge">
+     Lateral transport to a mid-ocean ridge
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">spsolve</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span><span class="p">,</span> <span class="n">brentq</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">lambertw</span><span class="p">,</span> <span class="n">erf</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">odeint</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">cumtrapz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="corner-flow-with-magmatic-segregation">
+<h1>Corner-flow with magmatic segregation<a class="headerlink" href="#corner-flow-with-magmatic-segregation" title="Permalink to this headline">¶</a></h1>
+<p>This simplified problem is governed by the system</p>
+<p>\begin{align}
+\label{eq:cornerflow-twophase-stokes}
+\Grad\pres = \delsq\vel \
+\Div\vel = 0
+\end{align}</p>
+<p>and</p>
+<p>\begin{equation*}
+\vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
+\end{equation*}</p>
+<p>The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is</p>
+<p>\begin{align}
+f(\theta) &amp;= A\sin\theta -B\theta\cos\theta, \
+\vel &amp;= \left[f’(\theta)\rhat - f(\theta)\thetahat\right], \
+\pres &amp;= -\frac{1}{r}\left[f’’’(\theta) + f’(\theta)\right] = -\frac{2B}{r}\cos\theta,
+\end{align}</p>
+<p>where</p>
+<p>\begin{equation*}
+A = \frac{2\sin^2\theta_p}{\pi - 2\theta_p-\sin2\theta_2}
+\text{ and }
+B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
+\end{equation*}</p>
+<p>Recall that <span class="math notranslate nohighlight">\(\theta_p\)</span> is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,</p>
+<p>\begin{align}
+\unit{\gravity} &amp;= \cos\theta\rhat - \sin\theta\thetahat,\
+\Grad\pres &amp;= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
+\end{align}</p>
+<p>The liquid velocity is then</p>
+<p>\begin{equation}
+\label{eq:cornerflow-liquid-velocity}
+\vel\liq = \left(f’(\theta)\rhat - f(\theta)\thetahat\right) -
+\frac{1}{\velratio}\left{\frac{1}{r^2}\left[\left(f’’’ +f’\right)\rhat - \left(f’’’’ + f’’\right)\thetahat\right]
++ \cos\theta\rhat + \sin\theta\thetahat\right}.
+\end{equation}</p>
+<p>The radial and tangential components of the solid and liquid velocities are implemented as:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vel_solid_radial</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> 
+             <span class="o">+</span> <span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">vel_solid_tangential</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">vel_liquid_radial</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="n">sin_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span>
+    <span class="n">sin_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">cos_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">sin_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">cos_t</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">cos_t</span> <span class="o">+</span> <span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">sin_t</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">alph</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">numer</span><span class="o">/</span><span class="n">denom</span> <span class="o">-</span> <span class="p">(</span><span class="n">cos_t</span> <span class="o">-</span> <span class="p">((</span><span class="n">numer</span><span class="o">/</span><span class="n">denom</span> <span class="o">-</span> <span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">sin_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">cos_t</span> <span class="o">-</span> <span class="mf">6.</span><span class="o">*</span><span class="n">cos_t</span> <span class="o">+</span> <span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">sin_t</span><span class="p">)</span><span class="o">/</span><span class="n">denom</span><span class="p">))</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">e</span>
+
+<span class="k">def</span> <span class="nf">vel_liquid_tangential</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="n">sin_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">sin_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span>
+    <span class="n">cos_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.</span><span class="o">*</span><span class="n">sin_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sin_t</span> <span class="o">+</span> <span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">cos_t</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">alph</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">sin_t</span> <span class="o">-</span> <span class="p">((</span><span class="mf">4.</span><span class="o">*</span><span class="n">sin_t</span> <span class="o">+</span> <span class="n">numer</span><span class="p">)</span><span class="o">/</span><span class="n">denom</span> <span class="o">-</span> <span class="p">(</span><span class="mf">8.</span><span class="o">*</span><span class="n">sin_t</span> <span class="o">+</span> <span class="n">numer</span><span class="p">)</span><span class="o">/</span><span class="n">denom</span><span class="p">)</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">e</span> <span class="o">-</span> <span class="n">numer</span><span class="o">/</span><span class="n">denom</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Figures below plot the streamlines of the solid (4) and liquid \eqref{eq:cornerflow-liquid-velocity} velocities for the corner flow solution with uniform viscosity and porosity. The domain has a fixed size in dimensional units. The top row of panels has a larger lithospheric wedge angle <span class="math notranslate nohighlight">\((\theta_p=30^\circ)\)</span> than the bottom row <span class="math notranslate nohighlight">\((\theta_p=15^\circ)\)</span>.  The left column has 100<span class="math notranslate nohighlight">\(\times\)</span> slower melt segregation (<span class="math notranslate nohighlight">\(\velratio=1\)</span>) than the right column (<span class="math notranslate nohighlight">\(\velratio=0.01\)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.2</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">5.4</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">Ny</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">aspect</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">Nx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Ny</span><span class="o">*</span><span class="n">aspect</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+<span class="n">seedVS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">seedVL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">evec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">])</span>
+<span class="n">alphvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span><span class="p">,</span> <span class="mi">15</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span><span class="p">])</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">L</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alph</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphvec</span><span class="p">):</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">alph</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">alph</span><span class="p">))</span>
+    <span class="n">inplates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">alph</span><span class="p">)</span>
+    <span class="n">Lf</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evec</span><span class="p">):</span>
+        <span class="n">VSR</span> <span class="o">=</span> <span class="n">vel_solid_radial</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">VST</span> <span class="o">=</span> <span class="n">vel_solid_tangential</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">VLR</span> <span class="o">=</span> <span class="n">vel_liquid_radial</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">VLT</span> <span class="o">=</span> <span class="n">vel_liquid_tangential</span><span class="p">(</span><span class="n">alph</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">VSX</span> <span class="o">=</span> <span class="n">VSR</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">VST</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">VSY</span> <span class="o">=</span> <span class="n">VSR</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">VST</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">VLX</span> <span class="o">=</span> <span class="n">VLR</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">VLT</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">VLY</span> <span class="o">=</span> <span class="n">VLR</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">VLT</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>            
+        <span class="n">VLX</span><span class="p">[</span><span class="n">inplates</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">VLY</span><span class="p">[</span><span class="n">inplates</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+
+        <span class="n">sm</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">))</span>
+        
+        <span class="c1"># -----------------</span>
+        <span class="c1"># solid streamlines</span>
+        <span class="c1"># -----------------</span>
+        <span class="c1"># in the positive X axis</span>
+        <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">sm</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">sm</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">VSX</span><span class="p">,</span> <span class="n">VSY</span><span class="p">,</span> <span class="n">start_points</span><span class="o">=</span><span class="n">seedVS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> 
+                            <span class="n">integration_direction</span><span class="o">=</span><span class="s1">&#39;backward&#39;</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="c1"># in the negative X axis</span>
+        <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="o">-</span><span class="n">sm</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">sm</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">seedVS</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">VSX</span><span class="p">,</span> <span class="n">VSY</span><span class="p">,</span> <span class="n">start_points</span><span class="o">=</span><span class="n">seedVS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> 
+                            <span class="n">integration_direction</span><span class="o">=</span><span class="s1">&#39;backward&#39;</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># ------------------</span>
+        <span class="c1"># liquid streamlines</span>
+        <span class="c1"># ------------------</span>
+        <span class="c1"># in the positive X axis</span>
+        <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">VLX</span><span class="p">,</span> <span class="n">VLY</span><span class="p">,</span> <span class="n">start_points</span><span class="o">=</span><span class="n">seedVL</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> 
+                            <span class="n">integration_direction</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="c1"># in the negative X axis</span>
+        <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">seedVL</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">VLX</span><span class="p">,</span> <span class="n">VLY</span><span class="p">,</span> <span class="n">start_points</span><span class="o">=</span><span class="n">seedVL</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> 
+                            <span class="n">integration_direction</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># annotations</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alph</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">),</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)],</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># U_0 line</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">],</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;&gt;k&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$U_0$&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+        <span class="c1"># -U_0 line</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">],</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;&lt;k&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$-U_0$&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alph</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> 
+                          <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+        <span class="c1"># axes</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">4</span><span class="n">z</span><span class="o">/</span><span class="n">_rhsq3x965gc56klbm0nmv040000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_73522</span><span class="o">/</span><span class="mf">2516026237.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">aspect</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">Nx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Ny</span><span class="o">*</span><span class="n">aspect</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nn">&lt;__array_function__ internals&gt;</span> in <span class="ni">linspace</span><span class="nt">(*args, **kwargs)</span>
+
+<span class="nn">~/pyenv/rock-env/lib/python3.9/site-packages/numpy/core/function_base.py</span> in <span class="ni">linspace</span><span class="nt">(start, stop, num, endpoint, retstep, dtype, axis)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> 
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">120</span><span class="s2">     num = operator.index(num)</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span><span class="s2">     if num &lt; 0:</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span><span class="s2">         raise ValueError(&quot;Number of samples, </span><span class="si">%s</span><span class="s2">, must be non-negative.&quot; % num)</span>
+
+<span class="ne">TypeError</span>: &#39;numpy.float64&#39; object cannot be interpreted as an integer
+</pre></div>
+</div>
+<img alt="_images/ch13_4_1.png" src="_images/ch13_4_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="melt-focusing-through-a-sub-lithospheric-channel">
+<h1>Melt focusing through a sub-lithospheric channel<a class="headerlink" href="#melt-focusing-through-a-sub-lithospheric-channel" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lateral-transport-in-semi-infinite-half-space">
+<h2>Lateral transport in semi-infinite half-space<a class="headerlink" href="#lateral-transport-in-semi-infinite-half-space" title="Permalink to this headline">¶</a></h2>
+<p>A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, <span class="math notranslate nohighlight">\(q_\infty\cos\alpha\)</span>.  This efficiency be written as</p>
+<p>\begin{align}
+\label{eq:decmp_focus_efficiency}
+\efocus &amp;\equiv \tan\alpha\int_{-\infty}^0\left[
+\frac{R^2G’’(\zeta)-G(\zeta)}{1-R^2G’’(\zeta)}\right]\infd \zeta,
+\end{align}</p>
+<p>Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:</p>
+<p>\begin{align}
+\label{eq:decmp_chan_distance_final}
+\xfocus &amp;= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G’’(\zeta)}{1-R^2G’’(\zeta)} \infd \zeta.
+\end{align}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">integrand</span><span class="p">(</span><span class="n">zeta</span><span class="p">,</span> <span class="n">Rsquared</span><span class="p">):</span>
+    <span class="n">G</span>   <span class="o">=</span> <span class="p">(</span><span class="n">zeta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="c1"># Gpp = np.sech(zeta)**2/np.log(2.0)  Numpy has no sech.</span>
+    <span class="n">Gpp</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Rsquared</span><span class="o">*</span><span class="n">Gpp</span> <span class="o">-</span> <span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">Rsquared</span><span class="o">*</span><span class="n">Gpp</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">integrand_Dx</span><span class="p">(</span><span class="n">zeta</span><span class="p">,</span> <span class="n">Rsquared</span><span class="p">):</span>
+    <span class="n">G</span>   <span class="o">=</span> <span class="p">(</span><span class="n">zeta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="c1"># Gpp = np.sech(zeta)**2/np.log(2.0)  Numpy has no sech.</span>
+    <span class="n">Gpp</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Rsquared</span><span class="o">*</span><span class="n">Gpp</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">Rsquared</span><span class="o">*</span><span class="n">Gpp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Figure below plot the metrics of focusing through an inclined decompaction channel atop a semi-infinite half space.  <strong>(a)</strong> Focusing efficiency calculated according to eqn. \eqref{eq:decmp_focus_efficiency}. <strong>(b)</strong> Focusing distance calculated according to eqn. \eqref{eq:decmp_chan_distance_final}, normalised by <span class="math notranslate nohighlight">\(\freezelength\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">7.7</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">4.25</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1.1920929e-07</span>  <span class="c1"># extracted from np.finfo(np.float32)</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.69</span><span class="p">])</span>
+<span class="n">amax</span> <span class="o">=</span> <span class="mf">45.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.0</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">amax</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">zeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="o">-</span><span class="n">eps</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">plot_style</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;:k&#39;</span><span class="p">,</span> <span class="s1">&#39;-.k&#39;</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">]</span>
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">Rsquared</span><span class="p">,</span> <span class="n">pltsty</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">plot_style</span><span class="p">):</span>
+    <span class="n">integ</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">integrand</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">Rsquared</span><span class="p">)</span>
+    <span class="n">ExFlx</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">integ</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="mf">180.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">ExFlx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pltsty</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;$R=</span><span class="si">{:1.2f}</span><span class="s1">$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Rsquared</span><span class="p">)))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">amax</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\alpha$, degrees&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$E_F$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.95</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">Rsquared</span><span class="p">,</span> <span class="n">pltsty</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">plot_style</span><span class="p">):</span>
+    <span class="n">integ_dx</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">integrand_Dx</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">Rsquared</span><span class="p">)</span>
+    <span class="n">ExDlx</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">integ_dx</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="mf">180.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">ExDlx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pltsty</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">amax</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\alpha$, degrees&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Delta x_F/\delta_f$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">24.7</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">plots</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+           <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">.2</span><span class="p">),</span>  <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ch13_8_0.png" src="_images/ch13_8_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="lateral-transport-to-a-mid-ocean-ridge">
+<h2>Lateral transport to a mid-ocean ridge<a class="headerlink" href="#lateral-transport-to-a-mid-ocean-ridge" title="Permalink to this headline">¶</a></h2>
+<p>Temperature outside the partially molten region is assumed to satisfy the <em>half-space cooling model</em> , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed <span class="math notranslate nohighlight">\(U_0\)</span> and vertical diffusion with diffusivity <span class="math notranslate nohighlight">\(\kappa\)</span>,
+\begin{equation}
+\label{eq:half-space-temperature}
+\temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
+\temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
+\end{equation}
+where <span class="math notranslate nohighlight">\(\temp_\text{sfc}&lt;\temp_\text{m}\)</span> are the imposed surface and deep mantle temperature, respectively (we neglect the adiabatic thermal gradient); <span class="math notranslate nohighlight">\(\text{erf()}\)</span> is the error function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">half_space_cooling_temperature</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">depth</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="p">(</span><span class="n">distance</span><span class="o">+</span><span class="n">par</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">U0</span><span class="p">))</span>
+    <span class="n">T_hs</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">+</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">Tsfc</span><span class="p">)</span> <span class="o">*</span> <span class="n">erf</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">T_hs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as
+\begin{equation}
+\label{eq:mor-decomp-solidus}
+\soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
+\end{equation}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">melting_temperature</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">TS</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">TS0</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
+    <span class="k">return</span> <span class="n">TS</span>
+
+<span class="k">def</span> <span class="nf">find_solidus_depth</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">T_hs</span> <span class="o">=</span> <span class="n">half_space_cooling_temperature</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">TS</span> <span class="o">=</span> <span class="n">melting_temperature</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">T_hs</span> <span class="o">-</span> <span class="n">TS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">melting_region_top_bottom</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">100e3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">pm</span> <span class="o">=</span> <span class="p">(</span><span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">pm</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">pm</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">depth</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">hh0</span><span class="p">,</span> <span class="n">hh1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">depth</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">hh0</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">),</span> <span class="n">depth</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">hh1</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">),</span> <span class="n">depth</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">hh0</span><span class="p">,</span> <span class="n">hh1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at <span class="math notranslate nohighlight">\(x=0,z=0\)</span>. The problem is assumed to have reflection symmetry about the <span class="math notranslate nohighlight">\(z\)</span> axis. <strong>(a)</strong> Temperature contours in the lithosphere (dashed); Solidus contour (i.e., where <span class="math notranslate nohighlight">\(T=\soltemp\)</span>). The partially molten region is labelled <span class="math notranslate nohighlight">\(\meltregion\)</span>. Distances <span class="math notranslate nohighlight">\(x\)</span> are offset by 5 km to avoid an infinite thermal gradient at the origin. <strong>(b)</strong> Expanded view of the boundary between the asthensphere and the lithosphere along which melt is focused in the decompaction channel. A control volume along the boundary is associated with a melting column and a lithospheric strip.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PAR</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">=</span> <span class="mi">273</span>  <span class="c1"># K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tm</span> <span class="o">=</span> <span class="mi">1350</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS0</span> <span class="o">=</span> <span class="mi">1100</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span> <span class="o">=</span> <span class="mf">6.5e6</span>  <span class="c1"># Pa/K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="mi">3300</span>  <span class="c1"># kg/m3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># m2/sec (thermal diffusivity)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># m/sec2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="mi">5000</span>  <span class="c1"># m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U0</span> <span class="o">=</span> <span class="mi">4</span><span class="o">/</span><span class="mi">100</span><span class="o">/</span><span class="mf">1e7</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># m/sec</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">11.5</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">3.8</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">400e3</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+<span class="n">HH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">melting_region_top_bottom</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">])</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">hb</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">zh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">h</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">h</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">hb</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hb</span><span class="p">)])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+<span class="n">xh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">dist</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">h</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hb</span><span class="p">)])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xh</span><span class="p">,</span> <span class="o">-</span><span class="n">zh</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">230.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">zh</span><span class="p">)</span><span class="o">*</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">xd</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">h</span><span class="p">)])]</span> <span class="o">/</span> <span class="mf">1e3</span>
+<span class="n">zd</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">h</span><span class="p">)])]</span> <span class="o">/</span> <span class="mf">1e3</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xd</span><span class="p">,</span> <span class="n">xd</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">zd</span><span class="p">,</span> <span class="o">-</span><span class="n">zd</span><span class="o">*</span><span class="mi">100</span><span class="p">],</span> <span class="s1">&#39;:r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">zh</span><span class="p">)</span><span class="o">*</span><span class="mf">1.3</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$x_d$&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> 
+           <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">half_space_cooling_temperature</span><span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">Z</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">cc</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">Z</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">60.0</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">i0</span><span class="p">,</span> <span class="n">i1</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span>
+<span class="n">xa</span><span class="p">,</span> <span class="n">xb</span> <span class="o">=</span> <span class="n">xh</span><span class="p">[</span><span class="n">i0</span><span class="p">],</span> <span class="n">xh</span><span class="p">[</span><span class="n">i1</span><span class="p">]</span>
+<span class="n">za</span><span class="p">,</span> <span class="n">zb</span> <span class="o">=</span> <span class="n">zh</span><span class="p">[</span><span class="n">i0</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">zh</span><span class="p">[</span><span class="n">i1</span><span class="p">]</span><span class="o">+</span><span class="mi">5</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xa</span><span class="p">,</span> <span class="n">xb</span><span class="p">,</span> <span class="n">xb</span><span class="p">,</span> <span class="n">xa</span><span class="p">,</span> <span class="n">xa</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">za</span><span class="p">,</span> <span class="o">-</span><span class="n">za</span><span class="p">,</span> <span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="o">-</span><span class="n">za</span><span class="p">],</span><span class="s1">&#39;:k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xa</span><span class="p">,</span> <span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="s1">&#39;panel (b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xh</span><span class="p">[</span><span class="mi">2500</span><span class="p">],</span> <span class="o">-</span><span class="n">zh</span><span class="p">[</span><span class="mi">2500</span><span class="p">],</span> <span class="sa">r</span><span class="s1">&#39;$z_h(x)$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xh</span><span class="p">[</span><span class="mi">3500</span><span class="p">],</span> <span class="o">-</span><span class="n">zh</span><span class="p">[</span><span class="mi">3500</span><span class="p">],</span> <span class="sa">r</span><span class="s1">&#39;$z_b(x)$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{Z}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">zb</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">z0</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">+</span><span class="n">dx</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="n">z0</span><span class="p">],</span> <span class="s1">&#39;:k&#39;</span><span class="p">)</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="mf">0.1</span>
+<span class="n">z1</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">dx</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span> <span class="s1">&#39;:k&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="p">[</span><span class="n">z0</span><span class="p">,</span> <span class="n">z0</span><span class="p">],</span> <span class="s1">&#39;:k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="p">[</span><span class="n">z1</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span> <span class="s1">&#39;:k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x0</span><span class="p">],</span> <span class="p">[</span><span class="n">z0</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">z1</span><span class="o">-</span><span class="n">z0</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">z0</span><span class="p">],</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="p">(</span><span class="n">z1</span><span class="o">+</span><span class="n">z0</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\Rightarrow\,U_0$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">x0</span><span class="o">+</span><span class="n">x1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\Rightarrow$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> 
+           <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.2</span><span class="o">*</span><span class="p">(</span><span class="n">x0</span><span class="o">+</span><span class="n">x1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">zb</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$W_0(x)$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x0</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\delta z$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">x0</span><span class="o">+</span><span class="n">x1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\delta x$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">110</span><span class="p">],</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">110</span><span class="p">],</span> <span class="sa">r</span><span class="s1">&#39;$z_h(x)$&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ch13_16_0.png" src="_images/ch13_16_0.png" />
+</div>
+</div>
+<p>The decompaction channel is the key element of the focusing model.</p>
+<p>The variation of the volumetric flow rate <span class="math notranslate nohighlight">\(q\)</span> along the channel is given by</p>
+<p>\begin{equation}
+\label{eq:mor-decomp-flux-divergence}
+\diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)}
+\left{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right},
+\end{equation}</p>
+<p>where <span class="math notranslate nohighlight">\(\Pi \equiv \density g \heatcapacity/\latent\clapeyron\)</span> is the decompressional productivity of the melting columns; <span class="math notranslate nohighlight">\(z_h\)</span> and <span class="math notranslate nohighlight">\(z_b\)</span> were previously obtained by solving <span class="math notranslate nohighlight">\(\temp_{HS}=\soltemp\)</span>, and <span class="math notranslate nohighlight">\(z_h,\,z_b,\,\infd z_h/\infd x\)</span> are all negative while <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\((z_h-z_b)\)</span> are positive.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Div_q</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dhdx</span><span class="p">,</span> <span class="n">hb</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">hb</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">M</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">*</span> <span class="n">dhdx</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">dqdx</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+    <span class="k">return</span> <span class="n">dqdx</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span>
+
+<span class="k">def</span> <span class="nf">half_space_cooling_gradient</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par2</span><span class="p">):</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">depth</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">par2</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="p">(</span><span class="n">distance</span> <span class="o">+</span> <span class="n">par2</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par2</span><span class="o">.</span><span class="n">U0</span><span class="p">))</span>
+    <span class="n">dTdz</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">par2</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="n">par2</span><span class="o">.</span><span class="n">Tsfc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">arg</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par2</span><span class="o">.</span><span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">distance</span> <span class="o">+</span> <span class="n">par2</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par2</span><span class="o">.</span><span class="n">U0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dTdz</span>
+
+<span class="k">def</span> <span class="nf">melting_rate</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="n">dTdz_above</span> <span class="o">=</span> <span class="n">half_space_cooling_gradient</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+    <span class="n">dTdz_below</span> <span class="o">=</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">rho</span><span class="o">*</span><span class="n">par</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
+    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">M0</span><span class="o">*</span><span class="p">(</span><span class="n">dTdz_above</span> <span class="o">-</span> <span class="n">dTdz_below</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Figures below plot a numerical solution to equation \eqref{eq:mor-decomp-flux-divergence}. The half spreading rate <span class="math notranslate nohighlight">\(U_0\)</span> is 4 cm/year. <strong>(a)</strong> The top <span class="math notranslate nohighlight">\(z_h\)</span> and bottom <span class="math notranslate nohighlight">\(z_b\)</span> of the melting regime. Near the axis, <span class="math notranslate nohighlight">\(z_h\)</span> reaches very shallow depths, indicating a sharp thermal gradient in the lithosphere above it. This leads to a large diffusive heat flux near the axis at <span class="math notranslate nohighlight">\(z_h\)</span>, which causes rapid freezing. <strong>(b)</strong> The rate of freezing, <span class="math notranslate nohighlight">\(-G\)</span>. It shows a gradual increase moving from <span class="math notranslate nohighlight">\(x_d\)</span> toward the axis, and then a sharp increase within about 25~km of the axis. <strong>(c)</strong> This
+rapid freezing diminishes the flow of melt through the decompaction channel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PAR2</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">=</span> <span class="mi">273</span>  <span class="c1"># K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Tm</span>   <span class="o">=</span> <span class="mi">1350</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS0</span>  <span class="o">=</span> <span class="mi">1100</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span> <span class="o">=</span> <span class="mf">6.5e6</span>  <span class="c1"># Pa/K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latent</span> <span class="o">=</span> <span class="mf">5e5</span>  <span class="c1"># J/kg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="mi">3300</span>  <span class="c1"># kg/m3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># m2/sec (thermal diffusivity)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span> <span class="o">=</span> <span class="mi">1200</span>  <span class="c1"># J/kg/K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># m/sec2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="mi">5000</span>  <span class="c1"># m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secperyr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mf">1e7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fudge</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># a value of 1 means no artificial reduction in freezing rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U0</span> <span class="o">=</span> <span class="mi">4</span><span class="o">/</span><span class="mi">100</span><span class="o">/</span><span class="mf">1e7</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># spreading rate, m/s</span>
+        <span class="c1"># par.Fmax = 0.23  # adiabatic productivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z0</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">TS0</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span>
+        <span class="c1"># par.Pi = par.Fmax/par.z0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">latent</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">z0</span>  <span class="c1"># adiabatic productivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">latent</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">500e3</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+<span class="n">HH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">melting_region_top_bottom</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">])</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">hb</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">dhdx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+
+<span class="n">p2</span> <span class="o">=</span> <span class="n">PAR2</span><span class="p">()</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">melting_rate</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="o">*</span> <span class="n">p2</span><span class="o">.</span><span class="n">fudge</span>
+<span class="n">dqdx</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">Div_q</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dhdx</span><span class="p">,</span> <span class="n">hb</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+
+<span class="n">ifoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">dqdx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">rfoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ifoc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dqdx</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">hb</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z$, km&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">p2</span><span class="o">.</span><span class="n">secperyr</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G, m/yr&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">0.0093</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="o">/</span><span class="n">p2</span><span class="o">.</span><span class="n">U0</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;crustal thickness, km&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;distance, km&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/fredericoteixeira/Applications/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:17: RuntimeWarning: invalid value encountered in greater_equal
+</pre></div>
+</div>
+<img alt="_images/ch13_21_1.png" src="_images/ch13_21_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="ch12.html" title="previous page">Linearised stability analysis</a>
+    <a class='right-next' id="next-link" href="ch14.html" title="next page">The 1-D solitary wave (instantaneous)</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Prof. Dr. Richard Katz<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

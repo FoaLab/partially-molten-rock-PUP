@@ -1,0 +1,72 @@
+Traceback (most recent call last):
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/Users/fredericoteixeira/pyenv/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+eps = 2.2204e-16
+n = 6.
+N = 600
+tmax = 3.3
+dpts = np.asarray([0., 5., 20., 135.])*np.pi/180.
+th0 = np.linspace(dpts[0], dpts[1], N/4)
+th0 = np.concatenate((th0, np.linspace(dpts[1] + eps, dpts[2], N/2)), axis=0)
+th0 = np.concatenate((th0, np.linspace(dpts[2] + eps, dpts[3], N/4)), axis=0)
+assert th0.shape[0] == N, 'th0 was wrongly calculated'
+
+t = np.linspace(0., tmax, N)
+nf = (1.-n)/n
+
+theta = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
+amp = np.asarray([integrate.cumtrapz(np.sin(2.*th)/(1+nf*np.cos(2.*th)**2), t, initial=0) for th in theta])
+
+THETA, T = np.meshgrid(th0, t)
+
+tt = np.tile(t, N)
+exp_amp = np.exp(amp)
+F = griddata((theta.reshape(N*N), tt), exp_amp.reshape(N*N), (THETA.reshape(N*N), T.reshape(N*N)))
+A = np.exp(F).reshape(N, N)
+A = np.asarray([a/np.max(a) for a in A])
+
+convec = np.linspace(0.05, 0.95, 10, endpoint=True)
+convecB = np.linspace(0.05, 0.95, 4, endpoint=True)
+convec = np.setdiff1d(convec, convecB)
+
+th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.pi/180.
+th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_])
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_73441/531742372.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      4[0m [0mtmax[0m [0;34m=[0m [0;36m3.3[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m [0mdpts[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0masarray[0m[0;34m([0m[0;34m[[0m[0;36m0.[0m[0;34m,[0m [0;36m5.[0m[0;34m,[0m [0;36m20.[0m[0;34m,[0m [0;36m135.[0m[0;34m][0m[0;34m)[0m[0;34m*[0m[0mnp[0m[0;34m.[0m[0mpi[0m[0;34m/[0m[0;36m180.[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 6[0;31m [0mth0[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0mdpts[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m,[0m [0mdpts[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m,[0m [0mN[0m[0;34m/[0m[0;36m4[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      7[0m [0mth0[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mconcatenate[0m[0;34m([0m[0;34m([0m[0mth0[0m[0;34m,[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0mdpts[0m[0;34m[[0m[0;36m1[0m[0;34m][0m [0;34m+[0m [0meps[0m[0;34m,[0m [0mdpts[0m[0;34m[[0m[0;36m2[0m[0;34m][0m[0;34m,[0m [0mN[0m[0;34m/[0m[0;36m2[0m[0;34m)[0m[0;34m)[0m[0;34m,[0m [0maxis[0m[0;34m=[0m[0;36m0[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      8[0m [0mth0[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mconcatenate[0m[0;34m([0m[0;34m([0m[0mth0[0m[0;34m,[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0mdpts[0m[0;34m[[0m[0;36m2[0m[0;34m][0m [0;34m+[0m [0meps[0m[0;34m,[0m [0mdpts[0m[0;34m[[0m[0;36m3[0m[0;34m][0m[0;34m,[0m [0mN[0m[0;34m/[0m[0;36m4[0m[0;34m)[0m[0;34m)[0m[0;34m,[0m [0maxis[0m[0;34m=[0m[0;36m0[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m<__array_function__ internals>[0m in [0;36mlinspace[0;34m(*args, **kwargs)[0m
+
+[0;32m~/pyenv/rock-env/lib/python3.9/site-packages/numpy/core/function_base.py[0m in [0;36mlinspace[0;34m(start, stop, num, endpoint, retstep, dtype, axis)[0m
+[1;32m    118[0m [0;34m[0m[0m
+[1;32m    119[0m     """
+[0;32m--> 120[0;31m     [0mnum[0m [0;34m=[0m [0moperator[0m[0;34m.[0m[0mindex[0m[0;34m([0m[0mnum[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    121[0m     [0;32mif[0m [0mnum[0m [0;34m<[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    122[0m         [0;32mraise[0m [0mValueError[0m[0;34m([0m[0;34m"Number of samples, %s, must be non-negative."[0m [0;34m%[0m [0mnum[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mTypeError[0m: 'float' object cannot be interpreted as an integer
+TypeError: 'float' object cannot be interpreted as an integer
+
