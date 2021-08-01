@@ -24,8 +24,8 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://https://github.com/FoaLab/partially-molten-rock-PUP  # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
+  url: https://github.com/FoaLab/partially-molten-rock-PUP  # Online location of your book
+  path_to_book: _builds  # Optional path to your book, relative to the repository root
   branch: gh-pages  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
@@ -40,7 +40,8 @@ sphinx:
     mathjax_config:
       TeX:
         Macros:
-          "Curl": "[{\\Grad\\!\\times}"
+          "unit": ["{\\hat{#1}}", 1]
+          "Curl": "{\\Grad\\!\\times}"
           "Da": "{\\textrm{Da}}"
           "DaII": "{\\textrm{Da}_{\\textrm{II}}}"
           "DaPe": "{\\textrm{DaPe}}"
@@ -52,17 +53,17 @@ sphinx:
           "Dz": "{\\Delta{z}}"
           "Fmax": "{F_\\text{max}}"
           "Gibbs": "{G}"
-          "Grad": ["{\\bm{\\nabla}}"]
+          "Grad": ["{\\boldsymbol{\\nabla}}"]
           "Kk": "{\\mathcal{K}}"
           "LambertW": "{\\mathcal{W}}"
           "Pe": "{\\textrm{Pe}}"
           "Ra": "{\\textrm{Ra}}"
-          "Thermoeq": ["{\\bm{\\Theta}}"]
+          "Thermoeq": ["{\\boldsymbol{\\Theta}}"]
           "act": "{a}"
           "activationE": "{E^*}"
           "activationV": "{V^*}"
-          "actvec": ["{\\bm{\\act}}"]
-          "adiprod": "{\\left.\\tfrac{\\infd{F}}{\\infd{z}}\\right\\vert_\\entropy}"
+          "actvec": ["{\\boldsymbol{\\act}}"]
+          "adiprod": "{\\left.\\tfrac{\\infd{F}}{\\infd{z}}\\right\\vert_\\textrm{s}}"
           "affinity": "{\\Delta\\chempo}"
           "aprx": ["{\\tilde{#1}}", 1]
           "assembly": "{{\\mathlarger{\\mathlarger{\\mathscr{A}}}}}"
@@ -75,7 +76,7 @@ sphinx:
           "buoynumber": "{\\textrm{B}}"
           "cbasestate": "{\\mathcal{F}}"
           "chemdiffuse": "{\\mathcal{D}}"
-          "chemdisperse": ["{\\tilde{\\bm{\\chemdiffuse}}}"]
+          "chemdisperse": ["{\\tilde{\\boldsymbol{\\chemdiffuse}}}"]
           "chempo": "{\\mu}"
           "clapeyron": "{\\vartheta}"
           "cmp": "{\\mathcal{C}}"
@@ -94,14 +95,14 @@ sphinx:
           "dFdT": "{\\mathcal{M}_F}"
           "ddecaymatrix": "{\\grave{\\decaymatrix}}"
           "decarrow": ["{\\overset{#1}{\\longrightarrow}}", 1]
-          "decaymatrix": ["{\\bm{\\mathcal{L}}}"]
+          "decaymatrix": ["{\\boldsymbol{\\mathcal{L}}}"]
           "deco": "{\\lambda}"
           "delsq": "{\\nabla^2}"
           "density": "{\\rho}"
-          "devstressten": ["{\\bm{\\tau}}"]
+          "devstressten": ["{\\boldsymbol{\\tau}}"]
           "dico": "{D}"
           "dicoratio": "{\\dico^r}"
-          "dicovec": ["{\\bm{\\dico}}"]
+          "dicovec": ["{\\boldsymbol{\\dico}}"]
           "diff": ["{\\frac{\\textrm{d}{#1}}{\\textrm{d}{#2}}}", 2]
           "difftwo": ["{\\frac{\\textrm{d}^2{#1}}{\\textrm{d}{#2}^2}}", 2]
           "dihed": "{\\Theta}"
@@ -115,20 +116,20 @@ sphinx:
           "effvel": ["{w^{\\dico_{#1}}}", 1]
           "effvelcon": ["{{w}^{\\dico_{#1}}_0}", 1]
           "efocus": "{E_F}"
-          "eigenvecs": ["{\\bm{V}}"]
+          "eigenvecs": ["{\\boldsymbol{V}}"]
           "energy": "{e}"
           "enthalpy": "{h}"
-          "entropy": "{\\textrm{s}} %{\\mathfrak{s}}"
+          "entropy": "{\\textrm{s}}"
           "equi": ["{\\check{{#1}}}", 1]
           "equicon": "{\\equi{\\con}}"
           "error": "{E}"
           "expansivity": "{\\alpha}"
           "exrxn": "{\\mathcal{X}}"
           "first": "{^{(1)}}"
-          "flux": ["{\\bm{J}}"]
+          "flux": ["{\\boldsymbol{J}}"]
           "fluxpar": "{\\mathcal{Q}}"
           "freezelength": "{\\delta_f}"
-          "fullstrrten": ["{\\dot{\\bm{e}}}"]
+          "fullstrrten": ["{\\dot{\\boldsymbol{e}}}"]
           "fz": "{^{(1,z)}}"
           "gibbs": "{g}"
           "grainexp": "{\\mathfrak{m}}"
@@ -138,11 +139,11 @@ sphinx:
           "growrate": "{\\dot{\\growamp}}"
           "halflife": "{\\tau^{(1/2)}}"
           "heatcapacity": "{c_\\pres}"
-          "identity": ["{\\bm{I}} %{\\mathbf{I}}"]
+          "identity": ["{\\boldsymbol{I}}"]
           "inact": "{\\tilde{\\act}}"
           "indicate": "{\\Phi}"
           "infd": "{\\textrm{d}}"
-          "infs": ["{\\textrm{d}\\bm{S}}"]
+          "infs": ["{\\textrm{d}\\boldsymbol{S}}"]
           "infv": "{\\textrm{d}^3\\microposvec}"
           "intarea": "{\\mathcal{A}}"
           "interface": "{\\mathcal{I}}"
@@ -182,7 +183,7 @@ sphinx:
           "molarmass": "{M}"
           "molarparco": "{\\parco^{*}}"
           "molfrac": "{X}"
-          "normalvec": ["{\\bm{n}}"]
+          "normalvec": ["{\\boldsymbol{n}}"]
           "npor": "{\\varphi}"
           "obar": ["{\\overline{#1}}", 1]
           "olivine": "{\\textrm{Ol}}"
@@ -203,14 +204,14 @@ sphinx:
           "pordisagg": "{\\por_\\Xi}"
           "pormax": "{\\por_\\text{max}}"
           "porweaken": "{\\lambda}"
-          "posvec": ["{\\bm{x}}"]
+          "posvec": ["{\\boldsymbol{x}}"]
           "potemp": "{\\temp_p}"
           "pres": "{P}"
           "pure": ["{\\mathring{{#1}}}", 1]
           "qtz": "{{\\text{SiO}_2}}"
           "radheat": "{\\mathcal{Q}}"
           "reynolds": "{\\text{Re}}"
-          "rhat": ["{\\hat{\\bm{r}}}"]
+          "rhat": ["{\\hat{\\boldsymbol{r}}}"]
           "rpro": "{\\mathcal{M}}"
           "rve": "{\\text{\\tiny RVE}}"
           "rxnrate": "{\\mathcal{R}}"
@@ -218,7 +219,7 @@ sphinx:
           "scalarvel": "{v}"
           "scale": ["{\\left[{#1}\\right]}", 1]
           "second": "{^{(2)}}"
-          "segflux": ["{\\bm{q}}"]
+          "segflux": ["{\\boldsymbol{q}}"]
           "sfc": "{\\text{sfc}}"
           "sfce": "{\\gamma}"  # "sfce": "{\\upgamma}"
           "sfcten": "{\\tau}"
@@ -237,36 +238,36 @@ sphinx:
           "solwaveamp": "{\\solwave^*}"
           "solwavespeed": "{\\upsilon}"
           "stiff": "{\\mathcal{S}}"
-          "stokesforce": ["{\\bm{G}_\\manufac}"]
+          "stokesforce": ["{\\boldsymbol{G}_\\manufac}"]
           "strainrate": "{\\dot{\\varepsilon}}"
-          "stressten": ["{\\bm{\\sigma}}"]
+          "stressten": ["{\\boldsymbol{\\sigma}}"]
           "strrexp": "{\\mathfrak{n}}"
           "strrexpc": "{\\mathcal{N}}"
           "strrinv": ["{\\dot{\\varepsilon}_{II}}"]
-          "strrten": ["{\\dot{\\bm{\\varepsilon}}}"]
+          "strrten": ["{\\dot{\\boldsymbol{\\varepsilon}}}"]
           "temp": "{T}"
           "test": ["{\\hat{#1}}", 1]
           "testfunc": "{\\mathcal{W}}"
           "thermaldiffuse": "{\\kappa}"
-          "thetahat": ["{\\hat{\\bm{\\theta}}}"]
+          "thetahat": ["{\\hat{\\boldsymbol{\\theta}}}"]
           "tr": ["{\\text{trace\\,}}"]
           "traceexrate": "{r}"
           "transp": "{\\intercal}"
           "twonorm": ["{\\left\\vert\\left\\vert{#1}\\right\\vert\\right\\vert_2}", 1]
           "unitnormalvec": ["{\\hat{\\normalvec}}"]
           "usat": "{\\chi}"
-          "vectorpotential": ["{\\bm{\\Psi}}"]
-          "vel": ["{\\bm{\\scalarvel}}"]
+          "vectorpotential": ["{\\boldsymbol{\\Psi}}"]
+          "vel": ["{\\boldsymbol{\\scalarvel}}"]
           "velratio": "{v_r}"
           "viscratio": "{\\nu_\\por}"
           "wavelength": "{l}"
           "wavenumber": "{k}"
-          "wavevector": ["{\\bm{k}}"]
+          "wavevector": ["{\\boldsymbol{k}}"]
           "xfocus": "{\\Delta{x}_F}"
-          "xhat": ["{\\hat{\\bm{x}}}"]
-          "yhat": ["{\\hat{\\bm{y}}}"]
+          "xhat": ["{\\hat{\\boldsymbol{x}}}"]
+          "yhat": ["{\\hat{\\boldsymbol{y}}}"]
           "zeroth": "{^{(0)}}"
-          "zhat": ["{\\hat{\\bm{z}}}"]
+          "zhat": ["{\\hat{\\boldsymbol{z}}}"]
           "zpfte": "{\\left(\\bulkvisc+\\tfrac{4}{3}\\shearvisc\\right)}"
 
 parse:

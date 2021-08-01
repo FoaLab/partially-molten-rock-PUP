@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Chapter 3
+# # Chapter 3 - A review of one-phase mantle dynamics
 
 # In[1]:
 

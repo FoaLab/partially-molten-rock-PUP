@@ -51,7 +51,7 @@ th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mTypeError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_24682/531742372.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_26659/531742372.py[0m in [0;36m<module>[0;34m[0m
 [1;32m      4[0m [0mtmax[0m [0;34m=[0m [0;36m3.3[0m[0;34m[0m[0;34m[0m[0m
 [1;32m      5[0m [0mdpts[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0masarray[0m[0;34m([0m[0;34m[[0m[0;36m0.[0m[0;34m,[0m [0;36m5.[0m[0;34m,[0m [0;36m20.[0m[0;34m,[0m [0;36m135.[0m[0;34m][0m[0;34m)[0m[0;34m*[0m[0mnp[0m[0;34m.[0m[0mpi[0m[0;34m/[0m[0;36m180.[0m[0;34m[0m[0;34m[0m[0m
 [0;32m----> 6[0;31m [0mth0[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0mdpts[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m,[0m [0mdpts[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m,[0m [0mN[0m[0;34m/[0m[0;36m4[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m

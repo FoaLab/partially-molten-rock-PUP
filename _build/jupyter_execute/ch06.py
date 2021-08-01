@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Chapter 6 - Compaction and its inherent length scale
+
 # ## The compaction-press problem 
 
 # In[1]:

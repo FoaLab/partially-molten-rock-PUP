@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Chapter 7 - Porosity-band emergence under deformation
+
 # In[1]:
 
 
