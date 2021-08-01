@@ -37,7 +37,7 @@ for n, ni in enumerate(par.ni):
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mTypeError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_73527/113554127.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_24692/113554127.py[0m in [0;36m<module>[0;34m[0m
 [1;32m      4[0m [0;34m[0m[0m
 [1;32m      5[0m [0;32mfor[0m [0mn[0m[0;34m,[0m [0mni[0m [0;32min[0m [0menumerate[0m[0;34m([0m[0mpar[0m[0;34m.[0m[0mni[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
 [0;32m----> 6[0;31m     [0mz[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;34m-[0m[0mpar[0m[0;34m.[0m[0mzm[0m[0;34m,[0m [0mpar[0m[0;34m.[0m[0mzm[0m[0;34m,[0m [0mni[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m

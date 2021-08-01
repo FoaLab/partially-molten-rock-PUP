@@ -194,9 +194,3 @@ ax.set_axis_off()
 
 plt.show()
 
-
-# In[ ]:
-
-
-
-

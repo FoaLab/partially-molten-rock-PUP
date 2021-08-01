@@ -26,3 +26,11 @@ In the `partially-molten-rock-PUP` folder, type
 $ jupyter-book build .
 ```
 and follow the command-line intructions.
+
+Next, publish the book online with GitHub pages
+
+```
+ghp-import -n -p -f partially-molten-rock-PUP/_build/html
+```
+
+Developed by Frederico Teixeira.

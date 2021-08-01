@@ -109,7 +109,7 @@ for i, alph in enumerate(alphvec):
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mTypeError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_73522/2516026237.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_24703/2516026237.py[0m in [0;36m<module>[0;34m[0m
 [1;32m      7[0m [0maspect[0m [0;34m=[0m [0;36m2.0[0m[0;34m[0m[0;34m[0m[0m
 [1;32m      8[0m [0mNx[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mround[0m[0;34m([0m[0mNy[0m[0;34m*[0m[0maspect[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [0;32m----> 9[0;31m [0mx[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;34m-[0m[0;36m0.5[0m[0;34m*[0m[0maspect[0m[0;34m,[0m [0;36m0.5[0m[0;34m*[0m[0maspect[0m[0;34m,[0m [0mNx[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
