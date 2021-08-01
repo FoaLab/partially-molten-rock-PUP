@@ -287,8 +287,8 @@
 <div class="section" id="the-dihedral-angle">
 <h2>The dihedral angle<a class="headerlink" href="#the-dihedral-angle" title="Permalink to this headline">¶</a></h2>
 <p>An equation for dihedral angle <span class="math notranslate nohighlight">\(\dihed\)</span> is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-91ede109-0aa7-4f36-bcee-e7f3f9e380b9">
-<span class="eqno">(6)<a class="headerlink" href="#equation-91ede109-0aa7-4f36-bcee-e7f3f9e380b9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-07ee4ae9-5ceb-4952-822b-b84f1894851b">
+<span class="eqno">(6)<a class="headerlink" href="#equation-07ee4ae9-5ceb-4952-822b-b84f1894851b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:dihedral-angle}
   \cos\frac{\dihed}{2} = \frac{\sfce\solsol}{2\sfce\liqsol}.
 \end{equation}\]</div>
@@ -349,8 +349,8 @@
 </div>
 </div>
 <p>We can represent the upper liquid–solid interface <span class="math notranslate nohighlight">\(y(x)\)</span> as a circular arc-segment with its centre at <span class="math notranslate nohighlight">\((0,y_0)\)</span> and a radius <span class="math notranslate nohighlight">\(r_1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4eefaeec-ac80-44ec-a28c-4d1b8fae5fc9">
-<span class="eqno">(7)<a class="headerlink" href="#equation-4eefaeec-ac80-44ec-a28c-4d1b8fae5fc9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-20a4fb9d-5d0b-470f-908f-6256b3d1675b">
+<span class="eqno">(7)<a class="headerlink" href="#equation-20a4fb9d-5d0b-470f-908f-6256b3d1675b" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:pore-zero-curvature_y}
 y(x) &amp;= y_0 \pm \sqrt{r_1^2-x^2},\\
 \label{eq:pore-zero-curvature_yp}
@@ -358,8 +358,8 @@ y'(x) &amp;= \mp\frac{x}{\left({r_1^2-x^2}\right)^{1/2}},
 \end{align}\]</div>
 <p>where the sign (<span class="math notranslate nohighlight">\(\pm\)</span>) is determined by whether the liquid–solid interfaces are concave (<span class="math notranslate nohighlight">\(\Theta&lt;60^\circ\)</span>) or convex (<span class="math notranslate nohighlight">\(\Theta&gt;60^\circ\)</span>).</p>
 <p>Values for <span class="math notranslate nohighlight">\(r_1\)</span> and <span class="math notranslate nohighlight">\(y_0\)</span> are obtained by matching the boundary conditions at the pore corners where the interfaces meet at the dihedral angle,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-421c030f-0589-4037-a7ab-2d24fd4b8d26">
-<span class="eqno">(8)<a class="headerlink" href="#equation-421c030f-0589-4037-a7ab-2d24fd4b8d26" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d9d8d7ba-d642-4df6-8f9a-ac67ae3763ad">
+<span class="eqno">(8)<a class="headerlink" href="#equation-d9d8d7ba-d642-4df6-8f9a-ac67ae3763ad" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:pore-zero-curvature-bcs-y_J}
 y(x_\Lambda) &amp;= x_\Lambda\tan(\pi/6)\equiv y_\Lambda,\\
 \label{eq:pore-zero-curvature-bcs-y_Jp}
@@ -367,8 +367,8 @@ y'(x_\Lambda)&amp;=\tan(\pi/6 - \dihed/2)\equiv y'_\Lambda.
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(x_\Lambda\)</span> is the positive <span class="math notranslate nohighlight">\(x\)</span>-position at which the liquid–solid boundary terminates at the solid–solid boundary.  Assuming a dihedral angle <span class="math notranslate nohighlight">\(\Theta \ne 60^\circ\)</span> and using equations \eqref{eq:pore-zero-curvature_yp} and
 \eqref{eq:pore-zero-curvature-bcs-y_Jp} we find that</p>
-<div class="amsmath math notranslate nohighlight" id="equation-39d859b3-e80e-457a-aab0-202092758ec4">
-<span class="eqno">(9)<a class="headerlink" href="#equation-39d859b3-e80e-457a-aab0-202092758ec4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3abfb259-ab64-49e0-85a4-671823118070">
+<span class="eqno">(9)<a class="headerlink" href="#equation-3abfb259-ab64-49e0-85a4-671823118070" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:circle-pore-radius}
   r_1 = \frac{x_\Lambda}{y'_\Lambda}\sqrt{1 + {y'_\Lambda}^2}.
 \end{equation}\]</div>
@@ -443,8 +443,8 @@ obtained by rotating the upper interface by <span class="math notranslate nohigh
 <div class="section" id="permeability">
 <h2>Permeability<a class="headerlink" href="#permeability" title="Permalink to this headline">¶</a></h2>
 <p>A simple model which represents the permeability at some reference value of porosity <span class="math notranslate nohighlight">\(\phi_0\)</span> is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a653c284-ba05-4e99-80c0-adbc0d0d8693">
-<span class="eqno">(10)<a class="headerlink" href="#equation-a653c284-ba05-4e99-80c0-adbc0d0d8693" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-33e2d1a5-9536-410a-974e-f180dfd8e533">
+<span class="eqno">(10)<a class="headerlink" href="#equation-33e2d1a5-9536-410a-974e-f180dfd8e533" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:permeability-simple}
   \perm = k_0(\por/\por_0)^\permexp.
 \end{equation}\]</div>

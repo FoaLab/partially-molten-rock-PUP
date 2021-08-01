@@ -41,7 +41,7 @@ HTML(anim.to_html5_video())
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mTypeError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_26687/3357168431.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_28078/3357168431.py[0m in [0;36m<module>[0;34m[0m
 [1;32m     16[0m     [0;32mreturn[0m [0mln[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
 [1;32m     17[0m [0;34m[0m[0m
 [0;32m---> 18[0;31m [0manim[0m [0;34m=[0m [0manimation[0m[0;34m.[0m[0mFuncAnimation[0m[0;34m([0m[0mfig[0m[0;34m,[0m [0mupdate[0m[0;34m,[0m [0mframes[0m[0;34m=[0m[0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;36m0[0m[0;34m,[0m [0mtmax[0m[0;34m,[0m [0mNt[0m[0;34m)[0m[0;34m,[0m [0minit_func[0m[0;34m=[0m[0minit[0m[0;34m,[0m [0mblit[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
