@@ -1,8 +1,14 @@
 # The Dynamics of Partially Molten Rocks
 
-By Prof. Dr. Richard Katz
+By Richard F. Katz
 
 University of Oxford
+
+Published by Princeton University Press
+
+https://press.princeton.edu/books/hardcover/9780691176567/the-dynamics-of-partially-molten-rock
+
+Online supplement developed by Frederico Teixeira. Cite as: 
 
 ## Requirements:
 
@@ -32,5 +38,3 @@ Next, publish the book online with GitHub pages
 ```
 ghp-import -n -p -f partially-molten-rock-PUP/_build/html
 ```
-
-Developed by Frederico Teixeira.
