@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: The Dynamics of Partially Molten Rock
-author: Prof. Dr. Richard Katz
+author: Richard F. Katz
 logo: logo.png
 
 # Force re-execution of notebooks on each build.
