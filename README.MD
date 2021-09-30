@@ -36,5 +36,5 @@ and follow the command-line intructions.
 Next, publish the book online with GitHub pages
 
 ```
-ghp-import -n -p -f partially-molten-rock-PUP/_build/html
+ghp-import -n -p -f _build/html
 ```
