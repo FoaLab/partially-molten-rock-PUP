@@ -1,12 +1,7 @@
 # Introduction
 
-TODO
+This is an online supplement to the book _The Dynamics of Partially Molten Rock_ by Richard F. Katz, published by Princeton University Press in 2021. 
 
-## Acknowledgements
+Here you will find Python scripts that reproduce the calculations used to generate figures in the book (and some additional ones). These are offered for general use without copyright. 
 
-Jupyter Book was originally created by [Sam Lau][sam] and [Chris Holdgraf][chris]
-with support of the **UC Berkeley Data Science Education Program and the Berkeley
-Institute for Data Science**.
-
-[sam]: http://www.samlau.me/
-[chris]: https://predictablynoisy.com
+They can be cited as follows: Teixeira & Katz (2021), _Online Supplement to The Dynamics of Partially Molten Rock_.  DOI: XXXX.

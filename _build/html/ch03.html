@@ -283,51 +283,47 @@
 <h2>Kinematic solutions for corner flow<a class="headerlink" href="#kinematic-solutions-for-corner-flow" title="Permalink to this headline">¶</a></h2>
 <p>We consider the incompressible, isoviscous, dimensional Stokes equations without body
 forces,</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
     \boldsymbol{\nabla} P - \eta\nabla^2\boldsymbol{v} &amp; = \boldsymbol{0},\\
     \boldsymbol{\nabla}\!\cdot\boldsymbol{v} &amp; = 0.
-\end{align*}\]</div>
+\end{align*}\end{split}\]</div>
 <p>Under the assumptions described in Section 3.3, we obtain the biharmonic equation,</p>
-<div class="amsmath math notranslate nohighlight">
+<div class="math notranslate nohighlight">
 \[\begin{equation*}
   \label{eq:one-phase-biharm}
   \nabla^2(\nabla^2\psi) = 0.
 \end{equation*}\]</div>
 <p>We wish to solve this equation in the wedge-shaped region below the sloping base of the lithospheric plates.</p>
 <p>In 2-D polar coordinates, the biharmonic equation (not shown) has the simple, separable solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4eb4af4c-43e2-4e0f-b299-aec0232b0e23">
-<span class="eqno">(1)<a class="headerlink" href="#equation-4eb4af4c-43e2-4e0f-b299-aec0232b0e23" title="Permalink to this equation">¶</a></span>\[\begin{align}
-    \label{eq:one-phase-biharm-solution-general}
+<div class="math notranslate nohighlight" id="equation-eq-one-phase-biharm-solution-general">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-one-phase-biharm-solution-general" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
     \psi &amp;= rU_0f(\theta),\\
     \label{eq:vel-polar}
     \boldsymbol{v} &amp;= U_0\left[f'(\theta)\rhat - f(\theta)\thetahat\right],\\
     \label{eq:pres-polar}
     P &amp;= -\frac{\eta U_0}{r}\left[f'''(\theta) + f'(\theta)\right],
-\end{align}\]</div>
+\end{align} \end{split}\]</div>
 <p>with</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9ec8cf55-2ae8-40cd-8b91-a923bdf60f8c">
-<span class="eqno">(2)<a class="headerlink" href="#equation-9ec8cf55-2ae8-40cd-8b91-a923bdf60f8c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-  \label{eq:one-phase-biharm-solution-thetadep}
+<div class="math notranslate nohighlight" id="equation-eq-one-phase-biharm-solution-thetadep">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-one-phase-biharm-solution-thetadep" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   f(\theta) = C_1\sin\theta + C_2\theta\sin\theta + C_3\cos\theta + C_4\theta\cos\theta.
 \end{equation}\]</div>
 <p>Assuming that the lithospheric plates move horizontally away from the ridge axis at speed <span class="math notranslate nohighlight">\(U_0\)</span>, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-47b315ea-24af-4d27-920b-3d4cbe3849a1">
-<span class="eqno">(3)<a class="headerlink" href="#equation-47b315ea-24af-4d27-920b-3d4cbe3849a1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-  \label{eq:one-phase-cornerflow-constants}
+<div class="math notranslate nohighlight" id="equation-eq-one-phase-cornerflow-constants">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-one-phase-cornerflow-constants" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   C_1 = \frac{2\sin^2\theta}{\pi-2\theta-\sin2\theta},\;\;\;
   C_2 = C_3 = 0,\;\;\; C_4 = \frac{-2}{\pi-2\theta-\sin2\theta}.
 \end{equation}\]</div>
-<p>Combining \eqref{eq:one-phase-cornerflow-constants} and \eqref{eq:one-phase-biharm-solution-thetadep}, with \eqref{eq:vel-polar} and \eqref{eq:pres-polar} gives the solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eca92ace-4fac-4a1a-b485-291639b15901">
-<span class="eqno">(4)<a class="headerlink" href="#equation-eca92ace-4fac-4a1a-b485-291639b15901" title="Permalink to this equation">¶</a></span>\[\begin{align}
-\label{eq:one-phase-cornerflow-vel}
+<p>Combining <a class="reference internal" href="#equation-eq-one-phase-cornerflow-constants">(3)</a> and <a class="reference internal" href="#equation-eq-one-phase-biharm-solution-thetadep">(2)</a>, with <code class="xref eq docutils literal notranslate"><span class="pre">eq:vel-polar</span></code> and <code class="xref eq docutils literal notranslate"><span class="pre">eq:pres-polar</span></code> gives the solution</p>
+<div class="math notranslate nohighlight" id="equation-eq-one-phase-cornerflow-vel">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-one-phase-cornerflow-vel" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
 \boldsymbol{v} &amp;= U_0\left\{\left[(C_1+C_4)\cos\theta - C_4\theta\sin\theta\right]\rhat - 
         (C_1\sin\theta + C_4\theta\cos\theta)\thetahat\right\},\\
 \label{eq:one-phase-cornerflow-press}
 P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
-\end{align}\]</div>
-<p>The Python implementation of equations \eqref{eq:one-phase-cornerflow-vel} and \eqref{eq:one-phase-cornerflow-press} are shown below:</p>
+\end{align}\end{split}\]</div>
+<p>The Python implementation of equations <a class="reference internal" href="#equation-eq-one-phase-cornerflow-vel">(4)</a> and <code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-press</span></code> are shown below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solution_polar_coords</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
@@ -355,16 +351,16 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
 </div>
 </div>
 <p>Expressing these results in the Cartesian coordinate system, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-924a5f59-8b88-4bd2-999c-e87940afb426">
-<span class="eqno">(5)<a class="headerlink" href="#equation-924a5f59-8b88-4bd2-999c-e87940afb426" title="Permalink to this equation">¶</a></span>\[\begin{align}
-\label{eq:one-phase-cornerflow-cartesian-vel-x}
+<div class="amsmath math notranslate nohighlight" id="equation-c9ccd338-40cd-406e-b805-779744ba7a29">
+<span class="eqno">(5)<a class="headerlink" href="#equation-c9ccd338-40cd-406e-b805-779744ba7a29" title="Permalink to this equation">¶</a></span>\[\begin{align}
+(eq:one-phase-cornerflow-cartesian-vel-x)
     \boldsymbol{v}\cdot\hat{\boldsymbol{x}} &amp;= U_0C_4\left(\arctan\frac{x}{z} - \frac{xz}{x^2 + z^2}\right), \\
-\label{eq:one-phase-cornerflow-cartesian-vel-z}
+(eq:one-phase-cornerflow-cartesian-vel-z)
     \boldsymbol{v}\cdot\hat{\boldsymbol{z}} &amp;= U_0C_4\left(\sin^2\theta_p - \frac{z^2}{x^2 + z^2}\right), \\
-\label{eq:one-phase-cornerflow-cartesian-press}
+(eq:one-phase-cornerflow-cartesian-press)
     P &amp;= 2\eta U_0 C_4 \frac{-z}{x^2 + z^2}.
 \end{align}\]</div>
-<p>The Python implementation of equations \eqref{eq:one-phase-cornerflow-cartesian-vel-x}-\eqref{eq:one-phase-cornerflow-cartesian-press} are shown below:</p>
+<p>The Python implementation of equations <code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-cartesian-vel-x</span></code>-<code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-cartesian-press</span></code> are shown below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solution_cartesian_coords</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
@@ -401,7 +397,7 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 </div>
 </div>
 </div>
-<p>The velocity and pressure from \eqref{eq:one-phase-cornerflow-vel} and \eqref{eq:one-phase-cornerflow-press} (or, equivalently, \eqref{eq:one-phase-cornerflow-cartesian-vel-x}-\eqref{eq:one-phase-cornerflow-cartesian-press}) are computed below:</p>
+<p>The velocity and pressure from <a class="reference internal" href="#equation-eq-one-phase-cornerflow-vel">(4)</a> and <code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-press</span></code> (or, equivalently, <code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-cartesian-vel-x</span></code>-<code class="xref eq docutils literal notranslate"><span class="pre">eq:one-phase-cornerflow-cartesian-press</span></code>) are computed below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
@@ -416,9 +412,9 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_24306/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_59685/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
   T = -np.arctan(X/Z)
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_24306/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_59685/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
   U = C4 * (np.arctan(X/Z) - X * Z / Q)
 </pre></div>
 </div>
@@ -468,7 +464,7 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch03_12_0.png" src="_images/ch03_12_0.png" />
+<img alt="_images/ch03_16_0.png" src="_images/ch03_16_0.png" />
 </div>
 </div>
 </div>
@@ -510,7 +506,7 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
     <div class="container">
       <p>
         
-          By Prof. Dr. Richard Katz<br/>
+          By Frederico Teixeira & Richard F. Katz<br/>
         
             &copy; Copyright 2021.<br/>
       </p>
