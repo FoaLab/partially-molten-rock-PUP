@@ -3,7 +3,7 @@
 
 # # Chapter 12 - Reactive flow and the emergence of melt channels
 
-# In[3]:
+# In[1]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -41,7 +41,7 @@ from cycler import cycler
 # 
 # The base-state solution (1)-(4), are plotted below for two values of $\rpro$. Thick lines are the full solution and narrow lines are the linear approximation. In each case, $\stiff=1$, $\dpro=1$ and $\permexp=3$. The values of $\por\zeroth$ (panel __(c)__) and $w\zeroth$ (panel __(d)__) at $z=0$ are given by $\cbasestate^{-1}$ and $\cbasestate$, respectively.
 
-# In[4]:
+# In[2]:
 
 
 n = 3.0
@@ -62,7 +62,7 @@ phil = np.asarray([1.0/Fj * (1.0 + m*(1.0 + G)/n*z) for Fj, m in zip(F, M)])
 wl = np.asarray([Fj*(1.0 + m*(1.0+G)*(1.0-1.0/n)*z) for Fj, m in zip(F, M)])
 
 
-# In[5]:
+# In[3]:
 
 
 f, ax = plt.subplots(1, 4)
@@ -135,7 +135,7 @@ plt.show()
 #   \permexp\partial_z\cmppres\first.
 # \end{equation}
 
-# In[6]:
+# In[4]:
 
 
 class PAR:
@@ -178,7 +178,7 @@ class DC:
         self.m = m_
 
 
-# In[7]:
+# In[5]:
 
 
 def zero_by_sigma(sig, k, par):
@@ -191,7 +191,7 @@ def zero_by_sigma(sig, k, par):
     return residual
 
 
-# In[8]:
+# In[6]:
 
 
 def zero_by_wavenumber(k, sigma, par):

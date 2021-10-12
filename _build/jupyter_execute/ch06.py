@@ -107,7 +107,7 @@ def cmprate(fp, fm, f0, n, z):
                        else cmp*np.exp(z_ * np.power(fm, 0.5*n)) for z_ in z])
 
 
-# The one-dimensional segregation flux $q \equiv \por(w-W)$ is given by 
+# The one-dimensional segregation flux $q \equiv \phi(w-W)$ is given by 
 # 
 # \begin{equation}
 #   \label{eq:permstep-darcy-flux-solution}
@@ -313,7 +313,7 @@ plt.show()
 #   \end{cases}
 # \end{equation}
 # 
-# The dimensionless solitary wave speed $\solwavespeed$ computed with equation \eqref{eq:magmons-wavespeed} as a function of wave amplitude $\solwaveamp$ relative to the background porosity is plotted below.
+# The dimensionless solitary wave speed $\upsilon$ computed with equation \eqref{eq:magmons-wavespeed} as a function of wave amplitude $\Lambda^*$ relative to the background porosity is plotted below.
 
 # In[17]:
 
@@ -370,7 +370,7 @@ def porosity(f, z, A):
     return z + np.sqrt(A+0.5)*(-2.*sqrtAf + np.log((sqrtAm1-sqrtAf)/(sqrtAm1+sqrtAf))/sqrtAm1)
 
 
-# Profiles of normalised porosity perturbation for solitary waves of various amplitude are plotted below. We set $\permexp=3$ in all cases.
+# Profiles of normalised porosity perturbation for solitary waves of various amplitude are plotted below. We set $n=3$ in all cases.
 
 # In[20]:
 
@@ -405,7 +405,7 @@ ax.legend(fontsize=20)
 plt.show()
 
 
-# Profiles of compaction rate for solitary waves of various amplitude. $\permexp=3$ in all cases. The gravity vector $\gravity$ points to the left, as indicated in the figure below.
+# Profiles of compaction rate for solitary waves of various amplitude. $n=3$ in all cases. The gravity vector $\gravity$ points to the left, as indicated in the figure below.
 
 # In[22]:
 
@@ -502,7 +502,7 @@ f = 1. - (A - 1.) * (1 + np.tanh((z - z0) / zw)) / 2.
 dz = z[1] - z[0]
 V = (1. - phi0 ** n) / (1. - phi0)
 dt = cfl * dz / V
-Nt = np.ceil(tmax / dt)
+Nt = int(np.ceil(tmax / dt))
 
 
 # In[27]:
@@ -527,7 +527,7 @@ def update(frame):
 
 anim = animation.FuncAnimation(fig, update, frames=np.linspace(0, tmax, Nt), init_func=init, blit=True)
 
-HTML(anim.to_html5_video())
+#HTML(anim.to_html5_video())
 
 
 # ## Solitary-wave swap
@@ -584,7 +584,7 @@ tmax = 50.0  # maximum time
 dz = z[1] - z[0]
 V = (1. - phi0 ** n) / (1. - phi0)
 dt = cfl * dz / V
-Nt = np.ceil(tmax / dt)
+Nt = int(np.ceil(tmax / dt))
 
 # initial condition
 z = np.linspace(0.0, zmax, Nz)
@@ -613,17 +613,5 @@ def update(frame):
 
 anim = animation.FuncAnimation(fig, update, frames=np.linspace(0., tmax, Nt), init_func=init, blit=True)
 
-HTML(anim.to_html5_video())
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+#HTML(anim.to_html5_video())
 

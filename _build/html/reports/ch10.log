@@ -32,15 +32,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-delta = 0.1
-Q = 1e4
-Fmax = 0.22
-
-zb = delta / np.sqrt(Q)
-P0 = -2.0 / zb
-
-Z = np.linspace(0.0, 2.0, 1000)  # this is z/zb;
-
-S_z, S_W, S_phi, S_P = MeltingColNumerical(Q, delta, Fmax, 2)
+['C3 = np.linspace(0., 1., npts)', 'C2 = np.linspace(0., 1., npts)', '[C2,C3] = np.meshgrid(C2,C3)', 'C2 = np.reshape(C2, npts*npts)', 'C3 = np.reshape(C3, npts*npts)']
+...
+['Theta = EquilibriumState(len(par3), C, T, P, par3, ParCoef_IdealSolution);', 'Tsol = np.array([th.Ts for th in Theta])', 'Tliq = np.array([th.Tl for th in Theta])', 'Tsol[C[:,1]+C[:,2]>=1] = np.nan', 'Tliq[C[:,1]+C[:,2]>=1] = np.nan']
 -------------------
 

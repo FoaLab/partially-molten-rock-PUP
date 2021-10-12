@@ -8,7 +8,7 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: cache
+  execute_notebooks: auto
 
 exclude_patterns: 
   - /_build/* 
@@ -39,6 +39,7 @@ sphinx:
     # mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
     mathjax_config:
       TeX:
+        equationNumbers: { autoNumber: "AMS" }
         Macros:
           "unit": ["{\\hat{#1}}", 1]
           "Curl": "{\\Grad\\!\\times}"
@@ -72,7 +73,7 @@ sphinx:
           "biharm": "{\\nabla^4}"
           "boxmeltrate": "{\\mathcal{G}}"
           "bulkenthalpy": "{H}"
-          "bulkvisc": "{\\zeta_\\por}"
+          "bulkvisc": "{\\zeta_\\phi}"
           "buoynumber": "{\\textrm{B}}"
           "cbasestate": "{\\mathcal{F}}"
           "chemdiffuse": "{\\mathcal{D}}"
@@ -85,7 +86,7 @@ sphinx:
           "cmplength": "{\\delta}"
           "cmppres": "{\\mathcal{\\pres}}"
           "cmpvel": "{\\vel^\\cmp}"
-          "cmpvisc": "{\\xi_\\por}"
+          "cmpvisc": "{\\xi_\\phi}"
           "cmpviscconst": "{C}"
           "coltime": ["{\\tau^\\text{col}_{#1}}", 1]
           "con": "{c}"
@@ -134,7 +135,7 @@ sphinx:
           "gibbs": "{g}"
           "grainexp": "{\\mathfrak{m}}"
           "grainsize": "{d}"
-          "gravity": "{\\mathbf{g}}"
+          "gravity": ["{\\mathbf{g}}"]
           "growamp": "{s}"
           "growrate": "{\\dot{\\growamp}}"
           "halflife": "{\\tau^{(1/2)}}"
@@ -179,7 +180,7 @@ sphinx:
           "micro": ["{\\breve{#1}}", 1]
           "microposvec": "{\\micro{\\posvec}}"
           "microvel": "{\\micro{\\vel}}"
-          "mobility": "{K_\\por}"
+          "mobility": "{K_\\phi}"
           "molarmass": "{M}"
           "molarparco": "{\\parco^{*}}"
           "molfrac": "{X}"
@@ -197,12 +198,12 @@ sphinx:
           "pdiff": ["{\\frac{\\partial{#1}}{\\partial{#2}}}", 2]
           "pdiffmix": ["{\\frac{\\partial^2{#1}}{\\partial{#2}\\partial{#3}}}", 3]
           "pdifftwo": ["{\\frac{\\partial^2{#1}}{\\partial{#2}^2}}", 2]
-          "perm": "{k_\\por}"
-          "permexp": "{n}"
+          "perm": "{k_\\phi}"
+          "permexp": ["{n}"]
           "phasemolarmass": "{\\mathcal{M}}"
           "por": "{\\phi}"
-          "pordisagg": "{\\por_\\Xi}"
-          "pormax": "{\\por_\\text{max}}"
+          "pordisagg": "{\\phi_\\Xi}"
+          "pormax": "{\\phi_\\text{max}}"
           "porweaken": "{\\lambda}"
           "posvec": ["{\\boldsymbol{x}}"]
           "potemp": "{\\temp_p}"
@@ -226,7 +227,7 @@ sphinx:
           "sfctenpar": "{\\mathcal{S}}"
           "sfctenvshear": "{\\text{D}_\\interface}"
           "shearstrainrate": "{\\dot{\\gamma}}"
-          "shearvisc": "{\\eta_\\por}"
+          "shearvisc": "{\\eta_\\phi}"
           "smallpar": "{\\epsilon}"
           "sol": "{^\\solid}"
           "solid": "{s}"
@@ -236,7 +237,7 @@ sphinx:
           "soltemp": "{\\temp^\\solidus}"
           "solwave": "{\\Lambda}"
           "solwaveamp": "{\\solwave^*}"
-          "solwavespeed": "{\\upsilon}"
+          "solwavespeed": ["{\\upsilon}"]
           "stiff": "{\\mathcal{S}}"
           "stokesforce": ["{\\boldsymbol{G}_\\manufac}"]
           "strainrate": "{\\dot{\\varepsilon}}"
@@ -259,7 +260,7 @@ sphinx:
           "vectorpotential": ["{\\boldsymbol{\\Psi}}"]
           "vel": ["{\\boldsymbol{\\scalarvel}}"]
           "velratio": "{v_r}"
-          "viscratio": "{\\nu_\\por}"
+          "viscratio": "{\\nu_\\phi}"
           "wavelength": "{l}"
           "wavenumber": "{k}"
           "wavevector": ["{\\boldsymbol{k}}"]
