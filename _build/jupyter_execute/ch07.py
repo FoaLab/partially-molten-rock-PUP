@@ -21,7 +21,7 @@ from scipy.interpolate import griddata
 #   \por\first(\posvec,t) \propto \e^{i\wavevector\cdot\posvec + s(t)}.
 # \end{equation}
 # 
-# The orientation of these waves is described by an angle $\bandangle$ to the $x$-axis, as shown in the figure below.
+# The orientation of these waves is described by an angle $\theta$ to the $x$-axis, as shown in the figure below.
 
 # In[2]:
 
@@ -149,7 +149,7 @@ plt.show()
 # 
 # #### Porosity advection by the base-state
 # 
-# Schematic diagram normal to the shear plane showing a representative high-porosity band oriented at an angle $\bandangle$ with normal $\wavevector$. The band is being rotated to higher $\bandangle$ by the simple-shear flow.
+# Schematic diagram normal to the shear plane showing a representative high-porosity band oriented at an angle $\theta$ with normal $\boldsymbol{k}$. The band is being rotated to higher $\theta$ by the simple-shear flow.
 
 # In[9]:
 
@@ -193,7 +193,7 @@ ax.set_axis_off()
 plt.show()
 
 
-# Figure above shows a wave-front with wavevector $\wavevector$ at time $t$. It makes an angle to the shear plane of
+# Figure above shows a wave-front with wavevector $\boldsymbol{k}$ at time $t$. It makes an angle to the shear plane of
 # \begin{equation}
 #   \label{eq:simpleshear-bandangle}
 #   \bandangle(t) = \tan^{-1} \left( \frac{\wavenumber_{0x}}{\wavenumber_{0y} - \shearstrainrate\wavenumber_{0x}t} \right).
@@ -228,7 +228,7 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 plt.show()
 
 
-# #### Growth of porosity bands when $\strrexp=1$
+# #### Growth of porosity bands when $\mathfrak{n}=1$
 # 
 # The growth rate can be written as
 # \begin{equation}
@@ -239,7 +239,7 @@ plt.show()
 #   {1 + (\cmplength_0\wavenumber)^2}\sin 2\bandangle.
 # \end{equation}
 # 
-# Figure below plots the normalised growth rate of small-wavelength ($\wavelength\ll\cmplength_0$) porosity bands under simple shear and Newtonian viscosity.
+# Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and Newtonian viscosity.
 
 # In[13]:
 
@@ -265,7 +265,7 @@ plt.grid(True)
 plt.show()
 
 
-# #### Growth of porosity bands when $\strrexp\ge1$
+# #### Growth of porosity bands when $\mathfrak{n} \ge 1$
 # 
 # The growth rate can be written as
 # \begin{equation}
@@ -277,7 +277,7 @@ plt.show()
 #     \left(\frac{\sin2\theta}{1-\strrexpc\cos^22\theta}\right).
 # \end{equation}
 # 
-# Figure below plots the normalised growth rate of small-wavelength ($\wavelength\ll\cmplength_0$) porosity bands under simple shear and non-Newtonian viscosity with various values of $\strrexp$. The vertical dotted lines mark $\theta=15^\circ$.
+# Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and non-Newtonian viscosity with various values of $\mathfrak{n}$. The vertical dotted lines mark $\theta=15^\circ$.
 
 # In[14]:
 
@@ -318,7 +318,7 @@ plt.show()
 # \end{equation}
 # where $t'$ is a dummy variable of integration, to distinguish it from the (variable) upper limit of integration, $t$.
 # 
-# Figure below plots the amplitude of porosity perturbations $\e^{\growamp(t)}$ as a function of angle and strain $\gamma=\shearstrainrate t$. Dotted curves are passive advection trajectories from eqn. \eqref{eq:simpleshear-bandangle} with Newtonian viscosity ($\strrexp=1,\,\strrexpc=0$).
+# Figure below plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$. Dotted curves are passive advection trajectories from eqn. \eqref{eq:simpleshear-bandangle} with Newtonian viscosity ($\mathfrak{n}=1,\,\mathcal{N}=0$).
 
 # In[15]:
 
@@ -370,7 +370,7 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 plt.show()
 
 
-# Figure below also plots the amplitude of porosity perturbations $\e^{\growamp(t)}$ as a function of angle and strain $\gamma=\shearstrainrate t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\strrexp=6,\,\strrexpc=5/6$).
+# Figure below also plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\\gamma} t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\mathfrak{n}=6,\,\mathcal{N}=5/6$).
 
 # In[17]:
 
@@ -407,7 +407,7 @@ th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.p
 th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_])
 
 
-# In[18]:
+# In[ ]:
 
 
 fig, ax = plt.subplots()
@@ -439,9 +439,9 @@ plt.show()
 #   \growrate_* = \frac{\wavenumber_*^2\left(1-\sfctenvshear\,\wavenumber_*^2\right)}
 #   {\wavenumber_*^2+1}.
 # \end{equation}
-# Increasing values of $\sfctenvshear$ represent an increasing strength of surface-tension driven segregation. Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in log-linear scale.
+# Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in log-linear scale.
 
-# In[19]:
+# In[ ]:
 
 
 k = np.logspace(-2, 3, 10000)
@@ -450,7 +450,7 @@ sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
 
 
-# In[20]:
+# In[ ]:
 
 
 fig, ax = plt.subplots()
@@ -475,7 +475,7 @@ plt.show()
 
 # Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in the log-log scale.
 
-# In[21]:
+# In[ ]:
 
 
 k = np.logspace(-2,3,10000)
@@ -484,7 +484,7 @@ sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
 
 
-# In[22]:
+# In[ ]:
 
 
 fig, ax = plt.subplots()
@@ -508,9 +508,9 @@ plt.grid(True)
 plt.show()
 
 
-# The characteristics of the dominant perturbation as a function of $\sfctenvshear$ is plotted below for the wavelength with the largest growth rate $l^\text{max}/\delta_0$.
+# The characteristics of the dominant perturbation as a function of $\text{D}_\mathcal{I}$ is plotted below for the wavelength with the largest growth rate $l^\text{max}/\delta_0$.
 
-# In[23]:
+# In[ ]:
 
 
 Rb = np.logspace(-5., 1., 10000)
@@ -518,7 +518,7 @@ ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
 l = 2. * np.pi/ks
 
 
-# In[24]:
+# In[ ]:
 
 
 fig, ax = plt.subplots()
@@ -537,7 +537,7 @@ plt.show()
 
 # And below for the growth rate of the dominant perturbation $s_*^\text{max}$.
 
-# In[25]:
+# In[ ]:
 
 
 Rb = np.logspace(-5., 1., 10000)
@@ -545,7 +545,7 @@ ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
 s = ks**2. * (1. - Rb*ks**2)/(ks**2. + 1.)
 
 
-# In[26]:
+# In[ ]:
 
 
 fig, ax = plt.subplots()

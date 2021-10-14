@@ -19,7 +19,7 @@ from scipy.interpolate import interp1d
 
 # ## The equilibrium state
 # 
-# The partition coefficient $\parco_j$ is given by
+# The partition coefficient $\equi{\parcod}_j$ is given by
 # \begin{equation*}
 #   \label{eq:equilibrium_partitioning_nonlinear}
 #   \parco_j = \left[\frac{\sum_k\left(\obar{\con}_k/\molarmass_k\right)\parco_k}
@@ -29,7 +29,7 @@ from scipy.interpolate import interp1d
 #              \frac{1}{\melttemp_j}\right)\right].\nonumber
 # \end{equation*}
 # 
-# In cases where, for example, we use a small set of fictitious *effective* components to approximate the full thermochemical system, the error that we make in taking $\phasemolarmass\liq/\phasemolarmass\sol \approx 1$ is acceptably small. With this approach, the partition coefficient $\parco_j$ becomes
+# In cases where, for example, we use a small set of fictitious *effective* components to approximate the full thermochemical system, the error that we make in taking $\phasemolarmass\liq/\phasemolarmass\sol \approx 1$ is acceptably small. With this approach, the partition coefficient $\equi{\parcod}_j$ becomes
 # 
 # \begin{equation*}
 #   \label{eq:equilibrium_partitioning_simple}

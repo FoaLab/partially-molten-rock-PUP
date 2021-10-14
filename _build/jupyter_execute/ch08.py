@@ -23,7 +23,7 @@ from scipy.integrate import odeint
 # \dot{\por} &= \e^{-\lambda\por} - \cmpdisspar\omp\por,
 # \end{align}
 # 
-# where $\cmpdisspar$, the *compaction-dissipation number*, is given by 
+# where $\Pi$, the *compaction-dissipation number*, is given by 
 # 
 # \begin{equation*}
 #   \cmpdisspar\equiv\frac{\density\sol\latent\layerstress\layerthick_0^2}
@@ -41,7 +41,7 @@ def thick(y, t, pi, lam):  # y = [H, phi]
     return [-pi * H * phi, np.exp(-lam*phi) - pi * (1. - phi) * phi]
 
 
-# The figure below plots the layer thickness $\layerthick$ relative to initial versus time for three values of $\cmpdisspar$.
+# The figure below plots the layer thickness $\mathcal{H}$ relative to initial versus time for three values of $\Pi$.
 
 # In[3]:
 
@@ -69,7 +69,7 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 plt.show()
 
 
-# The figure below plots porosity versus time for three values of $\cmpdisspar$.
+# The figure below plots porosity versus time for three values of $\Pi$.
 
 # In[4]:
 

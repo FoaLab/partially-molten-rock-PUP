@@ -21,7 +21,7 @@ from scipy.linalg import expm
 #   \frac{\por\liq(\dico_k-\dico_j)}{(\por\liq+\dico_j)(\por\liq+\dico_k)}.
 # \end{equation}
 # 
-# The curve is plotted for two sets of $\dico_j,\dico_k$. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.
+# The curve is plotted for two sets of $D_j,D_k$. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.
 
 # In[2]:
 
@@ -203,7 +203,7 @@ plt.show()
 #   \left[ \frac{\actvec\sol\vert_0}{\dicovec + (1-\dicovec)\boxmeltrate t} \right]
 # \end{equation}
 # 
-# The activities are plotted below in terms of parent/daughter isotope ratios as a function of $\boxmeltrate t$, which corresponds to $F$ for values up to unity (at which $F$ is capped). Vertical lines mark key time-scales for ingrowth and melting. Horizontal lines mark the $\dico$ ratios of parent--daughter pairs that control the initial elemental fractionation (for small $F$).
+# The activities are plotted below in terms of parent/daughter isotope ratios as a function of $\mathcal{G} t$, which corresponds to $F$ for values up to unity (at which $F$ is capped). Vertical lines mark key time-scales for ingrowth and melting. Horizontal lines mark the $D$ ratios of parent--daughter pairs that control the initial elemental fractionation (for small $F$).
 # 
 # #### Slow melting: $\mathcal{G}=\frac{1}{100} D_\textrm{Th} \big/ \tau^{(1/2)}_\textrm{Th}$
 # 

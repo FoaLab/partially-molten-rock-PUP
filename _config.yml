@@ -106,7 +106,7 @@ sphinx:
           "dicovec": ["{\\boldsymbol{\\dico}}"]
           "diff": ["{\\frac{\\textrm{d}{#1}}{\\textrm{d}{#2}}}", 2]
           "difftwo": ["{\\frac{\\textrm{d}^2{#1}}{\\textrm{d}{#2}^2}}", 2]
-          "dihed": "{\\Theta}"
+          "dihed": ["{\\Theta}"]
           "diracdelta": "{\\updelta}"
           "dissipation": "{\\Psi}"
           "dpro": "{\\mathcal{G}}"
@@ -261,7 +261,7 @@ sphinx:
           "vel": ["{\\boldsymbol{\\scalarvel}}"]
           "velratio": "{v_r}"
           "viscratio": "{\\nu_\\phi}"
-          "wavelength": "{l}"
+          "wavelength": ["{l}"]
           "wavenumber": "{k}"
           "wavevector": ["{\\boldsymbol{k}}"]
           "xfocus": "{\\Delta{x}_F}"

@@ -105,7 +105,7 @@ f.set_facecolor('w')
 
 Ny = 500
 aspect = 2.0
-Nx = np.round(Ny*aspect)
+Nx = int(np.round(Ny*aspect))
 x = np.linspace(-0.5*aspect, 0.5*aspect, Nx)
 y = np.linspace(0.0, 1.0, Ny)
 X, Y = np.meshgrid(x, y)
@@ -510,7 +510,7 @@ ax[0].plot(dist/1e3, h/1e3, 'k', dist/1e3, hb/1e3, '--k')
 ax[0].set_ylabel(r'$z$, km')
 ax[0].set_xticks(())
 ax[0].set_xlim(0.0, 250.0)
-ax[0].set_yticks((0, 20, 40), (0, -20, -40))
+#ax[0].set_yticks((0, 20, 40), (0, -20, -40))
 ax[0].text(220.0, 3.0, r'(a)', fontsize=20)
 ax[0].invert_yaxis()
 
@@ -532,16 +532,4 @@ ax[2].set_yticks((0.0, 2.0))
 ax[2].text(220.0, 2.9, r'(c)', fontsize=20)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 

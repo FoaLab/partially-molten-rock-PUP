@@ -14,7 +14,7 @@ import csv
 
 # ## The dihedral angle 
 # 
-# An equation for dihedral angle $\dihed$ is
+# An equation for dihedral angle $\Theta$ is
 # \begin{equation}
 #   \label{eq:dihedral-angle}
 #   \cos\frac{\dihed}{2} = \frac{\sfce\solsol}{2\sfce\liqsol}.
