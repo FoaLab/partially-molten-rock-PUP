@@ -212,7 +212,7 @@ for n, ni in enumerate(par.ni):
     err_fe[n] = np.linalg.norm(a_cmp-n_cmp_fe, 2) / np.linalg.norm(a_cmp, 2)
 
 
-# In[14]:
+# In[7]:
 
 
 fig, ax = plt.subplots()
@@ -262,7 +262,7 @@ plt.show()
 # 
 # These functions are implemented in Python below:
 
-# In[15]:
+# In[8]:
 
 
 def MnfcSoln_phi(X, Y, par):
@@ -316,7 +316,7 @@ def MnfcSoln_VelS(X, Y, par):
     return Vx + Vxc, Vy + Vyc
 
 
-# In[16]:
+# In[9]:
 
 
 class PAR:
@@ -334,7 +334,7 @@ class PAR:
 
 # Figure below plots the manufactured solution, computed using equations \eqref{eq:num-manufac-solution1}-\eqref{eq:num-manufac-solution4}, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. __(a)__ The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. __(b)__ The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. __(c)__ The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.
 
-# In[17]:
+# In[10]:
 
 
 fig, ax = plt.subplots(1, 3)
@@ -381,7 +381,7 @@ plt.show()
 
 # ### Finite difference discretisation
 
-# In[18]:
+# In[11]:
 
 
 class PAR:
@@ -482,7 +482,7 @@ def MnfcSoln_GradU(X, Y, dir, par):
         return par.A_U * np.pi * par.m * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
 
 
-# In[19]:
+# In[12]:
 
 
 def AssembleMatrixAndRHS(phi, dx, par):
@@ -552,7 +552,7 @@ def AssembleMatrixAndRHS(phi, dx, par):
     return A.tocsr(), b
 
 
-# In[20]:
+# In[13]:
 
 
 def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
@@ -641,7 +641,7 @@ def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
     return A, b
 
 
-# In[21]:
+# In[14]:
 
 
 def SolveEquationsFiniteDifference(phi, dx, par):
@@ -662,7 +662,7 @@ def SolveEquationsFiniteDifference(phi, dx, par):
 
 # Figure below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}. The solid line marks the velocity error; the dashed line marks the pressure error.
 
-# In[22]:
+# In[15]:
 
 
 par = PAR()
@@ -694,7 +694,7 @@ for ni, nj in zip(par.ni, par.ni):
     ev.append(np.linalg.norm(V_mfc - V) / np.linalg.norm(V_mfc))
 
 
-# In[23]:
+# In[16]:
 
 
 # plotting

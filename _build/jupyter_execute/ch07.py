@@ -291,7 +291,7 @@ theta = np.linspace(0., np.pi, 1000)
 for i in n:
     N = (i-1)/i
     colr = [1.0-i/np.amax(n), 1.-i/np.amax(n), 1.-i/np.amax(n)]
-    ax.plot(theta*180./np.pi, np.sin(2.*theta)/(1.-N*np.cos(2.*theta)**2), '-k', 
+    ax.plot(theta*180./np.pi, np.sin(2.*theta)/(1.-N*np.cos(2.*theta)**2),
             linewidth=2, label=r'$n='+str(i)+'$', color=colr)
 
 ax.set_xlim(0., 180.)
@@ -380,9 +380,9 @@ n = 6.
 N = 600
 tmax = 3.3
 dpts = np.asarray([0., 5., 20., 135.])*np.pi/180.
-th0 = np.linspace(dpts[0], dpts[1], N/4)
-th0 = np.concatenate((th0, np.linspace(dpts[1] + eps, dpts[2], N/2)), axis=0)
-th0 = np.concatenate((th0, np.linspace(dpts[2] + eps, dpts[3], N/4)), axis=0)
+th0 = np.linspace(dpts[0], dpts[1], int(N/4))
+th0 = np.concatenate((th0, np.linspace(dpts[1] + eps, dpts[2], int(N/2))), axis=0)
+th0 = np.concatenate((th0, np.linspace(dpts[2] + eps, dpts[3], int(N/4))), axis=0)
 assert th0.shape[0] == N, 'th0 was wrongly calculated'
 
 t = np.linspace(0., tmax, N)
@@ -407,7 +407,7 @@ th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.p
 th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_])
 
 
-# In[ ]:
+# In[18]:
 
 
 fig, ax = plt.subplots()
@@ -441,7 +441,7 @@ plt.show()
 # \end{equation}
 # Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in log-linear scale.
 
-# In[ ]:
+# In[19]:
 
 
 k = np.logspace(-2, 3, 10000)
@@ -450,7 +450,7 @@ sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
 
 
-# In[ ]:
+# In[20]:
 
 
 fig, ax = plt.subplots()
@@ -475,7 +475,7 @@ plt.show()
 
 # Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in the log-log scale.
 
-# In[ ]:
+# In[21]:
 
 
 k = np.logspace(-2,3,10000)
@@ -484,7 +484,7 @@ sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
 
 
-# In[ ]:
+# In[22]:
 
 
 fig, ax = plt.subplots()
@@ -510,7 +510,7 @@ plt.show()
 
 # The characteristics of the dominant perturbation as a function of $\text{D}_\mathcal{I}$ is plotted below for the wavelength with the largest growth rate $l^\text{max}/\delta_0$.
 
-# In[ ]:
+# In[23]:
 
 
 Rb = np.logspace(-5., 1., 10000)
@@ -518,7 +518,7 @@ ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
 l = 2. * np.pi/ks
 
 
-# In[ ]:
+# In[24]:
 
 
 fig, ax = plt.subplots()
@@ -537,7 +537,7 @@ plt.show()
 
 # And below for the growth rate of the dominant perturbation $s_*^\text{max}$.
 
-# In[ ]:
+# In[25]:
 
 
 Rb = np.logspace(-5., 1., 10000)
@@ -545,7 +545,7 @@ ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
 s = ks**2. * (1. - Rb*ks**2)/(ks**2. + 1.)
 
 
-# In[ ]:
+# In[26]:
 
 
 fig, ax = plt.subplots()

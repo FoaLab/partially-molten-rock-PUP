@@ -780,7 +780,7 @@ plt.show()
 # In[17]:
 
 
-R2 = np.asarray([0.0, 0.3, 0.6, 0.69], dtype=np.float)
+R2 = np.asarray([0.0, 0.3, 0.6, 0.69])
 fovr = 0.01/np.logspace(-2.0, -1.0, 3)
 n = 3
 
