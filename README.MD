@@ -29,7 +29,7 @@ Online supplement developed by Frederico Teixeira. Cite as:
 In the `partially-molten-rock-PUP` folder, type
 
 ```
-$ jupyter-book build .
+$ jupyter-book build --path-output . content
 ```
 and follow the command-line intructions.
 
