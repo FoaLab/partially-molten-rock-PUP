@@ -55,7 +55,7 @@ Pi = np.asarray([0.1, 1., 10.])
 tmax = np.asarray([60., 10., 2.6])
 linesty = ['-', '--', '-.']
 for tm, pi, ls in zip(tmax, Pi, linesty):
-    t = np.arange(0.0, tm, 0.05)
+    t = np.arange(0.0, tm, 0.01)
     S = odeint(thick, y0, t, args=(pi, lambda_), rtol=1e-8)
     ax.semilogx(t, S[:, 0], 'k', linestyle=ls, linewidth=2, label=f'$\Pi={str(pi)}$')
 
@@ -83,7 +83,7 @@ Pi = np.asarray([0.1, 1., 10.])
 tmax = np.asarray([60., 10., 2.6])
 linesty = ['-', '--', '-.']
 for pi, tm, ls in zip(Pi, tmax, linesty):
-    t = np.arange(0.0, tm, 0.05)
+    t = np.arange(0.0, tm, 0.005)
     S = odeint(thick, y0, t, args=(pi, lambda_), rtol=1e-8)
     ax.loglog(t, S[:, 1], 'k', linestyle=ls, linewidth=2, label=f'$\Pi={str(pi)}$')
 
@@ -103,7 +103,7 @@ plt.show()
 #   \label{eq:decomp-melting-subsolidus}
 #   \diff{\temp}{z} = - \frac{\expansivity g \temp}{\heatcapacity},
 # \end{equation}
-# while within the melting region the adiabat is given by
+# while within the melting region the isentrope is given by
 # \begin{equation}
 #   \label{eq:decomp-melting-meltregion}
 #   \diff{\temp}{z} = -\frac{\expansivity\temp g/\heatcapacity + 
@@ -136,7 +136,7 @@ Ts0 = 1100. + 273.  # solidus at P=0
 Tp = 1350. + 273.  # mantle potential temperature
 
 
-# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile (the \textit{adiabat}) computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the adiabat for no melting. Dotted lines are isopleths of the degree of melting $F$.
+# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile (the \textit{isentrope}) computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
 
 # In[7]:
 
@@ -145,7 +145,7 @@ zF = - (Tp-Ts0)/(rho*g/C - alpha*g*Tp/c)  # metres
 zmax = -100.*1000.
 Tmax = Tp*np.exp(-alpha*g*zmax/c)
 
-z = np.linspace(zmax, 0., 10000)
+z = np.linspace(zmax, 0., 5000)
 T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
 Tsol = Ts0 - rho*g*z/C
 
@@ -169,14 +169,14 @@ ax.set_ylabel(r'$z,$ km', fontsize=20)
 ax.set_yticks(np.arange(-90., 1., 15))
 ax.set_ylim(-99., 0.0)
 ax.legend(handles=[l1, l2, l3], 
-          labels=['Adiabat', '$\Gamma=0$ adiabat', '$F$ isopleth'], 
+          labels=['isentrope', '$\Gamma=0$ isentrope', '$F$ isopleth'], 
           loc='lower left', fontsize=12)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.show()
 
 
-# Next figure plots the degree of melting associated with the adiabat in figure above.
+# Next figure plots the degree of melting associated with the isentrope in figure above.
 
 # In[9]:
 
@@ -185,7 +185,7 @@ zF = - (Tp-Ts0)/(rho*g/C - alpha*g*Tp/c)  # metres
 zmax = -100.*1000.
 Tmax = Tp*np.exp(-alpha*g*zmax/c)
 
-z = np.linspace(zmax, 0., 10000)
+z = np.linspace(zmax, 0., 5000)
 T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
 
 Tsol = Ts0 - rho*g*z/C
@@ -208,4 +208,10 @@ ax.set_ylim(-99., 0.0)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.show()
+
+
+# In[ ]:
+
+
+
 

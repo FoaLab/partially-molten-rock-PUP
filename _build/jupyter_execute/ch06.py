@@ -574,20 +574,19 @@ phi0 = 0.05  # background porosity
 A = 2.  # amplitude of step
 zmax = 300.0  # total size of domain
 z0 = zmax/10.0  # location of step
-zw = 10.0  # width of step
 n = 3  # permeability exponent
 Nz = 3000  # number of grid points
 cfl = 1  # courant limit on time-step
 tmax = 50.0  # maximum time
 
 # derived parameters
-dz = z[1] - z[0]
 V = (1. - phi0 ** n) / (1. - phi0)
 dt = cfl * dz / V
 Nt = int(np.ceil(tmax / dt))
 
 # initial condition
 z = np.linspace(0.0, zmax, Nz)
+dz = z[1] - z[0]
 gbig = SolitaryWaveGenerator(A, z, z0)
 gsml = SolitaryWaveGenerator(1.+(A-1.)/5., z, z0+50.)
 g = gbig + gsml - 1

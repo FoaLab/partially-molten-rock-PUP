@@ -291,8 +291,8 @@
 <div class="section" id="dissipation-driven-melting-and-compaction">
 <h2>Dissipation-driven melting and compaction<a class="headerlink" href="#dissipation-driven-melting-and-compaction" title="Permalink to this headline">¶</a></h2>
 <p>The thickness of the layer of ice is the solution of equations</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fe4b4e2c-b0b9-4325-a107-3e3cac52aeea">
-<span class="eqno">(26)<a class="headerlink" href="#equation-fe4b4e2c-b0b9-4325-a107-3e3cac52aeea" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f616fc6c-84a0-4f79-b069-945922825e2f">
+<span class="eqno">(26)<a class="headerlink" href="#equation-f616fc6c-84a0-4f79-b069-945922825e2f" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:cmp-diss-mech-odes-nondim-a}
 \dot{\layerthick} &amp;= -\cmpdisspar\layerthick\por,\\
 \label{eq:cmp-diss-mech-odes-nondim-b}
@@ -327,7 +327,7 @@
 <span class="n">tmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">60.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">])</span>
 <span class="n">linesty</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">tm</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tmax</span><span class="p">,</span> <span class="n">Pi</span><span class="p">,</span> <span class="n">linesty</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">thick</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">),</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">S</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$\Pi=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
@@ -358,7 +358,7 @@
 <span class="n">tmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">60.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">])</span>
 <span class="n">linesty</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Pi</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="n">linesty</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">)</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">thick</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">),</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">S</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$\Pi=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
@@ -380,14 +380,14 @@
 <div class="section" id="decompression-melting">
 <h2>Decompression melting<a class="headerlink" href="#decompression-melting" title="Permalink to this headline">¶</a></h2>
 <p>At depths greater than the onset of decompression melting we have</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0c97bb2-a628-45b3-8d61-91053b130287">
-<span class="eqno">(27)<a class="headerlink" href="#equation-a0c97bb2-a628-45b3-8d61-91053b130287" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-56af3b72-2f88-4982-92bf-163fd8f9fe0d">
+<span class="eqno">(27)<a class="headerlink" href="#equation-56af3b72-2f88-4982-92bf-163fd8f9fe0d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:decomp-melting-subsolidus}
   \diff{\temp}{z} = - \frac{\expansivity g \temp}{\heatcapacity},
 \end{equation}\]</div>
-<p>while within the melting region the adiabat is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c721d39-1ed0-44fa-a4e4-a76fcae8f3d4">
-<span class="eqno">(28)<a class="headerlink" href="#equation-7c721d39-1ed0-44fa-a4e4-a76fcae8f3d4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<p>while within the melting region the isentrope is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e2c4808c-41ec-41f9-b1bf-f77faaa1b8ca">
+<span class="eqno">(28)<a class="headerlink" href="#equation-e2c4808c-41ec-41f9-b1bf-f77faaa1b8ca" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:decomp-melting-meltregion}
   \diff{\temp}{z} = -\frac{\expansivity\temp g/\heatcapacity + 
     \density g/\clapeyron}{1 + \latent\dFdT/\heatcapacity}.
@@ -418,24 +418,16 @@
 </div>
 </div>
 </div>
-<p>Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of <span class="math notranslate nohighlight">\(z\)</span>. The solid curve shows the isentropic temperature profile (the \textit{adiabat}) computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the adiabat for no melting. Dotted lines are isopleths of the degree of melting <span class="math notranslate nohighlight">\(F\)</span>.</p>
+<p>Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of <span class="math notranslate nohighlight">\(z\)</span>. The solid curve shows the isentropic temperature profile (the \textit{isentrope}) computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting <span class="math notranslate nohighlight">\(F\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
 <span class="n">zmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="o">*</span><span class="mf">1000.</span>
 <span class="n">Tmax</span> <span class="o">=</span> <span class="n">Tp</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">zmax</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
-<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmax</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmax</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">TemperatureEquation</span><span class="p">,</span> <span class="n">Tmax</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Ts0</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
 <span class="n">Tsol</span> <span class="o">=</span> <span class="n">Ts0</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<pre class="output stream literal-block"> intdy--  t (=r1) illegal      </pre>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      in above message,  r1 = -0.9997999799980D+05
-      t not in interval tcur - hu (= r1) to tcur (=r2)       
-      in above,  r1 = -0.9997999799980D+05   r2 = -0.8391670670608D+05
 </pre></div>
 </div>
 </div>
@@ -458,7 +450,7 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">90.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">99.</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">],</span> 
-          <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Adiabat&#39;</span><span class="p">,</span> <span class="s1">&#39;$\Gamma=0$ adiabat&#39;</span><span class="p">,</span> <span class="s1">&#39;$F$ isopleth&#39;</span><span class="p">],</span> 
+          <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;isentrope&#39;</span><span class="p">,</span> <span class="s1">&#39;$\Gamma=0$ isentrope&#39;</span><span class="p">,</span> <span class="s1">&#39;$F$ isopleth&#39;</span><span class="p">],</span> 
           <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
@@ -470,26 +462,18 @@
 <img alt="_images/ch08_15_0.png" src="_images/ch08_15_0.png" />
 </div>
 </div>
-<p>Next figure plots the degree of melting associated with the adiabat in figure above.</p>
+<p>Next figure plots the degree of melting associated with the isentrope in figure above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
 <span class="n">zmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="o">*</span><span class="mf">1000.</span>
 <span class="n">Tmax</span> <span class="o">=</span> <span class="n">Tp</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">zmax</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
-<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmax</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmax</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">TemperatureEquation</span><span class="p">,</span> <span class="n">Tmax</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Ts0</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
 
 <span class="n">Tsol</span> <span class="o">=</span> <span class="n">Ts0</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">Tsol</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<pre class="output stream literal-block"> intdy--  t (=r1) illegal      </pre>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      in above message,  r1 = -0.9997999799980D+05
-      t not in interval tcur - hu (= r1) to tcur (=r2)       
-      in above,  r1 = -0.9997999799980D+05   r2 = -0.8391670670608D+05
 </pre></div>
 </div>
 </div>
