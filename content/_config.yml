@@ -8,7 +8,7 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: cache
+  execute_notebooks: auto
   timeout: -1
 
 exclude_patterns: 
@@ -26,8 +26,13 @@ bibtex_bibfiles:
 # Information about where the book exists on the web
 repository:
   url: https://github.com/FoaLab/partially-molten-rock-PUP  # Online location of your book
-  path_to_book: _builds  # Optional path to your book, relative to the repository root
-  branch: gh-pages  # Which branch of the repository should be used when creating links (optional)
+  path_to_book: content  # Optional path to your book, relative to the repository root
+  branch: master  # Which branch of the repository should be used when creating links (optional)
+
+launch_buttons:
+  notebook_interface: "classic"
+  binderhub_url: "https://mybinder.org"  # The URL for your BinderHub (e.g., https://mybinder.org)
+
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository

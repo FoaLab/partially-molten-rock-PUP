@@ -233,7 +233,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/gh-pages?urlpath=tree/_builds/ch13.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/master?urlpath=tree/content/ch13.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -307,8 +307,8 @@
 <div class="section" id="corner-flow-with-magmatic-segregation">
 <h2>Corner-flow with magmatic segregation<a class="headerlink" href="#corner-flow-with-magmatic-segregation" title="Permalink to this headline">¶</a></h2>
 <p>This simplified problem is governed by the system</p>
-<div class="amsmath math notranslate nohighlight" id="equation-24cd58a6-412f-47ad-b243-700e1e9ad373">
-<span class="eqno">(67)<a class="headerlink" href="#equation-24cd58a6-412f-47ad-b243-700e1e9ad373" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5bb25e9f-77c6-4fb2-b0e6-cfe096a3e297">
+<span class="eqno">(67)<a class="headerlink" href="#equation-5bb25e9f-77c6-4fb2-b0e6-cfe096a3e297" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:cornerflow-twophase-stokes}
     \Grad\pres = \delsq\vel \\
     \Div\vel = 0
@@ -319,8 +319,8 @@
 \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
 \end{equation*}\]</div>
 <p>The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6f7c1f5a-f15c-4618-86d2-631dca2167ac">
-<span class="eqno">(68)<a class="headerlink" href="#equation-6f7c1f5a-f15c-4618-86d2-631dca2167ac" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-55198530-087a-4b1e-aeb1-4258b8ed2e69">
+<span class="eqno">(68)<a class="headerlink" href="#equation-55198530-087a-4b1e-aeb1-4258b8ed2e69" title="Permalink to this equation">¶</a></span>\[\begin{align}
     f(\theta) &amp;= A\sin\theta -B\theta\cos\theta, \\
     \vel &amp;= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \\
     \pres &amp;= -\frac{1}{r}\left[f'''(\theta) + f'(\theta)\right] = -\frac{2B}{r}\cos\theta,
@@ -333,14 +333,14 @@
   B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
 \end{equation*}\]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(\theta_p\)</span> is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-56f21de4-2e6e-4a67-b786-0973c3be49ea">
-<span class="eqno">(69)<a class="headerlink" href="#equation-56f21de4-2e6e-4a67-b786-0973c3be49ea" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5e78495c-b199-4dd9-950a-cb8560e846ec">
+<span class="eqno">(69)<a class="headerlink" href="#equation-5e78495c-b199-4dd9-950a-cb8560e846ec" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \unit{\gravity} &amp;= \cos\theta\rhat - \sin\theta\thetahat,\\
   \Grad\pres &amp;= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
 \end{align}\]</div>
 <p>The liquid velocity is then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-298a5703-9d65-4b34-89e6-32f0bfaf0342">
-<span class="eqno">(70)<a class="headerlink" href="#equation-298a5703-9d65-4b34-89e6-32f0bfaf0342" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4ceb1a7d-d12e-4b00-9287-068c5d4cfc67">
+<span class="eqno">(70)<a class="headerlink" href="#equation-4ceb1a7d-d12e-4b00-9287-068c5d4cfc67" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:cornerflow-liquid-velocity}
   \vel\liq = \left(f'(\theta)\rhat - f(\theta)\thetahat\right) -
   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right]
@@ -479,15 +479,15 @@
 <div class="section" id="lateral-transport-in-semi-infinite-half-space">
 <h3>Lateral transport in semi-infinite half-space<a class="headerlink" href="#lateral-transport-in-semi-infinite-half-space" title="Permalink to this headline">¶</a></h3>
 <p>A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, <span class="math notranslate nohighlight">\(q_\infty\cos\alpha\)</span>.  This efficiency be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7012aa4a-5ca3-44fd-9f69-301042d475ff">
-<span class="eqno">(71)<a class="headerlink" href="#equation-7012aa4a-5ca3-44fd-9f69-301042d475ff" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5c252319-ae37-4c3e-9cf8-96c3d8d73d51">
+<span class="eqno">(71)<a class="headerlink" href="#equation-5c252319-ae37-4c3e-9cf8-96c3d8d73d51" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_focus_efficiency}
   \efocus &amp;\equiv \tan\alpha\int_{-\infty}^0\left[
     \frac{R^2G''(\zeta)-G(\zeta)}{1-R^2G''(\zeta)}\right]\infd \zeta,
 \end{align}\]</div>
 <p>Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-38990cfc-9196-4547-8aca-14b1dc98d972">
-<span class="eqno">(72)<a class="headerlink" href="#equation-38990cfc-9196-4547-8aca-14b1dc98d972" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-75df901f-46c3-427a-9a16-6fd8e1321967">
+<span class="eqno">(72)<a class="headerlink" href="#equation-75df901f-46c3-427a-9a16-6fd8e1321967" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_chan_distance_final}
   \xfocus &amp;= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 \end{align}\]</div>
@@ -567,8 +567,8 @@
 <div class="section" id="lateral-transport-to-a-mid-ocean-ridge">
 <h3>Lateral transport to a mid-ocean ridge<a class="headerlink" href="#lateral-transport-to-a-mid-ocean-ridge" title="Permalink to this headline">¶</a></h3>
 <p>Temperature outside the partially molten region is assumed to satisfy the <em>half-space cooling model</em> , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed <span class="math notranslate nohighlight">\(U_0\)</span> and vertical diffusion with diffusivity <span class="math notranslate nohighlight">\(\kappa\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d8d1324f-fcc8-4a1f-927d-dbea0a207482">
-<span class="eqno">(73)<a class="headerlink" href="#equation-d8d1324f-fcc8-4a1f-927d-dbea0a207482" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9d81c8b1-11e1-40b2-864d-a1f3d79a9813">
+<span class="eqno">(73)<a class="headerlink" href="#equation-9d81c8b1-11e1-40b2-864d-a1f3d79a9813" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:half-space-temperature}
   \temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
     \temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
@@ -585,8 +585,8 @@
 </div>
 </div>
 <p>For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9320b74b-4a94-48db-9c8c-3e8c3e841d04">
-<span class="eqno">(74)<a class="headerlink" href="#equation-9320b74b-4a94-48db-9c8c-3e8c3e841d04" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6af6aba3-4caa-4ee6-b981-49247ce511cf">
+<span class="eqno">(74)<a class="headerlink" href="#equation-6af6aba3-4caa-4ee6-b981-49247ce511cf" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-solidus}
   \soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
 \end{equation}\]</div>
@@ -719,8 +719,8 @@
 </div>
 <p>The decompaction channel is the key element of the focusing model.</p>
 <p>The variation of the volumetric flow rate <span class="math notranslate nohighlight">\(q\)</span> along the channel is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-116418db-871a-41b7-a4e3-c22212703f8f">
-<span class="eqno">(75)<a class="headerlink" href="#equation-116418db-871a-41b7-a4e3-c22212703f8f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-15dab854-ca3e-4472-93f7-b6213a94ca53">
+<span class="eqno">(75)<a class="headerlink" href="#equation-15dab854-ca3e-4472-93f7-b6213a94ca53" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-flux-divergence}
   \diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)} 
   \left\{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right\},

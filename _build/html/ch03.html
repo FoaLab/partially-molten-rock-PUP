@@ -233,7 +233,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/gh-pages?urlpath=tree/_builds/ch03.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/master?urlpath=tree/content/ch03.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -300,8 +300,8 @@ forces,</p>
 \end{equation*}\]</div>
 <p>We wish to solve this equation in the wedge-shaped region below the sloping base of the lithospheric plates.</p>
 <p>In 2-D polar coordinates, the biharmonic equation (not shown) has the simple, separable solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab373103-f6db-4168-969b-0fbf7de008bd">
-<span class="eqno">(1)<a class="headerlink" href="#equation-ab373103-f6db-4168-969b-0fbf7de008bd" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d717d29e-e279-41e1-87e7-afe607039a5f">
+<span class="eqno">(1)<a class="headerlink" href="#equation-d717d29e-e279-41e1-87e7-afe607039a5f" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:one-phase-biharm-solution-general}
     \psi &amp;= rU_0f(\theta),\\
     \label{eq:vel-polar}
@@ -310,21 +310,21 @@ forces,</p>
     P &amp;= -\frac{\eta U_0}{r}\left[f'''(\theta) + f'(\theta)\right],
 \end{align}\]</div>
 <p>with</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7648c7b-2afe-4998-94f9-381daefbe421">
-<span class="eqno">(2)<a class="headerlink" href="#equation-b7648c7b-2afe-4998-94f9-381daefbe421" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d52f4912-ea18-40e1-a5ad-8b6d546dbfc7">
+<span class="eqno">(2)<a class="headerlink" href="#equation-d52f4912-ea18-40e1-a5ad-8b6d546dbfc7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:one-phase-biharm-solution-thetadep}
   f(\theta) = C_1\sin\theta + C_2\theta\sin\theta + C_3\cos\theta + C_4\theta\cos\theta.
 \end{equation}\]</div>
 <p>Assuming that the lithospheric plates move horizontally away from the ridge axis at speed <span class="math notranslate nohighlight">\(U_0\)</span>, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d084c310-7c22-492f-b3a4-e7973549fd36">
-<span class="eqno">(3)<a class="headerlink" href="#equation-d084c310-7c22-492f-b3a4-e7973549fd36" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5d987bef-3294-4cd8-a4c2-7f89d74a1187">
+<span class="eqno">(3)<a class="headerlink" href="#equation-5d987bef-3294-4cd8-a4c2-7f89d74a1187" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:one-phase-cornerflow-constants}
   C_1 = \frac{2\sin^2\theta}{\pi-2\theta-\sin2\theta},\;\;\;
   C_2 = C_3 = 0,\;\;\; C_4 = \frac{-2}{\pi-2\theta-\sin2\theta}.
 \end{equation}\]</div>
 <p>Combining \ref{eq:one-phase-cornerflow-constants} and \ref{eq:one-phase-biharm-solution-thetadep}, with \eqref{eq:vel-polar} and \eqref{eq:pres-polar} gives the solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-63008617-2ed0-4116-954c-ca97c32aff9c">
-<span class="eqno">(4)<a class="headerlink" href="#equation-63008617-2ed0-4116-954c-ca97c32aff9c" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-33dd696f-115c-415e-be33-397f8f8a77ee">
+<span class="eqno">(4)<a class="headerlink" href="#equation-33dd696f-115c-415e-be33-397f8f8a77ee" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:one-phase-cornerflow-vel}
 \boldsymbol{v} &amp;= U_0\left\{\left[(C_1+C_4)\cos\theta - C_4\theta\sin\theta\right]\rhat - 
         (C_1\sin\theta + C_4\theta\cos\theta)\thetahat\right\},\\
@@ -359,8 +359,8 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
 </div>
 </div>
 <p>Expressing these results in the Cartesian coordinate system, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e1bfae5b-2575-4b5e-81cb-c9ea7b58731c">
-<span class="eqno">(5)<a class="headerlink" href="#equation-e1bfae5b-2575-4b5e-81cb-c9ea7b58731c" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f6298443-d899-4bbb-a086-2e509275fa92">
+<span class="eqno">(5)<a class="headerlink" href="#equation-f6298443-d899-4bbb-a086-2e509275fa92" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:one-phase-cornerflow-cartesian-vel-x}
     \boldsymbol{v}\cdot\hat{\boldsymbol{x}} &amp;= U_0C_4\left(\arctan\frac{x}{z} - \frac{xz}{x^2 + z^2}\right), \\
 \label{eq:one-phase-cornerflow-cartesian-vel-z}
@@ -420,9 +420,9 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_86473/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93333/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
   T = -np.arctan(X/Z)
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_86473/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93333/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
   U = C4 * (np.arctan(X/Z) - X * Z / Q)
 </pre></div>
 </div>

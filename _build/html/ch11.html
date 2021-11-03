@@ -233,7 +233,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/gh-pages?urlpath=tree/_builds/ch11.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/master?urlpath=tree/content/ch11.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -346,8 +346,8 @@
 <div class="section" id="melting-rate-closures">
 <h2>Melting-rate closures<a class="headerlink" href="#melting-rate-closures" title="Permalink to this headline">¶</a></h2>
 <p>The simplified equations of mass conservation are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f8fb449c-374c-46cc-81d8-1c794ca3bd97">
-<span class="eqno">(36)<a class="headerlink" href="#equation-f8fb449c-374c-46cc-81d8-1c794ca3bd97" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-963b8284-f4f5-4b17-828f-137c56926746">
+<span class="eqno">(36)<a class="headerlink" href="#equation-963b8284-f4f5-4b17-828f-137c56926746" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:col-compaction-nondim_1}
 \por^\permexp(1-\por_0\por)^2 + \velratio\por - \frac{\velratio}{\por_0}F &amp;= 0, \\
 w(z) &amp;= W_0\frac{\density\sol}{\density\liq}\frac{F}{\por},\\
@@ -364,8 +364,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 <p>The small-porosity Darcy solution for <span class="math notranslate nohighlight">\(\permexp=2\)</span> is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-55fa6854-f375-421a-be11-4a6c20a9d752">
-<span class="eqno">(37)<a class="headerlink" href="#equation-55fa6854-f375-421a-be11-4a6c20a9d752" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b7827c98-132e-4bb9-a303-7a0c6f1e6b6b">
+<span class="eqno">(37)<a class="headerlink" href="#equation-b7827c98-132e-4bb9-a303-7a0c6f1e6b6b" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:meltcol-porosity-n2}
     \por(z) &amp;= \frac{\velratio}{2}\left(\sqrt{1+\frac{4 F}{\velratio\por_0}} - 1\right), \\
     \label{eq:meltcol-velocity-solution-w}
@@ -376,8 +376,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="prescribed-melting-rate">
 <h3>Prescribed melting rate<a class="headerlink" href="#prescribed-melting-rate" title="Permalink to this headline">¶</a></h3>
 <p>Under the assumption that Darcy drag balances buoyancy of the liquid phase, the melting rate reads</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a3e5f88e-ea2c-4445-889b-09dae2763baa">
-<span class="eqno">(38)<a class="headerlink" href="#equation-a3e5f88e-ea2c-4445-889b-09dae2763baa" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d9b0ccbc-a278-4fad-a6f6-cb157709f91d">
+<span class="eqno">(38)<a class="headerlink" href="#equation-d9b0ccbc-a278-4fad-a6f6-cb157709f91d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:constant-adiabatic-melting}
   \Gamma = \density W_0 \Fmax/z_0.
 \end{equation}\]</div>
@@ -530,23 +530,23 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="thermodynamically-consistent-melting-rate">
 <h3>Thermodynamically consistent melting rate<a class="headerlink" href="#thermodynamically-consistent-melting-rate" title="Permalink to this headline">¶</a></h3>
 <p>In one-dimension and at steady state, the temperature equation can be simplified using the dimensional mass conservation equation</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3bebdebd-de91-4903-8380-8cb6565bccad">
-<span class="eqno">(39)<a class="headerlink" href="#equation-3bebdebd-de91-4903-8380-8cb6565bccad" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4991ed7f-8d3a-463a-8170-15a367d63080">
+<span class="eqno">(39)<a class="headerlink" href="#equation-4991ed7f-8d3a-463a-8170-15a367d63080" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-energy-temperature}
   \density\heatcapacity W_0 \diff{\temp}{z} = -\left(\latent\Gamma + \density\expansivity W_0 g \temp\right).
 \end{equation}\]</div>
 <div class="section" id="one-component-mantle-column">
 <h4>One component mantle column<a class="headerlink" href="#one-component-mantle-column" title="Permalink to this headline">¶</a></h4>
 <p>For a one-component mantle, we define the maximum degree of melting as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c4b7facd-d3e0-496f-a085-889c66cd8cd3">
-<span class="eqno">(40)<a class="headerlink" href="#equation-c4b7facd-d3e0-496f-a085-889c66cd8cd3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-deaf184f-3ae6-471d-90e3-4da883356b2f">
+<span class="eqno">(40)<a class="headerlink" href="#equation-deaf184f-3ae6-471d-90e3-4da883356b2f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-onecomp-Fmax}
   \Fmax^{1c} \equiv \frac{\density g/\clapeyron -  
     \expansivity g\soltemp_0/\heatcapacity}{\latent/\heatcapacity} z_0
 \end{equation}\]</div>
 <p>and the melting rate <span class="math notranslate nohighlight">\(\Gamma\)</span> is approximated as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-101c5b92-6956-449f-8d9a-2760af691768">
-<span class="eqno">(41)<a class="headerlink" href="#equation-101c5b92-6956-449f-8d9a-2760af691768" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-15687b52-08a7-43c6-a26e-420fafe4a581">
+<span class="eqno">(41)<a class="headerlink" href="#equation-15687b52-08a7-43c6-a26e-420fafe4a581" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-onecomp-meltrate-Fmax}
   \Gamma \approx \density W_0 \Fmax^{1c}/z_0.
 \end{equation}\]</div>
@@ -686,8 +686,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="two-component-mantle-column">
 <h4>Two-component mantle column<a class="headerlink" href="#two-component-mantle-column" title="Permalink to this headline">¶</a></h4>
 <p>In this case, the melting rate <span class="math notranslate nohighlight">\(\Gamma\)</span> reads</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eb43275f-9cd2-4a9f-94d7-78e4c9e781a2">
-<span class="eqno">(42)<a class="headerlink" href="#equation-eb43275f-9cd2-4a9f-94d7-78e4c9e781a2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9f54e672-c2c8-4167-97cd-0f22d96a1fda">
+<span class="eqno">(42)<a class="headerlink" href="#equation-9f54e672-c2c8-4167-97cd-0f22d96a1fda" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-twocomp-Gamma}
   \Gamma \approx \density W_0 \frac{\density g\clapeyron^{-1} - \expansivity
   g \soltemp_0/\heatcapacity}{\solslope\Delta\con + \latent/\heatcapacity},
@@ -837,23 +837,23 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="two-component-column-with-an-incompatible-component">
 <h4>Two-component column with an incompatible component<a class="headerlink" href="#two-component-column-with-an-incompatible-component" title="Permalink to this headline">¶</a></h4>
 <p>The normalized volatile concentration in the solid is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-43a304be-3f80-421a-8600-753bfa2ad844">
-<span class="eqno">(43)<a class="headerlink" href="#equation-43a304be-3f80-421a-8600-753bfa2ad844" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4dcfeb1d-4291-41d6-b9cf-129526eab312">
+<span class="eqno">(43)<a class="headerlink" href="#equation-4dcfeb1d-4291-41d6-b9cf-129526eab312" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-twocomp-vol-nonlinear-cs-solution}
   \con\sol(z) = \frac{1}{2}\left[\coninflow - \frac{A_1}{\coninflow} +
     A_2z + \sqrt{4A_1 + \left(A_2z + \coninflow - 
         \frac{A_1}{\coninflow}\right)^2}\right].
 \end{equation}\]</div>
 <p>The degree of melting as a function of the height is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eb58ba9e-fddb-4b96-b584-3c903f2d2a6b">
-<span class="eqno">(44)<a class="headerlink" href="#equation-eb58ba9e-fddb-4b96-b584-3c903f2d2a6b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-cc8ea2cd-5174-4ceb-8c31-ff466c803ae9">
+<span class="eqno">(44)<a class="headerlink" href="#equation-cc8ea2cd-5174-4ceb-8c31-ff466c803ae9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-twocomp-vol-nonlinear-F-solution}
    F = \frac{\heatcapacity}{\latent}\left[\left(\frac{\density g}
    {\clapeyron} - \frac{\expansivity g \soltemp_0}{\heatcapacity}\right)z + \solslope\left(\coninflow - \con\sol\right)\right].
 \end{equation}\]</div>
 <p>Temperature as a function of height in the melting column is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3ab96688-e521-4e51-a273-43055d73e396">
-<span class="eqno">(45)<a class="headerlink" href="#equation-3ab96688-e521-4e51-a273-43055d73e396" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9e2960e9-7e1b-42a0-83c1-549bc643dfd7">
+<span class="eqno">(45)<a class="headerlink" href="#equation-9e2960e9-7e1b-42a0-83c1-549bc643dfd7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \label{eq:col-twocomp-pd-solidus}
 \soltemp = \soltemp_\text{ref} + (\pres-\pres_\text{ref})/\clapeyron  +
            \solslope\left(\equi\con\sol - \equi\con\sol_{\text{ref}}\right)
@@ -1052,14 +1052,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="the-visco-gravitational-boundary-layer">
 <h2>The visco-gravitational boundary layer<a class="headerlink" href="#the-visco-gravitational-boundary-layer" title="Permalink to this headline">¶</a></h2>
 <p>The solid upwelling rate is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0b5efa3e-969c-45b6-b283-d48147548428">
-<span class="eqno">(46)<a class="headerlink" href="#equation-0b5efa3e-969c-45b6-b283-d48147548428" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0b5d2202-c048-4a19-98d2-a03192905b17">
+<span class="eqno">(46)<a class="headerlink" href="#equation-0b5d2202-c048-4a19-98d2-a03192905b17" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-cmp-boundary-solidvel}
   W \sim 1 + \frac{\Fmax \cmppres_b}{2\por_0}z^2,
 \end{equation}\]</div>
 <p>The dimensionless, time-dependent governing equations are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-383fea2a-d953-4e09-8610-83b41fc2c37e">
-<span class="eqno">(47)<a class="headerlink" href="#equation-383fea2a-d953-4e09-8610-83b41fc2c37e" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-02c59247-bdfc-4d66-8b2f-099c0bf4b30f">
+<span class="eqno">(47)<a class="headerlink" href="#equation-02c59247-bdfc-4d66-8b2f-099c0bf4b30f" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:tdcol-mechanics-compaction-nd}
     \frac{\velratio}{\por_0}(1-W) &amp;= \por^\permexp
     \left[1 - \delta^2\frac{\velratio}{\por_0} \pdiff{}{z}\frac{1}{\por}\pdiff{W}{z}\right],\\
@@ -1068,8 +1068,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
     \left(\Fmax + \pdiff{W}{z}\right).
 \end{align}\]</div>
 <p>The dimensionless compaction pressure is defined as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cd695173-c44e-40ef-ab63-ee88f24c7c5d">
-<span class="eqno">(48)<a class="headerlink" href="#equation-cd695173-c44e-40ef-ab63-ee88f24c7c5d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-a67589c7-3d91-47e7-a96b-99df9a551f4b">
+<span class="eqno">(48)<a class="headerlink" href="#equation-a67589c7-3d91-47e7-a96b-99df9a551f4b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \label{eq:tdcol-compac-pres}
 \cmppres = \bulkvisc\infd W/\infd z
 \end{equation}\]</div>
@@ -1194,7 +1194,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_86398/3091861770.py:68: RuntimeWarning: divide by zero encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93090/3091861770.py:68: RuntimeWarning: divide by zero encountered in true_divide
   return z, W, phi, np.gradient(W, z) / phi
 </pre></div>
 </div>
@@ -1218,7 +1218,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_86398/3888224871.py:3: RuntimeWarning: divide by zero encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93090/3888224871.py:3: RuntimeWarning: divide by zero encountered in true_divide
   P   = -1.0/(zb*Z)
 </pre></div>
 </div>
@@ -1279,8 +1279,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="section" id="the-decompaction-boundary-layer">
 <h2>The decompaction boundary layer<a class="headerlink" href="#the-decompaction-boundary-layer" title="Permalink to this headline">¶</a></h2>
 <p>The porosity profile is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5b32488f-21bc-4752-a7c5-6d6e3f26c813">
-<span class="eqno">(49)<a class="headerlink" href="#equation-5b32488f-21bc-4752-a7c5-6d6e3f26c813" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5169df5c-7c7f-421e-bd70-97785ea610f4">
+<span class="eqno">(49)<a class="headerlink" href="#equation-5169df5c-7c7f-421e-bd70-97785ea610f4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:decmp_porosity}
   \frac{\por}{\por_0} =
   \left[\frac{1-G(z/\freezelength)}{1-R^2G''(z/\freezelength)}\right]^{1/n},
@@ -1288,8 +1288,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>where <span class="math notranslate nohighlight">\(R = \cmplength_0/\freezelength\)</span> is the ratio of the compaction length to
 the length-scale over which freezing occurs.</p>
 <p>The shape function <span class="math notranslate nohighlight">\(G(\zeta)\)</span> and its derivatives that can be used to evaluate equation \eqref{eq:decmp_porosity} are defined as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fd4cca8f-85fc-4056-a46f-80e22d2f5824">
-<span class="eqno">(50)<a class="headerlink" href="#equation-fd4cca8f-85fc-4056-a46f-80e22d2f5824" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-981b1abb-91ab-4ed1-9f8f-1f3c401be194">
+<span class="eqno">(50)<a class="headerlink" href="#equation-981b1abb-91ab-4ed1-9f8f-1f3c401be194" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:shape_function_tanh-G}
     G(\zeta) &amp;= \frac{1}{\ln 2}\left[\zeta + \ln(\cosh\zeta)\right]+1,\\
     \label{eq:shape_function_tanh-Gp}
@@ -1298,15 +1298,15 @@ the length-scale over which freezing occurs.</p>
     G''(\zeta) &amp;= \frac{1}{\ln 2}\text{sech}^2\zeta.
 \end{align}\]</div>
 <p>The normalised liquid upwelling speed is derived from</p>
-<div class="amsmath math notranslate nohighlight" id="equation-490b81af-7044-4328-8bc3-e1c201316f57">
-<span class="eqno">(51)<a class="headerlink" href="#equation-490b81af-7044-4328-8bc3-e1c201316f57" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-c4729ea3-511f-4f0d-bc20-20164d92b80c">
+<span class="eqno">(51)<a class="headerlink" href="#equation-c4729ea3-511f-4f0d-bc20-20164d92b80c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:decmp_intro_G}
   \por w \equiv q_\infty\left[1 - G(z/\freezelength)\right],
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\freezelength\)</span> is a length-scale over which freezing occurs.</p>
 <p>The normalised solid upwelling speed <span class="math notranslate nohighlight">\(W(z)/W_0\)</span> is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b55be14a-27cb-41ea-8436-dc06d059a571">
-<span class="eqno">(52)<a class="headerlink" href="#equation-b55be14a-27cb-41ea-8436-dc06d059a571" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e33585b4-05ce-4027-8048-a7fce94a23bc">
+<span class="eqno">(52)<a class="headerlink" href="#equation-e33585b4-05ce-4027-8048-a7fce94a23bc" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:decomp_col_solid_vel}
   \frac{W}{W_0} = 1 - \frac{q_\infty}{W_0}\left[1-G(z/\freezelength)\right].
 \end{equation}\]</div>
@@ -1328,7 +1328,7 @@ the length-scale over which freezing occurs.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_86398/2588037651.py:11: RuntimeWarning: invalid value encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93090/2588037651.py:11: RuntimeWarning: invalid value encountered in true_divide
   w = np.asarray([(1-G)/Phii for Phii in Phi])
 </pre></div>
 </div>
@@ -1398,15 +1398,15 @@ the length-scale over which freezing occurs.</p>
 <div class="section" id="constant-transport-rates">
 <h3>Constant transport rates<a class="headerlink" href="#constant-transport-rates" title="Permalink to this headline">¶</a></h3>
 <p>The low transport regime is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1255ffdb-ceda-493a-9467-245ef9b9161b">
-<span class="eqno">(53)<a class="headerlink" href="#equation-1255ffdb-ceda-493a-9467-245ef9b9161b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9892d621-ae1b-46f9-97a4-85a552466bd7">
+<span class="eqno">(53)<a class="headerlink" href="#equation-9892d621-ae1b-46f9-97a4-85a552466bd7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:const-coltop-slow-approx}
   \inact\liq_2\vert_1 \sim \frac{\pormax + \dico_1}{\pormax + \dico_2},\;\;\;\;\;\;\;\;\;\;\;\;
   \inact\liq_3\vert_1 \sim \frac{\pormax + \dico_1}{\pormax + \dico_3},
 \end{equation}\]</div>
 <p>while the fast transport regime is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f89ade9d-26d4-4d24-a4ea-fe88ab8a42e4">
-<span class="eqno">(54)<a class="headerlink" href="#equation-f89ade9d-26d4-4d24-a4ea-fe88ab8a42e4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f627aaf1-c3f6-41ce-b719-a8e90e8a184a">
+<span class="eqno">(54)<a class="headerlink" href="#equation-f627aaf1-c3f6-41ce-b719-a8e90e8a184a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:const-coltop-fast-transport}
   \inact\liq_2\vert_1 \sim 1 +
   \frac{\deco_2z_0}{W_0\Fmax}\left(\dico_{1} - \dico_2\right),\;\;\;\;\;\;\;\;\;\;\;\;
@@ -1518,8 +1518,8 @@ the length-scale over which freezing occurs.</p>
 <div class="section" id="variable-transport-rates">
 <h3>Variable transport rates<a class="headerlink" href="#variable-transport-rates" title="Permalink to this headline">¶</a></h3>
 <p>In steady-state, the secular equilibrium of the incoming mantle can be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7d063569-afbb-492f-a07c-4e138886e0b7">
-<span class="eqno">(55)<a class="headerlink" href="#equation-7d063569-afbb-492f-a07c-4e138886e0b7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-eb14bfa6-ecd0-48f6-93e7-7560873ddc20">
+<span class="eqno">(55)<a class="headerlink" href="#equation-eb14bfa6-ecd0-48f6-93e7-7560873ddc20" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:col-activity}
   \effvel{j}\diff{\act\liq_j}{z} = -\act_j\liq \frac{W_0}{z_0}\Fmax
   \left(\frac{1-\dico_j}{\por + \omp\dico_j}\right) +
@@ -1527,8 +1527,8 @@ the length-scale over which freezing occurs.</p>
 \end{equation}\]</div>
 <p>where we have used <span class="math notranslate nohighlight">\(\Gamma = \density W_0\Fmax/z_0\)</span>.</p>
 <p>The batch-melting factor is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9b72ad77-73be-4705-b3ca-ea93776eff76">
-<span class="eqno">(56)<a class="headerlink" href="#equation-9b72ad77-73be-4705-b3ca-ea93776eff76" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b36b0200-e488-468b-9c13-ed093990576a">
+<span class="eqno">(56)<a class="headerlink" href="#equation-b36b0200-e488-468b-9c13-ed093990576a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:activity-decomposition}
   \act\liq_j = \left(\frac{\act\sol_j\vert_0}{\dico_j + (1-\dico_j)\Fmax z}\right)\inact\liq_j.
 \end{equation}\]</div>

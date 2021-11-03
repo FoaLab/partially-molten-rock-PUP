@@ -233,7 +233,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/gh-pages?urlpath=tree/_builds/ch09.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/FoaLab/partially-molten-rock-PUP/master?urlpath=tree/content/ch09.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -326,8 +326,8 @@
 <div class="section" id="trace-elements">
 <h2>Trace elements<a class="headerlink" href="#trace-elements" title="Permalink to this headline">¶</a></h2>
 <p>Segregation rate of two trace elements by equilibrium transport as a function of porosity, according to equation</p>
-<div class="amsmath math notranslate nohighlight" id="equation-79b74eaf-cee0-4c55-9cfe-d55316895a0c">
-<span class="eqno">(29)<a class="headerlink" href="#equation-79b74eaf-cee0-4c55-9cfe-d55316895a0c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5246d774-1ba8-48ba-adc1-884b5b27c262">
+<span class="eqno">(29)<a class="headerlink" href="#equation-5246d774-1ba8-48ba-adc1-884b5b27c262" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:trace-segregation-rate}
   \frac{v^{\dico_j} - v^{\dico_k}}{v\liq-v\sol} = 
   \frac{\por\liq(\dico_k-\dico_j)}{(\por\liq+\dico_j)(\por\liq+\dico_k)}.
@@ -379,8 +379,8 @@
 <div class="section" id="evolution-with-melting-only">
 <h3>Evolution with melting only<a class="headerlink" href="#evolution-with-melting-only" title="Permalink to this headline">¶</a></h3>
 <p>The batch melting equation, parametrised as a function of time, is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6332e0f0-7d61-46ca-a0c3-dfec53bdca16">
-<span class="eqno">(30)<a class="headerlink" href="#equation-6332e0f0-7d61-46ca-a0c3-dfec53bdca16" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e53420bf-8105-41ec-940c-490494504e0a">
+<span class="eqno">(30)<a class="headerlink" href="#equation-e53420bf-8105-41ec-940c-490494504e0a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:closedbox-batch-soln}
   \con\liq_j(t) = \frac{\con\sol_j\vert_0}
   {\dico_j + (1-\dico_j)\boxmeltrate t}.
@@ -431,8 +431,8 @@
 <div class="section" id="evolution-due-to-ingrowth-only">
 <h3>Evolution due to ingrowth only<a class="headerlink" href="#evolution-due-to-ingrowth-only" title="Permalink to this headline">¶</a></h3>
 <p>The decay chain of N elements under the ingrowth assumption is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-73fdeb37-e8c8-4536-bdb7-ab3609e35352">
-<span class="eqno">(31)<a class="headerlink" href="#equation-73fdeb37-e8c8-4536-bdb7-ab3609e35352" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f025acc2-0de8-474a-9246-95e4c28aed78">
+<span class="eqno">(31)<a class="headerlink" href="#equation-f025acc2-0de8-474a-9246-95e4c28aed78" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:closedbox-solution-nomelting}
   \actvec\liq(t) = \eigenvecs ~ \e^{\ddecaymatrix t} ~ \eigenvecs^{-1} ~ \actvec\liq\vert_0.
 \end{equation}\]</div>
@@ -520,8 +520,8 @@
 <div class="section" id="evolution-by-both-melting-and-ingrowth">
 <h3>Evolution by both melting and ingrowth<a class="headerlink" href="#evolution-by-both-melting-and-ingrowth" title="Permalink to this headline">¶</a></h3>
 <p>The decay chain of N elements when melting and ingrowth processes are occurring simultaneously is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9e1928dd-1ca0-4887-b101-f95f61b1ceeb">
-<span class="eqno">(32)<a class="headerlink" href="#equation-9e1928dd-1ca0-4887-b101-f95f61b1ceeb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-63e672b1-2eed-45a7-a7de-0e317ce22fa8">
+<span class="eqno">(32)<a class="headerlink" href="#equation-63e672b1-2eed-45a7-a7de-0e317ce22fa8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:closedbox-solution}
   \actvec\liq(t) = \eigenvecs ~ \e^{\ddecaymatrix t} ~ \eigenvecs^{-1} ~
   \left[ \frac{\actvec\sol\vert_0}{\dicovec + (1-\dicovec)\boxmeltrate t} \right]
