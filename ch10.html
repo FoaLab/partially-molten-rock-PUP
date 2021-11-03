@@ -336,8 +336,8 @@
   \sum_{j=1}^N\frac{\obar{\con}_j \left[1-\parco_j(\temp,\pres)\right]}{\equi\mf + (1-\equi\mf)\parco_j(\temp,\pres)} = 0,
 \end{equation*}\]</div>
 <p>Once a value of <span class="math notranslate nohighlight">\(\equi\mf\)</span> has been numerically obtained, it can be used to determine the phase composition</p>
-<div class="amsmath math notranslate nohighlight" id="equation-026a6d5b-6c0f-40d8-bf6a-fdda1b43b5c7">
-<span class="eqno">(33)<a class="headerlink" href="#equation-026a6d5b-6c0f-40d8-bf6a-fdda1b43b5c7" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a76aedd4-5730-4a3d-9886-f10a6000e593">
+<span class="eqno">(33)<a class="headerlink" href="#equation-a76aedd4-5730-4a3d-9886-f10a6000e593" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:equilib-phase-comp-liquid}
     \equi\con\liq_j &amp;= \frac{\obar{\con}_j}{\equi\mf +
     (1-\equi\mf)\parco_j},\\
@@ -384,8 +384,8 @@
 <h3>Application to a two-pseudo-component system<a class="headerlink" href="#application-to-a-two-pseudo-component-system" title="Permalink to this headline">¶</a></h3>
 <p>The change of this melting temperature with pressure is given by the Clausius-Clapeyron equation. For simplicity,
 we assume a constant value of <span class="math notranslate nohighlight">\(\clapeyron = \Delta\entropy/\Delta(1/\density)\)</span>, which gives</p>
-<div class="amsmath math notranslate nohighlight" id="equation-68d56030-89a2-427e-b7ee-7b94890a63ce">
-<span class="eqno">(34)<a class="headerlink" href="#equation-68d56030-89a2-427e-b7ee-7b94890a63ce" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-973a51f8-296c-4875-9d62-eafee1e443d5">
+<span class="eqno">(34)<a class="headerlink" href="#equation-973a51f8-296c-4875-9d62-eafee1e443d5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:linear-solidus-relation}
   \temp^m_j(P) = \left.\temp^m_j\right\vert_{\pres=0} +
   \pres\clapeyron.
@@ -549,7 +549,7 @@ we assume a constant value of <span class="math notranslate nohighlight">\(\clap
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2692694480.py:10: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2692694480.py:10: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   cvar = np.zeros((200, 2), dtype=np.float)
 </pre></div>
@@ -636,18 +636,18 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.ndarray) and isinstance(P, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(P, np.ndarray) and isinstance(T, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
@@ -756,13 +756,13 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.ndarray) and isinstance(P, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(P, np.ndarray) and isinstance(T, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
@@ -794,10 +794,10 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/1782109974.py:7: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/1782109974.py:7: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   C = np.zeros((npts*npts, 3), dtype=np.float)
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
@@ -807,9 +807,9 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
   warnings.warn(msg, RuntimeWarning)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/1887891945.py:10: RuntimeWarning: overflow encountered in exp
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/1887891945.py:10: RuntimeWarning: overflow encountered in exp
   return np.exp(par.L / par.R * (1./T - 1./Tm))
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/3764794559.py:3: RuntimeWarning: invalid value encountered in double_scalars
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/3764794559.py:3: RuntimeWarning: invalid value encountered in double_scalars
   R = np.array([cc_j * (1. - K_) / (ff + (1. - ff) * K_) for cc_j, K_ in zip(cc, K)])
 /Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/scipy/optimize/minpack.py:175: RuntimeWarning: The iteration is not making good progress, as measured by the 
   improvement from the last five Jacobian evaluations.
@@ -1034,8 +1034,8 @@ parameters are <span class="math notranslate nohighlight">\(R_1=60\)</span> J/kg
 <h3>Linearising the two-component phase diagram<a class="headerlink" href="#linearising-the-two-component-phase-diagram" title="Permalink to this headline">¶</a></h3>
 <p>Phase diagrams constructed with ideal solution theory provide a useful basis for developing the melting relations required for magma/mantle dynamics. Their nonlinearity, however, precludes a use in analytical calculations; instead they must be handled numerically. It is therefore important to formulate an approximation in which the equilibrium state is computed analytically.</p>
 <p>For linear variations in pressure and composition, we can write</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1e296060-748c-4037-af39-cc3590c9e65e">
-<span class="eqno">(35)<a class="headerlink" href="#equation-1e296060-748c-4037-af39-cc3590c9e65e" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-370f5137-b7c5-4c85-8506-886e30d31cce">
+<span class="eqno">(35)<a class="headerlink" href="#equation-370f5137-b7c5-4c85-8506-886e30d31cce" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:col-twocomp-pd-solidus}
     \soltemp &amp;= \soltemp_\text{ref} + (\pres-\pres_\text{ref})/\clapeyron  +
                \solslope\left(\equi\con\sol - \equi\con\sol_{\text{ref}}\right),\\
@@ -1099,7 +1099,7 @@ parameters are <span class="math notranslate nohighlight">\(R_1=60\)</span> J/kg
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/1401933895.py:6: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/1401933895.py:6: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   cvar = np.zeros((300, 2), dtype=np.float)
 </pre></div>
@@ -1164,18 +1164,18 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:30: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.ndarray) and isinstance(P, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:32: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(P, np.ndarray) and isinstance(T, np.float):
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_93072/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_906/2193128526.py:34: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
   if isinstance(T, np.float) and isinstance(P, np.float):
 </pre></div>
