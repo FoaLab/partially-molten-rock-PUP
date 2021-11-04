@@ -16,6 +16,9 @@ from matplotlib import cm
 from scipy.optimize import fsolve, fminbound
 from scipy.interpolate import interp1d
 
+import warnings
+warnings.filterwarnings('ignore')
+
 
 # ## The equilibrium state
 # 
@@ -164,11 +167,11 @@ def EquilibriumState(n, cbar, T, P, par, parco_func):
         else:
             raise Exception('par array of structures must be length 1 or n')
 
-    if isinstance(T, np.ndarray) and isinstance(P, np.float):
+    if isinstance(T, np.ndarray) and isinstance(P, float):
         P = P * np.ones_like(T)
-    if isinstance(P, np.ndarray) and isinstance(T, np.float):
+    if isinstance(P, np.ndarray) and isinstance(T, float):
         T = T * np.ones_like(P)
-    if isinstance(T, np.float) and isinstance(P, np.float):
+    if isinstance(T, float) and isinstance(P, float):
         r = cbar.shape[0]
         T = np.ones((r,)) * T
         P = np.ones((r,)) * P
@@ -227,7 +230,7 @@ Pvar = np.linspace(0., 7., 20)
 Tref = 1350. + 273.
 Tvar = np.linspace(1050., 1950., 200) + 273
 cref = np.array([0.75, 0.25])
-cvar = np.zeros((200, 2), dtype=np.float)
+cvar = np.zeros((200, 2), dtype=float)
 cvar[:, 0] = np.linspace(0., 1., 200)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 200)
 
@@ -419,7 +422,7 @@ C2 = np.linspace(0., 1., npts)
 C2 = np.reshape(C2, npts*npts)
 C3 = np.reshape(C3, npts*npts)
 C1 = 1-C2-C3
-C = np.zeros((npts*npts, 3), dtype=np.float)
+C = np.zeros((npts*npts, 3), dtype=float)
 C[:, 0] = C1
 C[:, 1] = C2
 C[:, 2] = C3
@@ -688,7 +691,7 @@ Pvar = np.linspace(0., 7., 20)
 Tref = 1350. + 273.
 Tvar = np.linspace(900., 1350., 300) + 273.
 cref = np.array([0.75, 0.25])
-cvar = np.zeros((300, 2), dtype=np.float)
+cvar = np.zeros((300, 2), dtype=float)
 cvar[:, 0] = np.linspace(0., 1., 300)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 300)
 

@@ -136,7 +136,7 @@ Ts0 = 1100. + 273.  # solidus at P=0
 Tp = 1350. + 273.  # mantle potential temperature
 
 
-# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile (the \textit{isentrope}) computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
+# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
 
 # In[7]:
 
@@ -208,10 +208,4 @@ ax.set_ylim(-99., 0.0)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
 
