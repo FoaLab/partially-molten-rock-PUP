@@ -234,10 +234,6 @@ cvar = np.zeros((200, 2), dtype=float)
 cvar[:, 0] = np.linspace(0., 1., 200)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 200)
 
-
-# In[8]:
-
-
 fig, ((axA, axB), (axC, axD)) = plt.subplots(nrows=2, ncols=2, figsize=(18.0, 18.0))
 
 P  =  Pvar
@@ -264,6 +260,8 @@ axB.plot(T-273., K[:, 0], '-k', linewidth=2, label=r'$\check{K}_1$')
 axB.plot(T-273., K[:, 1], '--k', linewidth=2, label=r'$\check{K}_2$')
 axB.set_yscale('log')
 axB.set_xlim(1050, 1950)
+axB.set_xticks((1200., 1400., 1600., 1800.))
+axB.set_xticklabels((1200, 1400, 1600, 1800))
 axB.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
 axB.set_ylim(0.01, 100)
 axB.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)
@@ -278,12 +276,13 @@ Theta = EquilibriumState(len(par), c, T, P, par, ParCoef_IdealSolution)
 
 axD.plot(Tvar-273., [t.f for t in Theta],'-k','linewidth',2)
 axD.set_xlim(1200., 1750.)
-axD.set_xticks((1200, 1300, 1400, 1500, 1600, 1700))
-axD.set_ylim(0.0, 1.0)
+axD.set_xticks((1200., 1300., 1400., 1500., 1600., 1700.))
+axD.set_xticklabels((1200, 1300, 1400, 1500, 1600, 1700))
+axD.set_ylim(-0.02, 1.02)
 axD.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
 axD.set_ylabel(r'$\check{f}$, wt. frac.', fontsize=20)
 axD.tick_params(axis='both', which='major', labelsize=13)
-axD.text(1200.0, 0.99, r'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axD.text(1200.0, 1.01, r'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')
 
 cl_hold = np.array([t.cl[1] for t in Theta])
 cs_hold = np.array([t.cs[1] for t in Theta])
@@ -316,7 +315,7 @@ plt.show()
 
 # ### Application to a three-pseudo-component system
 
-# In[9]:
+# In[8]:
 
 
 par3 = [IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.), 
@@ -324,7 +323,7 @@ par3 = [IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.),
         IdealSolutionParameters(330e3, 30., 1./50., 410. + 273.)]
 
 
-# In[10]:
+# In[9]:
 
 
 Pref = 1.
@@ -334,7 +333,7 @@ Tvar = np.linspace(1000., 1700. , 200) + 273.
 cref = np.array([0.75, 0.248, 0.002])
 
 
-# In[11]:
+# In[10]:
 
 
 npts = 100
@@ -343,7 +342,7 @@ conc_water_in_pure_component = 1e-4/cref[2]
 
 # Figures below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 75 wt\% olivine component with and without 0.2 wt\% of hydrated basalt component at 1 GPa.
 
-# In[12]:
+# In[11]:
 
 
 fig, ((axA, axB, axD)) = plt.subplots(nrows=1, ncols=3, figsize=(21.0, 9.0))
@@ -413,7 +412,7 @@ plt.show()
 
 # Figure below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(c)__ Surfaces are the solidus and liquidus temperature through the full, 3-component space at a pressure of 1 GPa. The composition along the solidus surface refers to the solid phase; that along the liquidus surface refers to the liquid phase. The compositional evolution of the melt for a closed system with 75 wt\% olivine and 0.2 wt\% hydrous basalt is shown by the solid line.  It starts at the triangle and progresses toward the circle with increasing $\temp$ and $\equi\mf$.
 
-# In[13]:
+# In[12]:
 
 
 C3 = np.linspace(0., 1., npts)
@@ -435,7 +434,7 @@ Tsol[C[:,1]+C[:,2]>=1] = np.nan
 Tliq[C[:,1]+C[:,2]>=1] = np.nan
 
 
-# In[14]:
+# In[13]:
 
 
 def terncoords(c1,c2,c3):
@@ -448,14 +447,14 @@ def terncoords(c1,c2,c3):
     return x, y
 
 
-# In[15]:
+# In[14]:
 
 
 X, Y = terncoords(C2, C3, C1)
 triangXY = mtri.Triangulation(X, Y)
 
 
-# In[16]:
+# In[15]:
 
 
 fig, axC = plt.subplots(figsize=(18,9), subplot_kw={"projection": "3d"})
@@ -505,7 +504,7 @@ cbar.ax.set_yticklabels((cticks_));
 # A eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution 
 # parameters are $R_1=60$ J/kg/K, $\latent_1=\latent_2=500$ kJ/kg. __(a)__ Solidus and liquidus curves computed with ideal solution theory compared with the eutectic solidus and liquidus. __(b)__ Isobaric melting curves computed based on the phase loops and the eutectic.
 
-# In[17]:
+# In[16]:
 
 
 def liquidusQuadratic(H, C, L, cp, T0, Te):
@@ -515,7 +514,7 @@ def liquidusQuadratic(H, C, L, cp, T0, Te):
     return (-b + np.sqrt(b*b - 4*a*c))/2/a
 
 
-# In[18]:
+# In[17]:
 
 
 def equilibriumEutectic(H, C, T0, Te, L, cp):
@@ -528,21 +527,21 @@ def equilibriumEutectic(H, C, T0, Te, L, cp):
     return T, f
 
 
-# In[19]:
+# In[18]:
 
 
 def pseudoEutecticSolidus(C, T0, Te, gamma):
     return T0 + (Te-T0)*(1-np.exp(-C/gamma))/(1-np.exp(-1/gamma))
 
 
-# In[20]:
+# In[19]:
 
 
 def pseudoEutecticLiquidus(C, T0, Te, gamma):
     return T0 + (Te-T0)*C
 
 
-# In[21]:
+# In[20]:
 
 
 def equilibriumPseudoEutectic(T, C, T0, Te, L, gamma):
@@ -560,7 +559,7 @@ def equilibriumPseudoEutectic(T, C, T0, Te, L, gamma):
     return f
 
 
-# In[22]:
+# In[21]:
 
 
 npts =  500
@@ -579,7 +578,7 @@ cp = 1200
 H = np.linspace(-L, L + cp*(T0-Te), 1000)
 
 
-# In[23]:
+# In[22]:
 
 
 fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(18.0, 9.0))
@@ -646,21 +645,21 @@ plt.show()
 # 
 # Figure below plots a comparison of a two-component, ideal-solution phase loop with a linearised solidus and liquidus at 1 GPa. The phase loop uses the parameters from the Table above. __(a)__ Solidus and liquidus curves.  Evolution of an initially unmolten rock with 25 wt% basaltic component for increasing temperature, along the linearised phase boundaries. __(b)__ Isobaric melting curves.
 
-# In[24]:
+# In[23]:
 
 
 def SolLiqTemperature(C, Cref, M, Tref):
     return Tref + M*(C-Cref)
 
 
-# In[25]:
+# In[24]:
 
 
 def SolLiqComposition(T, Tref, M, Cref):
     return Cref + (T - Tref)/M
 
 
-# In[26]:
+# In[25]:
 
 
 def MeltFraction(T, C, ML, MS, LCref, SCref, Tref):
@@ -676,14 +675,14 @@ def MeltFraction(T, C, ML, MS, LCref, SCref, Tref):
     return F, Cs, Cl
 
 
-# In[27]:
+# In[26]:
 
 
 par_lin = [IdealSolutionParameters(600e3, 70., 1./45., 1780. + 273.), 
            IdealSolutionParameters(450e3, 30., 1./112., 950. + 273.)]
 
 
-# In[28]:
+# In[27]:
 
 
 Pref = 1.
@@ -696,7 +695,7 @@ cvar[:, 0] = np.linspace(0., 1., 300)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 300)
 
 
-# In[29]:
+# In[28]:
 
 
 fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(18.0, 9.0))
