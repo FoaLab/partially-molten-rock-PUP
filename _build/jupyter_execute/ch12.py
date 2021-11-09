@@ -224,10 +224,11 @@ def zero_by_wavenumber(k, sigma, par):
 
 def characteristic_polynomial(k, sig, par):
     K = k ** 2 / par.Da / par.Pe / par.F + 1.0
-    p = np.asarray([0.0 if par.largeDa else sig / par.Da,  # cubic
-                    sig * K - par.n * np.power(par.F, 1 + par.n) / par.Da / par.S,  # quadratic
-                    -(par.n * np.power(par.F, 1 + par.n) * K / par.S + sig * k ** 2 / par.Da),  # linear
-                    k ** 2 * (par.n * np.power(par.F, 1 - par.n) - sig * K)])  # constant
+    p3 = 0.0 if par.largeDa else sig / par.Da  # cubic
+    p2 = sig * K - par.n * np.power(par.F, 1 + par.n) / par.Da / par.S  # quadratic
+    p1 = -(par.n * np.power(par.F, 1 + par.n) * K / par.S + sig * k ** 2 / par.Da)  # linear
+    p0 = k ** 2 * (par.n * np.power(par.F, 1 - par.n) - sig * K)  # constant
+    p = np.asarray([p3, p2, p1, p0], dtype=object)
     return p.reshape(p.shape[0])
 
 
@@ -277,7 +278,7 @@ def form_eigenfunction(k, sigma, par):
 # In[10]:
 
 
-def reactive_flow_solve_dispersion(k_guess, sigma_guess, par):
+def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
     # input parameters:
     #   k -- horizontal wavenumber (required)
     #   sigma_guess -- guess at the eigenvalue (optional)
@@ -342,7 +343,8 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par):
 
     # handle failure to find solution
     if none_converged:
-        print(f'FAILURE: no solution found for k={k_guess}')
+        if verbose:
+            print(f'FAILURE: no solution found for k={k_guess}')
         sa.sigma = np.nan
         sa.k = np.nan
         sa.m = [np.nan, np.nan, np.nan]
@@ -362,10 +364,12 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par):
 
     if (gP < 0).any() and par.bc_type != 1:
         sa.flag = False
-        print(f'FAILURE: non-monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
+        if verbose:
+            print(f'FAILURE: non-monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
     else:
         sa.flag = True
-        print(f'SUCCESS: monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
+        if verbose:
+            print(f'SUCCESS: monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
 
     if par.plot:
         plt.plot(np.linspace(0, 1, par.nz), np.real(sa.eig.P), linewidth=2)
@@ -409,11 +413,11 @@ def taylor_series_extension(n, x, y, step, init_Lks):
 # In[12]:
 
 
-def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks):
+def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks, verbose=False):
     n = 0  # can n be zero?
     Lk = np.full((1, ), np.inf)  # dictionaries
     s = np.full((1, ), np.inf)
-    m = m = np.full((1, 2), np.inf + 0.j, dtype=np.complex) if par.largeDa         else np.full((1, 3), np.inf + 0.j, dtype=np.complex)
+    m = m = np.full((1, 2), np.inf + 0.j, dtype=complex) if par.largeDa         else np.full((1, 3), np.inf + 0.j, dtype=complex)
 
     for j in [0, 1]:
         fails = 0
@@ -427,10 +431,12 @@ def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks):
             if n == 0:
                 s_guess = np.linspace(0.1, par.n, 30)
             elif fails <= 1:
-                print(f'Iteration {n}: searching for solution at k={np.power(10, Lk_guess)}')
+                if n % 50 == 0 or n == 0:
+                    print(f'Iteration {n}: searching for solution at k={np.power(10, Lk_guess)}')
                 s_guess = s_guess * np.linspace(0.99, 1.01, 16)
             elif fails == 2:
-                print(f'Iteration {n}: searching for solution at sigma={s_guess}')
+                if n % 50 == 0 or n == 0:
+                    print(f'Iteration {n}: searching for solution at sigma={s_guess}')
                 Lk_guess = Lk_guess * np.linspace(0.99, 1.01, 16)
             else:
                 break
@@ -473,14 +479,24 @@ init_Lks = np.asarray([np.log10(5.0), 3.0])
 DC_ref = reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks)
 iref = np.argmax(DC_ref.s)
 
+
+# In[14]:
+
+
 dpar = par
 dpar.Da = 10.0
 DC_a = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
+
+
+# In[15]:
+
+
+dpar = par
 dpar.Da = 100.0
 DC_b = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
 
 
-# In[14]:
+# In[16]:
 
 
 k_iref, s_iref = DC_ref.k[iref], DC_ref.s[iref]
@@ -508,7 +524,7 @@ Chi = (Chi - np.amin(Chi))/(np.amax(Chi) - np.amin(Chi))
 
 # Figure below illustrates the results of numerical solutions of the stability problem. __(a)__ Dispersion curves: growth rate $\sigma$ as a function of wavenumber $\wavenumber$ from numerical solutions for $\sigma,m_j,A_j$ for three different values of $\Da$. All three curves use the parameters $\Pe=100,\,\rpro=0.01,\,\dpro=\stiff=1$ and $\permexp=3$ (corresponding to the parameters used to compute the base state in the Figure above). The star symbol marks the maximum growth rate for the reference curve. __(b)__ The eigenmode with maximum growth rate $\sigma^*\approx 2.96$ at $\wavenumber^*\approx 24.6$ ($\lambda^*\approx0.26$) for the curve with $\Da=1000$ corresponding to the star marker in panel (a). The perturbation to the compaction pressure $\cmppres\first$ is shown in the grayscale background image. The narrow lines are contours of the porosity perturbation $\por\first$, which has maxima where the compaction pressure has minima. The white curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-5}$. The velocity perturbation $\vel\first$ is computed with equation $\vel\first = \left(\permexp - 1\right)\por\first\zhat - \stiff\Grad\cmppres\first$.
 
-# In[15]:
+# In[17]:
 
 
 f, ax = plt.subplots()
@@ -522,7 +538,7 @@ ax0 = plt.subplot(gs[0])
 ax0.plot(DC_a.k, DC_a.s, '--k', linewidth=2, label=r'$Da=1000$')
 ax0.plot(DC_b.k, DC_b.s, '-.k', linewidth=2, label=r'$Da=10$')
 ax0.plot(DC_ref.k, DC_ref.s, '-k', linewidth=2, label=r'$Da=100$')
-ax0.plot(DC_ref.k[iref], DC_ref.s[iref], '*k', MarkerSize=9)
+ax0.plot(DC_ref.k[iref], DC_ref.s[iref], '*k', markersize=9)
 ax0.set_xlabel(r'$k$', fontsize=24)
 ax0.set_xscale('log')
 ax0.set_xlim(1.0, 400.0)
@@ -566,7 +582,7 @@ plt.show()
 # 
 # The function `characteristic_polynomial` above already includes this case and evaluatees the coefficients of the both characteristic polynomial \eqref{eq:characteristic-poly-cbs} and \eqref{eq:characteristic-poly-quad}.
 
-# In[16]:
+# In[18]:
 
 
 Lkbounds = np.log10([0.1, 400.0])
@@ -585,7 +601,7 @@ for vals in [10., 100., 1000.]:
 
 # Figure below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial \eqref{eq:characteristic-poly-cbs}, solid lines) and the large-$\Da$ problem (quadratic \eqref{eq:characteristic-poly-quad}, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
 
-# In[17]:
+# In[19]:
 
 
 f, ax = plt.subplots()
@@ -628,7 +644,7 @@ plt.show()
 # 
 # The function `ReactiveFlowAnalyticalSolution` below takes $k, \permexp,\Da,\Pe,\stiff$ as arguments and evaluates the value of $\sigma$ given by equation \eqref{eq:rxflow-analytical-sigma-full}.
 
-# In[18]:
+# In[20]:
 
 
 class PAR:
@@ -704,7 +720,7 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     return s
 
 
-# In[19]:
+# In[21]:
 
 
 n = 3.
@@ -720,7 +736,7 @@ for s_ in S:
 
 # Figure below plot the results for the modified problem with $\cmppres\first=0$ at $z=1$. __(a)__ Dispersion curves for $n=3$, $\Da=1000$, $\Pe=100$ and four values of $\stiff$. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. __(b)__ The $\cmppres\first$ eigenfunction for $\stiff=1$. White curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-3}$. __(c)__ $\cmppres\first$ for $\stiff=0.1$ with superimposed contours of the porosity perturbation $\por\first$. Porosity is larger in the low-pressure channels. __(d)__ $\cmppres\first$ for $\stiff=0.01$.
 
-# In[20]:
+# In[22]:
 
 
 zoom = 2.0
@@ -824,7 +840,7 @@ plt.show()
 # \end{equation}
 # 
 
-# In[21]:
+# In[23]:
 
 
 class SA_Growth():
@@ -850,7 +866,7 @@ def asym_maxgrowth(k, n, Da, Pe, S, l):
     return s_
 
 
-# In[22]:
+# In[24]:
 
 
 class SA_Dispersion():
@@ -901,7 +917,7 @@ def full_dispersion(k, n, Da, Pe, S, l):
 
 # Properties of the dispersion curve near its maximum, with $n=3,\,\Da=10^4,\,b=\pi$. __(a)__ Comparison of the exact dispersion relation \eqref{eq:rxflow-analytical-sigma-full} (solid lines) with the asymptotic relations \eqref{eq:rxflow-asymptotic-sigma}-\eqref{eq:rxflow-analytic-real-im-asymptotic_e} (dashed lines) for $\Pe/\Da=10^{-2}$ and two values of $\stiff$, as given in the legend. __(b)__ Contours of fastest-growing (non-dimensional) wavelength $\lambda^*$ for a range of $\stiff$ and $\Pe$ from equation \eqref{eq:rxflow-kstar-full}. Dotted lines are at $\Pe/\Da = 4$ and $\stiff = 1/2\pi$. In both panels, stars indicate the maximum ($\wavenumber^*,\sigma^*$) of the asymptotic curves, computed with \eqref{eq:rxflow-kstar-full} and \eqref{eq:rxflow-sstar-full}.
 
-# In[23]:
+# In[25]:
 
 
 zoom = 2.0
@@ -920,19 +936,18 @@ l = 1.0
 sfull = full_dispersion(k, n, Da, Pe, S[0], l)
 sasym = asym_dispersion(k, n, Da, Pe, S[0], l)
 smax = asym_maxgrowth(k, n, Da, Pe, S[0], l)
-ax0.loglog(sfull.k, sfull.s, '-k', linewidth=2, color=[0.5, 0.5, 0.5],
-           label=r'$\mathcal{S}='+str(np.real(S[0]))+'$')
-ax0.loglog(k, sasym, '--k', linewidth=0.5, color=[0.5, 0.5, 0.5])
-ax0.plot(smax.k, smax.s, '*k', markersize=7, color=[0.5, 0.5, 0.5])
+ax0.loglog(sfull.k, sfull.s, '-', linewidth=2, color=[0.5, 0.5, 0.5], label=r'$\mathcal{S}='+str(np.real(S[0]))+'$')
+ax0.loglog(np.real(k), sasym, '--', linewidth=0.5, color=[0.5, 0.5, 0.5])
+ax0.plot(smax.k, smax.s, '*', markersize=7, color=[0.5, 0.5, 0.5])
 
 sfull = full_dispersion(k, n, Da, Pe, S[1], l)
 sasym = asym_dispersion(k, n, Da, Pe, S[1], l)
 smax = asym_maxgrowth(k, n, Da, Pe, S[1], l)
 ax0.loglog(sfull.k, sfull.s, '-k', linewidth=2, label=r'$\mathcal{S}='+str(np.real(S[0]))+'$')
-ax0.loglog(k, sasym, '--k', linewidth=0.5)
+ax0.loglog(np.real(k), sasym, '--k', linewidth=0.5)
 ax0.plot(smax.k, smax.s, '*k', markersize=7)
 
-ax0.plot([k[0], k[-1]], [n, n], ':k', label=r'$\sigma=n$')
+ax0.plot(np.real([k[0], k[-1]]), [n, n], ':k', label=r'$\sigma=n$')
 
 ax0.set_xlim(np.sqrt(0.1), np.power(10, 3.5))
 ax0.set_xticks([1.e0, 1.e1, 1.e2, 1.e3])
@@ -962,8 +977,8 @@ lambda_ = 2 * np.pi / Ks
 ax1.contour(Pe / Da, S, np.log10(lambda_), 16, cmap='gray')
 ax1.plot([Pe[0]/Da, Pe[-1]/Da], [1/2/np.pi, 1/2/np.pi], ':k')
 ax1.plot([4, 4], [S[1], S[-1]], ':k')
-ax1.plot(Pe_Da, Spts[0], '*k', markersize=7, color=[0.5, 0.5, 0.5])
-ax1.plot(Pe_Da, Spts[1], '*k', markersize=7)
+ax1.plot(Pe_Da, np.real(Spts[0]), '*', markersize=7, color=[0.5, 0.5, 0.5])
+ax1.plot(Pe_Da, np.real(Spts[1]), '*k', markersize=7)
 ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.set_xticks((1.e-4, 1.e-2, 1.e0, 1.e2, 1.e4))
@@ -1002,7 +1017,7 @@ plt.show()
 # | Damköhler number | $\Da$ | $7 \times 10^7$ ($3.5\times10^3 - 1.4\times10^{12}$) |
 # | Stiffness number | $\stiff$ | $3\times10^{-5}$ ($1\times10^{-6} - 6\times10^{-3}$) | 
 
-# In[24]:
+# In[26]:
 
 
 class PAR:
@@ -1040,7 +1055,7 @@ def Dispersion(k, n, Da, Pe, S):
 
 # Figure below plots the time-scale of channel growth $1/\sigma$ as a function of the horizontal wavelength of channels.  This curve is computed using the full dispersion relation \eqref{eq:rxflow-analytical-sigma-full} with preferred parameter values from table above. Horizontal dotted lines mark the minimum growth time ($\sigma=1/\permexp$, in non-dimensional terms) and this value plus 2\%.
 
-# In[25]:
+# In[27]:
 
 
 zoom = 2.0
