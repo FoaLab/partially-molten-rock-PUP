@@ -119,6 +119,8 @@ evec = np.asarray([1, 0.01])
 alphvec = np.asarray([30*np.pi/180., 15*np.pi/180.])
 r = np.sqrt(X**2 + Y**2)/L
 
+annotations = [['(a)', '(b)'], ['(c)', '(d)']]
+
 for i, alph in enumerate(alphvec):
     B = 2./(np.pi - 2*alph - np.sin(2.*alph))
     inplates = np.fabs(theta) > (0.5 * np.pi - alph)
@@ -144,13 +146,13 @@ for i, alph in enumerate(alphvec):
         seedVS[:, 0] = np.linspace(sm*np.cos(alph), np.cos(alph), 7)
         seedVS[:, 1] = np.linspace(sm*np.sin(alph), np.sin(alph), 7)
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
-        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', 
+        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
                             integration_direction='backward', minlength=0.5, arrowstyle='-')
         # in the negative X axis
         seedVS[:, 0] = np.linspace(-np.cos(alph), -sm*np.cos(alph), 7)
         seedVS[:, 1] = np.flip(np.linspace(sm*np.sin(alph), np.sin(alph), 7))
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
-        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', 
+        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
                             integration_direction='backward', minlength=0.5, arrowstyle='-')
         
         # ------------------
@@ -160,14 +162,19 @@ for i, alph in enumerate(alphvec):
         seedVL[:, 0] = 0.7 * np.linspace(0.0, np.amax(x), 12)
         seedVL[:, 1] = 0.99
         ax[i, j].plot(seedVL[:, 0], seedVL[:, 1], 'bo')
-        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', 
+        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
                             integration_direction='forward', minlength=0.5, arrowstyle='-')
         # in the negative X axis
         seedVL[:, 0] = 0.7 * np.linspace(-np.amax(x), 0.0, 12)
         seedVL[:, 1] = 0.99
         ax[i, j].plot(seedVL[:, 0], seedVL[:, 1], 'bo')
-        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', 
+        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
                             integration_direction='forward', minlength=0.5, arrowstyle='-')
+
+        ax[i, j].text(-0.47*aspect, -0.1, annotations[i][j], fontsize=20, verticalalignment='top', horizontalalignment='right')
+        ax[i, j].text(0.0, -0.15, r'$L \sqrt{2B}$', fontsize=15, verticalalignment='top', horizontalalignment='right')
+        ax[i, j].plot([-0.1*aspect, 0.0], [-0.025, -0.025], '-r', linewidth=2)
+        ax[i, j].text(0.2*aspect, -0.08, r'$\epsilon={}$'.format(e), fontsize=13, verticalalignment='top', horizontalalignment='right')
         
         # annotations
         ax[i, j].plot([-1., 1.], [0., 0.], '-k', linewidth=2)

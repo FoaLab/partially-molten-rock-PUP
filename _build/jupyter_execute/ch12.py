@@ -140,7 +140,7 @@ plt.show()
 
 class PAR:
     def __init__(self, F_=1.0, n_=3, S_=1.0, Da_=1000.0, Pe_=100.0, M_=0.01, G_=1,
-                 bc_=2, nz_=1000, tol_=1e-5, plot_=False, step_=0.01, largeDa_=False):
+                 bc_=2, nz_=2000, tol_=1e-5, plot_=False, step_=0.01, largeDa_=False):
         self.F = F_  # base - state parameter - force to be constant
         self.n = n_  # permeability exponent
         self.S = S_  # rigidity parameter
@@ -500,18 +500,21 @@ DC_b = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
 
 
 k_iref, s_iref = DC_ref.k[iref], DC_ref.s[iref]
-SA_ref = reactive_flow_solve_dispersion(k_iref, s_iref, PAR())
+par = PAR()
+SA_ref = reactive_flow_solve_dispersion(k_iref, s_iref, par)
 
 lambda_ = 2.0 * np.pi/k_iref
 X, Z = np.meshgrid(np.linspace(0.0, 2.0 * lambda_, par.nz), np.linspace(0.0, 1.0, par.nz))
 P = np.tile(SA_ref.eig.P, (par.nz, 1)).transpose() * np.exp(1j * k_iref * X)
 phi = np.tile(SA_ref.eig.phi, (par.nz, 1)).transpose() * np.exp(1j * k_iref * X)
-epsilon = 3e-5
+epsilon = 3.e-5
 h = 1.0/(par.nz-1.0)
 Px, Pz = np.gradient(P, h, h)
 F = par.F
-U = epsilon * np.real(-np.power(F, 1 - par.n) * par.S * Px)
-W = F + epsilon * np.real(F**2 * (par.n-1) * phi - np.power(F, 1 - par.n) * par.S * Pz)
+# U =     epsilon*real(-F^(1-par.n)*par.S*Px);
+U = epsilon * np.real(-np.power(F,1-par.n) * par.S * Px)
+# W = F + epsilon*real(F^2*(par.n-1)*phi - F^(1-par.n)*par.S*Pz);
+W = F + epsilon * np.real(np.power(F, 2*(par.n-1)) * phi - np.power(F, 1 - par.n) * par.S * Pz)
 Chi = s_iref * phi - P
 
 P = np.real(P)
@@ -545,24 +548,25 @@ ax0.set_xlim(1.0, 400.0)
 ax0.set_xticks((1e0, 1e1, 1e2))
 ax0.set_ylim(0.0, 3.2)
 ax0.set_ylabel(r'$\sigma$', fontsize=24)
-ax0.text(1.1, 0.1, '(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+ax0.text(1.1, 3.1, '(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
 ax0.legend()
 
 ax1 = plt.subplot(gs[1])
 ax1.imshow(np.flipud(P), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
 ax1.contour(X, Z, phi, levels=np.linspace(-1, 1, 20))
-nlines = 24
+nlines = 20
 h = 2.0 * lambda_/(nlines+1.0)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
-seed[:, 1] = np.ones_like(seed[:, 0]) / 1000.0
-ax1.streamplot(X, Z, U, W, start_points=seed, integration_direction='forward', color=[0.8, 0.8, 0.8], linewidth=1)
+seed[:, 1] = 0.001
+ax1.streamplot(X, Z, U, W, start_points=seed, integration_direction='forward', density=(60,90),
+               color=[0.8, 0.8, 0.8], arrowstyle='-')
 ax1.set_xlabel(r'$x/\lambda^*$', fontsize=24)
 ax1.set_xlim(0, 2.*lambda_)
 ax1.set_xticks((0, lambda_, 2*lambda_))
 ax1.set_xticklabels((0, 1, 2))
 ax1.set_ylabel(r'$z$', fontsize=24)
-ax1.set_ylim(0, 1)
+ax1.set_ylim(0.0, 1.0)
 ax1.set_yticks((0, 0.5, 1))
 ax1.text(-0.04, 0.95, '(b)', fontsize=20, verticalalignment='top', horizontalalignment='right')
 
