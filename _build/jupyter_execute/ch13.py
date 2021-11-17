@@ -14,6 +14,7 @@ from scipy.sparse.linalg import spsolve
 from scipy.optimize import fsolve, brentq
 from scipy.special import lambertw, erf
 from scipy.integrate import odeint, quad, cumtrapz
+from scipy.interpolate import interp1d
 
 
 # ## Corner-flow with magmatic segregation
@@ -99,9 +100,7 @@ def vel_liquid_tangential(alph, theta, r, e):
 
 
 f, ax = plt.subplots(2, 2)
-zoom = 2.0
-f.set_size_inches(9.2 * zoom, 5.4 * zoom)
-f.set_facecolor('w')
+f.set_size_inches(18.0, 12.0)
 
 Ny = 500
 aspect = 2.0
@@ -120,6 +119,8 @@ alphvec = np.asarray([30*np.pi/180., 15*np.pi/180.])
 r = np.sqrt(X**2 + Y**2)/L
 
 annotations = [['(a)', '(b)'], ['(c)', '(d)']]
+
+plots = []
 
 for i, alph in enumerate(alphvec):
     B = 2./(np.pi - 2*alph - np.sin(2.*alph))
@@ -146,15 +147,16 @@ for i, alph in enumerate(alphvec):
         seedVS[:, 0] = np.linspace(sm*np.cos(alph), np.cos(alph), 7)
         seedVS[:, 1] = np.linspace(sm*np.sin(alph), np.sin(alph), 7)
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
-        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
-                            integration_direction='backward', minlength=0.5, arrowstyle='-')
+        strm = ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
+                                   integration_direction='backward', minlength=0.5, arrowstyle='-')
+        plots.append(strm.lines)
         # in the negative X axis
         seedVS[:, 0] = np.linspace(-np.cos(alph), -sm*np.cos(alph), 7)
         seedVS[:, 1] = np.flip(np.linspace(sm*np.sin(alph), np.sin(alph), 7))
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
         ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
                             integration_direction='backward', minlength=0.5, arrowstyle='-')
-        
+
         # ------------------
         # liquid streamlines
         # ------------------
@@ -162,8 +164,9 @@ for i, alph in enumerate(alphvec):
         seedVL[:, 0] = 0.7 * np.linspace(0.0, np.amax(x), 12)
         seedVL[:, 1] = 0.99
         ax[i, j].plot(seedVL[:, 0], seedVL[:, 1], 'bo')
-        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
-                            integration_direction='forward', minlength=0.5, arrowstyle='-')
+        strm2 = ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
+                                    integration_direction='forward', minlength=0.5, arrowstyle='-')
+        plots.append(strm2.lines)
         # in the negative X axis
         seedVL[:, 0] = 0.7 * np.linspace(-np.amax(x), 0.0, 12)
         seedVL[:, 1] = 0.99
@@ -173,7 +176,7 @@ for i, alph in enumerate(alphvec):
 
         ax[i, j].text(-0.47*aspect, -0.1, annotations[i][j], fontsize=20, verticalalignment='top', horizontalalignment='right')
         ax[i, j].text(0.0, -0.15, r'$L \sqrt{2B}$', fontsize=15, verticalalignment='top', horizontalalignment='right')
-        ax[i, j].plot([-0.1*aspect, 0.0], [-0.025, -0.025], '-r', linewidth=2)
+        ax[i, j].plot([-0.15*aspect, 0.0], [-0.025, -0.025], '--r', linewidth=2)
         ax[i, j].text(0.2*aspect, -0.08, r'$\epsilon={}$'.format(e), fontsize=13, verticalalignment='top', horizontalalignment='right')
         
         # annotations
@@ -193,6 +196,9 @@ for i, alph in enumerate(alphvec):
         ax[i, j].set_ylim(-0.05, 1.02)
         ax[i, j].set_axis_off()
         ax[i, j].invert_yaxis()
+
+f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid streamlines'], 
+         bbox_to_anchor=(0.5, 1.0), loc='center', ncol=2, borderaxespad=0.)
 
 
 # ## Melt focusing through a sub-lithospheric channel
@@ -235,10 +241,8 @@ def integrand_Dx(zeta, Rsquared):
 # In[5]:
 
 
-f, ax = plt.subplots(1, 2)
-zoom = 2.0
-f.set_size_inches(7.7 * zoom, 4.25 * zoom)
-f.set_facecolor('w')
+fig, ax = plt.subplots(1, 2)
+fig.set_size_inches(18.0, 9.0)
 
 eps = 1.1920929e-07  # extracted from np.finfo(np.float32)
 R2 = np.asarray([0.0, 0.3, 0.6, 0.69])
@@ -342,89 +346,77 @@ def melting_region_top_bottom(distance, par):
 
 class PAR:
     def __init__(self):
-        self.Tsfc = 273  # K
-        self.Tm = 1350 + 273  # K 
-        self.TS0 = 1100 + 273  # K
+        secperyr = np.pi * 1.e7
+        self.Tsfc = 273.  # K
+        self.Tm = 1350. + 273.  # K 
+        self.TS0 = 1100. + 273.  # K
         self.clapeyron = 6.5e6  # Pa/K
-        self.rho = 3300  # kg/m3
+        self.rho = 3300.  # kg/m3
         self.kappa = 1e-6  # m2/sec (thermal diffusivity)
-        self.g = 10  # m/sec2
-        self.x0 = 5000  # m
-        self.U0 = 4/100/1e7/np.pi  # m/sec
+        self.g = 10.  # m/sec2
+        self.x0 = 5000.  # m
+        self.U0 = 4./100./secperyr  # m/sec
+        self.zh0 = -10.  # m
+        self.zb = -70.  # m
+        self.Pi = 0.23/(self.zh0-self.zb)  # per m
+        self.heatcap = 1200.  # J/kg/K
+        self.alpha = 30. * np.pi/180  # radians
+
+        self.clapeyron = self.zb * self.rho * self.g/(self.TS0 - self.Tm)
+        self.latent = self.heatcap*self.rho*self.g/self.Pi/self.clapeyron
 
 
 # In[10]:
 
 
-f, ax = plt.subplots(1, 2)
-zoom = 1.5
-f.set_size_inches(11.5 * zoom, 3.8 * zoom)
-f.set_facecolor('w')
+f, ax = plt.subplots()
+f.set_size_inches(12.0, 9.0)
 
 p = PAR()
-dist = np.linspace(0, 400e3, 5000)
-HH = np.asarray([melting_region_top_bottom(d, p) for d in dist])
-h = HH[:, 0].flatten()
-hb = HH[:, 1].flatten()
+xd = -(p.zb - p.zh0)/np.tan(p.alpha)
 
-zh = np.concatenate((h[~np.isnan(h)], np.flip(hb[~np.isnan(hb)])), axis=0) / 1e3
-xh = np.concatenate((dist[~np.isnan(h)], np.flip(dist[~np.isnan(hb)])), axis=0) / 1e3
-ax[0].plot(xh, -zh, '-k', linewidth=2)
-ax[0].set_xlim(0.0, 230.0)
-ax[0].set_ylim(-np.amax(zh)*1.3, 0.0)
+x = np.linspace(0.0, xd, 100)
+zh = p.zh0 - x * np.tan(p.alpha)
+zb = p.zb * np.ones(len(zh))
+ax.plot(x, zh, '-k', linewidth=2)
+ax.plot(x, zb, '-k', linewidth=2)
+ax.set_xlim(0.0, xd*1.05)
+ax.set_ylim(p.zb*1.1, 0.0)
 
-xd = dist[np.argmax(h[~np.isnan(h)])] / 1e3
-zd = h[np.argmax(h[~np.isnan(h)])] / 1e3
-ax[0].plot([xd, xd], [-zd, -zd*100], ':r')
-ax[0].text(xd, -np.amax(zh)*1.3, r'$x_d$', color='r', verticalalignment='top', 
-           horizontalalignment='center', fontsize=16)
+ax.plot([xd, xd], [p.zb, p.zb*1.1], ':k')
+ax.text(1.02*xd, p.zb*1.1, r'$x_d$', verticalalignment='top', horizontalalignment='center', fontsize=16)
+ax.set_xlabel(r'$x$, km', fontsize=20)
+ax.set_ylabel(r'$z$, km', fontsize=20)
 
-[X, Z] = np.meshgrid(np.linspace(0, 230, 200), np.linspace(-50, 0, 100))
-T = half_space_cooling_temperature(X*1e3, Z*1e3, p)
-cc = ax[0].contour(X[0, :], Z[:, 0], T, 4, colors='b', linestyles='--')
+ax.text(x[75], zh[75], r'$z_h(x)$', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
+ax.text(x[75], zb[75], r'$z_b$', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
+ax.text(40, -55, r'$\mathcal{Z}$', verticalalignment='center', horizontalalignment='left', fontsize=20)
 
-ax[0].set_xlabel(r'$x$, km', fontsize=20)
-ax[0].set_ylabel(r'$z$, km', fontsize=20)
-ax[0].text(5.0, -60.0, '(a)', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
+z = np.linspace(0, p.zb, 400)
+T = np.zeros((z.shape[0], x.shape[0]))
+for i, zh_i in enumerate(zh):
+    Tl = interp1d([0, zh_i], [p.Tsfc, p.TS0 - p.rho*p.g/p.clapeyron*zh_i], fill_value='extrapolate')(z)
+    Tm = p.TS0 - p.rho*p.g/p.clapeyron * z
+    T[:, i] = Tm * (z < zh_i) + Tl * (z >= zh_i)
 
-i0, i1 = 100, 1000
-xa, xb = xh[i0], xh[i1]
-za, zb = zh[i0]-5, zh[i1]+5
-ax[0].plot([xa, xb, xb, xa, xa], [-za, -za, -zb, -zb, -za],':k')
-ax[0].text(xa, -zb, 'panel (b)', fontsize=12, horizontalalignment='left', verticalalignment='bottom')
-ax[0].text(xh[2500], -zh[2500], r'$z_h(x)$', verticalalignment='bottom', horizontalalignment='left', fontsize=16)
-ax[0].text(xh[3500], -zh[3500], r'$z_b(x)$', verticalalignment='top', horizontalalignment='left', fontsize=16)
-ax[0].text(190, -42, r'$\mathcal{Z}$', verticalalignment='center', horizontalalignment='left', fontsize=20)
+cc = ax.contour(x, z, T, levels=9, colors='grey', linestyles='--', alpha=0.5)
 
-x = np.linspace(0, 1, 1000)
-dx = 0.05
-z = -np.sqrt(x + dx)
-ax[1].plot(x, z,'-k', linewidth=2)
+x0, x1, x2 = x[20-1], x[25-1], x[45-1]
+z0, z1, z2, z3 = zh[20-1], zh[25-1], zh[30-1], zh[55-1]
+ax.plot([x0, x1, x1, x0, x0], [z0, z0, z2, z1, z0], '-k')
+ax.plot([x0, x0],[z1, z3], ':k')
+ax.plot([x1, x1],[z2, z3], ':k')
+ax.plot([x1, x2],[z0, z0], ':k')
+ax.plot([x1, x2],[z1, z1], ':k')
 
-zb = 1.0
-x0 = 0.25
-z0 = -np.sqrt(x0+dx)
-ax[1].plot([x0, x0], [-zb, z0], ':k')
-x1 = x0 + 0.1
-z1 = -np.sqrt(x1+dx)
-ax[1].plot([x1, x1], [-zb, z1], ':k')
-x2 = x1 + 0.2
-ax[1].plot([x0, x2], [z0, z0], ':k')
-ax[1].plot([x1, x2], [z1, z1], ':k')
-ax[1].plot([x0, x1, x1, x0, x0], [z0, z0, 2*z1-z0, z1, z0], '-k', linewidth=1)
-ax[1].set_xlabel(r'$x$, km', fontsize=20)
-ax[1].set_ylabel(r'$z$, km', fontsize=20)
-ax[1].set_xticks(())
-ax[1].set_yticks(())
-
-ax[1].text(x2, (z1+z0)/2, r'$\Rightarrow\,U_0$', verticalalignment='center', fontsize=20)
-ax[1].text((x0+x1)/2, -zb, r'$\Rightarrow$', verticalalignment='center', horizontalalignment='right', 
-           rotation=90, fontsize=20)
-ax[1].text(1.2*(x0+x1)/2, -zb, r'$W_0(x)$', verticalalignment='top', horizontalalignment='left', fontsize=20)
-ax[1].text(x0-0.01, z0, r'$\delta z$', verticalalignment='top', horizontalalignment='right', fontsize=16)
-ax[1].text((x0+x1)/2, z0, r'$\delta x$', verticalalignment='bottom', horizontalalignment='center', fontsize=16)
-ax[1].text(x[-110], z[-110], r'$z_h(x)$', verticalalignment='bottom', horizontalalignment='left', fontsize=16)
-ax[1].text(0.01, -1.0, r'(b)', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
+ax.text(85, -20, r'$\longrightarrow x$', verticalalignment='top', horizontalalignment='left',fontsize=20)
+ax.text(85, -20, r'$\longrightarrow$', verticalalignment='center', horizontalalignment='left', fontsize=20, rotation=90)
+ax.text(85, -14, r'$z$', verticalalignment='top', horizontalalignment='left', fontsize=20)
+ax.text(x2, (z1+z0)/2, r'$\Rightarrow\,U_0$', verticalalignment='center', fontsize=20)
+ax.text(1.1*(x0+x1)/2, z3, r'$\Rightarrow$', verticalalignment='center', horizontalalignment='right', rotation=90, fontsize=20)
+ax.text(1.1*(x0+x1)/2, z3, r'$W_0$', verticalalignment='top', horizontalalignment='left',fontsize=20)
+ax.text(x0-1, z0, r'$\delta z$', verticalalignment='top', horizontalalignment='right', fontsize=13)
+ax.text((x0+x1)/2, z0, r'$\delta x$', verticalalignment='bottom', horizontalalignment='center', fontsize=13)
 plt.show()
 
 

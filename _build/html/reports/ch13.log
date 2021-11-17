@@ -1,0 +1,79 @@
+Traceback (most recent call last):
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 1117, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/util.py", line 78, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/util.py", line 57, in just_run
+    return loop.run_until_complete(coro)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 558, in async_execute
+    await self.async_execute_cell(
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 862, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/Users/fredericoteixeira/Projects/partially-molten-rock-PUP/rock-env/lib/python3.9/site-packages/nbclient/client.py", line 765, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+f, ax = plt.subplots(3, 1)
+zoom = 1.0
+f.set_size_inches(10.0 * zoom, 15.0 * zoom)
+f.set_facecolor('w')
+
+p = PAR()
+dist = np.linspace(0, 500e3, 8000)
+HH = np.asarray([melting_region_top_bottom(d, p) for d in dist])
+h = HH[:, 0].flatten()
+hb = HH[:, 1].flatten()
+dhdx = np.gradient(h, dist)
+
+p2 = PAR2()
+M = melting_rate(dist, h, p2) * p2.fudge
+dqdx, t1, t2 = Div_q(h, dhdx, hb, M, p2)
+
+ifoc = np.argwhere(dqdx >= 0).flatten()
+rfoc = np.arange(0, ifoc[-1]+1)
+q = np.flip(cumtrapz(np.flip(dqdx[rfoc]), np.flip(dist[rfoc]), initial=0))
+
+ax[0].plot(dist/1e3, h/1e3, 'k', dist/1e3, hb/1e3, '--k')
+ax[0].set_ylabel(r'$z$, km')
+ax[0].set_xticks(())
+ax[0].set_xlim(0.0, 250.0)
+#ax[0].set_yticks((0, 20, 40), (0, -20, -40))
+ax[0].text(220.0, 3.0, r'(a)', fontsize=20)
+ax[0].invert_yaxis()
+
+ax[1].plot(dist/1e3, t2 * p2.secperyr, 'k')
+ax[1].set_ylabel(r"G, m/yr")
+ax[1].set_ylim(0.0, 0.01)
+ax[1].set_xticks(())
+ax[1].set_xlim(0.0, 250.0)
+ax[1].set_yticks((0, 0.005, 0.01))
+ax[1].text(220.0, 0.0093, r'(b)', fontsize=20)
+
+ax[2].plot(dist[rfoc]/1e3, -q/p2.U0/1e3, 'k')
+ax[2].set_ylabel('crustal thickness, km')
+ax[2].set_ylim(0.0, 3.1)
+ax[2].set_xlabel('distance, km')
+ax[2].set_xticks((0, 50, 100, 150, 200, 250))
+ax[2].set_xlim(0.0, 250.0)
+ax[2].set_yticks((0.0, 2.0))
+ax[2].text(220.0, 2.9, r'(c)', fontsize=20)
+
+plt.show()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mIndexError[0m                                Traceback (most recent call last)
+[0;32m/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_51086/342240287.py[0m in [0;36m<module>[0;34m[0m
+[1;32m     16[0m [0;34m[0m[0m
+[1;32m     17[0m [0mifoc[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0margwhere[0m[0;34m([0m[0mdqdx[0m [0;34m>=[0m [0;36m0[0m[0;34m)[0m[0;34m.[0m[0mflatten[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 18[0;31m [0mrfoc[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0marange[0m[0;34m([0m[0;36m0[0m[0;34m,[0m [0mifoc[0m[0;34m[[0m[0;34m-[0m[0;36m1[0m[0;34m][0m[0;34m+[0m[0;36m1[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     19[0m [0mq[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mflip[0m[0;34m([0m[0mcumtrapz[0m[0;34m([0m[0mnp[0m[0;34m.[0m[0mflip[0m[0;34m([0m[0mdqdx[0m[0;34m[[0m[0mrfoc[0m[0;34m][0m[0;34m)[0m[0;34m,[0m [0mnp[0m[0;34m.[0m[0mflip[0m[0;34m([0m[0mdist[0m[0;34m[[0m[0mrfoc[0m[0;34m][0m[0;34m)[0m[0;34m,[0m [0minitial[0m[0;34m=[0m[0;36m0[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     20[0m [0;34m[0m[0m
+
+[0;31mIndexError[0m: index -1 is out of bounds for axis 0 with size 0
+IndexError: index -1 is out of bounds for axis 0 with size 0
+
