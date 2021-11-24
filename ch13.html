@@ -301,6 +301,9 @@
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">lambertw</span><span class="p">,</span> <span class="n">erf</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">odeint</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">cumtrapz</span>
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -308,8 +311,8 @@
 <div class="section" id="corner-flow-with-magmatic-segregation">
 <h2>Corner-flow with magmatic segregation<a class="headerlink" href="#corner-flow-with-magmatic-segregation" title="Permalink to this headline">¶</a></h2>
 <p>This simplified problem is governed by the system</p>
-<div class="amsmath math notranslate nohighlight" id="equation-334b25c5-c433-4fd2-8448-ae20c92bc0cc">
-<span class="eqno">(67)<a class="headerlink" href="#equation-334b25c5-c433-4fd2-8448-ae20c92bc0cc" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-742a3c5d-1305-42dd-94c3-8f8ee88a1d3d">
+<span class="eqno">(67)<a class="headerlink" href="#equation-742a3c5d-1305-42dd-94c3-8f8ee88a1d3d" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:cornerflow-twophase-stokes}
     \Grad\pres = \delsq\vel \\
     \Div\vel = 0
@@ -320,8 +323,8 @@
 \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
 \end{equation*}\]</div>
 <p>The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fe356bcf-3e92-41a8-bd39-06bdcea9abeb">
-<span class="eqno">(68)<a class="headerlink" href="#equation-fe356bcf-3e92-41a8-bd39-06bdcea9abeb" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8ffb3686-3b55-4165-8d77-2c44b4c0aadb">
+<span class="eqno">(68)<a class="headerlink" href="#equation-8ffb3686-3b55-4165-8d77-2c44b4c0aadb" title="Permalink to this equation">¶</a></span>\[\begin{align}
     f(\theta) &amp;= A\sin\theta -B\theta\cos\theta, \\
     \vel &amp;= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \\
     \pres &amp;= -\frac{1}{r}\left[f'''(\theta) + f'(\theta)\right] = -\frac{2B}{r}\cos\theta,
@@ -334,14 +337,14 @@
   B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
 \end{equation*}\]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(\theta_p\)</span> is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2f5bdf61-adfb-4321-9be9-49a24ead3ee9">
-<span class="eqno">(69)<a class="headerlink" href="#equation-2f5bdf61-adfb-4321-9be9-49a24ead3ee9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-21344446-6260-41f5-8cdc-982f3626f8ba">
+<span class="eqno">(69)<a class="headerlink" href="#equation-21344446-6260-41f5-8cdc-982f3626f8ba" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \unit{\gravity} &amp;= \cos\theta\rhat - \sin\theta\thetahat,\\
   \Grad\pres &amp;= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
 \end{align}\]</div>
 <p>The liquid velocity is then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2beb8aad-06c1-4cd6-a887-cb362a910907">
-<span class="eqno">(70)<a class="headerlink" href="#equation-2beb8aad-06c1-4cd6-a887-cb362a910907" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-973f528c-592e-4fe2-a8c4-7b35af5a7ddb">
+<span class="eqno">(70)<a class="headerlink" href="#equation-973f528c-592e-4fe2-a8c4-7b35af5a7ddb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:cornerflow-liquid-velocity}
   \vel\liq = \left(f'(\theta)\rhat - f(\theta)\thetahat\right) -
   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right]
@@ -483,7 +486,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x119be0940&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x117473820&gt;
 </pre></div>
 </div>
 <img alt="_images/ch13_5_1.png" src="_images/ch13_5_1.png" />
@@ -495,15 +498,15 @@
 <div class="section" id="lateral-transport-in-semi-infinite-half-space">
 <h3>Lateral transport in semi-infinite half-space<a class="headerlink" href="#lateral-transport-in-semi-infinite-half-space" title="Permalink to this headline">¶</a></h3>
 <p>A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, <span class="math notranslate nohighlight">\(q_\infty\cos\alpha\)</span>.  This efficiency be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-660bb9fd-2b68-4f75-9509-36b7f9d6f057">
-<span class="eqno">(71)<a class="headerlink" href="#equation-660bb9fd-2b68-4f75-9509-36b7f9d6f057" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dfc601aa-1daa-419f-979b-f875694a459e">
+<span class="eqno">(71)<a class="headerlink" href="#equation-dfc601aa-1daa-419f-979b-f875694a459e" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_focus_efficiency}
   \efocus &amp;\equiv \tan\alpha\int_{-\infty}^0\left[
     \frac{R^2G''(\zeta)-G(\zeta)}{1-R^2G''(\zeta)}\right]\infd \zeta,
 \end{align}\]</div>
 <p>Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-60041548-251d-4972-902c-cf2fa663f180">
-<span class="eqno">(72)<a class="headerlink" href="#equation-60041548-251d-4972-902c-cf2fa663f180" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4047f6ae-5e6f-441c-a1a4-9a7ecfa1cbe3">
+<span class="eqno">(72)<a class="headerlink" href="#equation-4047f6ae-5e6f-441c-a1a4-9a7ecfa1cbe3" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_chan_distance_final}
   \xfocus &amp;= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 \end{align}\]</div>
@@ -581,8 +584,8 @@
 <div class="section" id="lateral-transport-to-a-mid-ocean-ridge">
 <h3>Lateral transport to a mid-ocean ridge<a class="headerlink" href="#lateral-transport-to-a-mid-ocean-ridge" title="Permalink to this headline">¶</a></h3>
 <p>Temperature outside the partially molten region is assumed to satisfy the <em>half-space cooling model</em> , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed <span class="math notranslate nohighlight">\(U_0\)</span> and vertical diffusion with diffusivity <span class="math notranslate nohighlight">\(\kappa\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-254d8764-f024-48bc-8c56-e4e421e9bd3c">
-<span class="eqno">(73)<a class="headerlink" href="#equation-254d8764-f024-48bc-8c56-e4e421e9bd3c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-59a3f967-1cc8-43a8-b824-4feb730da0e8">
+<span class="eqno">(73)<a class="headerlink" href="#equation-59a3f967-1cc8-43a8-b824-4feb730da0e8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:half-space-temperature}
   \temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
     \temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
@@ -599,8 +602,8 @@
 </div>
 </div>
 <p>For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f78f398f-dafe-4596-9a7a-bf88d220a91a">
-<span class="eqno">(74)<a class="headerlink" href="#equation-f78f398f-dafe-4596-9a7a-bf88d220a91a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d96ceb92-0708-4218-b72e-d9ae90538d20">
+<span class="eqno">(74)<a class="headerlink" href="#equation-d96ceb92-0708-4218-b72e-d9ae90538d20" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-solidus}
   \soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
 \end{equation}\]</div>
@@ -721,8 +724,8 @@
 </div>
 <p>The decompaction channel is the key element of the focusing model.</p>
 <p>The variation of the volumetric flow rate <span class="math notranslate nohighlight">\(q\)</span> along the channel is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fb21d251-fbf5-4a32-9c4f-d71c8a9c671b">
-<span class="eqno">(75)<a class="headerlink" href="#equation-fb21d251-fbf5-4a32-9c4f-d71c8a9c671b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-cba29855-2a5f-42b8-9237-c0db6bafcc52">
+<span class="eqno">(75)<a class="headerlink" href="#equation-cba29855-2a5f-42b8-9237-c0db6bafcc52" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-flux-divergence}
   \diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)} 
   \left\{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right\},
@@ -754,96 +757,85 @@
 rapid freezing diminishes the flow of melt through the decompaction channel.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PAR2</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">=</span> <span class="mi">273</span>  <span class="c1"># K</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Tm</span>   <span class="o">=</span> <span class="mi">1350</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">TS0</span>  <span class="o">=</span> <span class="mi">1100</span> <span class="o">+</span> <span class="mi">273</span>  <span class="c1"># K</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span> <span class="o">=</span> <span class="mf">6.5e6</span>  <span class="c1"># Pa/K</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">latent</span> <span class="o">=</span> <span class="mf">5e5</span>  <span class="c1"># J/kg</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="mi">3300</span>  <span class="c1"># kg/m3</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># m2/sec (thermal diffusivity)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span> <span class="o">=</span> <span class="mi">1200</span>  <span class="c1"># J/kg/K</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># m/sec2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="mi">5000</span>  <span class="c1"># m</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">secperyr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mf">1e7</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fudge</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># a value of 1 means no artificial reduction in freezing rate</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">U0</span> <span class="o">=</span> <span class="mi">4</span><span class="o">/</span><span class="mi">100</span><span class="o">/</span><span class="mf">1e7</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># spreading rate, m/s</span>
-        <span class="c1"># par.Fmax = 0.23  # adiabatic productivity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z0</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">TS0</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span>
-        <span class="c1"># par.Pi = par.Fmax/par.z0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">latent</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">clapeyron</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">Fmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">z0</span>  <span class="c1"># adiabatic productivity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">M0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">heatcap</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">latent</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">FocusingModelTriangle</span><span class="p">():</span>
+
+    <span class="n">secperyr</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mf">365.5</span>
+
+    <span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">=</span> <span class="mf">273.</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">Tm</span>   <span class="o">=</span> <span class="mf">1350.</span> <span class="o">+</span> <span class="mf">273.</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">TS0</span>  <span class="o">=</span> <span class="mf">1100.</span> <span class="o">+</span> <span class="mf">273.</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">zh0</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">zb</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">70</span><span class="o">*</span><span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">Pi</span>   <span class="o">=</span> <span class="mf">0.23</span><span class="o">/</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">zh0</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">zb</span><span class="p">)</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="mi">3300</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">heatcap</span> <span class="o">=</span> <span class="mi">1200</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">=</span> <span class="mf">4.</span><span class="o">/</span><span class="mf">100.</span><span class="o">/</span><span class="n">secperyr</span>
+        
+    <span class="c1"># thermodynamic parameters from constraints</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">zb</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">TS0</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">Tm</span><span class="p">)</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">latent</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">heatcap</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">Pi</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
+    
+    <span class="c1"># channel position</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">zh0</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">zb</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">zh</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">zh0</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">zh</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">zb</span><span class="p">)</span>
+
+    <span class="c1"># freezing rate</span>
+    <span class="n">Tzh</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">TS0</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="n">zh</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">kappa</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">heatcap</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">latent</span> <span class="o">*</span> <span class="p">(</span><span class="n">Tzh</span><span class="o">/</span><span class="n">zh</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span><span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span><span class="p">)</span>
+   
+    <span class="c1"># flux divergence</span>
+    <span class="n">dqdx</span> <span class="o">=</span> <span class="p">(</span><span class="n">G</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">F</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">F</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">cumtrapz</span><span class="p">(</span><span class="n">dqdx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">q</span><span class="p">[</span><span class="n">I</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">par</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">zh</span> <span class="o">=</span> <span class="n">zh</span> <span class="o">/</span> <span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">cruth</span> <span class="o">=</span> <span class="o">-</span><span class="n">q</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">/</span> <span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">G</span> <span class="o">*</span> <span class="n">secperyr</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">xd</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">zb</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">zh0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+    <span class="n">par</span><span class="o">.</span><span class="n">alpha_crit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="o">-</span><span class="n">G</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">F</span><span class="p">)</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">/</span> <span class="n">F</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">par</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">zoom</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">,</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">21.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
-<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">500e3</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
-<span class="n">HH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">melting_region_top_bottom</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">])</span>
-<span class="n">h</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="n">hb</span> <span class="o">=</span> <span class="n">HH</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="n">dhdx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">FocusingModelTriangle</span><span class="p">()</span>
 
-<span class="n">p2</span> <span class="o">=</span> <span class="n">PAR2</span><span class="p">()</span>
-<span class="n">M</span> <span class="o">=</span> <span class="n">melting_rate</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="o">*</span> <span class="n">p2</span><span class="o">.</span><span class="n">fudge</span>
-<span class="n">dqdx</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">Div_q</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dhdx</span><span class="p">,</span> <span class="n">hb</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
-
-<span class="n">ifoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">dqdx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="n">rfoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ifoc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dqdx</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">hb</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z$, km&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">A</span><span class="o">.</span><span class="n">G</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$-G$, mm/yr&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(())</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
-<span class="c1">#ax[0].set_yticks((0, 20, 40), (0, -20, -40))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">xd</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">p2</span><span class="o">.</span><span class="n">secperyr</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G, m/yr&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(())</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">0.0093</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="o">/</span><span class="n">p2</span><span class="o">.</span><span class="n">U0</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;crustal thickness, km&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;distance, km&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">cruth</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$-q/U_0$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">xd</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">4</span><span class="n">z</span><span class="o">/</span><span class="n">_rhsq3x965gc56klbm0nmv040000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_51086</span><span class="o">/</span><span class="mf">342240287.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> 
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">ifoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">dqdx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">18</span> <span class="n">rfoc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ifoc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dqdx</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">rfoc</span><span class="p">]),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> 
-
-<span class="ne">IndexError</span>: index -1 is out of bounds for axis 0 with size 0
-</pre></div>
-</div>
-<img alt="_images/ch13_22_1.png" src="_images/ch13_22_1.png" />
+<img alt="_images/ch13_22_0.png" src="_images/ch13_22_0.png" />
 </div>
 </div>
 </div>
