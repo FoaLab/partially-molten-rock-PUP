@@ -16,6 +16,9 @@ from scipy.special import lambertw, erf
 from scipy.integrate import odeint, quad, cumtrapz
 from scipy.interpolate import interp1d
 
+import warnings
+warnings.filterwarnings('ignore')
+
 
 # ## Corner-flow with magmatic segregation
 # 
@@ -459,76 +462,77 @@ def melting_rate(distance, depth, par):
 # In[12]:
 
 
-class PAR2:
-    def __init__(self):
-        self.Tsfc = 273  # K
-        self.Tm   = 1350 + 273  # K 
-        self.TS0  = 1100 + 273  # K
-        self.clapeyron = 6.5e6  # Pa/K
-        self.latent = 5e5  # J/kg
-        self.rho = 3300  # kg/m3
-        self.kappa = 1e-6  # m2/sec (thermal diffusivity)
-        self.heatcap = 1200  # J/kg/K
-        self.g = 10  # m/sec2
-        self.x0 = 5000  # m
-        self.secperyr = np.pi*1e7
-        self.fudge = 1  # a value of 1 means no artificial reduction in freezing rate
-        self.U0 = 4/100/1e7/np.pi  # spreading rate, m/s
-        # par.Fmax = 0.23  # adiabatic productivity
-        self.z0 = (self.Tm - self.TS0)*self.clapeyron/self.rho/self.g
-        # par.Pi = par.Fmax/par.z0
-        self.Pi = self.heatcap*self.rho*self.g/self.latent/self.clapeyron 
-        self.Fmax = self.Pi*self.z0  # adiabatic productivity
-        self.M0 = self.kappa*self.heatcap/self.latent
+def FocusingModelTriangle():
+
+    secperyr = 60*60*24*365.5
+
+    par = PAR()
+    par.Tsfc = 273.
+    par.Tm   = 1350. + 273.
+    par.TS0  = 1100. + 273.
+    par.zh0 = - 10*1e3
+    par.zb   = -70*1e3
+    par.Pi   = 0.23/(par.zh0 - par.zb)
+    par.rho = 3300
+    par.kappa = 1e-6
+    par.heatcap = 1200
+    par.g = 10
+    par.alpha = 30*np.pi/180.
+    par.U0 = 4./100./secperyr
+        
+    # thermodynamic parameters from constraints
+    par.clapeyron = par.zb * par.rho * par.g/(par.TS0 - par.Tm)
+    par.latent = par.heatcap * par.rho * par.g / par.Pi / par.clapeyron
+    
+    # channel position
+    x = np.linspace(0, (par.zh0 - par.zb)/np.tan(par.alpha), 8000)
+    zh = par.zh0 - x * np.tan(par.alpha)
+    F = par.Pi * (zh - par.zb)
+
+    # freezing rate
+    Tzh = par.TS0 - par.rho * par.g * zh / par.clapeyron
+    G = par.kappa * par.heatcap / par.latent * (Tzh/zh + par.rho *par.g / par.clapeyron)
+   
+    # flux divergence
+    dqdx = (G + par.U0 * np.tan(par.alpha) * F)/(1 - F)
+    q = cumtrapz(dqdx, x, initial=0)
+    q = q - max(q)
+    I = np.argmax(q == 0.0)
+    q[I:] = np.nan
+    
+    par.x = x / 1e3
+    par.zh = zh / 1e3
+    par.cruth = -q / par.U0 / 1e3
+    par.G = G * secperyr
+    par.xd = -(par.zb - par.zh0) / np.tan(par.alpha) / 1e3
+    par.alpha_crit = np.arctan(-G * (1-F) / par.U0 / F)
+
+    return par
 
 
 # In[13]:
 
 
-f, ax = plt.subplots(3, 1)
-zoom = 1.0
-f.set_size_inches(10.0 * zoom, 15.0 * zoom)
-f.set_facecolor('w')
+f, ax = plt.subplots(2, 1)
+f.set_size_inches(21.0, 10.0)
 
-p = PAR()
-dist = np.linspace(0, 500e3, 8000)
-HH = np.asarray([melting_region_top_bottom(d, p) for d in dist])
-h = HH[:, 0].flatten()
-hb = HH[:, 1].flatten()
-dhdx = np.gradient(h, dist)
+A = FocusingModelTriangle()
 
-p2 = PAR2()
-M = melting_rate(dist, h, p2) * p2.fudge
-dqdx, t1, t2 = Div_q(h, dhdx, hb, M, p2)
-
-ifoc = np.argwhere(dqdx >= 0).flatten()
-rfoc = np.arange(0, ifoc[-1]+1)
-q = np.flip(cumtrapz(np.flip(dqdx[rfoc]), np.flip(dist[rfoc]), initial=0))
-
-ax[0].plot(dist/1e3, h/1e3, 'k', dist/1e3, hb/1e3, '--k')
-ax[0].set_ylabel(r'$z$, km')
+ax[0].plot(A.x, -A.G * 1e3, '-k', linewidth=2)
+ax[0].set_ylabel(r'$-G$, mm/yr', fontsize=24)
 ax[0].set_xticks(())
-ax[0].set_xlim(0.0, 250.0)
-#ax[0].set_yticks((0, 20, 40), (0, -20, -40))
-ax[0].text(220.0, 3.0, r'(a)', fontsize=20)
-ax[0].invert_yaxis()
+ax[0].set_xlim(0.0, A.xd)
+ax[0].set_yticks((0, 1, 2, 3, 4))
+ax[0].text(0.1, 0.1, r'(a)', fontsize=18)
 
-ax[1].plot(dist/1e3, t2 * p2.secperyr, 'k')
-ax[1].set_ylabel(r"G, m/yr")
-ax[1].set_ylim(0.0, 0.01)
-ax[1].set_xticks(())
-ax[1].set_xlim(0.0, 250.0)
-ax[1].set_yticks((0, 0.005, 0.01))
-ax[1].text(220.0, 0.0093, r'(b)', fontsize=20)
-
-ax[2].plot(dist[rfoc]/1e3, -q/p2.U0/1e3, 'k')
-ax[2].set_ylabel('crustal thickness, km')
-ax[2].set_ylim(0.0, 3.1)
-ax[2].set_xlabel('distance, km')
-ax[2].set_xticks((0, 50, 100, 150, 200, 250))
-ax[2].set_xlim(0.0, 250.0)
-ax[2].set_yticks((0.0, 2.0))
-ax[2].text(220.0, 2.9, r'(c)', fontsize=20)
+ax[1].plot(A.x, A.cruth, '-k', linewidth=2)
+ax[1].set_ylabel(r'$-q/U_0$, km', fontsize=24)
+ax[1].set_xlabel(r'$x$, km', fontsize=24)
+ax[1].set_xlim(0.0, A.xd)
+ax[1].set_ylim(0.0, 4.0)
+ax[1].set_xticks(np.arange(0, 101, 10))
+ax[1].set_yticks((0, 1, 2, 3, 4))
+ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
 
 plt.show()
 
