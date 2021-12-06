@@ -311,8 +311,8 @@
 <div class="section" id="corner-flow-with-magmatic-segregation">
 <h2>Corner-flow with magmatic segregation<a class="headerlink" href="#corner-flow-with-magmatic-segregation" title="Permalink to this headline">¶</a></h2>
 <p>This simplified problem is governed by the system</p>
-<div class="amsmath math notranslate nohighlight" id="equation-baa8d781-fe72-4c0c-8844-bec67749e4c9">
-<span class="eqno">(67)<a class="headerlink" href="#equation-baa8d781-fe72-4c0c-8844-bec67749e4c9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a29104db-8a9d-4386-9952-b4ada7a364f9">
+<span class="eqno">(67)<a class="headerlink" href="#equation-a29104db-8a9d-4386-9952-b4ada7a364f9" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:cornerflow-twophase-stokes}
     \Grad\pres = \delsq\vel \\
     \Div\vel = 0
@@ -323,8 +323,8 @@
 \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
 \end{equation*}\]</div>
 <p>The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b262a20-fef6-4e22-8f57-d1c3f40d49cc">
-<span class="eqno">(68)<a class="headerlink" href="#equation-6b262a20-fef6-4e22-8f57-d1c3f40d49cc" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ffecaf22-fdb0-4ffb-94c5-d9636342739b">
+<span class="eqno">(68)<a class="headerlink" href="#equation-ffecaf22-fdb0-4ffb-94c5-d9636342739b" title="Permalink to this equation">¶</a></span>\[\begin{align}
     f(\theta) &amp;= A\sin\theta -B\theta\cos\theta, \\
     \vel &amp;= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \\
     \pres &amp;= -\frac{1}{r}\left[f'''(\theta) + f'(\theta)\right] = -\frac{2B}{r}\cos\theta,
@@ -337,14 +337,14 @@
   B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
 \end{equation*}\]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(\theta_p\)</span> is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b0cee716-0ca1-4367-b89c-3917f1bfde3c">
-<span class="eqno">(69)<a class="headerlink" href="#equation-b0cee716-0ca1-4367-b89c-3917f1bfde3c" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0227600c-5760-4531-933a-c7b8df906170">
+<span class="eqno">(69)<a class="headerlink" href="#equation-0227600c-5760-4531-933a-c7b8df906170" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \unit{\gravity} &amp;= \cos\theta\rhat - \sin\theta\thetahat,\\
   \Grad\pres &amp;= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
 \end{align}\]</div>
 <p>The liquid velocity is then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-42507ac9-ef65-4d81-a550-532b9db86cc1">
-<span class="eqno">(70)<a class="headerlink" href="#equation-42507ac9-ef65-4d81-a550-532b9db86cc1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-aa96a3a4-ab64-404d-9b24-3eac1383fab4">
+<span class="eqno">(70)<a class="headerlink" href="#equation-aa96a3a4-ab64-404d-9b24-3eac1383fab4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:cornerflow-liquid-velocity}
   \vel\liq = \left(f'(\theta)\rhat - f(\theta)\thetahat\right) -
   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right]
@@ -486,7 +486,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1267508b0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x124f648e0&gt;
 </pre></div>
 </div>
 <img alt="_images/ch13_5_1.png" src="_images/ch13_5_1.png" />
@@ -498,15 +498,15 @@
 <div class="section" id="lateral-transport-in-semi-infinite-half-space">
 <h3>Lateral transport in semi-infinite half-space<a class="headerlink" href="#lateral-transport-in-semi-infinite-half-space" title="Permalink to this headline">¶</a></h3>
 <p>A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, <span class="math notranslate nohighlight">\(q_\infty\cos\alpha\)</span>.  This efficiency be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07f2a8e8-57d3-4d34-a8ea-c275ef0338bb">
-<span class="eqno">(71)<a class="headerlink" href="#equation-07f2a8e8-57d3-4d34-a8ea-c275ef0338bb" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-115965af-e172-48e9-9418-1d1acae96540">
+<span class="eqno">(71)<a class="headerlink" href="#equation-115965af-e172-48e9-9418-1d1acae96540" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_focus_efficiency}
   \efocus &amp;\equiv \tan\alpha\int_{-\infty}^0\left[
     \frac{R^2G''(\zeta)-G(\zeta)}{1-R^2G''(\zeta)}\right]\infd \zeta,
 \end{align}\]</div>
 <p>Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2fa6b2b3-3e66-4214-9300-ce1dc1824764">
-<span class="eqno">(72)<a class="headerlink" href="#equation-2fa6b2b3-3e66-4214-9300-ce1dc1824764" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d3efb37e-0083-4cdb-bbb5-34ba35c5c287">
+<span class="eqno">(72)<a class="headerlink" href="#equation-d3efb37e-0083-4cdb-bbb5-34ba35c5c287" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_chan_distance_final}
   \xfocus &amp;= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 \end{align}\]</div>
@@ -584,8 +584,8 @@
 <div class="section" id="lateral-transport-to-a-mid-ocean-ridge">
 <h3>Lateral transport to a mid-ocean ridge<a class="headerlink" href="#lateral-transport-to-a-mid-ocean-ridge" title="Permalink to this headline">¶</a></h3>
 <p>Temperature outside the partially molten region is assumed to satisfy the <em>half-space cooling model</em> , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed <span class="math notranslate nohighlight">\(U_0\)</span> and vertical diffusion with diffusivity <span class="math notranslate nohighlight">\(\kappa\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0a9b49e7-f96b-4ddf-96d2-62ba21eb2409">
-<span class="eqno">(73)<a class="headerlink" href="#equation-0a9b49e7-f96b-4ddf-96d2-62ba21eb2409" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1d4a8193-454e-4327-941a-1fdc398cacaf">
+<span class="eqno">(73)<a class="headerlink" href="#equation-1d4a8193-454e-4327-941a-1fdc398cacaf" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:half-space-temperature}
   \temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
     \temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
@@ -602,8 +602,8 @@
 </div>
 </div>
 <p>For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-39889c0d-a30a-44e9-b2f3-154cc9c5fd0e">
-<span class="eqno">(74)<a class="headerlink" href="#equation-39889c0d-a30a-44e9-b2f3-154cc9c5fd0e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7dfead73-d453-41e6-8605-817d0624dfd6">
+<span class="eqno">(74)<a class="headerlink" href="#equation-7dfead73-d453-41e6-8605-817d0624dfd6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-solidus}
   \soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
 \end{equation}\]</div>
@@ -724,8 +724,8 @@
 </div>
 <p>The decompaction channel is the key element of the focusing model.</p>
 <p>The variation of the volumetric flow rate <span class="math notranslate nohighlight">\(q\)</span> along the channel is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2919958f-86dd-404a-bda0-0f5779672b53">
-<span class="eqno">(75)<a class="headerlink" href="#equation-2919958f-86dd-404a-bda0-0f5779672b53" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-90fcb63c-3d6e-4eb4-98cc-69515aef13f0">
+<span class="eqno">(75)<a class="headerlink" href="#equation-90fcb63c-3d6e-4eb4-98cc-69515aef13f0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:mor-decomp-flux-divergence}
   \diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)} 
   \left\{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right\},
@@ -894,15 +894,12 @@ rapid freezing diminishes the flow of melt through the decompaction channel.</p>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$, km&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x133a61f70&gt;
-</pre></div>
-</div>
-<img alt="_images/ch13_23_1.png" src="_images/ch13_23_1.png" />
+<img alt="_images/ch13_23_0.png" src="_images/ch13_23_0.png" />
 </div>
 </div>
 </div>
