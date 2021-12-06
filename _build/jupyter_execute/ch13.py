@@ -462,23 +462,24 @@ def melting_rate(distance, depth, par):
 # In[12]:
 
 
-def FocusingModelTriangle():
+def FocusingModelTriangle(par=None):
 
     secperyr = 60*60*24*365.5
 
-    par = PAR()
-    par.Tsfc = 273.
-    par.Tm   = 1350. + 273.
-    par.TS0  = 1100. + 273.
-    par.zh0 = - 10*1e3
-    par.zb   = -70*1e3
-    par.Pi   = 0.23/(par.zh0 - par.zb)
-    par.rho = 3300
-    par.kappa = 1e-6
-    par.heatcap = 1200
-    par.g = 10
-    par.alpha = 30*np.pi/180.
-    par.U0 = 4./100./secperyr
+    if par is None:
+        par = PAR()
+        par.Tsfc = 273.
+        par.Tm   = 1350. + 273.
+        par.TS0  = 1100. + 273.
+        par.zh0 = - 10*1e3
+        par.zb   = -70*1e3
+        par.Pi   = 0.23/(par.zh0 - par.zb)
+        par.rho = 3300
+        par.kappa = 1e-6
+        par.heatcap = 1200
+        par.g = 10
+        par.alpha = 30*np.pi/180.
+        par.U0 = 4./100./secperyr
         
     # thermodynamic parameters from constraints
     par.clapeyron = par.zb * par.rho * par.g/(par.TS0 - par.Tm)
@@ -535,4 +536,69 @@ ax[1].set_yticks((0, 1, 2, 3, 4))
 ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
 
 plt.show()
+
+
+# In[14]:
+
+
+f, ax = plt.subplots(1, 3)
+f.set_size_inches(21.0, 9.0)
+
+par = FocusingModelTriangle()
+
+alpha = np.array([20., 30., 40., 50.]) * np.pi/180.
+pltstl = ['-k', '--k', '-.k', 'k:']
+for a, stl in zip(alpha, pltstl):
+    par.alpha = a
+    A = FocusingModelTriangle(par);
+    ax[0].plot(A.x, A.cruth, stl, linewidth=2, label=r'$\alpha ='+str(np.ceil(a*180/np.pi))+'^\circ$')
+ax[0].set_xlabel(r'$x$, km', fontsize=24)
+ax[0].set_ylabel(r'$-q/U_0$, km', fontsize=24)
+ax[0].set_xlim(0.0, 150)
+ax[0].set_xticks((0, 50, 100, 150))
+ax[0].set_yticks((0, 2, 4, 6, 8))
+ax[0].set_ylim(0.0, 8.0)
+ax[0].text(0.99, 7.9, r'$U_0 = 4$ cm/yr', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[0].text(0.1, 0.1, '(a)', fontsize=18)
+ax[0].legend(fontsize=13)
+
+secperyr = 60. * 60. * 24. * 365.5
+U0 = np.array([2., 4., 8., 16.])/100/secperyr  # m/sec
+for u0, stl in zip(U0, pltstl):
+    par.U0 = u0
+    A = FocusingModelTriangle(par)
+    ax[1].plot(A.x, A.cruth, stl, linewidth=2, label=r'$U_0 ='+str(int(u0*100.*secperyr))+'$ cm/yr')
+ax[1].set_xlabel(r'$x$, km', fontsize=24)
+ax[1].set_xlim(0.0, 50.0)
+ax[1].set_ylim(0.0, 8.0)
+ax[1].set_yticks((0, 2, 4, 6, 8))
+ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
+ax[1].text(0.05, 7.9, r'$\alpha=30^\circ$', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[1].legend(fontsize=13)
+
+secperyr = 60*60*24*365.5;
+C = 2.32  # prefactor in lithospheric thickness
+K = 1e-6  # diffusivity, m^2/sec
+U0 = np.array([2., 4., 8., 16.])/100./secperyr  # m/sec
+x_alpha = 5.  # km
+for u0, stl in zip(U0, pltstl):
+    yL  = C * np.sqrt(K * (x_alpha * 1e3)/u0)  # lithospheric thickness, m
+    yLp = C * C * K / 2. / u0 / yL;            # lithospheric slope
+    par.alpha = np.arctan(yLp)                   # local angle of the LAB, degrees
+    par.U0 = u0
+    A = FocusingModelTriangle(par)
+    plt.plot(A.x, A.cruth, stl, linewidth=2,
+             label=r'$U_0$ = ' + str(int(u0*100*secperyr)) + r'cm/yr, $\alpha$ =' + str(int(par.alpha*180/np.pi)) + r'$^\circ$')
+ax[2].set_xlim(0.0, 250.0)
+ax[2].set_ylim(0.0, 8.0)
+ax[2].set_yticks((0, 2, 4, 6, 8))
+ax[2].set_xlabel(r'$x$, km', fontsize=24)
+ax[2].text(2.0, 0.3, r'(c)', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[2].legend(fontsize=13);
+
+
+# In[ ]:
+
+
+
 
