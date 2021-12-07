@@ -201,7 +201,7 @@ for i, alph in enumerate(alphvec):
         ax[i, j].invert_yaxis()
 
 f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid streamlines'], 
-         bbox_to_anchor=(0.5, 1.0), loc='center', ncol=2, borderaxespad=0.)
+         bbox_to_anchor=(0.5, 1.0), loc='center', ncol=2, borderaxespad=0.);
 
 
 # ## Melt focusing through a sub-lithospheric channel
@@ -213,14 +213,14 @@ f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid s
 # \begin{align}
 #   \label{eq:decmp_focus_efficiency}
 #   \efocus &\equiv \tan\alpha\int_{-\infty}^0\left[
-#     \frac{R^2G''(\zeta)-G(\zeta)}{1-R^2G''(\zeta)}\right]\infd \zeta,
+#     \frac{R_\delta^2G''(\zeta)-G(\zeta)}{1-R_\delta^2G''(\zeta)}\right]\infd \zeta,
 # \end{align}
 # 
 # Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:
 # 
 # \begin{align}
 #   \label{eq:decmp_chan_distance_final}
-#   \xfocus &= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
+#   \xfocus &= \delta_0 R_\delta \tan\alpha \int_{-\infty}^0 \frac{R_\delta^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 # \end{align}
 
 # In[4]:
@@ -290,61 +290,11 @@ plt.show()
 
 
 # ### Lateral transport to a mid-ocean ridge
-# 
-# Temperature outside the partially molten region is assumed to satisfy the _half-space cooling model_ , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed $U_0$ and vertical diffusion with diffusivity $\kappa$,
-# \begin{equation}
-#   \label{eq:half-space-temperature}
-#   \temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
-#     \temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
-# \end{equation}
-# where $\temp_\text{sfc}<\temp_\text{m}$ are the imposed surface and deep mantle temperature, respectively (we neglect the adiabatic thermal gradient); $\text{erf()}$ is the error function.
+
+# Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at $x=0,z=0$. The problem is assumed to have reflection symmetry about the $z$ axis. Dashed lines are temperature contours. The heavy solid line is the outline of the melting region
+# $\meltregion$. A control volume along the top of the melting region is associated with a melting column beneath and a lithospheric strip to the right. The dip of the top of the melting regime is $\infd z_h/\infd x = -\tan\alpha$.
 
 # In[6]:
-
-
-def half_space_cooling_temperature(distance, depth, par):
-    arg = depth/(2.0*np.sqrt(par.kappa*(distance+par.x0)/par.U0))
-    T_hs = par.Tsfc + (par.Tm - par.Tsfc) * erf(arg)
-    return T_hs
-
-
-# For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as
-# \begin{equation}
-#   \label{eq:mor-decomp-solidus}
-#   \soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
-# \end{equation}
-
-# In[7]:
-
-
-def melting_temperature(depth, par):
-    TS = par.TS0 + par.rho * par.g * depth / par.clapeyron
-    return TS
-
-def find_solidus_depth(depth, distance, par):
-    T_hs = half_space_cooling_temperature(distance, depth, par)
-    TS = melting_temperature(depth, par)
-    return T_hs - TS
-
-
-# In[8]:
-
-
-def melting_region_top_bottom(distance, par):
-    depth = np.linspace(0, 100e3, 200)
-    pm = (find_solidus_depth(depth, distance, par) >= 0).astype(int)
-    idx = np.nonzero(np.fabs(pm[1:] - pm[0:-1]))
-    depth = depth[idx + np.ones_like(idx)].flatten()
-    hh0, hh1 = np.nan, np.nan
-    if depth.shape[0] == 2:
-        hh0 = fsolve(lambda d: find_solidus_depth(d, distance, par), depth[0])[0]
-        hh1 = brentq(lambda d: find_solidus_depth(d, distance, par), depth[0] + 1.0, depth[1] + 1.0)
-    return [hh0, hh1]
-
-
-# Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at $x=0,z=0$. The problem is assumed to have reflection symmetry about the $z$ axis. __(a)__ Temperature contours in the lithosphere (dashed); Solidus contour (i.e., where $T=\soltemp$). The partially molten region is labelled $\meltregion$. Distances $x$ are offset by 5 km to avoid an infinite thermal gradient at the origin. __(b)__ Expanded view of the boundary between the asthensphere and the lithosphere along which melt is focused in the decompaction channel. A control volume along the boundary is associated with a melting column and a lithospheric strip.
-
-# In[9]:
 
 
 class PAR:
@@ -369,7 +319,7 @@ class PAR:
         self.latent = self.heatcap*self.rho*self.g/self.Pi/self.clapeyron
 
 
-# In[10]:
+# In[7]:
 
 
 f, ax = plt.subplots()
@@ -423,43 +373,24 @@ ax.text((x0+x1)/2, z0, r'$\delta x$', verticalalignment='bottom', horizontalalig
 plt.show()
 
 
-# The decompaction channel is the key element of the focusing model.
+# The freezing rate is evaluated as
 # 
-# The variation of the volumetric flow rate $q$ along the channel is given by
+# \begin{equation}
+#   \label{eq:mor-decomp-energycon}
+#   G = \frac{\kappa\heatcapacity}{\latent}\left(\left.\diff{\temp}{z}
+#     \right\vert_{z_h^+} - \left.\diff{\temp}{z}\right\vert_{z_h^-}\right).
+# \end{equation}
+
+# The crustal thickness is given by $-q/U_0$. $q$ is the volumetric flow rate along the channel, and satisfies
 # 
 # \begin{equation}
 #   \label{eq:mor-decomp-flux-divergence}
-#   \diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)} 
-#   \left\{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right\},
+#   \diff{q}{x} = \frac{G - U_0\diff{z_h}{x} F(z_h)}{1-F(z_h)}.
 # \end{equation}
-# 
-# where $\Pi \equiv \density g \heatcapacity/\latent\clapeyron$ is the decompressional productivity of the melting columns; $z_h$ and $z_b$ were previously obtained by solving $\temp_{HS}=\soltemp$, and $z_h,\,z_b,\,\infd z_h/\infd x$ are all negative while $x$ and $(z_h-z_b)$ are positive.
 
-# In[11]:
+# Figures below plot results of the mid-ocean ridge focusing model with reference parameters. __(a)__ The freezing rate $-G$. __(b)__ The equivalent crustal thickness $-q/U_0$. Parameter values used here are $\soltemp_0=1373$, $T_m=1623$ K, $z_b=-70$ km, $z_{h0} = -10$ km, $z_h = z_{h0} - x\tan\alpha$, $\alpha=30^\circ$ (giving $x_d=104$~km), $F_\text{max}=0.23$, $\Pi=F_\text{max}/(z_h(0) - z_b)$, $\clapeyron = z_b\density g/(\soltemp_0 - T_m)$, $\latent = \heatcapacity\density g/\clapeyron\Pi$, and other paramters as in Table (8.1).
 
-
-def Div_q(h, dhdx, hb, M, par):
-    F = par.Pi * (hb - h)
-    t1 = M/(1-F)
-    t2 = (F * par.U0 * dhdx)/(1-F)
-    dqdx = t1 + t2
-    return dqdx, t1, t2
-
-def half_space_cooling_gradient(distance, depth, par2):
-    arg = depth/(2*np.sqrt(par2.kappa*(distance + par2.x0)/par2.U0))
-    dTdz = -(par2.Tm - par2.Tsfc) * np.exp(-arg**2)/np.sqrt(np.pi * par2.kappa * (distance + par2.x0)/par2.U0)
-    return dTdz
-
-def melting_rate(distance, depth, par):
-    dTdz_above = half_space_cooling_gradient(distance, depth, par)
-    dTdz_below = -par.rho*par.g/par.clapeyron
-    return par.M0*(dTdz_above - dTdz_below)
-
-
-# Figures below plot a numerical solution to equation \eqref{eq:mor-decomp-flux-divergence}. The half spreading rate $U_0$ is 4 cm/year. __(a)__ The top $z_h$ and bottom $z_b$ of the melting regime. Near the axis, $z_h$ reaches very shallow depths, indicating a sharp thermal gradient in the lithosphere above it. This leads to a large diffusive heat flux near the axis at $z_h$, which causes rapid freezing. __(b)__ The rate of freezing, $-G$. It shows a gradual increase moving from $x_d$ toward the axis, and then a sharp increase within about 25~km of the axis. __(c)__ This
-# rapid freezing diminishes the flow of melt through the decompaction channel.
-
-# In[12]:
+# In[8]:
 
 
 def FocusingModelTriangle(par=None):
@@ -511,7 +442,7 @@ def FocusingModelTriangle(par=None):
     return par
 
 
-# In[13]:
+# In[9]:
 
 
 f, ax = plt.subplots(2, 1)
@@ -538,7 +469,10 @@ ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
 plt.show()
 
 
-# In[14]:
+# Figure below shows how the solution to \eqref{eq:mor-decomp-flux-divergence} varies with the dip of the focusing boundary $\alpha = \tan^{-1}(-\infd z_h/\infd x)$ and the spreading rate $U_0$. __(a)__ holding $U_0$ fixed, a larger dip leads to a thicker crust ($-q(0)/U_0$). __(b)__ for
+# fixed $\alpha$, larger spreading rate also leads to a thicker crust. In both cases, this is because $W_0$ is increased, causing more rapid melting and a greater melt flux from the melting columns to the decompaction channel. __(c)__ shows that faster spreading (with associated reduction in $\alpha$) leads to a thicker crust. The models predicts that this effect does not saturate with increasing spreading rate. This is inconsistent with observations of crustal thickness as a function of spreading rate, which saturates at a half-rate of 2 cm/year to a thickness of about 7 km.
+
+# In[10]:
 
 
 f, ax = plt.subplots(1, 3)
