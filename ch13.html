@@ -311,8 +311,8 @@
 <div class="section" id="corner-flow-with-magmatic-segregation">
 <h2>Corner-flow with magmatic segregation<a class="headerlink" href="#corner-flow-with-magmatic-segregation" title="Permalink to this headline">¶</a></h2>
 <p>This simplified problem is governed by the system</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a29104db-8a9d-4386-9952-b4ada7a364f9">
-<span class="eqno">(67)<a class="headerlink" href="#equation-a29104db-8a9d-4386-9952-b4ada7a364f9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e89a5f17-6518-420e-98d3-a5820e2e3ec8">
+<span class="eqno">(67)<a class="headerlink" href="#equation-e89a5f17-6518-420e-98d3-a5820e2e3ec8" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:cornerflow-twophase-stokes}
     \Grad\pres = \delsq\vel \\
     \Div\vel = 0
@@ -323,8 +323,8 @@
 \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
 \end{equation*}\]</div>
 <p>The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ffecaf22-fdb0-4ffb-94c5-d9636342739b">
-<span class="eqno">(68)<a class="headerlink" href="#equation-ffecaf22-fdb0-4ffb-94c5-d9636342739b" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4f4e5dee-4b5d-4e1c-883d-80e725ed1300">
+<span class="eqno">(68)<a class="headerlink" href="#equation-4f4e5dee-4b5d-4e1c-883d-80e725ed1300" title="Permalink to this equation">¶</a></span>\[\begin{align}
     f(\theta) &amp;= A\sin\theta -B\theta\cos\theta, \\
     \vel &amp;= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \\
     \pres &amp;= -\frac{1}{r}\left[f'''(\theta) + f'(\theta)\right] = -\frac{2B}{r}\cos\theta,
@@ -337,14 +337,14 @@
   B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
 \end{equation*}\]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(\theta_p\)</span> is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0227600c-5760-4531-933a-c7b8df906170">
-<span class="eqno">(69)<a class="headerlink" href="#equation-0227600c-5760-4531-933a-c7b8df906170" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e1d62b19-216e-4af5-85fb-1662767a75b4">
+<span class="eqno">(69)<a class="headerlink" href="#equation-e1d62b19-216e-4af5-85fb-1662767a75b4" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \unit{\gravity} &amp;= \cos\theta\rhat - \sin\theta\thetahat,\\
   \Grad\pres &amp;= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
 \end{align}\]</div>
 <p>The liquid velocity is then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-aa96a3a4-ab64-404d-9b24-3eac1383fab4">
-<span class="eqno">(70)<a class="headerlink" href="#equation-aa96a3a4-ab64-404d-9b24-3eac1383fab4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1d037787-5e9c-4dff-ae87-bbba90013a2c">
+<span class="eqno">(70)<a class="headerlink" href="#equation-1d037787-5e9c-4dff-ae87-bbba90013a2c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:cornerflow-liquid-velocity}
   \vel\liq = \left(f'(\theta)\rhat - f(\theta)\thetahat\right) -
   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right]
@@ -481,15 +481,12 @@
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
 
 <span class="n">f</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">plots</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Solid streamlines&#39;</span><span class="p">,</span> <span class="s1">&#39;Liquid streamlines&#39;</span><span class="p">],</span> 
-         <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+         <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x124f648e0&gt;
-</pre></div>
-</div>
-<img alt="_images/ch13_5_1.png" src="_images/ch13_5_1.png" />
+<img alt="_images/ch13_5_0.png" src="_images/ch13_5_0.png" />
 </div>
 </div>
 </div>
@@ -498,17 +495,17 @@
 <div class="section" id="lateral-transport-in-semi-infinite-half-space">
 <h3>Lateral transport in semi-infinite half-space<a class="headerlink" href="#lateral-transport-in-semi-infinite-half-space" title="Permalink to this headline">¶</a></h3>
 <p>A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, <span class="math notranslate nohighlight">\(q_\infty\cos\alpha\)</span>.  This efficiency be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-115965af-e172-48e9-9418-1d1acae96540">
-<span class="eqno">(71)<a class="headerlink" href="#equation-115965af-e172-48e9-9418-1d1acae96540" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7a8c0e3b-149f-4a12-8e15-9d7a853029f3">
+<span class="eqno">(71)<a class="headerlink" href="#equation-7a8c0e3b-149f-4a12-8e15-9d7a853029f3" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_focus_efficiency}
   \efocus &amp;\equiv \tan\alpha\int_{-\infty}^0\left[
-    \frac{R^2G''(\zeta)-G(\zeta)}{1-R^2G''(\zeta)}\right]\infd \zeta,
+    \frac{R_\delta^2G''(\zeta)-G(\zeta)}{1-R_\delta^2G''(\zeta)}\right]\infd \zeta,
 \end{align}\]</div>
 <p>Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d3efb37e-0083-4cdb-bbb5-34ba35c5c287">
-<span class="eqno">(72)<a class="headerlink" href="#equation-d3efb37e-0083-4cdb-bbb5-34ba35c5c287" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d25ddae9-9313-4aad-9136-8bf16dbe966e">
+<span class="eqno">(72)<a class="headerlink" href="#equation-d25ddae9-9313-4aad-9136-8bf16dbe966e" title="Permalink to this equation">¶</a></span>\[\begin{align}
   \label{eq:decmp_chan_distance_final}
-  \xfocus &amp;= \freezelength\tan\alpha \int_{-\infty}^0 \frac{R^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
+  \xfocus &amp;= \delta_0 R_\delta \tan\alpha \int_{-\infty}^0 \frac{R_\delta^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 \end{align}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -583,61 +580,8 @@
 </div>
 <div class="section" id="lateral-transport-to-a-mid-ocean-ridge">
 <h3>Lateral transport to a mid-ocean ridge<a class="headerlink" href="#lateral-transport-to-a-mid-ocean-ridge" title="Permalink to this headline">¶</a></h3>
-<p>Temperature outside the partially molten region is assumed to satisfy the <em>half-space cooling model</em> , which is assumed a steady state thermal structure determined by the balance of uniform, horizontal advection at speed <span class="math notranslate nohighlight">\(U_0\)</span> and vertical diffusion with diffusivity <span class="math notranslate nohighlight">\(\kappa\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1d4a8193-454e-4327-941a-1fdc398cacaf">
-<span class="eqno">(73)<a class="headerlink" href="#equation-1d4a8193-454e-4327-941a-1fdc398cacaf" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-  \label{eq:half-space-temperature}
-  \temp_{HS}(x,z) = \temp_\text{sfc} + \left(\temp_\text{m} -
-    \temp_\text{sfc}\right)\text{erf}\left(\frac{-z}{2\sqrt{\kappa x/U_0}}\right),
-\end{equation}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\temp_\text{sfc}&lt;\temp_\text{m}\)</span> are the imposed surface and deep mantle temperature, respectively (we neglect the adiabatic thermal gradient); <span class="math notranslate nohighlight">\(\text{erf()}\)</span> is the error function.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">half_space_cooling_temperature</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">arg</span> <span class="o">=</span> <span class="n">depth</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="p">(</span><span class="n">distance</span><span class="o">+</span><span class="n">par</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">U0</span><span class="p">))</span>
-    <span class="n">T_hs</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Tsfc</span> <span class="o">+</span> <span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">Tsfc</span><span class="p">)</span> <span class="o">*</span> <span class="n">erf</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">T_hs</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>For simplicity, we consider a one-chemical-component system. Then the solidus temperature depends on pressure only.  We take this pressure to be lithostatic and hence write the solidus temperature as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7dfead73-d453-41e6-8605-817d0624dfd6">
-<span class="eqno">(74)<a class="headerlink" href="#equation-7dfead73-d453-41e6-8605-817d0624dfd6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-  \label{eq:mor-decomp-solidus}
-  \soltemp = \soltemp_0 - \frac{\density g z}{\clapeyron}.
-\end{equation}\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">melting_temperature</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">TS</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">TS0</span> <span class="o">+</span> <span class="n">par</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">/</span> <span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
-    <span class="k">return</span> <span class="n">TS</span>
-
-<span class="k">def</span> <span class="nf">find_solidus_depth</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">T_hs</span> <span class="o">=</span> <span class="n">half_space_cooling_temperature</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
-    <span class="n">TS</span> <span class="o">=</span> <span class="n">melting_temperature</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">T_hs</span> <span class="o">-</span> <span class="n">TS</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">melting_region_top_bottom</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">100e3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="n">pm</span> <span class="o">=</span> <span class="p">(</span><span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">pm</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">pm</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">depth</span> <span class="o">=</span> <span class="n">depth</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">hh0</span><span class="p">,</span> <span class="n">hh1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="k">if</span> <span class="n">depth</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">hh0</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">),</span> <span class="n">depth</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">hh1</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">find_solidus_depth</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">par</span><span class="p">),</span> <span class="n">depth</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">hh0</span><span class="p">,</span> <span class="n">hh1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at <span class="math notranslate nohighlight">\(x=0,z=0\)</span>. The problem is assumed to have reflection symmetry about the <span class="math notranslate nohighlight">\(z\)</span> axis. <strong>(a)</strong> Temperature contours in the lithosphere (dashed); Solidus contour (i.e., where <span class="math notranslate nohighlight">\(T=\soltemp\)</span>). The partially molten region is labelled <span class="math notranslate nohighlight">\(\meltregion\)</span>. Distances <span class="math notranslate nohighlight">\(x\)</span> are offset by 5 km to avoid an infinite thermal gradient at the origin. <strong>(b)</strong> Expanded view of the boundary between the asthensphere and the lithosphere along which melt is focused in the decompaction channel. A control volume along the boundary is associated with a melting column and a lithospheric strip.</p>
+<p>Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at <span class="math notranslate nohighlight">\(x=0,z=0\)</span>. The problem is assumed to have reflection symmetry about the <span class="math notranslate nohighlight">\(z\)</span> axis. Dashed lines are temperature contours. The heavy solid line is the outline of the melting region
+<span class="math notranslate nohighlight">\(\meltregion\)</span>. A control volume along the top of the melting region is associated with a melting column beneath and a lithospheric strip to the right. The dip of the top of the melting regime is <span class="math notranslate nohighlight">\(\infd z_h/\infd x = -\tan\alpha\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PAR</span><span class="p">:</span>
@@ -719,42 +663,23 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch13_17_0.png" src="_images/ch13_17_0.png" />
+<img alt="_images/ch13_13_0.png" src="_images/ch13_13_0.png" />
 </div>
 </div>
-<p>The decompaction channel is the key element of the focusing model.</p>
-<p>The variation of the volumetric flow rate <span class="math notranslate nohighlight">\(q\)</span> along the channel is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-90fcb63c-3d6e-4eb4-98cc-69515aef13f0">
-<span class="eqno">(75)<a class="headerlink" href="#equation-90fcb63c-3d6e-4eb4-98cc-69515aef13f0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-  \label{eq:mor-decomp-flux-divergence}
-  \diff{q}{x} = \dfrac{1}{\Pi^{-1} - (z_h - z_b)} 
-  \left\{ \kappa \left[ 1 - \dfrac{\clapeyron\left(\temp_\text{m} - \temp_\text{sfc}\right)}{\density g \sqrt{\pi\kappa x/U_0}} \exp\left(\frac{-z_h(x)^2}{4\kappa x/U_0}\right) \right] - U_0 \diff{z_h}{x}(z_h - z_b)\right\},
+<p>The freezing rate is evaluated as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8ded7d2f-3c34-48be-88eb-74db835655e1">
+<span class="eqno">(73)<a class="headerlink" href="#equation-8ded7d2f-3c34-48be-88eb-74db835655e1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+  \label{eq:mor-decomp-energycon}
+  G = \frac{\kappa\heatcapacity}{\latent}\left(\left.\diff{\temp}{z}
+    \right\vert_{z_h^+} - \left.\diff{\temp}{z}\right\vert_{z_h^-}\right).
 \end{equation}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\Pi \equiv \density g \heatcapacity/\latent\clapeyron\)</span> is the decompressional productivity of the melting columns; <span class="math notranslate nohighlight">\(z_h\)</span> and <span class="math notranslate nohighlight">\(z_b\)</span> were previously obtained by solving <span class="math notranslate nohighlight">\(\temp_{HS}=\soltemp\)</span>, and <span class="math notranslate nohighlight">\(z_h,\,z_b,\,\infd z_h/\infd x\)</span> are all negative while <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\((z_h-z_b)\)</span> are positive.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Div_q</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dhdx</span><span class="p">,</span> <span class="n">hb</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">Pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">hb</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span>
-    <span class="n">t1</span> <span class="o">=</span> <span class="n">M</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">F</span><span class="p">)</span>
-    <span class="n">t2</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">U0</span> <span class="o">*</span> <span class="n">dhdx</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">F</span><span class="p">)</span>
-    <span class="n">dqdx</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
-    <span class="k">return</span> <span class="n">dqdx</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span>
-
-<span class="k">def</span> <span class="nf">half_space_cooling_gradient</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par2</span><span class="p">):</span>
-    <span class="n">arg</span> <span class="o">=</span> <span class="n">depth</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">par2</span><span class="o">.</span><span class="n">kappa</span><span class="o">*</span><span class="p">(</span><span class="n">distance</span> <span class="o">+</span> <span class="n">par2</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par2</span><span class="o">.</span><span class="n">U0</span><span class="p">))</span>
-    <span class="n">dTdz</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">par2</span><span class="o">.</span><span class="n">Tm</span> <span class="o">-</span> <span class="n">par2</span><span class="o">.</span><span class="n">Tsfc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">arg</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">par2</span><span class="o">.</span><span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">distance</span> <span class="o">+</span> <span class="n">par2</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">par2</span><span class="o">.</span><span class="n">U0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dTdz</span>
-
-<span class="k">def</span> <span class="nf">melting_rate</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
-    <span class="n">dTdz_above</span> <span class="o">=</span> <span class="n">half_space_cooling_gradient</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
-    <span class="n">dTdz_below</span> <span class="o">=</span> <span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">rho</span><span class="o">*</span><span class="n">par</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">par</span><span class="o">.</span><span class="n">clapeyron</span>
-    <span class="k">return</span> <span class="n">par</span><span class="o">.</span><span class="n">M0</span><span class="o">*</span><span class="p">(</span><span class="n">dTdz_above</span> <span class="o">-</span> <span class="n">dTdz_below</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Figures below plot a numerical solution to equation \eqref{eq:mor-decomp-flux-divergence}. The half spreading rate <span class="math notranslate nohighlight">\(U_0\)</span> is 4 cm/year. <strong>(a)</strong> The top <span class="math notranslate nohighlight">\(z_h\)</span> and bottom <span class="math notranslate nohighlight">\(z_b\)</span> of the melting regime. Near the axis, <span class="math notranslate nohighlight">\(z_h\)</span> reaches very shallow depths, indicating a sharp thermal gradient in the lithosphere above it. This leads to a large diffusive heat flux near the axis at <span class="math notranslate nohighlight">\(z_h\)</span>, which causes rapid freezing. <strong>(b)</strong> The rate of freezing, <span class="math notranslate nohighlight">\(-G\)</span>. It shows a gradual increase moving from <span class="math notranslate nohighlight">\(x_d\)</span> toward the axis, and then a sharp increase within about 25~km of the axis. <strong>(c)</strong> This
-rapid freezing diminishes the flow of melt through the decompaction channel.</p>
+<p>The crustal thickness is given by <span class="math notranslate nohighlight">\(-q/U_0\)</span>. <span class="math notranslate nohighlight">\(q\)</span> is the volumetric flow rate along the channel, and satisfies</p>
+<div class="amsmath math notranslate nohighlight" id="equation-fd36bb93-29ad-4a71-b74a-1c70c9ddb521">
+<span class="eqno">(74)<a class="headerlink" href="#equation-fd36bb93-29ad-4a71-b74a-1c70c9ddb521" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+  \label{eq:mor-decomp-flux-divergence}
+  \diff{q}{x} = \frac{G - U_0\diff{z_h}{x} F(z_h)}{1-F(z_h)}.
+\end{equation}\]</div>
+<p>Figures below plot results of the mid-ocean ridge focusing model with reference parameters. <strong>(a)</strong> The freezing rate <span class="math notranslate nohighlight">\(-G\)</span>. <strong>(b)</strong> The equivalent crustal thickness <span class="math notranslate nohighlight">\(-q/U_0\)</span>. Parameter values used here are <span class="math notranslate nohighlight">\(\soltemp_0=1373\)</span>, <span class="math notranslate nohighlight">\(T_m=1623\)</span> K, <span class="math notranslate nohighlight">\(z_b=-70\)</span> km, <span class="math notranslate nohighlight">\(z_{h0} = -10\)</span> km, <span class="math notranslate nohighlight">\(z_h = z_{h0} - x\tan\alpha\)</span>, <span class="math notranslate nohighlight">\(\alpha=30^\circ\)</span> (giving <span class="math notranslate nohighlight">\(x_d=104\)</span>~km), <span class="math notranslate nohighlight">\(F_\text{max}=0.23\)</span>, <span class="math notranslate nohighlight">\(\Pi=F_\text{max}/(z_h(0) - z_b)\)</span>, <span class="math notranslate nohighlight">\(\clapeyron = z_b\density g/(\soltemp_0 - T_m)\)</span>, <span class="math notranslate nohighlight">\(\latent = \heatcapacity\density g/\clapeyron\Pi\)</span>, and other paramters as in Table (8.1).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">FocusingModelTriangle</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -836,9 +761,11 @@ rapid freezing diminishes the flow of melt through the decompaction channel.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch13_22_0.png" src="_images/ch13_22_0.png" />
+<img alt="_images/ch13_18_0.png" src="_images/ch13_18_0.png" />
 </div>
 </div>
+<p>Figure below shows how the solution to \eqref{eq:mor-decomp-flux-divergence} varies with the dip of the focusing boundary <span class="math notranslate nohighlight">\(\alpha = \tan^{-1}(-\infd z_h/\infd x)\)</span> and the spreading rate <span class="math notranslate nohighlight">\(U_0\)</span>. <strong>(a)</strong> holding <span class="math notranslate nohighlight">\(U_0\)</span> fixed, a larger dip leads to a thicker crust (<span class="math notranslate nohighlight">\(-q(0)/U_0\)</span>). <strong>(b)</strong> for
+fixed <span class="math notranslate nohighlight">\(\alpha\)</span>, larger spreading rate also leads to a thicker crust. In both cases, this is because <span class="math notranslate nohighlight">\(W_0\)</span> is increased, causing more rapid melting and a greater melt flux from the melting columns to the decompaction channel. <strong>(c)</strong> shows that faster spreading (with associated reduction in <span class="math notranslate nohighlight">\(\alpha\)</span>) leads to a thicker crust. The models predicts that this effect does not saturate with increasing spreading rate. This is inconsistent with observations of crustal thickness as a function of spreading rate, which saturates at a half-rate of 2 cm/year to a thickness of about 7 km.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -899,7 +826,7 @@ rapid freezing diminishes the flow of melt through the decompaction channel.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch13_23_0.png" src="_images/ch13_23_0.png" />
+<img alt="_images/ch13_20_0.png" src="_images/ch13_20_0.png" />
 </div>
 </div>
 </div>

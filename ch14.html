@@ -311,7 +311,7 @@
 <h2>The 1-D solitary wave (instantaneous)<a class="headerlink" href="#the-1-d-solitary-wave-instantaneous" title="Permalink to this headline">¶</a></h2>
 <p>The compaction equation reads</p>
 <div class="amsmath math notranslate nohighlight" id="equation-7980d776-aa93-4a06-9eda-77bdf30584e1">
-<span class="eqno">(76)<a class="headerlink" href="#equation-7980d776-aa93-4a06-9eda-77bdf30584e1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<span class="eqno">(75)<a class="headerlink" href="#equation-7980d776-aa93-4a06-9eda-77bdf30584e1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:num-cmp-eqn}
   \diff{}{z}\npor^\permexp\diff{\cmp}{z} - \cmp = \diff{\npor^\permexp}{z}.
 \end{equation}\]</div>
@@ -319,7 +319,7 @@
 <h3>Finite Difference Discretisation<a class="headerlink" href="#finite-difference-discretisation" title="Permalink to this headline">¶</a></h3>
 <p>The finite-difference form of equation \eqref{eq:num-cmp-eqn} is</p>
 <div class="amsmath math notranslate nohighlight" id="equation-552ec2e3-c9a4-45da-89d1-d9540c033975">
-<span class="eqno">(77)<a class="headerlink" href="#equation-552ec2e3-c9a4-45da-89d1-d9540c033975" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<span class="eqno">(76)<a class="headerlink" href="#equation-552ec2e3-c9a4-45da-89d1-d9540c033975" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:num-cmpeqn-stencil}
   \left[\begin{array}{ccc}
       \npor^\permexp_{i-1/2}, &amp; -\left(\Dz^2+\npor^\permexp_{i-1/2}+
@@ -331,7 +331,7 @@
 <p>To make progress toward solving for <span class="math notranslate nohighlight">\(\aprx{\cmp}_i\)</span>, we write \eqref{eq:num-cmpeqn-stencil} in the form
 <span class="math notranslate nohighlight">\(\mathbf{A}\posvec = \boldsymbol{b}\)</span>, where <span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> is a column vector with <span class="math notranslate nohighlight">\(b_i=\Dz\left(\npor_{i+1/2}^\permexp - \npor_{i-1/2}^\permexp\right)\)</span>. The unknowns go into column vector <span class="math notranslate nohighlight">\(\posvec\)</span>. The stencil is used to fill a tridiagonal band in the matrix <span class="math notranslate nohighlight">\(\mathbf{A}\)</span>. The first and last rows in  <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> are constructed to satisfy the boundary conditions. The result is</p>
 <div class="amsmath math notranslate nohighlight" id="equation-08db7edd-a359-4fe0-a939-c5cbc45daa52">
-<span class="eqno">(78)<a class="headerlink" href="#equation-08db7edd-a359-4fe0-a939-c5cbc45daa52" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<span class="eqno">(77)<a class="headerlink" href="#equation-08db7edd-a359-4fe0-a939-c5cbc45daa52" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:num-fd-matrix-equation}
   \left(\begin{array}{cccccc}
           1 &amp; 0 &amp; &amp; &amp; &amp;  \\[1mm]
@@ -379,7 +379,7 @@
 <h3>Finite Element Discretisation<a class="headerlink" href="#finite-element-discretisation" title="Permalink to this headline">¶</a></h3>
 <p>The Finite Element form of equation \eqref{eq:num-cmp-eqn} is</p>
 <div class="amsmath math notranslate nohighlight" id="equation-aaa60e5a-1753-43b0-b453-066cf2fc0f70">
-<span class="eqno">(79)<a class="headerlink" href="#equation-aaa60e5a-1753-43b0-b453-066cf2fc0f70" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<span class="eqno">(78)<a class="headerlink" href="#equation-aaa60e5a-1753-43b0-b453-066cf2fc0f70" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:num-solwave-discrete-elementwise}
   \sum_{i=1}^{N_z}c_i\int_{\Omega_e} \left(K\basis_e^\prime\basis_i^\prime +
     \basis_e\basis_i\right)\infd\Omega = 
@@ -394,7 +394,7 @@
 \end{align*}\]</div>
 <p>and the vector of unknowns <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> represents the coefficients <span class="math notranslate nohighlight">\(c_i\)</span>.  In the equation above, <span class="math notranslate nohighlight">\(\sum_e\)</span> is the assembly operator. To clarify the assembly operation, we write the bilinear and linear forms evaluated over one element <span class="math notranslate nohighlight">\(\Omega_j\)</span>, which is written as the sub-matrix and sub-vector</p>
 <div class="amsmath math notranslate nohighlight" id="equation-f2e22907-3ac8-4adf-a2be-4a35b115f66a">
-<span class="eqno">(80)<a class="headerlink" href="#equation-f2e22907-3ac8-4adf-a2be-4a35b115f66a" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<span class="eqno">(79)<a class="headerlink" href="#equation-f2e22907-3ac8-4adf-a2be-4a35b115f66a" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \mathbf{A}^{\Omega_e} &amp;= \int_{\Omega_e} 
       \left(\begin{array}{cc}
         K\basis_j^\prime\basis_j^\prime + \basis_j\basis_j
@@ -532,7 +532,7 @@
 <h2>A 2-D manufactured solution (instantaneous)<a class="headerlink" href="#a-2-d-manufactured-solution-instantaneous" title="Permalink to this headline">¶</a></h2>
 <p>We seek numerical solutions to the instantaneous flow problem for a given, two-dimensional porosity field</p>
 <div class="amsmath math notranslate nohighlight" id="equation-fba3f0aa-2fa6-446e-a05d-d4656bfcdff5">
-<span class="eqno">(81)<a class="headerlink" href="#equation-fba3f0aa-2fa6-446e-a05d-d4656bfcdff5" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<span class="eqno">(80)<a class="headerlink" href="#equation-fba3f0aa-2fa6-446e-a05d-d4656bfcdff5" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:num_mfcsol_gov_compaction}
     -\Div\vel\sol + \Div\left[\mobility \left(\Grad\pres + \yhat\right)\right] &amp;= \cmpforce, \\
     \label{eq:num_mfcsol_gov_stokes}
@@ -542,7 +542,7 @@
 <p>where all symbols are now dimensionless; <span class="math notranslate nohighlight">\(\mobility = \left(\por/\por_0\right)^\permexp\)</span> is the mobility, <span class="math notranslate nohighlight">\(\yhat = \gravity/g\)</span> is the direction of gravitational acceleration, and <span class="math notranslate nohighlight">\(\delta = \cmplength_0/H\)</span> is a non-dimensional compaction length (<span class="math notranslate nohighlight">\(\cmplength_0\)</span> is the reference, dimensional compaction length). <span class="math notranslate nohighlight">\(\cmpforce\)</span> and <span class="math notranslate nohighlight">\(\stokesforce\)</span> are obtained by substituting analytical functions <span class="math notranslate nohighlight">\(\vel\sol_\manufac\)</span> and <span class="math notranslate nohighlight">\(\pres_\manufac\)</span> (the <em>manufactured solution</em>) into the augmented governing equations \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}.</p>
 <p>A reasonable choice (among many) is</p>
 <div class="amsmath math notranslate nohighlight" id="equation-5447a481-6dc9-455d-a7b5-c11e3980f268">
-<span class="eqno">(82)<a class="headerlink" href="#equation-5447a481-6dc9-455d-a7b5-c11e3980f268" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<span class="eqno">(81)<a class="headerlink" href="#equation-5447a481-6dc9-455d-a7b5-c11e3980f268" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:num-manufac-solution1}
     \phi_\manufac &amp;= \phi_0\left[1 + \phi^*\cos\left(m\pi x\right)\cos\left(m\pi y\right)\right],\\
     \label{eq:num-manufac-solution2}
