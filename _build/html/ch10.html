@@ -339,8 +339,8 @@
   \sum_{j=1}^N\frac{\obar{\con}_j \left[1-\parco_j(\temp,\pres)\right]}{\equi\mf + (1-\equi\mf)\parco_j(\temp,\pres)} = 0,
 \end{equation*}\]</div>
 <p>Once a value of <span class="math notranslate nohighlight">\(\equi\mf\)</span> has been numerically obtained, it can be used to determine the phase composition</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07a7f29a-ed11-4dde-a96c-ab0daeea6313">
-<span class="eqno">(33)<a class="headerlink" href="#equation-07a7f29a-ed11-4dde-a96c-ab0daeea6313" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-53677fda-99d6-443f-95f3-b7b5d0088f6d">
+<span class="eqno">(33)<a class="headerlink" href="#equation-53677fda-99d6-443f-95f3-b7b5d0088f6d" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:equilib-phase-comp-liquid}
     \equi\con\liq_j &amp;= \frac{\obar{\con}_j}{\equi\mf +
     (1-\equi\mf)\parco_j},\\
@@ -387,8 +387,8 @@
 <h3>Application to a two-pseudo-component system<a class="headerlink" href="#application-to-a-two-pseudo-component-system" title="Permalink to this headline">¶</a></h3>
 <p>The change of this melting temperature with pressure is given by the Clausius-Clapeyron equation. For simplicity,
 we assume a constant value of <span class="math notranslate nohighlight">\(\clapeyron = \Delta\entropy/\Delta(1/\density)\)</span>, which gives</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a12ad4f-e8c1-4732-bc13-2aa1faf87572">
-<span class="eqno">(34)<a class="headerlink" href="#equation-7a12ad4f-e8c1-4732-bc13-2aa1faf87572" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e8084b25-849a-435a-a083-0166078d9434">
+<span class="eqno">(34)<a class="headerlink" href="#equation-e8084b25-849a-435a-a083-0166078d9434" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:linear-solidus-relation}
   \temp^m_j(P) = \left.\temp^m_j\right\vert_{\pres=0} +
   \pres\clapeyron.
@@ -973,8 +973,8 @@ parameters are <span class="math notranslate nohighlight">\(R_1=60\)</span> J/kg
 <h3>Linearising the two-component phase diagram<a class="headerlink" href="#linearising-the-two-component-phase-diagram" title="Permalink to this headline">¶</a></h3>
 <p>Phase diagrams constructed with ideal solution theory provide a useful basis for developing the melting relations required for magma/mantle dynamics. Their nonlinearity, however, precludes a use in analytical calculations; instead they must be handled numerically. It is therefore important to formulate an approximation in which the equilibrium state is computed analytically.</p>
 <p>For linear variations in pressure and composition, we can write</p>
-<div class="amsmath math notranslate nohighlight" id="equation-efb11a11-02c0-407d-91ea-d8e6340ff0ae">
-<span class="eqno">(35)<a class="headerlink" href="#equation-efb11a11-02c0-407d-91ea-d8e6340ff0ae" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9390ac81-adfd-43dd-827e-e88eb875c5d3">
+<span class="eqno">(35)<a class="headerlink" href="#equation-9390ac81-adfd-43dd-827e-e88eb875c5d3" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:col-twocomp-pd-solidus}
     \soltemp &amp;= \soltemp_\text{ref} + (\pres-\pres_\text{ref})/\clapeyron  +
                \solslope\left(\equi\con\sol - \equi\con\sol_{\text{ref}}\right),\\

@@ -300,8 +300,8 @@ forces,</p>
 \end{equation*}\]</div>
 <p>We wish to solve this equation in the wedge-shaped region below the sloping base of the lithospheric plates.</p>
 <p>In 2-D polar coordinates, the biharmonic equation (not shown) has the simple, separable solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-29923a18-8e88-4255-a802-8be480391404">
-<span class="eqno">(1)<a class="headerlink" href="#equation-29923a18-8e88-4255-a802-8be480391404" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-efbaedd6-72c9-4296-a1d5-ca5ab5c4d99d">
+<span class="eqno">(1)<a class="headerlink" href="#equation-efbaedd6-72c9-4296-a1d5-ca5ab5c4d99d" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:one-phase-biharm-solution-general}
     \psi &amp;= rU_0f(\theta),\\
     \label{eq:vel-polar}
@@ -310,21 +310,21 @@ forces,</p>
     P &amp;= -\frac{\eta U_0}{r}\left[f'''(\theta) + f'(\theta)\right],
 \end{align}\]</div>
 <p>with</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3ed69bae-5b25-4a09-a6db-1743adbb3311">
-<span class="eqno">(2)<a class="headerlink" href="#equation-3ed69bae-5b25-4a09-a6db-1743adbb3311" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2c6cad16-77e0-42b0-b5a6-40fd7d0aac10">
+<span class="eqno">(2)<a class="headerlink" href="#equation-2c6cad16-77e0-42b0-b5a6-40fd7d0aac10" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:one-phase-biharm-solution-thetadep}
   f(\theta) = C_1\sin\theta + C_2\theta\sin\theta + C_3\cos\theta + C_4\theta\cos\theta.
 \end{equation}\]</div>
 <p>Assuming that the lithospheric plates move horizontally away from the ridge axis at speed <span class="math notranslate nohighlight">\(U_0\)</span>, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ed63aa93-7f2d-4c94-b0a1-d757561c3188">
-<span class="eqno">(3)<a class="headerlink" href="#equation-ed63aa93-7f2d-4c94-b0a1-d757561c3188" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9d20a544-846b-4228-964f-d9a9fe47fbc3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-9d20a544-846b-4228-964f-d9a9fe47fbc3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:one-phase-cornerflow-constants}
   C_1 = \frac{2\sin^2\theta}{\pi-2\theta-\sin2\theta},\;\;\;
   C_2 = C_3 = 0,\;\;\; C_4 = \frac{-2}{\pi-2\theta-\sin2\theta}.
 \end{equation}\]</div>
 <p>Combining \ref{eq:one-phase-cornerflow-constants} and \ref{eq:one-phase-biharm-solution-thetadep}, with \eqref{eq:vel-polar} and \eqref{eq:pres-polar} gives the solution</p>
-<div class="amsmath math notranslate nohighlight" id="equation-45ab7406-be57-4091-884a-0fcd463ce231">
-<span class="eqno">(4)<a class="headerlink" href="#equation-45ab7406-be57-4091-884a-0fcd463ce231" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4e781b6e-da5f-46cb-af36-87423fc1d8c6">
+<span class="eqno">(4)<a class="headerlink" href="#equation-4e781b6e-da5f-46cb-af36-87423fc1d8c6" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:one-phase-cornerflow-vel}
 \boldsymbol{v} &amp;= U_0\left\{\left[(C_1+C_4)\cos\theta - C_4\theta\sin\theta\right]\rhat - 
         (C_1\sin\theta + C_4\theta\cos\theta)\thetahat\right\},\\
@@ -359,8 +359,8 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
 </div>
 </div>
 <p>Expressing these results in the Cartesian coordinate system, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-682c5d32-814f-42ca-992f-3c8922211db6">
-<span class="eqno">(5)<a class="headerlink" href="#equation-682c5d32-814f-42ca-992f-3c8922211db6" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2b80d6e7-2a76-4b93-892e-e01f05458f58">
+<span class="eqno">(5)<a class="headerlink" href="#equation-2b80d6e7-2a76-4b93-892e-e01f05458f58" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \label{eq:one-phase-cornerflow-cartesian-vel-x}
     \boldsymbol{v}\cdot\hat{\boldsymbol{x}} &amp;= U_0C_4\left(\arctan\frac{x}{z} - \frac{xz}{x^2 + z^2}\right), \\
 \label{eq:one-phase-cornerflow-cartesian-vel-z}
@@ -420,9 +420,9 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_798/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_22494/1884404123.py:11: RuntimeWarning: divide by zero encountered in true_divide
   T = -np.arctan(X/Z)
-/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_798/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
+/var/folders/4z/_rhsq3x965gc56klbm0nmv040000gn/T/ipykernel_22494/1884404123.py:14: RuntimeWarning: divide by zero encountered in true_divide
   U = C4 * (np.arctan(X/Z) - X * Z / Q)
 </pre></div>
 </div>
