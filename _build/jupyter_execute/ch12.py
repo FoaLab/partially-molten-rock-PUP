@@ -511,10 +511,8 @@ epsilon = 3.e-5
 h = 1.0/(par.nz-1.0)
 Px, Pz = np.gradient(P, h, h)
 F = par.F
-# U =     epsilon*real(-F^(1-par.n)*par.S*Px);
 U = epsilon * np.real(-np.power(F,1-par.n) * par.S * Px)
-# W = F + epsilon*real(F^2*(par.n-1)*phi - F^(1-par.n)*par.S*Pz);
-W = F + epsilon * np.real(np.power(F, 2*(par.n-1)) * phi - np.power(F, 1 - par.n) * par.S * Pz)
+W = F + epsilon * np.real(np.power(F, 2)*(par.n-1) * phi - np.power(F, 1 - par.n) * par.S * Pz)
 Chi = s_iref * phi - P
 
 P = np.real(P)

@@ -15,7 +15,9 @@ import scipy.sparse.linalg as spla
 from scipy.optimize import fsolve, brentq
 import matplotlib.pyplot as plt
 from matplotlib import animation, rc
-from IPython.display import HTML
+
+plt.rcParams["animation.html"] = "jshtml"
+plt.ioff()
 
 
 # The solution to the Filter Press problem was given as
@@ -432,8 +434,8 @@ for A, ls in AsLS.items():
 ax.set_xlim(-zmax, zmax)
 ax.set_ylim(-10.0, 10.0)
 ax.grid()
-ax.set_xlabel(r'$Z$, compaction lengths', fontsize=20)
-ax.set_ylabel(r'$\Lambda$', fontSize=20)
+ax.set_xlabel(r'Z, compaction lengths', fontsize=20)
+ax.set_ylabel(r'$\lambda$', fontSize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.show()
 
@@ -484,6 +486,9 @@ def solitary_wave_update_porosity(PhiOld, n, phi0, dz, dt):
 # In[26]:
 
 
+fig, ax = plt.subplots(figsize=(4.5, 9.0))
+ln, = plt.plot([], [], 'k')
+
 phi0 = 0.05  # background porosity
 A = 1.5  # amplitude of step
 zmax = 150.  # total size of domain
@@ -504,15 +509,6 @@ V = (1. - phi0 ** n) / (1. - phi0)
 dt = cfl * dz / V
 Nt = int(np.ceil(tmax / dt))
 
-
-# In[27]:
-
-
-fig, ax = plt.subplots(figsize=(4.5, 9.0))
-ln, = plt.plot([], [], 'k')
-
-rc('animation', html='html5')
-
 def init():
     ax.set_xlim(0.4, 1.5)
     ax.set_ylim(0., zmax)
@@ -525,14 +521,12 @@ def update(frame):
     ln.set_data(f, z)
     return ln,
 
-anim = animation.FuncAnimation(fig, update, frames=np.linspace(0, tmax, Nt), init_func=init, blit=True)
-
-#HTML(anim.to_html5_video())
+animation.FuncAnimation(fig, update, frames=np.linspace(0, tmax, Nt), init_func=init, blit=True)
 
 
 # ## Solitary-wave swap
 
-# In[28]:
+# In[27]:
 
 
 def xi(f, A):
@@ -546,7 +540,7 @@ def xi(f, A):
                                                     (np.sqrt(A-1)+np.sqrt(A-f)))/np.sqrt(A-1.))
 
 
-# In[29]:
+# In[28]:
 
 
 def SolitaryWaveGenerator(Amplitude, z, z0):
@@ -567,8 +561,11 @@ def SolitaryWaveGenerator(Amplitude, z, z0):
     return g
 
 
-# In[30]:
+# In[29]:
 
+
+fig, ax = plt.subplots(figsize=(4.5, 9.0))
+ln, = plt.plot([], [], 'k')
 
 phi0 = 0.05  # background porosity
 A = 2.  # amplitude of step
@@ -591,13 +588,6 @@ gbig = SolitaryWaveGenerator(A, z, z0)
 gsml = SolitaryWaveGenerator(1.+(A-1.)/5., z, z0+50.)
 g = gbig + gsml - 1
 
-
-# In[31]:
-
-
-fig, ax = plt.subplots(figsize=(4.5, 9.0))
-ln, = plt.plot([], [], 'k')
-
 def init():
     ax.set_xlim(0.8, 2.1)
     ax.set_ylim(0., zmax)
@@ -610,7 +600,5 @@ def update(frame):
     ln.set_data(g, z)
     return ln,
 
-anim = animation.FuncAnimation(fig, update, frames=np.linspace(0., tmax, Nt), init_func=init, blit=True)
-
-#HTML(anim.to_html5_video())
+animation.FuncAnimation(fig, update, frames=np.linspace(0., tmax, Nt), init_func=init, blit=True)
 

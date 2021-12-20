@@ -319,8 +319,8 @@
 <div class="section" id="the-base-state">
 <h3>The base state<a class="headerlink" href="#the-base-state" title="Permalink to this headline">¶</a></h3>
 <p>The assembled, base-state solution is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e8f80b07-22b2-4dcb-abac-ac61406afd2f">
-<span class="eqno">(57)<a class="headerlink" href="#equation-e8f80b07-22b2-4dcb-abac-ac61406afd2f" title="Permalink to this equation">¶</a></span>\[\begin{alignat}{3}
+<div class="amsmath math notranslate nohighlight" id="equation-e42157f8-a59d-49e6-82c6-8f4f064c8e77">
+<span class="eqno">(57)<a class="headerlink" href="#equation-e42157f8-a59d-49e6-82c6-8f4f064c8e77" title="Permalink to this equation">¶</a></span>\[\begin{alignat}{3}
      \label{eq:rxflow-base-state-solution}
     \usat\zeroth &amp;= \left(1+\dpro\right)\e^{\rpro z} - \dpro
     &amp;&amp;\approx 1 + \left(1+\dpro\right) \rpro z,\\
@@ -418,15 +418,15 @@
 <h3>The growth rate of perturbations<a class="headerlink" href="#the-growth-rate-of-perturbations" title="Permalink to this headline">¶</a></h3>
 <p>The perturbation to the base-state compaction pressure is an ansatz with unknown <span class="math notranslate nohighlight">\(k,m_j,\sigma\)</span>, constructed from
 eigenfunctions of the differential operators, given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3640db92-1836-44d2-a78b-16aa3f24b280">
-<span class="eqno">(58)<a class="headerlink" href="#equation-3640db92-1836-44d2-a78b-16aa3f24b280" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-a5918f75-7ee5-472f-9531-72cd19175d8d">
+<span class="eqno">(58)<a class="headerlink" href="#equation-a5918f75-7ee5-472f-9531-72cd19175d8d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:rxflow-cbs-ansatz}
   \cmppres\first(x,z,t) = \text{Re}\sum_{j=1}^3 A_j\exp\left(i\wavenumber x +
     m_jz + \sigma t\right),
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\text{Re}\)</span> means taking only the real part of the complex expression. Equation \eqref{eq:rxflow-cbs-ansatz} satisfies a linear, partial differential equation that is third order in the <span class="math notranslate nohighlight">\(z\)</span> direction</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a735772-48a4-484c-983d-119fda985960">
-<span class="eqno">(59)<a class="headerlink" href="#equation-7a735772-48a4-484c-983d-119fda985960" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3275d7f9-397f-4596-bab6-8d51a9646b02">
+<span class="eqno">(59)<a class="headerlink" href="#equation-3275d7f9-397f-4596-bab6-8d51a9646b02" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:rxflow-cbs-por}
   \left[ \partial_t + \frac{\partial_{tz}}{\Da} 
     -\permexp - \frac{\partial_{txx}}{\Da\Pe}\right]
@@ -508,8 +508,8 @@ eigenfunctions of the differential operators, given by</p>
 </div>
 </div>
 <p>Substituting \eqref{eq:rxflow-cbs-ansatz} into \eqref{eq:rxflow-cbs-por} we obtain the characteristic polynomial</p>
-<div class="amsmath math notranslate nohighlight" id="equation-16ef1643-b21d-4266-b1eb-1aa7ed407e9c">
-<span class="eqno">(60)<a class="headerlink" href="#equation-16ef1643-b21d-4266-b1eb-1aa7ed407e9c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0e0ebc3f-ae51-4d70-80e3-0177e72a3dff">
+<span class="eqno">(60)<a class="headerlink" href="#equation-0e0ebc3f-ae51-4d70-80e3-0177e72a3dff" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:characteristic-poly-cbs}
   \frac{\sigma}{\Da}m^3 + 
   \left(\sigma\Kk - \frac{n}{\Da\stiff}\right)m^2
@@ -812,15 +812,18 @@ eigenfunctions of the differential operators, given by</p>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=147.77748323071222
-Iteration 450: searching for solution at k=147.77748323071222
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at sigma=2.4521173824742863
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=147.77748323071222
+Iteration 450: searching for solution at sigma=2.4521173824742863
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at k=223.86959964354207
 Iteration 500: searching for solution at k=223.86959964354207
 Iteration 500: searching for solution at sigma=1.9865134870866583
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -918,10 +921,8 @@ Iteration 450: searching for solution at sigma=1.7843440109574253
 <span class="n">h</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">nz</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">Px</span><span class="p">,</span> <span class="n">Pz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">F</span>
-<span class="c1"># U =     epsilon*real(-F^(1-par.n)*par.S*Px);</span>
 <span class="n">U</span> <span class="o">=</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">S</span> <span class="o">*</span> <span class="n">Px</span><span class="p">)</span>
-<span class="c1"># W = F + epsilon*real(F^2*(par.n-1)*phi - F^(1-par.n)*par.S*Pz);</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">F</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">S</span> <span class="o">*</span> <span class="n">Pz</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">F</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">par</span><span class="o">.</span><span class="n">S</span> <span class="o">*</span> <span class="n">Pz</span><span class="p">)</span>
 <span class="n">Chi</span> <span class="o">=</span> <span class="n">s_iref</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">-</span> <span class="n">P</span>
 
 <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
@@ -989,8 +990,8 @@ Iteration 450: searching for solution at sigma=1.7843440109574253
 <div class="section" id="the-large-damkohler-number-limit">
 <h3>The large-Damköhler number limit<a class="headerlink" href="#the-large-damkohler-number-limit" title="Permalink to this headline">¶</a></h3>
 <p>Considering the asymptotic limit of large Damköhler number, we can reduce the polynomial \eqref{eq:characteristic-poly-cbs} to second order,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e7301b67-f02e-41cd-89cc-4e2c5b4ded2c">
-<span class="eqno">(61)<a class="headerlink" href="#equation-e7301b67-f02e-41cd-89cc-4e2c5b4ded2c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f14247ab-4bea-419b-9b9e-9a965034fb16">
+<span class="eqno">(61)<a class="headerlink" href="#equation-f14247ab-4bea-419b-9b9e-9a965034fb16" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:characteristic-poly-quad}
   \left(\sigma\Kk - \frac{\permexp}{\Da\stiff}\right)m^2
   - \left(\frac{\permexp\Kk}{\stiff} +
@@ -1154,14 +1155,17 @@ Iteration 450: searching for solution at sigma=2.100154801117684
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=147.77748323071222
 Iteration 450: searching for solution at k=147.77748323071222
-Iteration 450: searching for solution at sigma=2.4521173824742863
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at sigma=2.4521173824742863
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at k=223.86959964354207
 Iteration 500: searching for solution at k=223.86959964354207
+Iteration 500: searching for solution at sigma=1.9865134870866583
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at sigma=1.9865134870866583
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50: searching for solution at k=3.196354480290182
@@ -1224,8 +1228,8 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <div class="section" id="a-modified-problem-and-its-analytical-solution">
 <h3>A modified problem and its analytical solution<a class="headerlink" href="#a-modified-problem-and-its-analytical-solution" title="Permalink to this headline">¶</a></h3>
 <p>It is possible to obtain an algebraic equation that can be solved for the growth-rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(k\)</span> and parameters <span class="math notranslate nohighlight">\(\permexp,\Da,\Pe,\stiff\)</span> (recall that <span class="math notranslate nohighlight">\(\Kk = 1 + k^2/(\Da\Pe)\)</span>). Without any approximations, the growth rate of <span class="math notranslate nohighlight">\(l=1\)</span> perturbations is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3bcd73b1-d828-409b-af46-dcca9e666adc">
-<span class="eqno">(62)<a class="headerlink" href="#equation-3bcd73b1-d828-409b-af46-dcca9e666adc" title="Permalink to this equation">¶</a></span>\[\begin{multline}
+<div class="amsmath math notranslate nohighlight" id="equation-000f446c-e6cd-4755-8049-6a8751034990">
+<span class="eqno">(62)<a class="headerlink" href="#equation-000f446c-e6cd-4755-8049-6a8751034990" title="Permalink to this equation">¶</a></span>\[\begin{multline}
   \label{eq:rxflow-analytical-sigma-full}
   \sigma = \pm\frac{\permexp}{\Kk}\left\{\left[ 
       \wavenumber^4\left(1 - \frac{\pi^2}{\Da^4\stiff^2\Kk^2} - 
@@ -1406,14 +1410,14 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 </div>
 </div>
 <p>Equation \eqref{eq:rxflow-analytical-sigma-full} is exact but difficult to analyse. We therefore design an approximation to be valid only near the peak growth rate:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6d205cf6-4b40-46a5-9a05-045cc8110f80">
-<span class="eqno">(63)<a class="headerlink" href="#equation-6d205cf6-4b40-46a5-9a05-045cc8110f80" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-fe429799-491b-43ac-af6a-dcae732b1125">
+<span class="eqno">(63)<a class="headerlink" href="#equation-fe429799-491b-43ac-af6a-dcae732b1125" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:rxflow-asymptotic-sigma}
   \sigma\sim\permexp(1-\epsilon),\quad\epsilon \ll 1
 \end{equation}\]</div>
 <p>and substitute, dropping the <span class="math notranslate nohighlight">\(\permexp/\Da\stiff\)</span> terms. We find that</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2fc9bfc4-52a8-4d2f-b78f-a7acb94d451c">
-<span class="eqno">(64)<a class="headerlink" href="#equation-2fc9bfc4-52a8-4d2f-b78f-a7acb94d451c" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a5ccbd17-8146-4b74-b352-6b0449ef8498">
+<span class="eqno">(64)<a class="headerlink" href="#equation-a5ccbd17-8146-4b74-b352-6b0449ef8498" title="Permalink to this equation">¶</a></span>\[\begin{align}
     \label{eq:rxflow-analytic-real-im-asymptotic_a}
     a &amp;\sim \frac{1}{2\stiff} + \frac{\wavenumber^2}{2\Da}, \\
     \label{eq:rxflow-analytic-real-im-asymptotic_e}
@@ -1421,15 +1425,15 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 \end{align}\]</div>
 <p>Here we have made the additional approximation that near the maximum growth rate (i.e., for <span class="math notranslate nohighlight">\(\wavenumber\approx\wavenumber^*\)</span> at which <span class="math notranslate nohighlight">\(\epsilon \ll 1\)</span>), <span class="math notranslate nohighlight">\(\wavenumber^2/\Da\Pe \ll 1\)</span> and hence that <span class="math notranslate nohighlight">\(\Kk \sim 1\)</span>.</p>
 <p>The maximum growth rate <span class="math notranslate nohighlight">\(\sigma\sim\sigma^*\)</span> occurs where <span class="math notranslate nohighlight">\(\epsilon\)</span> is at a minimum with respect to <span class="math notranslate nohighlight">\(\wavenumber\)</span>.  Using equations \eqref{eq:rxflow-analytic-real-im-asymptotic_a} - \eqref{eq:rxflow-analytic-real-im-asymptotic_e} we find that</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ee42566c-ee24-4bcd-be6c-3712554998d3">
-<span class="eqno">(65)<a class="headerlink" href="#equation-ee42566c-ee24-4bcd-be6c-3712554998d3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b81610f4-1b33-481e-946b-03fbe489bd53">
+<span class="eqno">(65)<a class="headerlink" href="#equation-b81610f4-1b33-481e-946b-03fbe489bd53" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:rxflow-kstar-full}
   \wavenumber^* \sim \left(\frac{4\Da\Pe\mathcal{B}}
     {4+\Pe/\Da}\right)^{1/4},
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathcal{B} \equiv b^2 + (2\stiff)^{-2}\)</span>. The maximum growth rate <span class="math notranslate nohighlight">\(\sigma^*\)</span> of the channel instability is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-77e2edbe-b952-4124-a7e7-cac00d000bc3">
-<span class="eqno">(66)<a class="headerlink" href="#equation-77e2edbe-b952-4124-a7e7-cac00d000bc3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-caff3c55-f383-4de7-af64-f55d8d8fc54a">
+<span class="eqno">(66)<a class="headerlink" href="#equation-caff3c55-f383-4de7-af64-f55d8d8fc54a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
   \label{eq:rxflow-sstar-full}
   \sigma^* \sim \permexp\left[1 - 
     2\sqrt{\frac{\mathcal{B}(4+\Pe/\Da)}{\Da\Pe}}\right].
