@@ -240,7 +240,7 @@ def characteristic_polynomial(k, sig, par):
     return p.reshape(p.shape[0])
 
 
-# The boundary conditions impose zero perturbation of the base-state along the bottom boundary. Hence we take $\usat\first=\por\first=w\first=0$ at $z=0$. Moreover, we require that perturbations to the flow are unimpeded (and unforced) by gradients in the compaction pressure at the top of the domain, $z=1$.  Using these boundary conditions and equations $\eqref{eq:rxflow-first-cbs}$ we find that 
+# The boundary conditions impose zero perturbation of the base-state along the bottom boundary. Hence we take $\usat\first=\por\first=w\first=0$ at $z=0$. Moreover, we require that perturbations to the flow are unimpeded (and unforced) by gradients in the compaction pressure at the top of the domain, $z=1$.  Using these boundary conditions and equations $\eqref{eq:rxflow-base-state-solution_1}$-$\eqref{eq:rxflow-base-state-solution_4}$ we find that 
 # 
 # $$
 # \begin{align}
