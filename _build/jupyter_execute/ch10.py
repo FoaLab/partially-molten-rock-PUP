@@ -23,6 +23,8 @@ warnings.filterwarnings('ignore')
 # ## The equilibrium state
 # 
 # The partition coefficient $\equi{\parcod}_j$ is given by
+# 
+# $$
 # \begin{equation*}
 #   \label{eq:equilibrium_partitioning_nonlinear}
 #   \parco_j = \left[\frac{\sum_k\left(\obar{\con}_k/\molarmass_k\right)\parco_k}
@@ -31,26 +33,31 @@ warnings.filterwarnings('ignore')
 #              \left(\frac{1}{\temp} -
 #              \frac{1}{\melttemp_j}\right)\right].\nonumber
 # \end{equation*}
+# $$
 # 
 # In cases where, for example, we use a small set of fictitious *effective* components to approximate the full thermochemical system, the error that we make in taking $\phasemolarmass\liq/\phasemolarmass\sol \approx 1$ is acceptably small. With this approach, the partition coefficient $\equi{\parcod}_j$ becomes
 # 
+# $$
 # \begin{equation*}
 #   \label{eq:equilibrium_partitioning_simple}
 #   \parco_j(P,T) = \exp\left[\frac{\latent_j}{R_j}\left(\frac{1}{\temp} - \frac{1}{\melttemp_j(P)}\right)\right],
 # \end{equation*}
+# $$
 # 
 # where $\latent_j\equiv-\Delta\enthalpy_j^m$ is the latent heat of melting for a solid composed of pure component $j$ and $R_j \equiv R/M_j$ is the modified gas constant.
 # 
-# 
 # Partition coefficients $\parco_j$ give an implicit equation for the equilibrium melt fraction $\equi\mf$ as
 # 
+# $$
 # \begin{equation*}
 #   \label{eq:equilibrium-melt-frac-implicit}
 #   \sum_{j=1}^N\frac{\obar{\con}_j \left[1-\parco_j(\temp,\pres)\right]}{\equi\mf + (1-\equi\mf)\parco_j(\temp,\pres)} = 0,
 # \end{equation*}
+# $$
 # 
 # Once a value of $\equi\mf$ has been numerically obtained, it can be used to determine the phase composition
 # 
+# $$
 # \begin{align}
 #     \label{eq:equilib-phase-comp-liquid}
 #     \equi\con\liq_j &= \frac{\obar{\con}_j}{\equi\mf +
@@ -59,7 +66,7 @@ warnings.filterwarnings('ignore')
 #     \equi\con\sol_j &= \frac{\obar{\con}_j}{\equi\mf/\parco_j +
 #                       (1-\equi\mf)}.
 # \end{align}
-# 
+# $$
 # 
 # Table below shows parameter values for the two- and three-component ideal-solution systems. These values are useful for the demonstration of ideal-solution phase diagrams but should not be taken as an optimal calibration for the mantle.
 # 
@@ -74,11 +81,13 @@ warnings.filterwarnings('ignore')
 # The change of this melting temperature with pressure is given by the Clausius-Clapeyron equation. For simplicity, 
 # we assume a constant value of $\clapeyron = \Delta\entropy/\Delta(1/\density)$, which gives
 # 
+# $$
 # \begin{equation}
 #   \label{eq:linear-solidus-relation}
 #   \temp^m_j(P) = \left.\temp^m_j\right\vert_{\pres=0} +
 #   \pres\clapeyron.
 # \end{equation}
+# $$
 # 
 # This produces the straight lines in Figure below (a) under the assumption that the thermodynamic pressure mis lithostatic, i.e., $\Grad\pres=\density\gravity$.
 
@@ -501,8 +510,7 @@ cbar.ax.set_yticklabels((cticks_));
 
 # ### Approaching the eutectic phase diagram
 # 
-# A eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution 
-# parameters are $R_1=60$ J/kg/K, $\latent_1=\latent_2=500$ kJ/kg. __(a)__ Solidus and liquidus curves computed with ideal solution theory compared with the eutectic solidus and liquidus. __(b)__ Isobaric melting curves computed based on the phase loops and the eutectic.
+# A eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution parameters are $R_1=60$ J/kg/K, $\latent_1=\latent_2=500$ kJ/kg. __(a)__ Solidus and liquidus curves computed with ideal solution theory compared with the eutectic solidus and liquidus. __(b)__ Isobaric melting curves computed based on the phase loops and the eutectic.
 
 # In[16]:
 
@@ -631,17 +639,17 @@ plt.show()
 # 
 # For linear variations in pressure and composition, we can write
 # 
-#   \begin{align}
-#     \label{eq:col-twocomp-pd-solidus}
-#     \soltemp &= \soltemp_\text{ref} + (\pres-\pres_\text{ref})/\clapeyron  +
-#                \solslope\left(\equi\con\sol - \equi\con\sol_{\text{ref}}\right),\\
+# $$
+# \begin{align}
+#   \label{eq:col-twocomp-pd-solidus}
+#   \soltemp &= \soltemp_\text{ref} + (\pres-\pres_\text{ref})/\clapeyron  +
+#               \solslope\left(\equi\con\sol - \equi\con\sol_{\text{ref}}\right),\\
 #   \label{eq:col-twocomp-pd-deltac}
-#     \equi\con\liq &= \equi\con\sol - \Delta\equi\con,
-#   \end{align}
+#   \equi\con\liq &= \equi\con\sol - \Delta\equi\con,
+# \end{align}
+# $$
 # 
 # where $\solslope$ is the constant slope of the solidus with concentration in the two component space and $\soltemp_\text{ref}$ is a reference temperature at $\pres=\pres_\text{ref}$ and $\equi\con\sol=\equi\con\sol_\text{ref}$.  Also, $\Delta\equi\con \equiv \equi\con\sol - \equi\con\liq$ is the concentration difference between the solidus and the liquidus.  If $\Delta\equi\con$ is taken to be a constant then the liquidus slope $\liqslope$ and the solidus slope $\solslope$ are equal.
-# 
-# 
 # 
 # Figure below plots a comparison of a two-component, ideal-solution phase loop with a linearised solidus and liquidus at 1 GPa. The phase loop uses the parameters from the Table above. __(a)__ Solidus and liquidus curves.  Evolution of an initially unmolten rock with 25 wt% basaltic component for increasing temperature, along the linearised phase boundaries. __(b)__ Isobaric melting curves.
 
@@ -750,10 +758,4 @@ axB.tick_params(axis='both', which='major', labelsize=13)
 axB.legend(fontsize=15)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
 

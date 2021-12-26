@@ -16,21 +16,25 @@ from scipy.integrate import odeint
 # 
 # The thickness of the layer of ice is the solution of equations
 # 
+# $$
 # \begin{align}
 # \label{eq:cmp-diss-mech-odes-nondim-a}
 # \dot{\layerthick} &= -\cmpdisspar\layerthick\por,\\
 # \label{eq:cmp-diss-mech-odes-nondim-b}
 # \dot{\por} &= \e^{-\lambda\por} - \cmpdisspar\omp\por,
 # \end{align}
+# $$
 # 
 # where $\Pi$, the *compaction-dissipation number*, is given by 
 # 
+# $$
 # \begin{equation*}
 #   \cmpdisspar\equiv\frac{\density\sol\latent\layerstress\layerthick_0^2}
 #   {\eta_0^2\layershear_0^2},
 # \end{equation*}
+# $$
 # 
-# The Python code below implements the right-hand side of equations \eqref{eq:cmp-diss-mech-odes-nondim-a} and \eqref{eq:cmp-diss-mech-odes-nondim-b}, which will be soon solved numerically.
+# The Python code below implements the right-hand side of equations $\eqref{eq:cmp-diss-mech-odes-nondim-a}$ and $\eqref{eq:cmp-diss-mech-odes-nondim-b}$, which will be soon solved numerically.
 
 # In[2]:
 
@@ -99,23 +103,33 @@ plt.show()
 # ## Decompression melting
 
 # At depths greater than the onset of decompression melting we have
+# 
+# $$
 # \begin{equation}
 #   \label{eq:decomp-melting-subsolidus}
 #   \diff{\temp}{z} = - \frac{\expansivity g \temp}{\heatcapacity},
 # \end{equation}
+# $$
+# 
 # while within the melting region the isentrope is given by
+# 
+# $$
 # \begin{equation}
 #   \label{eq:decomp-melting-meltregion}
 #   \diff{\temp}{z} = -\frac{\expansivity\temp g/\heatcapacity + 
 #     \density g/\clapeyron}{1 + \latent\dFdT/\heatcapacity}.
 # \end{equation}
+# $$
 # 
-# The Python code below implements the right-hand side of equations \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}, which will be soon solved numerically.
+# The Python code below implements the right-hand side of equations $\eqref{eq:decomp-melting-subsolidus}$ and $\eqref{eq:decomp-melting-meltregion}$, which will be soon solved numerically.
 
 # In[5]:
 
 
-def TemperatureEquation(T, z, Ts0, rho, g, C, alpha, L, M):  # y = T, args=(Ts0, rho, g, C, alpha, L, M)
+def TemperatureEquation(T, z, Ts0, rho, g, C, alpha, L, M):
+    """
+    this function solves for T, given Ts0, rho, g, C, alpha, L, M)
+    """
     Tsol = Ts0 - rho*g*z/C
     return -(alpha*T*g/c + rho*g/C)/(1 + L*M/c) if T > Tsol else -alpha*T*g/c
 
@@ -136,7 +150,7 @@ Ts0 = 1100. + 273.  # solidus at P=0
 Tp = 1350. + 273.  # mantle potential temperature
 
 
-# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to eqns. \eqref{eq:decomp-melting-subsolidus} and \eqref{eq:decomp-melting-meltregion}. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
+# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to equations $\eqref{eq:decomp-melting-subsolidus}$ and $\eqref{eq:decomp-melting-meltregion}$. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
 
 # In[7]:
 

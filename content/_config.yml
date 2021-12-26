@@ -42,10 +42,16 @@ html:
 
 sphinx:
   config:
-    # mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    #mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
     mathjax_config:
+      #extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"]
+      tex2jax:
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ]
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        #processEscapes: true
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
       TeX:
-        equationNumbers: { autoNumber: "AMS" }
+        equationNumbers: { autoNumber: "all" }
         Macros:
           "unit": ["{\\hat{#1}}", 1]
           "Curl": "{\\Grad\\!\\times}"
@@ -279,7 +285,6 @@ sphinx:
 
 parse:
   myst_enable_extensions:
-    # don"t forget to list any other extensions you want enabled,
-    # including those that are enabled by default!
+    # don"t forget to list any other extensions you want enabled, including those that are enabled by default!
     - amsmath
     - dollarmath

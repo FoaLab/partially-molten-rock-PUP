@@ -10,10 +10,12 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import numpy as np
-import numpy.matlib
 from scipy.optimize import fsolve
 from scipy.linalg import det
 from cycler import cycler
+
+import warnings 
+warnings.filterwarnings('ignore')
 
 
 # ## Linearised stability analysis
@@ -22,24 +24,27 @@ from cycler import cycler
 # 
 # The assembled, base-state solution is given by
 # 
-# 
+# $$
 # \begin{alignat}{3}
-#      \label{eq:rxflow-base-state-solution}
+#     \label{eq:rxflow-base-state-solution_1}
 #     \usat\zeroth &= \left(1+\dpro\right)\e^{\rpro z} - \dpro
 #     &&\approx 1 + \left(1+\dpro\right) \rpro z,\\
+#     \label{eq:rxflow-base-state-solution_2}
 #     -\cmppres\zeroth &= \usat\zeroth+\dpro &&\approx
 #     \left(1+\dpro\right) \left(1 + \rpro z\right),\\
+#     \label{eq:rxflow-base-state-solution_3}
 #     \por\zeroth &= \left[\frac{\usat\zeroth}
 #       {1+\stiff\rpro\left(\usat\zeroth+\dpro\right)}\right]^{1/\permexp}
 #     &&\approx  \cbasestate^{-1}\left[1 + 
 #       \left(1+\dpro\right) \rpro z/n\right].\\
+#     \label{eq:rxflow-base-state-solution_4}
 #     w\zeroth &= \left[\frac{1+\stiff\rpro\left(\usat\zeroth+\dpro\right)}
 #       {\left(\usat\zeroth\right)^{1-\permexp}}\right]^{1/\permexp} 
 #     &&\approx \cbasestate\left[1 + \left(1+\dpro\right)(1-1/n) \rpro z\right].
 # \end{alignat}
+# $$
 # 
-# 
-# The base-state solution (1)-(4), are plotted below for two values of $\rpro$. Thick lines are the full solution and narrow lines are the linear approximation. In each case, $\stiff=1$, $\dpro=1$ and $\permexp=3$. The values of $\por\zeroth$ (panel __(c)__) and $w\zeroth$ (panel __(d)__) at $z=0$ are given by $\cbasestate^{-1}$ and $\cbasestate$, respectively.
+# The base-state solutions $\eqref{eq:rxflow-base-state-solution_1}$-$\eqref{eq:rxflow-base-state-solution_4}$ are plotted below for two values of $\rpro$. Thick lines are the full solution and narrow lines are the linear approximation. In each case, $\stiff=1$, $\dpro=1$ and $\permexp=3$. The values of $\por\zeroth$ (panel __(c)__) and $w\zeroth$ (panel __(d)__) at $z=0$ are given by $\cbasestate^{-1}$ and $\cbasestate$, respectively.
 
 # In[2]:
 
@@ -66,9 +71,7 @@ wl = np.asarray([Fj*(1.0 + m*(1.0+G)*(1.0-1.0/n)*z) for Fj, m in zip(F, M)])
 
 
 f, ax = plt.subplots(1, 4)
-zoom = 2.0
-f.set_size_inches(8.0 * zoom, 5.2 * zoom)
-f.set_facecolor('w')
+f.set_size_inches(18.0, 9.0)
 
 plt.rc('axes', prop_cycle=(cycler(color=['k', 'k', 'k', 'k']) + cycler(linestyle=['-', '--', ':', '-.'])))
 
@@ -116,15 +119,19 @@ plt.show()
 
 # ### The growth rate of perturbations
 # 
-# The perturbation to the base-state compaction pressure is an ansatz with unknown $k,m_j,\sigma$, constructed from
-# eigenfunctions of the differential operators, given by
+# The perturbation to the base-state compaction pressure is an ansatz with unknown $k,m_j,\sigma$, constructed from eigenfunctions of the differential operators, given by
+# 
+# $$
 # \begin{equation}
 #   \label{eq:rxflow-cbs-ansatz}
 #   \cmppres\first(x,z,t) = \text{Re}\sum_{j=1}^3 A_j\exp\left(i\wavenumber x +
 #     m_jz + \sigma t\right),
 # \end{equation}
-# where $\text{Re}$ means taking only the real part of the complex expression. Equation \eqref{eq:rxflow-cbs-ansatz} satisfies a linear, partial differential equation that is third order in the $z$ direction
+# $$
 # 
+# where $\text{Re}$ means taking only the real part of the complex expression. Equation $\eqref{eq:rxflow-cbs-ansatz}$ satisfies a linear, partial differential equation that is third order in the $z$ direction
+# 
+# $$
 # \begin{equation}
 #   \label{eq:rxflow-cbs-por}
 #   \left[ \partial_t + \frac{\partial_{tz}}{\Da} 
@@ -134,6 +141,7 @@ plt.show()
 #     \frac{\partial_{xx}}{\Da\Pe}\right]
 #   \permexp\partial_z\cmppres\first.
 # \end{equation}
+# $$
 
 # In[4]:
 
@@ -204,18 +212,18 @@ def zero_by_wavenumber(k, sigma, par):
     return residual
 
 
-# Substituting \eqref{eq:rxflow-cbs-ansatz} into \eqref{eq:rxflow-cbs-por} we obtain the characteristic polynomial
+# Substituting $\eqref{eq:rxflow-cbs-ansatz}$ into $\eqref{eq:rxflow-cbs-por}$ we obtain the characteristic polynomial
 # 
+# $$
 # \begin{equation}
 #   \label{eq:characteristic-poly-cbs}
-#   \frac{\sigma}{\Da}m^3 + 
-#   \left(\sigma\Kk - \frac{n}{\Da\stiff}\right)m^2
-#   - \left(\frac{n\Kk}{\stiff} +
-#     \frac{\sigma }{\Da}k^2\right)m + 
+#   \frac{\sigma}{\Da}m^3 + \left(\sigma\Kk - \frac{n}{\Da\stiff}\right)m^2
+#   - \left(\frac{n\Kk}{\stiff} + \frac{\sigma }{\Da}k^2\right)m + 
 #   \left(\permexp - \sigma\Kk\right)k^2 = 0,
 # \end{equation}
+# $$
 # 
-# where $\Kk = 1 + k^2/\left(\Da\Pe\right)$. For a given value of $\sigma$ (which is, in fact, an unknown), equation \eqref{eq:characteristic-poly-cbs} is solved to obtain the roots $m_j$.
+# where $\Kk = 1 + k^2/\left(\Da\Pe\right)$. For a given value of $\sigma$ (which is, in fact, an unknown), equation $\eqref{eq:characteristic-poly-cbs}$ is solved to obtain the roots $m_j$.
 # 
 # The function `characteristic_polynomial` below evaluates the coefficients of the characteristic polynomial.
 
@@ -232,10 +240,47 @@ def characteristic_polynomial(k, sig, par):
     return p.reshape(p.shape[0])
 
 
+# The boundary conditions impose zero perturbation of the base-state along the bottom boundary. Hence we take $\usat\first=\por\first=w\first=0$ at $z=0$. Moreover, we require that perturbations to the flow are unimpeded (and unforced) by gradients in the compaction pressure at the top of the domain, $z=1$.  Using these boundary conditions and equations $\eqref{eq:rxflow-first-cbs}$ we find that 
+# 
+# $$
+# \begin{align}
+#   \label{eq:rxflow_cbs_bcond_m23_1}
+#   \cmppres\first &= 0 \;\;&&\text{ at }z=0, \\
+#   \label{eq:rxflow_cbs_bcond_large_Da}
+#   \partial_z\cmppres\first &= 0 \;\;&&\text{ at }z=0,\\
+#   \label{eq:rxflow_cbs_bcond_m23_2}
+#   \partial_z\cmppres\first &= 0 \;\;&&\text{ at }z=1.
+# \end{align}
+# $$
+# 
+# This set of conditions must hold for all $x$ and $t>0$. Combining these conditions with our ansatz $\eqref{eq:rxflow-cbs-ansatz}$ and expressing in terms of a matrix-vector multiplication gives
+# 
+# $$
+# \begin{align}
+#   \label{eq:rxflow_cbs_matrix_eqn}
+#   \left(
+#     \begin{array}{ccc}
+#       1 & 1 & 1 \\
+#       m_1 & m_2 & m_3 \\
+#       m_1\e^{m_1} & m_2\e^{m_2} & m_3\e^{m_3}  
+#     \end{array}\right)
+#   \left(
+#     \begin{array}{c}
+#       A_1 \\ A_2 \\ A_3
+#     \end{array}\right) = 
+#   \left(
+#     \begin{array}{c}
+#       0 \\ 0 \\ 0
+#     \end{array}\right).
+# \end{align}
+# $$
+# 
+# The Python function `boundary_condition_matrix` implements the system of equations $\eqref{eq:rxflow_cbs_matrix_eqn}$.
+
 # In[8]:
 
 
-def boundary_condition_matrix(k, m, sig, par):
+def boundary_condition_matrix(k, m, sig, par): 
     if par.bc_type == 1:
         M = np.asarray([[1.0, mi, np.exp(mi)] for mi in m]).transpose()
     elif par.bc_type == 2:
@@ -273,7 +318,7 @@ def form_eigenfunction(k, sigma, par):
     return eig
 
 
-# Function `reactive_flow_solve_dispersion` below implements a recipe for obtaining solutions: for a given set of parameters $\permexp$, $\stiff$, $\Da$, $\Pe$ and a chosen horizontal wavenumber $k$, form an initial guess of $\sigma$. Using this guess, obtain the three roots of the characteristic polynomial~\eqref{eq:characteristic-poly-cbs}. Use these roots to form the residual $r$.  If $r$ is below a specified tolerance, accept the guess of $\sigma$ as a solution; otherwise, improve the guess of $\sigma$ (using, for example, $\infd r/\infd\sigma$ and Newton's method) and again form the residual. Repeat this until the tolerance has been satisfied. Then, with the converged value for $\sigma$, obtain the roots $m_j$, take $A_1=1$, and solve equation \eqref{eq:rxflow_cbs_matrix_eqn} for $A_2$ and $A_3$. Use the values of $A_j$ to form the eigenfunction $\cmppres\first$ at $t=0$.
+# Function `reactive_flow_solve_dispersion` below implements a recipe for obtaining solutions: for a given set of parameters $\permexp$, $\stiff$, $\Da$, $\Pe$ and a chosen horizontal wavenumber $k$, form an initial guess of $\sigma$. Using this guess, obtain the three roots of the characteristic polynomial $\eqref{eq:characteristic-poly-cbs}$. Use these roots to form the residual $r$.  If $r$ is below a specified tolerance, accept the guess of $\sigma$ as a solution; otherwise, improve the guess of $\sigma$ (using, for example, $\infd r/\infd\sigma$ and Newton's method) and again form the residual. Repeat this until the tolerance has been satisfied. Then, with the converged value for $\sigma$, obtain the roots $m_j$, take $A_1=1$, and solve the system of equations $\eqref{eq:rxflow_cbs_matrix_eqn}$ for $A_2$ and $A_3$. Use the values of $A_j$ to form the eigenfunction $\cmppres\first$ at $t=0$. 
 
 # In[10]:
 
@@ -529,9 +574,7 @@ Chi = (Chi - np.amin(Chi))/(np.amax(Chi) - np.amin(Chi))
 
 
 f, ax = plt.subplots()
-zoom = 2.0
-f.set_size_inches(9.8 * zoom, 4.9 * zoom)
-f.set_facecolor('w')
+f.set_size_inches(18.0, 9.0)
 
 gs = gridspec.GridSpec(1, 2, width_ratios=[1.5, 1])
 
@@ -552,12 +595,12 @@ ax0.legend()
 ax1 = plt.subplot(gs[1])
 ax1.imshow(np.flipud(P), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
 ax1.contour(X, Z, phi, levels=np.linspace(-1, 1, 20))
-nlines = 20
+nlines = 24
 h = 2.0 * lambda_/(nlines+1.0)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
 seed[:, 1] = 0.001
-ax1.streamplot(X, Z, U, W, start_points=seed, integration_direction='forward', density=(60,90),
+ax1.streamplot(X, Z, U, W, start_points=seed, integration_direction='forward', density=(90,120),
                color=[0.8, 0.8, 0.8], arrowstyle='-')
 ax1.set_xlabel(r'$x/\lambda^*$', fontsize=24)
 ax1.set_xlim(0, 2.*lambda_)
@@ -573,7 +616,9 @@ plt.show()
 
 # ### The large-Damköhler number limit
 # 
-# Considering the asymptotic limit of large Damköhler number, we can reduce the polynomial \eqref{eq:characteristic-poly-cbs} to second order,
+# Considering the asymptotic limit of large Damköhler number, we can reduce the polynomial $\eqref{eq:characteristic-poly-cbs}$ to second order,
+# 
+# $$
 # \begin{equation}
 #   \label{eq:characteristic-poly-quad}
 #   \left(\sigma\Kk - \frac{\permexp}{\Da\stiff}\right)m^2
@@ -581,8 +626,9 @@ plt.show()
 #     \frac{\sigma }{\Da}k^2\right)m + 
 #   \left(\permexp - \sigma\Kk\right)k^2 = 0.
 # \end{equation}
+# $$
 # 
-# The function `characteristic_polynomial` above already includes this case and evaluatees the coefficients of the both characteristic polynomial \eqref{eq:characteristic-poly-cbs} and \eqref{eq:characteristic-poly-quad}.
+# The function `characteristic_polynomial` above already includes this case and evaluatees the coefficients of the both characteristic polynomial $\eqref{eq:characteristic-poly-cbs}$ and $\eqref{eq:characteristic-poly-quad}$.
 
 # In[18]:
 
@@ -601,7 +647,7 @@ for vals in [10., 100., 1000.]:
     DC_quad[vals] = reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks)
 
 
-# Figure below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial \eqref{eq:characteristic-poly-cbs}, solid lines) and the large-$\Da$ problem (quadratic \eqref{eq:characteristic-poly-quad}, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
+# Figure below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial $\eqref{eq:characteristic-poly-cbs}$, solid lines) and the large-$\Da$ problem (quadratic $\eqref{eq:characteristic-poly-quad}$, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
 
 # In[19]:
 
@@ -630,21 +676,22 @@ plt.show()
 # 
 # It is possible to obtain an algebraic equation that can be solved for the growth-rate $\sigma$ as a function of wavenumber $k$ and parameters $\permexp,\Da,\Pe,\stiff$ (recall that $\Kk = 1 + k^2/(\Da\Pe)$). Without any approximations, the growth rate of $l=1$ perturbations is given by
 # 
-# \begin{multline}
+# $$
+# \begin{equation} 
 #   \label{eq:rxflow-analytical-sigma-full}
-#   \sigma = \pm\frac{\permexp}{\Kk}\left\{\left[ 
+#   \sigma = \pm \frac{\permexp}{\Kk}\left\{\left[ 
 #       \wavenumber^4\left(1 - \frac{\pi^2}{\Da^4\stiff^2\Kk^2} - 
 #         \frac{3}{\Da\stiff}\right) -
-#       \frac{\wavenumber^6}{\Da^3\stiff\Kk^2} -
-#       \wavenumber^2\left(\frac{\Kk^2}{\stiff^2} +
-#         \frac{2\pi^2}{\Da^2\stiff^2}\right) - 
-#       \frac{\pi^2\Kk^2}{\stiff^2}\right]^{1/2}\right. \\ 
+#       \frac{\wavenumber^6}{\Da^3\stiff\Kk^2}
+#       - \wavenumber^2\left(\frac{\Kk^2}{\stiff^2} + \frac{2\pi^2}{\Da^2\stiff^2}\right) - 
+#       \frac{\pi^2\Kk^2}{\stiff^2}\right]^{1/2}\right.
 #   \left. \pm \left(\wavenumber^2 + \frac{2\pi^2 + k^2}{\Da\stiff}\right)\right\} 
 #   \left[2\left(\pi^2 + k^2\right) + 
 #     \frac{k^4}{2\Da^2\Kk^2}\right]^{-1}.
-# \end{multline}
+# \end{equation}
+# $$
 # 
-# The function `ReactiveFlowAnalyticalSolution` below takes $k, \permexp,\Da,\Pe,\stiff$ as arguments and evaluates the value of $\sigma$ given by equation \eqref{eq:rxflow-analytical-sigma-full}.
+# The function `ReactiveFlowAnalyticalSolution` below takes $k, \permexp,\Da,\Pe,\stiff$ as arguments and evaluates the value of $\sigma$ given by equation $\eqref{eq:rxflow-analytical-sigma-full}$. 
 
 # In[20]:
 
@@ -807,40 +854,46 @@ plt.text(-0.02, 0.01, r'(d)', fontsize=18, verticalalignment='bottom', horizonta
 plt.show()
 
 
-# Equation \eqref{eq:rxflow-analytical-sigma-full} is exact but difficult to analyse. We therefore design an approximation to be valid only near the peak growth rate:
+# Equation $\eqref{eq:rxflow-analytical-sigma-full}$ is exact but difficult to analyse. We therefore design an approximation to be valid only near the peak growth rate:
 # 
+# $$
 # \begin{equation}
 #   \label{eq:rxflow-asymptotic-sigma}
 #   \sigma\sim\permexp(1-\epsilon),\quad\epsilon \ll 1
 # \end{equation}
+# $$
 # 
 # and substitute, dropping the $\permexp/\Da\stiff$ terms. We find that
 # 
+# $$
 # \begin{align}
 #     \label{eq:rxflow-analytic-real-im-asymptotic_a}
 #     a &\sim \frac{1}{2\stiff} + \frac{\wavenumber^2}{2\Da}, \\
 #     \label{eq:rxflow-analytic-real-im-asymptotic_e}
 #     \epsilon & \sim \frac{a^2 + b^2}{\wavenumber^2} + \frac{\wavenumber^2}{\Da\Pe}.
 # \end{align}
+# $$
 # 
 # Here we have made the additional approximation that near the maximum growth rate (i.e., for $\wavenumber\approx\wavenumber^*$ at which $\epsilon \ll 1$), $\wavenumber^2/\Da\Pe \ll 1$ and hence that $\Kk \sim 1$.
 # 
-# The maximum growth rate $\sigma\sim\sigma^*$ occurs where $\epsilon$ is at a minimum with respect to $\wavenumber$.  Using equations \eqref{eq:rxflow-analytic-real-im-asymptotic_a} - \eqref{eq:rxflow-analytic-real-im-asymptotic_e} we find that
+# The maximum growth rate $\sigma\sim\sigma^*$ occurs where $\epsilon$ is at a minimum with respect to $\wavenumber$.  Using equations $\eqref{eq:rxflow-analytic-real-im-asymptotic_a}$ - $\eqref{eq:rxflow-analytic-real-im-asymptotic_e}$ we find that
 # 
+# $$
 # \begin{equation}
 #   \label{eq:rxflow-kstar-full}
-#   \wavenumber^* \sim \left(\frac{4\Da\Pe\mathcal{B}}
-#     {4+\Pe/\Da}\right)^{1/4},
+#   \wavenumber^* \sim \left(\frac{4\Da\Pe\mathcal{B}} {4+\Pe/\Da}\right)^{1/4},
 # \end{equation}
+# $$
 # 
 # where $\mathcal{B} \equiv b^2 + (2\stiff)^{-2}$. The maximum growth rate $\sigma^*$ of the channel instability is 
 # 
+# $$
 # \begin{equation}
 #   \label{eq:rxflow-sstar-full}
 #   \sigma^* \sim \permexp\left[1 - 
 #     2\sqrt{\frac{\mathcal{B}(4+\Pe/\Da)}{\Da\Pe}}\right].
 # \end{equation}
-# 
+# $$
 
 # In[23]:
 
@@ -917,7 +970,7 @@ def full_dispersion(k, n, Da, Pe, S, l):
     return s
 
 
-# Properties of the dispersion curve near its maximum, with $n=3,\,\Da=10^4,\,b=\pi$. __(a)__ Comparison of the exact dispersion relation \eqref{eq:rxflow-analytical-sigma-full} (solid lines) with the asymptotic relations \eqref{eq:rxflow-asymptotic-sigma}-\eqref{eq:rxflow-analytic-real-im-asymptotic_e} (dashed lines) for $\Pe/\Da=10^{-2}$ and two values of $\stiff$, as given in the legend. __(b)__ Contours of fastest-growing (non-dimensional) wavelength $\lambda^*$ for a range of $\stiff$ and $\Pe$ from equation \eqref{eq:rxflow-kstar-full}. Dotted lines are at $\Pe/\Da = 4$ and $\stiff = 1/2\pi$. In both panels, stars indicate the maximum ($\wavenumber^*,\sigma^*$) of the asymptotic curves, computed with \eqref{eq:rxflow-kstar-full} and \eqref{eq:rxflow-sstar-full}.
+# Properties of the dispersion curve near its maximum, with $n=3,\,\Da=10^4,\,b=\pi$. __(a)__ Comparison of the exact dispersion relation $\eqref{eq:rxflow-analytical-sigma-full}$ (solid lines) with the asymptotic relations $\eqref{eq:rxflow-asymptotic-sigma}$-$\eqref{eq:rxflow-analytic-real-im-asymptotic_e}$ (dashed lines) for $\Pe/\Da=10^{-2}$ and two values of $\stiff$, as given in the legend. __(b)__ Contours of fastest-growing (non-dimensional) wavelength $\lambda^*$ for a range of $\stiff$ and $\Pe$ from equation $\eqref{eq:rxflow-kstar-full}$. Dotted lines are at $\Pe/\Da = 4$ and $\stiff = 1/2\pi$. In both panels, stars indicate the maximum ($\wavenumber^*,\sigma^*$) of the asymptotic curves, computed with $\eqref{eq:rxflow-kstar-full}$ and $\eqref{eq:rxflow-sstar-full}$.
 
 # In[25]:
 
@@ -1055,7 +1108,7 @@ def Dispersion(k, n, Da, Pe, S):
     return np.real(s).astype(np.float32)
 
 
-# Figure below plots the time-scale of channel growth $1/\sigma$ as a function of the horizontal wavelength of channels.  This curve is computed using the full dispersion relation \eqref{eq:rxflow-analytical-sigma-full} with preferred parameter values from table above. Horizontal dotted lines mark the minimum growth time ($\sigma=1/\permexp$, in non-dimensional terms) and this value plus 2\%.
+# Figure below plots the time-scale of channel growth $1/\sigma$ as a function of the horizontal wavelength of channels.  This curve is computed using the full dispersion relation $\eqref{eq:rxflow-analytical-sigma-full}$ with preferred parameter values from table above. Horizontal dotted lines mark the minimum growth time ($\sigma=1/\permexp$, in non-dimensional terms) and this value plus 2\%.
 
 # In[27]:
 
@@ -1083,10 +1136,4 @@ plt.xlabel('Horizontal wavelength, m', fontsize=18)
 plt.ylabel('Growth time, Ma', fontsize=18)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
 

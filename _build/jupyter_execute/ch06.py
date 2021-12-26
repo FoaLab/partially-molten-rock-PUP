@@ -12,19 +12,25 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 import numpy as np
 import scipy.sparse as sps
 import scipy.sparse.linalg as spla
-from scipy.optimize import fsolve, brentq
+from scipy.optimize import brentq
 import matplotlib.pyplot as plt
-from matplotlib import animation, rc
+from matplotlib import animation
+
+import warnings 
+warnings.filterwarnings('ignore')
 
 plt.rcParams["animation.html"] = "jshtml"
-plt.ioff()
+plt.ioff();
 
 
 # The solution to the Filter Press problem was given as
+# 
+# $$
 # \begin{equation}
 #   \label{eq:filterpress-cmprate}
 #   \cmp(z) = -\frac{W_0}{\cmplength_0}\,\e^{z/\cmplength_0} \quad \text{ for } \quad z\le0.
 # \end{equation}
+# $$
 
 # In[2]:
 
@@ -38,7 +44,7 @@ def compaction_rate(z):
     return -np.exp(z)
 
 
-# The compact rate function, equation \eqref{eq:filterpress-cmprate}, is plotted in Figure below.
+# The compact rate function, equation $\eqref{eq:filterpress-cmprate}$, is plotted in Figure below.
 
 # In[3]:
 
@@ -69,6 +75,8 @@ plt.show()
 # ## The permeability-step problem
 # 
 # The porosity is given by the piece-wise constant function,
+# 
+# $$
 # \begin{equation}
 #   \label{eq:permstep-porosity}
 #   \por(z) =
@@ -77,10 +85,13 @@ plt.show()
 #     f_m\por_0 & \text{for $z \le 0$},
 #   \end{cases}
 # \end{equation}
+# $$
+# 
 # where $f_i$ ($i=p,m$) are constants that multiply the reference porosity, chosen such that $f_i-\vert 1\vert\ll 1$.
 # 
 # The solution of the permeability-step problem was given as
 # 
+# $$
 # \begin{equation}
 #   \label{eq:permstep-solution-full}
 #   \cmp(z) = \frac{\por_0w_0}{\cmplength_0}\tilde{f}
@@ -89,6 +100,7 @@ plt.show()
 #     \exp\left(z/\cmplength_m\right) & \text{for $z\le 0$}.
 #   \end{cases}
 # \end{equation}
+# $$
 
 # In[5]:
 
@@ -111,6 +123,7 @@ def cmprate(fp, fm, f0, n, z):
 
 # The one-dimensional segregation flux $q \equiv \phi(w-W)$ is given by 
 # 
+# $$
 # \begin{equation}
 #   \label{eq:permstep-darcy-flux-solution}
 #   q = \por_0w_0
@@ -119,6 +132,7 @@ def cmprate(fp, fm, f0, n, z):
 #     \left[f_m^\permexp(1-f_m\por_0) - \tilde{f}f_m^{\permexp/2}\exp(z/\cmplength_m)\right] & z\le0.
 #   \end{cases}
 # \end{equation}
+# $$
 
 # In[6]:
 
@@ -254,11 +268,13 @@ plt.show()
 # 
 # The phase ($c_p$) and group ($c_g$) velocities are given as
 # 
+# $$
 # \begin{align}
 # \label{eq:linwave-phase-vel}
 #     c_p &= \frac{\permexp}{k^2 + 1},\\
 #     c_g &= c_p - \frac{2\permexp k^2}{(k^2 + 1)^2}. 
 # \end{align}
+# $$
 # 
 # The phase ($c_p$) and group ($c_g$) velocities are plotted below as a function of the wavelength $\lambda=2\pi/k$.
 
@@ -306,16 +322,17 @@ plt.show()
 # 
 # The solitary wave speed $v$ is computed as
 # 
-# \begin{equation}
-#   \label{eq:magmons-wavespeed}
+# $$
+# \begin{equation*}
 #   \solwavespeed(\solwaveamp) = 
 #   \begin{cases}
 #     (\solwaveamp-1)^2/\left(\solwaveamp\ln\solwaveamp - \solwaveamp+1\right)& \text{for }\permexp=2,\\
 #     2\solwaveamp + 1 & \text{for }\permexp=3.
 #   \end{cases}
-# \end{equation}
+# \end{equation*}
+# $$
 # 
-# The dimensionless solitary wave speed $\upsilon$ computed with equation \eqref{eq:magmons-wavespeed} as a function of wave amplitude $\Lambda^*$ relative to the background porosity is plotted below.
+# The dimensionless solitary wave speed $\upsilon$ computed with the equation above as a function of wave amplitude $\Lambda^*$ relative to the background porosity is plotted below.
 
 # In[17]:
 
@@ -345,6 +362,7 @@ plt.show()
 
 # The normalized porosity profile is obtained through numerical inversion of
 # 
+# $$
 # \begin{equation}
 #   \label{eq:magmons-implict-shape}
 #   Z(\solwave) = \left(\solwaveamp+\tfrac{1}{2}\right)^{\tfrac{1}{2}}\left[
@@ -353,6 +371,7 @@ plt.show()
 #       {(\solwaveamp-1)^{\tfrac{1}{2}}+(\solwaveamp-\solwave)^{\tfrac{1}{2}}}
 #     \right)-2\left(\solwaveamp-\solwave\right)^{\tfrac{1}{2}}\right]
 # \end{equation}
+# $$
 # 
 # which is implemented in Python as
 
@@ -443,10 +462,14 @@ plt.show()
 # ## Solitary-wave trains
 # 
 # The equations below admit a nonlinear solitary wave solution:
+# 
+# $$
 # \begin{align}
 # -\left(\npor^\permexp\cmp_z\right)_z + \cmp &= -\left(\npor^\permexp\right)_z, \\
 # \npor_t &= \cmp.                                                 
 # \end{align}
+# $$
+# 
 # which is plotted below:
 
 # In[24]:

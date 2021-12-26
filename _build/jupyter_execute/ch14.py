@@ -12,19 +12,26 @@ from scipy.optimize import brentq
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
 
+import warnings 
+warnings.filterwarnings('ignore')
+
 
 # ## The 1-D solitary wave (instantaneous)
 # 
 # The compaction equation reads
 # 
+# $$
 # \begin{equation}
 #   \label{eq:num-cmp-eqn}
 #   \diff{}{z}\npor^\permexp\diff{\cmp}{z} - \cmp = \diff{\npor^\permexp}{z}.
 # \end{equation}
+# $$
 # 
 # ### Finite Difference Discretisation
 # 
-# The finite-difference form of equation \eqref{eq:num-cmp-eqn} is
+# The finite-difference form of equation $\eqref{eq:num-cmp-eqn}$ is
+# 
+# $$
 # \begin{equation}
 #   \label{eq:num-cmpeqn-stencil}
 #   \left[\begin{array}{ccc}
@@ -33,11 +40,13 @@ import scipy.sparse.linalg as spla
 #     \end{array} \right]\aprx{\cmp}_i = \Dz\left(\npor_{i+1/2}^\permexp -
 #     \npor_{i-1/2}^\permexp\right).
 # \end{equation}
+# $$
 # 
 # **NOTE**: In stencil notation, multiplication of a stencil $\left[S_a,\;\;S_b,\;\;S_c\right]$ with a discrete variable $q_i$ is computed as $S_aq_{i-1} + S_bq_{i} + S_cq_{i+1}$}.
 # 
-# To make progress toward solving for $\aprx{\cmp}_i$, we write \eqref{eq:num-cmpeqn-stencil} in the form
-# $\mathbf{A}\posvec = \boldsymbol{b}$, where $\boldsymbol{b}$ is a column vector with $b_i=\Dz\left(\npor_{i+1/2}^\permexp - \npor_{i-1/2}^\permexp\right)$. The unknowns go into column vector $\posvec$. The stencil is used to fill a tridiagonal band in the matrix $\mathbf{A}$. The first and last rows in  $\mathbf{A}$ and $\boldsymbol{b}$ are constructed to satisfy the boundary conditions. The result is
+# To make progress toward solving for $\aprx{\cmp}_i$, we write $\eqref{eq:num-cmpeqn-stencil}$ in the form $\mathbf{A}\posvec = \boldsymbol{b}$, where $\boldsymbol{b}$ is a column vector with $b_i=\Dz\left(\npor_{i+1/2}^\permexp - \npor_{i-1/2}^\permexp\right)$. The unknowns go into column vector $\posvec$. The stencil is used to fill a tridiagonal band in the matrix $\mathbf{A}$. The first and last rows in  $\mathbf{A}$ and $\boldsymbol{b}$ are constructed to satisfy the boundary conditions. The result is
+# 
+# $$
 # \begin{equation}
 #   \label{eq:num-fd-matrix-equation}
 #   \left(\begin{array}{cccccc}
@@ -54,7 +63,9 @@ import scipy.sparse.linalg as spla
 #                  b_2 \\[1mm] b_3 \\[1mm]  \vdots \\[1mm] 
 #                  b_{N_z-1} \\[1mm] 0\end{array}\right),
 # \end{equation}
-# where $[\;\;S_i\;\;]$ is the $i^\text{th}$ stencil, given in equation \eqref{eq:num-cmpeqn-stencil} above.
+# $$
+# 
+# where $[\;\;S_i\;\;]$ is the $i^\text{th}$ stencil, given in equation $\eqref{eq:num-cmpeqn-stencil}$ above.
 # 
 # The Python function below solves the system $\mathbf{A}\posvec = \boldsymbol{b}$:
 
@@ -86,23 +97,28 @@ def SolveCompactionRateFiniteDifference(phi, dz):
 # 
 # The Finite Element form of equation \eqref{eq:num-cmp-eqn} is
 # 
+# $$
 # \begin{equation}
 #   \label{eq:num-solwave-discrete-elementwise}
 #   \sum_{i=1}^{N_z}c_i\int_{\Omega_e} \left(K\basis_e^\prime\basis_i^\prime +
 #     \basis_e\basis_i\right)\infd\Omega = 
 #   \int_{\Omega_e} K\basis_e^\prime\infd\Omega.
 # \end{equation}
+# $$
 # 
-# Equation \eqref{eq:num-solwave-discrete-elementwise} can be expressed in terms of a matrix-vector product $\mathbf{A}\boldsymbol{x} = \boldsymbol{b}$, where 
+# Equation $\eqref{eq:num-solwave-discrete-elementwise}$ can be expressed in terms of a matrix-vector product $\mathbf{A}\boldsymbol{x} = \boldsymbol{b}$, where 
 # 
+# $$
 # \begin{align*}
 #     \mathbf{A} &= \sum_e \int_{\Omega_e} \left(K\basis_e^\prime\basis_i^\prime +
 #     \basis_e\basis_i\right)\infd\Omega \\
 #     \boldsymbol{b} &= \sum_e \int_{\Omega_e} K\basis_e^\prime\infd\Omega,
 # \end{align*}
+# $$
 # 
 # and the vector of unknowns $\boldsymbol{x}$ represents the coefficients $c_i$.  In the equation above, $\sum_e$ is the assembly operator. To clarify the assembly operation, we write the bilinear and linear forms evaluated over one element $\Omega_j$, which is written as the sub-matrix and sub-vector
 # 
+# $$
 # \begin{align}
 #     \mathbf{A}^{\Omega_e} &= \int_{\Omega_e} 
 #       \left(\begin{array}{cc}
@@ -117,10 +133,9 @@ def SolveCompactionRateFiniteDifference(phi, dz):
 #       K\basis_{j+1}^\prime
 #      \end{array}\right)\infd\Omega.
 # \end{align}
+# $$
 # 
-# 
-# Then the assembly of the global matrix $\mathbf{A}$ and global vector $\boldsymbol{b}$ involve summing the entries of
-# $\mathbf{A}^{\Omega_e}$ and $\boldsymbol{b}^{\Omega_e}$ into the correct locations (recalling that $\mathbf{A}$ is symmetrical).
+# Then the assembly of the global matrix $\mathbf{A}$ and global vector $\boldsymbol{b}$ involve summing the entries of $\mathbf{A}^{\Omega_e}$ and $\boldsymbol{b}^{\Omega_e}$ into the correct locations (recalling that $\mathbf{A}$ is symmetrical).
 # 
 # The Python function below solves the system $\mathbf{A}\boldsymbol{x} = \boldsymbol{b}$:
 
@@ -157,7 +172,7 @@ def SolveCompactionRateFiniteElement(phi, dz):
     return x
 
 
-# The analytical solution of the compact equation \eqref{eq:num-cmp-eqn} is given by
+# The analytical solution of the compact equation $\eqref{eq:num-cmp-eqn}$ is given by
 
 # In[4]:
 
@@ -177,7 +192,7 @@ def SolitaryWaveGenerator(Amplitude, z, z0):
     return f
 
 
-# Figure below plots the error $\error$ versus number of nodes $N_z$ for numerical solutions of the Compaction Equation \eqref{eq:num-cmp-eqn}. The solid line marks the error for the finite difference method \eqref{eq:num-cmpeqn-stencil}. The dashed line marks the error for the finite element method. The analytical solution is shown in chapter 6.
+# Figure below plots the error $\error$ versus number of nodes $N_z$ for numerical solutions of the Compaction Equation $\eqref{eq:num-cmp-eqn}$. The solid line marks the error for the finite difference method $\eqref{eq:num-cmpeqn-stencil}$. The dashed line marks the error for the finite element method. The analytical solution is shown in chapter 6.
 
 # In[5]:
 
@@ -237,6 +252,7 @@ plt.show()
 # 
 # We seek numerical solutions to the instantaneous flow problem for a given, two-dimensional porosity field
 # 
+# $$
 # \begin{align}
 #     \label{eq:num_mfcsol_gov_compaction}
 #     -\Div\vel\sol + \Div\left[\mobility \left(\Grad\pres + \yhat\right)\right] &= \cmpforce, \\
@@ -244,11 +260,13 @@ plt.show()
 #     -\Grad\pres + \delta^2\delsq\vel\sol + 2\delta^2\Grad\left(\Div\vel\sol\right)
 #     - \por\yhat &= \stokesforce.
 # \end{align}
+# $$
 # 
-# where all symbols are now dimensionless; $\mobility = \left(\por/\por_0\right)^\permexp$ is the mobility, $\yhat = \gravity/g$ is the direction of gravitational acceleration, and $\delta = \cmplength_0/H$ is a non-dimensional compaction length ($\cmplength_0$ is the reference, dimensional compaction length). $\cmpforce$ and $\stokesforce$ are obtained by substituting analytical functions $\vel\sol_\manufac$ and $\pres_\manufac$ (the *manufactured solution*) into the augmented governing equations \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}.
+# where all symbols are now dimensionless; $\mobility = \left(\por/\por_0\right)^\permexp$ is the mobility, $\yhat = \gravity/g$ is the direction of gravitational acceleration, and $\delta = \cmplength_0/H$ is a non-dimensional compaction length ($\cmplength_0$ is the reference, dimensional compaction length). $\cmpforce$ and $\stokesforce$ are obtained by substituting analytical functions $\vel\sol_\manufac$ and $\pres_\manufac$ (the *manufactured solution*) into the augmented governing equations $\eqref{eq:num_mfcsol_gov_compaction}$-$\eqref{eq:num_mfcsol_gov_stokes}$.
 # 
 # A reasonable choice (among many) is
 # 
+# $$
 # \begin{align}
 #     \label{eq:num-manufac-solution1}
 #     \phi_\manufac &= \phi_0\left[1 + \phi^*\cos\left(m\pi x\right)\cos\left(m\pi y\right)\right],\\
@@ -259,6 +277,7 @@ plt.show()
 #     \label{eq:num-manufac-solution4}
 #     \scalarpotential_\manufac &= \scalarpotential^* \cos\left(m\pi x\right)\cos\left(m\pi y\right),
 # \end{align}
+# $$
 # 
 # These functions are implemented in Python below:
 
@@ -332,7 +351,7 @@ class PAR:
         self.A_phi = a_phi
 
 
-# Figure below plots the manufactured solution, computed using equations \eqref{eq:num-manufac-solution1}-\eqref{eq:num-manufac-solution4}, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. __(a)__ The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. __(b)__ The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. __(c)__ The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.
+# Figure below plots the manufactured solution, computed using equations $\eqref{eq:num-manufac-solution1}$-$\eqref{eq:num-manufac-solution4}$, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. __(a)__ The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. __(b)__ The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. __(c)__ The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.
 
 # In[10]:
 
@@ -660,7 +679,7 @@ def SolveEquationsFiniteDifference(phi, dx, par):
     return P, Vx, Vy
 
 
-# Figure below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system \eqref{eq:num_mfcsol_gov_compaction}-\eqref{eq:num_mfcsol_gov_stokes}. The solid line marks the velocity error; the dashed line marks the pressure error.
+# Figure below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system $\eqref{eq:num_mfcsol_gov_compaction}$-$\eqref{eq:num_mfcsol_gov_stokes}$. The solid line marks the velocity error; the dashed line marks the pressure error.
 
 # In[15]:
 

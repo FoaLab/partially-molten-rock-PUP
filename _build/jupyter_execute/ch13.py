@@ -24,49 +24,60 @@ warnings.filterwarnings('ignore')
 # 
 # This simplified problem is governed by the system
 # 
+# $$
 # \begin{align}
 #     \label{eq:cornerflow-twophase-stokes}
 #     \Grad\pres = \delsq\vel \\
 #     \Div\vel = 0
 # \end{align}
+# $$
 # 
 # and
 # 
+# $$
 # \begin{equation*}
-# \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
+#   \vel\liq = \vel - \frac{1}{\velratio}\left(\Grad\pres + \unit{\gravity}\right)
 # \end{equation*}
+# $$
 # 
-# The nondimensional solution to \eqref{eq:cornerflow-twophase-stokes} is
+# The nondimensional solution to $\eqref{eq:cornerflow-twophase-stokes}$ is
 # 
+# $$
 # \begin{align}
 #     f(\theta) &= A\sin\theta -B\theta\cos\theta, \\
-#     \vel &= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \\
+#     \vel &= \left[f'(\theta)\rhat - f(\theta)\thetahat\right], \label{eq:cornerflow-solid-velocity} \\
 #     \pres &= -\frac{1}{r}\left[f'''(\theta) + f'(\theta)\right] = -\frac{2B}{r}\cos\theta,
 # \end{align}
+# $$
 # 
 # where
 # 
+# $$
 # \begin{equation*}
 #   A = \frac{2\sin^2\theta_p}{\pi - 2\theta_p-\sin2\theta_2}
 #   \text{ and }
 #   B = \frac{2}{\pi - 2\theta_p-\sin2\theta_2}.
 # \end{equation*}
+# $$
 # 
 # Recall that $\theta_p$ is the angle beneath the horizontal made by the base of the rigid wedge that represents the lithosphere.  Using the cylindrical coordinate system,
 # 
+# $$
 # \begin{align}
 #   \unit{\gravity} &= \cos\theta\rhat - \sin\theta\thetahat,\\
 #   \Grad\pres &= \pdiff{\pres}{r}\rhat + \frac{1}{r}\pdiff{\pres}{\theta}\thetahat.
 # \end{align}
+# $$
 # 
 # The liquid velocity is then
 # 
+# $$
 # \begin{equation}
 #   \label{eq:cornerflow-liquid-velocity}
 #   \vel\liq = \left(f'(\theta)\rhat - f(\theta)\thetahat\right) -
-#   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right]
-#     + \cos\theta\rhat + \sin\theta\thetahat\right\}.
+#   \frac{1}{\velratio}\left\{\frac{1}{r^2}\left[\left(f''' +f'\right)\rhat - \left(f'''' + f''\right)\thetahat\right] + \cos\theta\rhat + \sin\theta\thetahat\right\}.
 # \end{equation}
+# $$
 # 
 # The radial and tangential components of the solid and liquid velocities are implemented as:
 
@@ -97,7 +108,7 @@ def vel_liquid_tangential(alph, theta, r, e):
     return (sin_t - ((4.*sin_t + numer)/denom - (8.*sin_t + numer)/denom)/r**2)/e - numer/denom
 
 
-# Figures below plot the streamlines of the solid (4) and liquid \eqref{eq:cornerflow-liquid-velocity} velocities for the corner flow solution with uniform viscosity and porosity. The domain has a fixed size in dimensional units. The top row of panels has a larger lithospheric wedge angle $(\theta_p=30^\circ)$ than the bottom row $(\theta_p=15^\circ)$.  The left column has 100$\times$ slower melt segregation ($\velratio=1$) than the right column ($\velratio=0.01$).
+# Figures below plot the streamlines of the solid $\eqref{eq:cornerflow-solid-velocity}$ and liquid $\eqref{eq:cornerflow-liquid-velocity}$ velocities for the corner flow solution with uniform viscosity and porosity. The domain has a fixed size in dimensional units. The top row of panels has a larger lithospheric wedge angle $(\theta_p=30^\circ)$ than the bottom row $(\theta_p=15^\circ)$.  The left column has 100$\times$ slower melt segregation ($\velratio=1$) than the right column ($\velratio=0.01$).
 
 # In[3]:
 
@@ -210,18 +221,22 @@ f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid s
 # 
 # A measure of the efficiency of focusing is the lateral flux enhancement compared to the vertical flux far from the barrier, $q_\infty\cos\alpha$.  This efficiency be written as
 # 
+# $$
 # \begin{align}
 #   \label{eq:decmp_focus_efficiency}
 #   \efocus &\equiv \tan\alpha\int_{-\infty}^0\left[
 #     \frac{R_\delta^2G''(\zeta)-G(\zeta)}{1-R_\delta^2G''(\zeta)}\right]\infd \zeta,
 # \end{align}
+# $$
 # 
 # Another measure of focusing efficiency is the lateral distance traveled by melt as it traverses the full height of the domain, before freezing:
 # 
+# $$
 # \begin{align}
 #   \label{eq:decmp_chan_distance_final}
 #   \xfocus &= \delta_0 R_\delta \tan\alpha \int_{-\infty}^0 \frac{R_\delta^2G''(\zeta)}{1-R^2G''(\zeta)} \infd \zeta.
 # \end{align}
+# $$
 
 # In[4]:
 
@@ -239,7 +254,7 @@ def integrand_Dx(zeta, Rsquared):
     return Rsquared*Gpp/(1-Rsquared*Gpp)
 
 
-# Figure below plot the metrics of focusing through an inclined decompaction channel atop a semi-infinite half space.  __(a)__ Focusing efficiency calculated according to eqn. \eqref{eq:decmp_focus_efficiency}. __(b)__ Focusing distance calculated according to eqn. \eqref{eq:decmp_chan_distance_final}, normalised by $\freezelength$.
+# Figure below plot the metrics of focusing through an inclined decompaction channel atop a semi-infinite half space.  __(a)__ Focusing efficiency calculated according to equation $\eqref{eq:decmp_focus_efficiency}$. __(b)__ Focusing distance calculated according to equation $\eqref{eq:decmp_chan_distance_final}$, normalised by $\freezelength$.
 
 # In[5]:
 
@@ -291,8 +306,7 @@ plt.show()
 
 # ### Lateral transport to a mid-ocean ridge
 
-# Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at $x=0,z=0$. The problem is assumed to have reflection symmetry about the $z$ axis. Dashed lines are temperature contours. The heavy solid line is the outline of the melting region
-# $\meltregion$. A control volume along the top of the melting region is associated with a melting column beneath and a lithospheric strip to the right. The dip of the top of the melting regime is $\infd z_h/\infd x = -\tan\alpha$.
+# Figure below plots a schematic cross-sectional diagram of the model of mid-ocean ridge melt focusing. The ridge axis is located at $x=0,z=0$. The problem is assumed to have reflection symmetry about the $z$ axis. Dashed lines are temperature contours. The heavy solid line is the outline of the melting region $\meltregion$. A control volume along the top of the melting region is associated with a melting column beneath and a lithospheric strip to the right. The dip of the top of the melting regime is $\infd z_h/\infd x = -\tan\alpha$.
 
 # In[6]:
 
@@ -375,18 +389,22 @@ plt.show()
 
 # The freezing rate is evaluated as
 # 
+# $$
 # \begin{equation}
 #   \label{eq:mor-decomp-energycon}
 #   G = \frac{\kappa\heatcapacity}{\latent}\left(\left.\diff{\temp}{z}
 #     \right\vert_{z_h^+} - \left.\diff{\temp}{z}\right\vert_{z_h^-}\right).
 # \end{equation}
+# $$
 
 # The crustal thickness is given by $-q/U_0$. $q$ is the volumetric flow rate along the channel, and satisfies
 # 
+# $$
 # \begin{equation}
 #   \label{eq:mor-decomp-flux-divergence}
 #   \diff{q}{x} = \frac{G - U_0\diff{z_h}{x} F(z_h)}{1-F(z_h)}.
 # \end{equation}
+# $$
 
 # Figures below plot results of the mid-ocean ridge focusing model with reference parameters. __(a)__ The freezing rate $-G$. __(b)__ The equivalent crustal thickness $-q/U_0$. Parameter values used here are $\soltemp_0=1373$, $T_m=1623$ K, $z_b=-70$ km, $z_{h0} = -10$ km, $z_h = z_{h0} - x\tan\alpha$, $\alpha=30^\circ$ (giving $x_d=104$~km), $F_\text{max}=0.23$, $\Pi=F_\text{max}/(z_h(0) - z_b)$, $\clapeyron = z_b\density g/(\soltemp_0 - T_m)$, $\latent = \heatcapacity\density g/\clapeyron\Pi$, and other paramters as in Table (8.1).
 
@@ -469,7 +487,7 @@ ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
 plt.show()
 
 
-# Figure below shows how the solution to \eqref{eq:mor-decomp-flux-divergence} varies with the dip of the focusing boundary $\alpha = \tan^{-1}(-\infd z_h/\infd x)$ and the spreading rate $U_0$. __(a)__ holding $U_0$ fixed, a larger dip leads to a thicker crust ($-q(0)/U_0$). __(b)__ for
+# Figure below shows how the solution to $\eqref{eq:mor-decomp-flux-divergence}$ varies with the dip of the focusing boundary $\alpha = \tan^{-1}(-\infd z_h/\infd x)$ and the spreading rate $U_0$. __(a)__ holding $U_0$ fixed, a larger dip leads to a thicker crust ($-q(0)/U_0$). __(b)__ for
 # fixed $\alpha$, larger spreading rate also leads to a thicker crust. In both cases, this is because $W_0$ is increased, causing more rapid melting and a greater melt flux from the melting columns to the decompaction channel. __(c)__ shows that faster spreading (with associated reduction in $\alpha$) leads to a thicker crust. The models predicts that this effect does not saturate with increasing spreading rate. This is inconsistent with observations of crustal thickness as a function of spreading rate, which saturates at a half-rate of 2 cm/year to a thickness of about 7 km.
 
 # In[10]:
@@ -529,10 +547,4 @@ ax[2].set_yticks((0, 2, 4, 6, 8))
 ax[2].set_xlabel(r'$x$, km', fontsize=24)
 ax[2].text(2.0, 0.3, r'(c)', fontsize=16, verticalalignment='top', horizontalalignment='left')
 ax[2].legend(fontsize=13);
-
-
-# In[ ]:
-
-
-
 

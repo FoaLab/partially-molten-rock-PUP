@@ -9,7 +9,10 @@
 get_ipython().run_line_magic('matplotlib', 'inline')
 from matplotlib import pyplot as plt
 import matplotlib.cm as cm
-import numpy as np
+import numpy as np 
+
+import warnings 
+warnings.filterwarnings('ignore') 
 
 
 # ## Kinematic solutions for corner flow
@@ -23,36 +26,48 @@ import numpy as np
 # \end{align*}
 # 
 # Under the assumptions described in Section 3.3, we obtain the biharmonic equation,
+# 
 # \begin{equation*}
-#   \label{eq:one-phase-biharm}
 #   \nabla^2(\nabla^2\psi) = 0.
 # \end{equation*}
 # 
 # We wish to solve this equation in the wedge-shaped region below the sloping base of the lithospheric plates.
 # 
 # In 2-D polar coordinates, the biharmonic equation (not shown) has the simple, separable solution
+# 
+# $$
 # \begin{align}
 #     \label{eq:one-phase-biharm-solution-general}
-#     \psi &= rU_0f(\theta),\\
+#     \psi &= rU_0f(\theta), \\
 #     \label{eq:vel-polar}
 #     \boldsymbol{v} &= U_0\left[f'(\theta)\rhat - f(\theta)\thetahat\right],\\
 #     \label{eq:pres-polar}
 #     P &= -\frac{\eta U_0}{r}\left[f'''(\theta) + f'(\theta)\right],
 # \end{align}
+# $$
+# 
 # with
+# 
+# $$
 # \begin{equation}
 #   \label{eq:one-phase-biharm-solution-thetadep}
 #   f(\theta) = C_1\sin\theta + C_2\theta\sin\theta + C_3\cos\theta + C_4\theta\cos\theta.
 # \end{equation}
+# $$
 # 
 # Assuming that the lithospheric plates move horizontally away from the ridge axis at speed $U_0$, we obtain
+# 
+# $$
 # \begin{equation}
 #   \label{eq:one-phase-cornerflow-constants}
 #   C_1 = \frac{2\sin^2\theta}{\pi-2\theta-\sin2\theta},\;\;\;
 #   C_2 = C_3 = 0,\;\;\; C_4 = \frac{-2}{\pi-2\theta-\sin2\theta}.
 # \end{equation}
-
-# Combining \ref{eq:one-phase-cornerflow-constants} and \ref{eq:one-phase-biharm-solution-thetadep}, with \eqref{eq:vel-polar} and \eqref{eq:pres-polar} gives the solution
+# $$
+# 
+# Combining $\eqref{eq:one-phase-cornerflow-constants}$ and $\eqref{eq:one-phase-biharm-solution-thetadep}$, with $\eqref{eq:vel-polar}$ and $\eqref{eq:pres-polar}$ gives the solution
+# 
+# $$
 # \begin{align}
 # \label{eq:one-phase-cornerflow-vel}
 # \boldsymbol{v} &= U_0\left\{\left[(C_1+C_4)\cos\theta - C_4\theta\sin\theta\right]\rhat - 
@@ -60,8 +75,9 @@ import numpy as np
 # \label{eq:one-phase-cornerflow-press}
 # P &= \frac{2\eta U_0}{r}C_4\cos\theta.
 # \end{align}
+# $$
 # 
-# The Python implementation of equations \eqref{eq:one-phase-cornerflow-vel} and \eqref{eq:one-phase-cornerflow-press} are shown below:
+# The Python implementation of equations $\eqref{eq:one-phase-cornerflow-vel}$ and $\eqref{eq:one-phase-cornerflow-press}$ are shown below:
 
 # In[2]:
 
@@ -89,6 +105,8 @@ def solution_polar_coords(X, Z, theta):
 
 
 # Expressing these results in the Cartesian coordinate system, we obtain
+# 
+# $$
 # \begin{align}
 # \label{eq:one-phase-cornerflow-cartesian-vel-x}
 #     \boldsymbol{v}\cdot\hat{\boldsymbol{x}} &= U_0C_4\left(\arctan\frac{x}{z} - \frac{xz}{x^2 + z^2}\right), \\
@@ -97,8 +115,10 @@ def solution_polar_coords(X, Z, theta):
 # \label{eq:one-phase-cornerflow-cartesian-press}
 #     P &= 2\eta U_0 C_4 \frac{-z}{x^2 + z^2}.
 # \end{align}
+# $$
 # 
-# The Python implementation of equations \eqref{eq:one-phase-cornerflow-cartesian-vel-x}-\eqref{eq:one-phase-cornerflow-cartesian-press} are shown below:
+# The Python implementation of equations $\eqref{eq:one-phase-cornerflow-cartesian-vel-x}$-$\eqref
+# {eq:one-phase-cornerflow-cartesian-press}$ are shown below:
 
 # In[3]:
 
@@ -135,7 +155,7 @@ def solution_cartesian_coords(X, Z, theta):
 theta_p = 25.*np.pi/180.  # it can vary from 0 to 60 deg.
 
 
-# The velocity and pressure from \eqref{eq:one-phase-cornerflow-vel} and \eqref{eq:one-phase-cornerflow-press} (or, equivalently, \eqref{eq:one-phase-cornerflow-cartesian-vel-x}-\eqref{eq:one-phase-cornerflow-cartesian-press}) are computed below:
+# The velocity and pressure from $\eqref{eq:one-phase-cornerflow-vel}$ and $\eqref{eq:one-phase-cornerflow-press}$ (or, equivalently, $\eqref{eq:one-phase-cornerflow-cartesian-vel-x}$-$\eqref{eq:one-phase-cornerflow-cartesian-press}$) are computed below:
 
 # In[5]:
 

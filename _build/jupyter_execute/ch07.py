@@ -16,10 +16,13 @@ from scipy.interpolate import griddata
 # ## The (in)stability of perturbations
 # 
 # Our perturbation will take the form of harmonic plane waves,
+# 
+# $$
 # \begin{equation}
 #   \label{eq:shearband-perturbation-prototype}
 #   \por\first(\posvec,t) \propto \e^{i\wavevector\cdot\posvec + s(t)}.
 # \end{equation}
+# $$
 # 
 # The orientation of these waves is described by an angle $\theta$ to the $x$-axis, as shown in the figure below.
 
@@ -73,6 +76,7 @@ plt.show()
 # 
 # The dispersion relation is
 # 
+# $$
 # \begin{equation}
 #   \label{eq:pureshear-growthrate}
 #   \growrate = \pm 2\left(1-\por\zeroth\right)
@@ -80,6 +84,7 @@ plt.show()
 #   \frac{\left(2\pi\cmplength_0/\wavelength\right)^2}
 #   {1+\left(2\pi\cmplength_0/\wavelength\right)^2},
 # \end{equation}
+# $$
 # 
 # Dispersion curves showing normalised growth rate of perturbations versus perturbation wavelength are plotted below on log-linear axes:
 
@@ -194,12 +199,15 @@ plt.show()
 
 
 # Figure above shows a wave-front with wavevector $\boldsymbol{k}$ at time $t$. It makes an angle to the shear plane of
+# 
+# $$
 # \begin{equation}
 #   \label{eq:simpleshear-bandangle}
 #   \bandangle(t) = \tan^{-1} \left( \frac{\wavenumber_{0x}}{\wavenumber_{0y} - \shearstrainrate\wavenumber_{0x}t} \right).
 # \end{equation}
+# $$
 # 
-# A plot of band angle from equation \eqref{eq:simpleshear-bandangle} as a function of progressive shear strain (on the $y$-axis) is shown in below.
+# A plot of band angle from equation $\eqref{eq:simpleshear-bandangle}$ as a function of progressive shear strain (on the $y$-axis) is shown in below.
 
 # In[11]:
 
@@ -231,6 +239,8 @@ plt.show()
 # #### Growth of porosity bands when $\mathfrak{n}=1$
 # 
 # The growth rate can be written as
+# 
+# $$
 # \begin{equation}
 #   \label{eq:simpleshear-growthrate-angle}
 #   \growrate = \left(1-\por\zeroth\right)
@@ -238,6 +248,7 @@ plt.show()
 #   \frac{(\cmplength_0\wavenumber)^2}
 #   {1 + (\cmplength_0\wavenumber)^2}\sin 2\bandangle.
 # \end{equation}
+# $$
 # 
 # Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and Newtonian viscosity.
 
@@ -268,6 +279,8 @@ plt.show()
 # #### Growth of porosity bands when $\mathfrak{n} \ge 1$
 # 
 # The growth rate can be written as
+# 
+# $$
 # \begin{equation}
 #   \label{eq:simpleshear-nonnewt-growthrate}
 #   \growrate = \left(1-\por\zeroth\right)
@@ -276,6 +289,7 @@ plt.show()
 #     {1 + \left(\cmplength_0k\right)^2}
 #     \left(\frac{\sin2\theta}{1-\strrexpc\cos^22\theta}\right).
 # \end{equation}
+# $$
 # 
 # Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and non-Newtonian viscosity with various values of $\mathfrak{n}$. The vertical dotted lines mark $\theta=15^\circ$.
 
@@ -309,6 +323,8 @@ plt.show()
 # #### Extending the analysis to finite strain
 # 
 # Restricting our focus to the case of wavelengths much smaller than the compaction length, we can obtain $s$ by integrating
+# 
+# $$
 # \begin{equation}
 #   \label{eq:simpleshear-perturbation-amplitude}
 #   s(\bandangle,t) =
@@ -316,9 +332,11 @@ plt.show()
 #   \frac{\porweaken\shearstrainrate}{\strrexp\viscratio\zeroth}\int_0^t
 #   \left(\frac{\sin2\theta(t')}{1-\strrexpc\cos^22\theta(t')}\right)\infd t',
 # \end{equation}
+# $$
+# 
 # where $t'$ is a dummy variable of integration, to distinguish it from the (variable) upper limit of integration, $t$.
 # 
-# Figure below plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$. Dotted curves are passive advection trajectories from eqn. \eqref{eq:simpleshear-bandangle} with Newtonian viscosity ($\mathfrak{n}=1,\,\mathcal{N}=0$).
+# Figure below plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$. Dotted curves are passive advection trajectories from equation $\eqref{eq:simpleshear-bandangle}$ with Newtonian viscosity ($\mathfrak{n}=1,\,\mathcal{N}=0$).
 
 # In[15]:
 
@@ -370,7 +388,7 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 plt.show()
 
 
-# Figure below also plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\\gamma} t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\mathfrak{n}=6,\,\mathcal{N}=5/6$).
+# Figure below also plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\mathfrak{n}=6,\,\mathcal{N}=5/6$).
 
 # In[17]:
 
@@ -434,12 +452,16 @@ plt.show()
 # ## Wavelength selection by surface tension
 
 # The growth rate of porosity bands versus wavelength is given by
+# 
+# $$
 # \begin{equation}
 #   \label{eq:porband-sfcten-growrate-wavenum}
 #   \growrate_* = \frac{\wavenumber_*^2\left(1-\sfctenvshear\,\wavenumber_*^2\right)}
 #   {\wavenumber_*^2+1}.
 # \end{equation}
-# Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in log-linear scale.
+# $$
+# 
+# Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in log-linear scale.
 
 # In[19]:
 
@@ -473,7 +495,7 @@ plt.grid(True)
 plt.show()
 
 
-# Figure below plots \eqref{eq:porband-sfcten-growrate-wavenum} in the log-log scale.
+# Figure below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in the log-log scale.
 
 # In[21]:
 
@@ -560,10 +582,4 @@ ax.set_ylabel(r'$\dot{s}^{max}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\p
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
 
