@@ -341,7 +341,7 @@
     &amp;&amp;\approx \cbasestate\left[1 + \left(1+\dpro\right)(1-1/n) \rpro z\right].
 \end{alignat}
 \end{split}\]</div>
-<p>The base-state solutions <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-base-state-solution_1}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:rxflow-base-state-solution_4}\)</span> are plotted below for two values of <span class="math notranslate nohighlight">\(\rpro\)</span>. Thick lines are the full solution and narrow lines are the linear approximation. In each case, <span class="math notranslate nohighlight">\(\stiff=1\)</span>, <span class="math notranslate nohighlight">\(\dpro=1\)</span> and <span class="math notranslate nohighlight">\(\permexp=3\)</span>. The values of <span class="math notranslate nohighlight">\(\por\zeroth\)</span> (panel <strong>(c)</strong>) and <span class="math notranslate nohighlight">\(w\zeroth\)</span> (panel <strong>(d)</strong>) at <span class="math notranslate nohighlight">\(z=0\)</span> are given by <span class="math notranslate nohighlight">\(\cbasestate^{-1}\)</span> and <span class="math notranslate nohighlight">\(\cbasestate\)</span>, respectively.</p>
+<p>The base-state solutions <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-base-state-solution_1}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:rxflow-base-state-solution_4}\)</span> are plotted in Figure 12.2 below for two values of <span class="math notranslate nohighlight">\(\rpro\)</span>. Thick lines are the full solution and narrow lines are the linear approximation. In each case, <span class="math notranslate nohighlight">\(\stiff=1\)</span>, <span class="math notranslate nohighlight">\(\dpro=1\)</span> and <span class="math notranslate nohighlight">\(\permexp=3\)</span>. The values of <span class="math notranslate nohighlight">\(\por\zeroth\)</span> (panel <strong>(c)</strong>) and <span class="math notranslate nohighlight">\(w\zeroth\)</span> (panel <strong>(d)</strong>) at <span class="math notranslate nohighlight">\(z=0\)</span> are given by <span class="math notranslate nohighlight">\(\cbasestate^{-1}\)</span> and <span class="math notranslate nohighlight">\(\cbasestate\)</span>, respectively.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mf">3.0</span>
@@ -409,6 +409,8 @@
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -854,7 +856,9 @@
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=147.77748323071222
-Iteration 450: searching for solution at k=147.77748323071222
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=147.77748323071222
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at sigma=2.4521173824742863
@@ -862,7 +866,9 @@ Iteration 450: searching for solution at k=147.77748323071222
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at k=223.86959964354207
 Iteration 500: searching for solution at k=223.86959964354207
-Iteration 500: searching for solution at sigma=1.9865134870866583
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at sigma=1.9865134870866583
 </pre></div>
 </div>
 </div>
@@ -898,7 +904,9 @@ Iteration 500: searching for solution at sigma=1.9865134870866583
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400: searching for solution at k=49.38013398663095
-Iteration 400: searching for solution at k=49.38013398663095
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400: searching for solution at k=49.38013398663095
 Iteration 400: searching for solution at sigma=0.6296684995591252
 </pre></div>
 </div>
@@ -924,7 +932,9 @@ Iteration 400: searching for solution at sigma=0.6296684995591252
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200: searching for solution at k=1.765015405546866
 Iteration 200: searching for solution at k=1.765015405546866
-Iteration 200: searching for solution at sigma=0.5850777050304234
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200: searching for solution at sigma=0.5850777050304234
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250: searching for solution at k=2.5085653228971196
@@ -941,7 +951,9 @@ Iteration 200: searching for solution at sigma=0.5850777050304234
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=76.75033695919055
 Iteration 450: searching for solution at k=76.75033695919055
-Iteration 450: searching for solution at sigma=1.7843440109574253
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at sigma=1.7843440109574253
 </pre></div>
 </div>
 </div>
@@ -974,7 +986,7 @@ Iteration 450: searching for solution at sigma=1.7843440109574253
 </div>
 </div>
 </div>
-<p>Figure below illustrates the results of numerical solutions of the stability problem. <strong>(a)</strong> Dispersion curves: growth rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(\wavenumber\)</span> from numerical solutions for <span class="math notranslate nohighlight">\(\sigma,m_j,A_j\)</span> for three different values of <span class="math notranslate nohighlight">\(\Da\)</span>. All three curves use the parameters <span class="math notranslate nohighlight">\(\Pe=100,\,\rpro=0.01,\,\dpro=\stiff=1\)</span> and <span class="math notranslate nohighlight">\(\permexp=3\)</span> (corresponding to the parameters used to compute the base state in the Figure above). The star symbol marks the maximum growth rate for the reference curve. <strong>(b)</strong> The eigenmode with maximum growth rate <span class="math notranslate nohighlight">\(\sigma^*\approx 2.96\)</span> at <span class="math notranslate nohighlight">\(\wavenumber^*\approx 24.6\)</span> (<span class="math notranslate nohighlight">\(\lambda^*\approx0.26\)</span>) for the curve with <span class="math notranslate nohighlight">\(\Da=1000\)</span> corresponding to the star marker in panel (a). The perturbation to the compaction pressure <span class="math notranslate nohighlight">\(\cmppres\first\)</span> is shown in the grayscale background image. The narrow lines are contours of the porosity perturbation <span class="math notranslate nohighlight">\(\por\first\)</span>, which has maxima where the compaction pressure has minima. The white curves are streamlines of the flow <span class="math notranslate nohighlight">\(\vel\liq = \zhat + \smallpar\vel\first\)</span>, with <span class="math notranslate nohighlight">\(\smallpar\)</span> chosen to be <span class="math notranslate nohighlight">\(3\times10^{-5}\)</span>. The velocity perturbation <span class="math notranslate nohighlight">\(\vel\first\)</span> is computed with equation <span class="math notranslate nohighlight">\(\vel\first = \left(\permexp - 1\right)\por\first\zhat - \stiff\Grad\cmppres\first\)</span>.</p>
+<p>Figure 12.3 below illustrates the results of numerical solutions of the stability problem. <strong>(a)</strong> Dispersion curves: growth rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(\wavenumber\)</span> from numerical solutions for <span class="math notranslate nohighlight">\(\sigma,m_j,A_j\)</span> for three different values of <span class="math notranslate nohighlight">\(\Da\)</span>. All three curves use the parameters <span class="math notranslate nohighlight">\(\Pe=100,\,\rpro=0.01,\,\dpro=\stiff=1\)</span> and <span class="math notranslate nohighlight">\(\permexp=3\)</span> (corresponding to the parameters used to compute the base state in the Figure above). The star symbol marks the maximum growth rate for the reference curve. <strong>(b)</strong> The eigenmode with maximum growth rate <span class="math notranslate nohighlight">\(\sigma^*\approx 2.96\)</span> at <span class="math notranslate nohighlight">\(\wavenumber^*\approx 24.6\)</span> (<span class="math notranslate nohighlight">\(\lambda^*\approx0.26\)</span>) for the curve with <span class="math notranslate nohighlight">\(\Da=1000\)</span> corresponding to the star marker in panel (a). The perturbation to the compaction pressure <span class="math notranslate nohighlight">\(\cmppres\first\)</span> is shown in the grayscale background image. The narrow lines are contours of the porosity perturbation <span class="math notranslate nohighlight">\(\por\first\)</span>, which has maxima where the compaction pressure has minima. The white curves are streamlines of the flow <span class="math notranslate nohighlight">\(\vel\liq = \zhat + \smallpar\vel\first\)</span>, with <span class="math notranslate nohighlight">\(\smallpar\)</span> chosen to be <span class="math notranslate nohighlight">\(3\times10^{-5}\)</span>. The velocity perturbation <span class="math notranslate nohighlight">\(\vel\first\)</span> is computed with equation <span class="math notranslate nohighlight">\(\vel\first = \left(\permexp - 1\right)\por\first\zhat - \stiff\Grad\cmppres\first\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -1014,6 +1026,8 @@ Iteration 450: searching for solution at sigma=1.7843440109574253
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.3&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1079,10 +1093,9 @@ Iteration 450: searching for solution at sigma=1.7843440109574253
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400: searching for solution at k=49.38013398663095
 Iteration 400: searching for solution at k=49.38013398663095
-Iteration 400: searching for solution at sigma=0.6296684995591252
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400: searching for solution at sigma=0.6296684995591252
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50: searching for solution at k=2.84732236857825
@@ -1137,10 +1150,9 @@ Iteration 200: searching for solution at sigma=0.5850777050304234
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at k=76.75033695919055
 Iteration 450: searching for solution at k=76.75033695919055
-Iteration 450: searching for solution at sigma=1.7843440109574253
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450: searching for solution at sigma=1.7843440109574253
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50: searching for solution at k=3.1716081333693054
@@ -1207,7 +1219,9 @@ Iteration 450: searching for solution at k=147.77748323071222
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at k=223.86959964354207
 Iteration 500: searching for solution at k=223.86959964354207
-Iteration 500: searching for solution at sigma=1.9865134870866583
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500: searching for solution at sigma=1.9865134870866583
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50: searching for solution at k=3.196354480290182
@@ -1238,7 +1252,7 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 </div>
 </div>
 </div>
-<p>Figure below plots the dispersion curves for growth rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(\wavenumber\)</span>. Curves come from numerical solutions to the full problem (cubic polynomial <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-cbs}\)</span>, solid lines) and the large-<span class="math notranslate nohighlight">\(\Da\)</span> problem (quadratic <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-quad}\)</span>, dashed lines). The agreement for <span class="math notranslate nohighlight">\(\Da \ge 100\)</span> suggests that the large-Damköhler approximation is very good for geologically relevant conditions.</p>
+<p>Figure 12.4 below plots the dispersion curves for growth rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(\wavenumber\)</span>. Curves come from numerical solutions to the full problem (cubic polynomial <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-cbs}\)</span>, solid lines) and the large-<span class="math notranslate nohighlight">\(\Da\)</span> problem (quadratic <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-quad}\)</span>, dashed lines). The agreement for <span class="math notranslate nohighlight">\(\Da \ge 100\)</span> suggests that the large-Damköhler approximation is very good for geologically relevant conditions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -1258,6 +1272,7 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.4&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1378,7 +1393,7 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 </div>
 </div>
 </div>
-<p>Figure below plot the results for the modified problem with <span class="math notranslate nohighlight">\(\cmppres\first=0\)</span> at <span class="math notranslate nohighlight">\(z=1\)</span>. <strong>(a)</strong> Dispersion curves for <span class="math notranslate nohighlight">\(n=3\)</span>, <span class="math notranslate nohighlight">\(\Da=1000\)</span>, <span class="math notranslate nohighlight">\(\Pe=100\)</span> and four values of <span class="math notranslate nohighlight">\(\stiff\)</span>. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. <strong>(b)</strong> The <span class="math notranslate nohighlight">\(\cmppres\first\)</span> eigenfunction for <span class="math notranslate nohighlight">\(\stiff=1\)</span>. White curves are streamlines of the flow <span class="math notranslate nohighlight">\(\vel\liq = \zhat + \smallpar\vel\first\)</span>, with <span class="math notranslate nohighlight">\(\smallpar\)</span> chosen to be <span class="math notranslate nohighlight">\(3\times10^{-3}\)</span>. <strong>(c)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.1\)</span> with superimposed contours of the porosity perturbation <span class="math notranslate nohighlight">\(\por\first\)</span>. Porosity is larger in the low-pressure channels. <strong>(d)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.01\)</span>.</p>
+<p>Figure 12.5 below plot the results for the modified problem with <span class="math notranslate nohighlight">\(\cmppres\first=0\)</span> at <span class="math notranslate nohighlight">\(z=1\)</span>. <strong>(a)</strong> Dispersion curves for <span class="math notranslate nohighlight">\(n=3\)</span>, <span class="math notranslate nohighlight">\(\Da=1000\)</span>, <span class="math notranslate nohighlight">\(\Pe=100\)</span> and four values of <span class="math notranslate nohighlight">\(\stiff\)</span>. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. <strong>(b)</strong> The <span class="math notranslate nohighlight">\(\cmppres\first\)</span> eigenfunction for <span class="math notranslate nohighlight">\(\stiff=1\)</span>. White curves are streamlines of the flow <span class="math notranslate nohighlight">\(\vel\liq = \zhat + \smallpar\vel\first\)</span>, with <span class="math notranslate nohighlight">\(\smallpar\)</span> chosen to be <span class="math notranslate nohighlight">\(3\times10^{-3}\)</span>. <strong>(c)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.1\)</span> with superimposed contours of the porosity perturbation <span class="math notranslate nohighlight">\(\por\first\)</span>. Porosity is larger in the low-pressure channels. <strong>(d)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.01\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -1443,6 +1458,8 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <span class="n">ax3</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>
 <span class="n">ax3</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.5&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1568,8 +1585,7 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <p>Properties of the dispersion curve near its maximum, with <span class="math notranslate nohighlight">\(n=3,\,\Da=10^4,\,b=\pi\)</span>. <strong>(a)</strong> Comparison of the exact dispersion relation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytical-sigma-full}\)</span> (solid lines) with the asymptotic relations <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-asymptotic-sigma}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytic-real-im-asymptotic_e}\)</span> (dashed lines) for <span class="math notranslate nohighlight">\(\Pe/\Da=10^{-2}\)</span> and two values of <span class="math notranslate nohighlight">\(\stiff\)</span>, as given in the legend. <strong>(b)</strong> Contours of fastest-growing (non-dimensional) wavelength <span class="math notranslate nohighlight">\(\lambda^*\)</span> for a range of <span class="math notranslate nohighlight">\(\stiff\)</span> and <span class="math notranslate nohighlight">\(\Pe\)</span> from equation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-kstar-full}\)</span>. Dotted lines are at <span class="math notranslate nohighlight">\(\Pe/\Da = 4\)</span> and <span class="math notranslate nohighlight">\(\stiff = 1/2\pi\)</span>. In both panels, stars indicate the maximum (<span class="math notranslate nohighlight">\(\wavenumber^*,\sigma^*\)</span>) of the asymptotic curves, computed with <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-kstar-full}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-sstar-full}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">zoom</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="n">zoom</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1639,6 +1655,8 @@ Iteration 400: searching for solution at sigma=2.893477059140404
          <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.58</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\leftarrow$diffusion ctrl advection ctrl$\rightarrow$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
          <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.6&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1759,8 +1777,7 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <p>Figure below plots the time-scale of channel growth <span class="math notranslate nohighlight">\(1/\sigma\)</span> as a function of the horizontal wavelength of channels.  This curve is computed using the full dispersion relation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytical-sigma-full}\)</span> with preferred parameter values from table above. Horizontal dotted lines mark the minimum growth time (<span class="math notranslate nohighlight">\(\sigma=1/\permexp\)</span>, in non-dimensional terms) and this value plus 2%.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zoom</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">zoom</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">zoom</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">18.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">))</span>
 
 <span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
 <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
@@ -1780,6 +1797,8 @@ Iteration 400: searching for solution at sigma=2.893477059140404
 <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Horizontal wavelength, m&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Growth time, Ma&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.7&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>

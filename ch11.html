@@ -408,7 +408,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the solutions of the melting column model with prescribed melting rate <span class="math notranslate nohighlight">\(\eqref{eq:constant-adiabatic-melting}\)</span>, under the assumption that Darcy drag balances buoyancy of the liquid phase. Black lines show the analytical solution <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> and <span class="math notranslate nohighlight">\(w(z)/W_0 = F(z)/\phi(z)\)</span>. Parameters are <span class="math notranslate nohighlight">\(\Fmax=0.2\)</span>, <span class="math notranslate nohighlight">\(\permexp=2\)</span>, and <span class="math notranslate nohighlight">\(\fluxpar\)</span> as given in the legend. <strong>(a)</strong> Degree of melting. <strong>(b)</strong> Scaled solid upwelling rate. <strong>(c)</strong> Porosity. Thin grey lines show the numerical solution of the implicit equation <span class="math notranslate nohighlight">\(\eqref{eq:col-compaction-nondim_1}\)</span>. <strong>(d)</strong> Liquid upwelling rate scaled with the inflow solid upwelling rate.</p>
+<p>Figure 11.1 below plot the solutions of the melting column model with prescribed melting rate <span class="math notranslate nohighlight">\(\eqref{eq:constant-adiabatic-melting}\)</span>, under the assumption that Darcy drag balances buoyancy of the liquid phase. Black lines show the analytical solution <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> and <span class="math notranslate nohighlight">\(w(z)/W_0 = F(z)/\phi(z)\)</span>. Parameters are <span class="math notranslate nohighlight">\(\Fmax=0.2\)</span>, <span class="math notranslate nohighlight">\(\permexp=2\)</span>, and <span class="math notranslate nohighlight">\(\fluxpar\)</span> as given in the legend. <strong>(a)</strong> Degree of melting. <strong>(b)</strong> Scaled solid upwelling rate. <strong>(c)</strong> Porosity. Thin grey lines show the numerical solution of the implicit equation <span class="math notranslate nohighlight">\(\eqref{eq:col-compaction-nondim_1}\)</span>. <strong>(d)</strong> Liquid upwelling rate scaled with the inflow solid upwelling rate.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -461,6 +461,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">45.</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -472,7 +474,11 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>Figures below plot the solutions of the melting column model with prescribed melting rate <span class="math notranslate nohighlight">\(\eqref{eq:constant-adiabatic-melting}\)</span>. Parameters as in the Figure above. <strong>(a)</strong> The scaled porosity from equation <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> as a function of column height with logarithmic axes. Narrow, dashed lines show scalings <span class="math notranslate nohighlight">\(\por \propto z\)</span> and <span class="math notranslate nohighlight">\(\por \propto z^{1/\permexp}\)</span>. <strong>(b)</strong> The <em>a posteriori</em>, non-dimensional compaction pressure, computed from the solution for <span class="math notranslate nohighlight">\(W(z),\phi(z)\)</span> from <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> and <span class="math notranslate nohighlight">\(\por w =  W_0F(z)\)</span>. Two forms for the augmented compaction viscosity are considered: the black lines represent <span class="math notranslate nohighlight">\(\cmpvisc=\por^{-1}\)</span>; the gray lines represent <span class="math notranslate nohighlight">\(\cmpvisc=-\ln\por\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">Fmax</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1e3</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">])</span>
 <span class="n">zmin</span> <span class="o">=</span> <span class="mf">1e-5</span>
@@ -489,15 +495,6 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ff</span> <span class="o">=</span> <span class="n">zz</span> <span class="o">*</span> <span class="mf">0.8</span>
 <span class="n">zzz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">3e-2</span><span class="p">,</span> <span class="mf">6e-1</span><span class="p">])</span>
 <span class="n">fff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">zzz</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="mf">25.0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
 
 <span class="n">p1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">p2</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -527,12 +524,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">8.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_10_0.png" src="_images/ch11_10_0.png" />
+<img alt="_images/ch11_9_0.png" src="_images/ch11_9_0.png" />
 </div>
 </div>
 </div>
@@ -647,7 +646,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the solutions of the one-component melting column model with melting rate <span class="math notranslate nohighlight">\(\eqref{eq:col-onecomp-meltrate-Fmax}\)</span> under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. <strong>(a)</strong> Temperature. The slope of this curve is <span class="math notranslate nohighlight">\(-\rho g/\clapeyron\)</span>. <strong>(b)</strong> Degree of melting with <span class="math notranslate nohighlight">\(\Fmax^{1c}\)</span> as given in <span class="math notranslate nohighlight">\(\eqref{eq:col-onecomp-Fmax}\)</span>. <strong>(c)</strong> Scaled porosity from <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span>.</p>
+<p>Figure 11.3 below plot the solutions of the one-component melting column model with melting rate <span class="math notranslate nohighlight">\(\eqref{eq:col-onecomp-meltrate-Fmax}\)</span> under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. <strong>(a)</strong> Temperature. The slope of this curve is <span class="math notranslate nohighlight">\(-\rho g/\clapeyron\)</span>. <strong>(b)</strong> Degree of melting with <span class="math notranslate nohighlight">\(\Fmax^{1c}\)</span> as given in <span class="math notranslate nohighlight">\(\eqref{eq:col-onecomp-Fmax}\)</span>. <strong>(c)</strong> Scaled porosity from <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -686,6 +685,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{Q}</span><span class="s1">=10^3$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{Q}</span><span class="s1">=10^4$&#39;</span><span class="p">),</span>
            <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">.2</span><span class="p">),</span>  <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.3&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -694,7 +695,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
-<img alt="_images/ch11_14_1.png" src="_images/ch11_14_1.png" />
+<img alt="_images/ch11_13_1.png" src="_images/ch11_13_1.png" />
 </div>
 </div>
 </div>
@@ -802,7 +803,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the solutions of the two-component, batch-melting column model with melting rate <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-Gamma}\)</span> under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. <strong>(a)</strong> Temperature. Dotted line shows the Clausius-Clapeyron slope <span class="math notranslate nohighlight">\(-\rho g/\clapeyron\)</span>. <strong>(b)</strong> Scaled porosity. <strong>(c)</strong> Scaled bulk composition. The degree of melting <span class="math notranslate nohighlight">\(F\)</span> is not shown; it increases linearly to <span class="math notranslate nohighlight">\(\Fmax^{2c} = 0.225\)</span>, as discussed in the main text.</p>
+<p>Figure 11.4 below plot the solutions of the two-component, batch-melting column model with melting rate <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-Gamma}\)</span> under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. <strong>(a)</strong> Temperature. Dotted line shows the Clausius-Clapeyron slope <span class="math notranslate nohighlight">\(-\rho g/\clapeyron\)</span>. <strong>(b)</strong> Scaled porosity. <strong>(c)</strong> Scaled bulk composition. The degree of melting <span class="math notranslate nohighlight">\(F\)</span> is not shown; it increases linearly to <span class="math notranslate nohighlight">\(\Fmax^{2c} = 0.225\)</span>, as discussed in the main text.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -842,12 +843,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.4&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_18_0.png" src="_images/ch11_18_0.png" />
+<img alt="_images/ch11_17_0.png" src="_images/ch11_17_0.png" />
 </div>
 </div>
 </div>
@@ -996,7 +999,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot a solution of the two-component melting column model with a volatile component. Parameters given in the Table above. The onset of melting is marked by a red dot in each panel. The bottom of the column <span class="math notranslate nohighlight">\(z=0\)</span> corresponds to a depth of 130 km and <span class="math notranslate nohighlight">\(\soltemp_0=1300^\circ\)</span> C. The solid line represents the solution developed for equilibrium between solid and liquid phases (batch melting); the dashed line represents fractional melting (see main text for details). <strong>(a)</strong> The normalised volatile concentration in the solid from equation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-vol-nonlinear-cs-solution}\)</span>. <strong>(b)</strong> Degree of melting as a function of height, computed according to equation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-vol-nonlinear-F-solution}\)</span>. <strong>(c)</strong> Temperature as a function of height in the melting column, obtained from the solidus relation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-pd-solidus}\)</span>. <strong>(d)</strong> Porosity computed according to the approximate Darcy solution <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> for <span class="math notranslate nohighlight">\(\permexp=2\)</span>.</p>
+<p>Figure 11.5 below plot a solution of the two-component melting column model with a volatile component. Parameters given in the Table above. The onset of melting is marked by a red dot in each panel. The bottom of the column <span class="math notranslate nohighlight">\(z=0\)</span> corresponds to a depth of 130 km and <span class="math notranslate nohighlight">\(\soltemp_0=1300^\circ\)</span> C. The solid line represents the solution developed for equilibrium between solid and liquid phases (batch melting); the dashed line represents fractional melting (see main text for details). <strong>(a)</strong> The normalised volatile concentration in the solid from equation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-vol-nonlinear-cs-solution}\)</span>. <strong>(b)</strong> Degree of melting as a function of height, computed according to equation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-vol-nonlinear-F-solution}\)</span>. <strong>(c)</strong> Temperature as a function of height in the melting column, obtained from the solidus relation <span class="math notranslate nohighlight">\(\eqref{eq:col-twocomp-pd-solidus}\)</span>. <strong>(d)</strong> Porosity computed according to the approximate Darcy solution <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span> for <span class="math notranslate nohighlight">\(\permexp=2\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1051,12 +1054,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.8e-3</span><span class="p">,</span> <span class="mf">0.950</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.5&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_22_0.png" src="_images/ch11_22_0.png" />
+<img alt="_images/ch11_21_0.png" src="_images/ch11_21_0.png" />
 </div>
 </div>
 </div>
@@ -1231,7 +1236,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the numerical, Darcy, and boundary layer solutions to the one-dimensional melting column with constant decompressional melting productivity. The numerical solution of the system <span class="math notranslate nohighlight">\(\eqref{eq:tdcol-mechanics-compaction-nd}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:tdcol-mechanics-porosity-nd}\)</span> is discretised by finite differences and run to steady state.  The domain is limited to <span class="math notranslate nohighlight">\(0\le z \le 2z_b\)</span>. Non-dimensional parameters used to compute these solutions are <span class="math notranslate nohighlight">\(\cmplength=0.1\)</span>, <span class="math notranslate nohighlight">\(\fluxpar=10^4\)</span>, <span class="math notranslate nohighlight">\(\permexp=2\)</span> and <span class="math notranslate nohighlight">\(\Fmax=0.22\)</span>. For these parameters, <span class="math notranslate nohighlight">\(z_b = z_0/100\)</span>. The non-dimensional augmented compaction viscosity is <span class="math notranslate nohighlight">\(\cmpvisc = \por^{-1}\)</span>. <strong>(a)</strong> Solid upwelling rate. <strong>(b)</strong> Compaction pressure non-dimensionalised by <span class="math notranslate nohighlight">\(\cmppres_0 = \xi_0W_0/z_0\)</span>. <strong>(c)</strong> Porosity.</p>
+<p>Figure 11.6 below plot the numerical, Darcy, and boundary layer solutions to the one-dimensional melting column with constant decompressional melting productivity. The numerical solution of the system <span class="math notranslate nohighlight">\(\eqref{eq:tdcol-mechanics-compaction-nd}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:tdcol-mechanics-porosity-nd}\)</span> is discretised by finite differences and run to steady state.  The domain is limited to <span class="math notranslate nohighlight">\(0\le z \le 2z_b\)</span>. Non-dimensional parameters used to compute these solutions are <span class="math notranslate nohighlight">\(\cmplength=0.1\)</span>, <span class="math notranslate nohighlight">\(\fluxpar=10^4\)</span>, <span class="math notranslate nohighlight">\(\permexp=2\)</span> and <span class="math notranslate nohighlight">\(\Fmax=0.22\)</span>. For these parameters, <span class="math notranslate nohighlight">\(z_b = z_0/100\)</span>. The non-dimensional augmented compaction viscosity is <span class="math notranslate nohighlight">\(\cmpvisc = \por^{-1}\)</span>. <strong>(a)</strong> Solid upwelling rate. <strong>(b)</strong> Compaction pressure non-dimensionalised by <span class="math notranslate nohighlight">\(\cmppres_0 = \xi_0W_0/z_0\)</span>. <strong>(c)</strong> Porosity.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -1274,12 +1279,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2e-4</span><span class="p">,</span> <span class="mf">1.9e-4</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.6&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_28_0.png" src="_images/ch11_28_0.png" />
+<img alt="_images/ch11_27_0.png" src="_images/ch11_27_0.png" />
 </div>
 </div>
 </div>
@@ -1342,7 +1349,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the decompaction column. <strong>(a)</strong> Quantities <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(G'\)</span> and <span class="math notranslate nohighlight">\(G''\)</span> as given by equations <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-G}\)</span>, <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gp}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gpp}\)</span>, respectively. <strong>(b)</strong> The normalised porosity computed with equation <span class="math notranslate nohighlight">\(\eqref{eq:decmp_porosity}\)</span> for various values of <span class="math notranslate nohighlight">\(R=\cmplength_0/\freezelength\)</span>. <strong>(c)</strong> Normalised liquid upwelling speed for various values of <span class="math notranslate nohighlight">\(R\)</span>. <strong>(d)</strong> Normalised solid upwelling speed, equation <span class="math notranslate nohighlight">\(\eqref{eq:decomp_col_solid_vel}\)</span>, for various flux ratios <span class="math notranslate nohighlight">\(q_\infty/W_0\)</span>.</p>
+<p>Figure 11.7 below plot the decompaction column. <strong>(a)</strong> Quantities <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(G'\)</span> and <span class="math notranslate nohighlight">\(G''\)</span> as given by equations <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-G}\)</span>, <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gp}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gpp}\)</span>, respectively. <strong>(b)</strong> The normalised porosity computed with equation <span class="math notranslate nohighlight">\(\eqref{eq:decmp_porosity}\)</span> for various values of <span class="math notranslate nohighlight">\(R=\cmplength_0/\freezelength\)</span>. <strong>(c)</strong> Normalised liquid upwelling speed for various values of <span class="math notranslate nohighlight">\(R\)</span>. <strong>(d)</strong> Normalised solid upwelling speed, equation <span class="math notranslate nohighlight">\(\eqref{eq:decomp_col_solid_vel}\)</span>, for various flux ratios <span class="math notranslate nohighlight">\(q_\infty/W_0\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1392,12 +1399,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.7&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_32_0.png" src="_images/ch11_32_0.png" />
+<img alt="_images/ch11_31_0.png" src="_images/ch11_31_0.png" />
 </div>
 </div>
 </div>
@@ -1443,7 +1452,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figure below plots the ingrowth factors at the top of the column, with the following parameters</p>
+<p>Figure 11.8 below plots the ingrowth factors at the top of the column, with the following parameters</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameters</p></th>
@@ -1518,12 +1527,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1.1e0</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.8&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_36_0.png" src="_images/ch11_36_0.png" />
+<img alt="_images/ch11_35_0.png" src="_images/ch11_35_0.png" />
 </div>
 </div>
 </div>
@@ -1666,7 +1677,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figure below plot the numerical solution of equation <span class="math notranslate nohighlight">\(\eqref{eq:col-activity}\)</span> for parameters from table above. <strong>(a)</strong> Porosity from <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span>. <strong>(b)</strong> The batch melting factor of equation <span class="math notranslate nohighlight">\(\eqref{eq:activity-decomposition}\)</span> showing enrichment in the liquid due to the small partition coefficients. The dotted line has a value of <span class="math notranslate nohighlight">\(1/\Fmax\)</span>. <strong>(c)</strong> The ingrowth factor of equation <span class="math notranslate nohighlight">\(\eqref{eq:activity-decomposition}\)</span>. <strong>(d)</strong> The total activity. <strong>(d)</strong> Parent-daughter activity ratios. In secular equilibrium, these ratios are unity (dotted line).</p>
+<p>Figure 11.9 below plot the numerical solution of equation <span class="math notranslate nohighlight">\(\eqref{eq:col-activity}\)</span> for parameters from table above. <strong>(a)</strong> Porosity from <span class="math notranslate nohighlight">\(\eqref{eq:meltcol-porosity-n2}\)</span>. <strong>(b)</strong> The batch melting factor of equation <span class="math notranslate nohighlight">\(\eqref{eq:activity-decomposition}\)</span> showing enrichment in the liquid due to the small partition coefficients. The dotted line has a value of <span class="math notranslate nohighlight">\(1/\Fmax\)</span>. <strong>(c)</strong> The ingrowth factor of equation <span class="math notranslate nohighlight">\(\eqref{eq:activity-decomposition}\)</span>. <strong>(d)</strong> The total activity. <strong>(d)</strong> Parent-daughter activity ratios. In secular equilibrium, these ratios are unity (dotted line).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -1728,12 +1739,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">q_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">q_</span> <span class="ow">in</span> <span class="n">q</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$^</span><span class="si">{238}</span><span class="s1">$U$/^</span><span class="si">{230}</span><span class="s1">$Th&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$^</span><span class="si">{230}</span><span class="s1">$Th$/^</span><span class="si">{226}</span><span class="s1">$Ra&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
              <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">.2</span><span class="p">),</span>  <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.9&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_41_0.png" src="_images/ch11_41_0.png" />
+<img alt="_images/ch11_40_0.png" src="_images/ch11_40_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1777,7 +1790,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 </div>
 </div>
-<p>Figures below plot the parameter space diagrams for the column-top daughter-parent activity ratios. Lines are activity-ratio isopleths. Stars represent column-top values from the column shown in Figure above. <strong>(a)</strong> <span class="math notranslate nohighlight">\(\isotp{230}{Th}/\isotp{238}{U}\)</span>. <strong>(b)</strong> <span class="math notranslate nohighlight">\(\isotp{226}{Ra}/\isotp{230}{Th}\)</span>.</p>
+<p>Figure 11.10 below plot the parameter space diagrams for the column-top daughter-parent activity ratios. Lines are activity-ratio isopleths. Stars represent column-top values from the column shown in Figure above. <strong>(a)</strong> <span class="math notranslate nohighlight">\(\isotp{230}{Th}/\isotp{238}{U}\)</span>. <strong>(b)</strong> <span class="math notranslate nohighlight">\(\isotp{226}{Ra}/\isotp{230}{Th}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -1817,12 +1830,14 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(b) $a^\ell_</span><span class="si">{226Ra}</span><span class="s1">/a^\ell_</span><span class="si">{230Th}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.10&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch11_45_0.png" src="_images/ch11_45_0.png" />
+<img alt="_images/ch11_44_0.png" src="_images/ch11_44_0.png" />
 </div>
 </div>
 </div>

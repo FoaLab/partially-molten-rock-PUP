@@ -319,7 +319,7 @@
 </div>
 </div>
 </div>
-<p>The figure below plots the layer thickness <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> relative to initial versus time for three values of <span class="math notranslate nohighlight">\(\Pi\)</span>.</p>
+<p>The Figure 8.2a below plots the layer thickness <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> relative to initial versus time for three values of <span class="math notranslate nohighlight">\(\Pi\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -342,6 +342,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 8.2a&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -350,7 +353,7 @@
 <img alt="_images/ch08_5_0.png" src="_images/ch08_5_0.png" />
 </div>
 </div>
-<p>The figure below plots porosity versus time for three values of <span class="math notranslate nohighlight">\(\Pi\)</span>.</p>
+<p>The Figure 8.2b below plots porosity versus time for three values of <span class="math notranslate nohighlight">\(\Pi\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -372,6 +375,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 8.2b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -429,24 +435,19 @@
 </div>
 </div>
 </div>
-<p>Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of <span class="math notranslate nohighlight">\(z\)</span>. The solid curve shows the isentropic temperature profile <em>isentrope</em> computed according to equations <span class="math notranslate nohighlight">\(\eqref{eq:decomp-melting-subsolidus}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:decomp-melting-meltregion}\)</span>. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting <span class="math notranslate nohighlight">\(F\)</span>.</p>
+<p>Figure 8.3a below plots the decompression melting curves with no melt segregation. Temperature as a function of <span class="math notranslate nohighlight">\(z\)</span>. The solid curve shows the isentropic temperature profile <em>isentrope</em> computed according to equations <span class="math notranslate nohighlight">\(\eqref{eq:decomp-melting-subsolidus}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:decomp-melting-meltregion}\)</span>. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting <span class="math notranslate nohighlight">\(F\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
 <span class="n">zmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="o">*</span><span class="mf">1000.</span>
 <span class="n">Tmax</span> <span class="o">=</span> <span class="n">Tp</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">zmax</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmax</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">TemperatureEquation</span><span class="p">,</span> <span class="n">Tmax</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Ts0</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
 <span class="n">Tsol</span> <span class="o">=</span> <span class="n">Ts0</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mf">273.</span><span class="p">,</span> <span class="n">z</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">l2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Tp</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mf">273.</span><span class="p">,</span> <span class="n">z</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -465,18 +466,23 @@
           <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 8.3a&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch08_15_0.png" src="_images/ch08_15_0.png" />
+<img alt="_images/ch08_14_0.png" src="_images/ch08_14_0.png" />
 </div>
 </div>
-<p>Next figure plots the degree of melting associated with the isentrope in figure above.</p>
+<p>Figure 8.3b plots the degree of melting associated with the isentrope in figure above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">zF</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Tp</span><span class="o">-</span><span class="n">Ts0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Tp</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># metres</span>
 <span class="n">zmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="o">*</span><span class="mf">1000.</span>
 <span class="n">Tmax</span> <span class="o">=</span> <span class="n">Tp</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">zmax</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
@@ -485,14 +491,6 @@
 
 <span class="n">Tsol</span> <span class="o">=</span> <span class="n">Ts0</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">Tsol</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$F$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -503,12 +501,14 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">99.</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
+<span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 8.3b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch08_18_0.png" src="_images/ch08_18_0.png" />
+<img alt="_images/ch08_16_0.png" src="_images/ch08_16_0.png" />
 </div>
 </div>
 </div>
