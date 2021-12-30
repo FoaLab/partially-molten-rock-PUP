@@ -45,7 +45,7 @@ def thick(y, t, pi, lam):  # y = [H, phi]
     return [-pi * H * phi, np.exp(-lam*phi) - pi * (1. - phi) * phi]
 
 
-# The figure below plots the layer thickness $\mathcal{H}$ relative to initial versus time for three values of $\Pi$.
+# The Figure 8.2a below plots the layer thickness $\mathcal{H}$ relative to initial versus time for three values of $\Pi$.
 
 # In[3]:
 
@@ -70,10 +70,13 @@ ax.set_ylabel(r'$\mathcal{H}/\mathcal{H}_0$', fontsize=20)
 ax.set_yticks((0.4, 0.6, 0.8, 1.0))
 ax.legend(loc='lower left', fontsize=15)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+f.supxlabel("Figure 8.2a", fontsize=20)
+
 plt.show()
 
 
-# The figure below plots porosity versus time for three values of $\Pi$.
+# The Figure 8.2b below plots porosity versus time for three values of $\Pi$.
 
 # In[4]:
 
@@ -97,6 +100,9 @@ ax.set_ylabel(r'$\phi$', fontsize=22)
 ax.set_yticks((1e-2, 1e-1))
 ax.legend(loc='lower right', fontsize=15)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+f.supxlabel("Figure 8.2b", fontsize=20)
+
 plt.show()
 
 
@@ -150,10 +156,13 @@ Ts0 = 1100. + 273.  # solidus at P=0
 Tp = 1350. + 273.  # mantle potential temperature
 
 
-# Figure below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to equations $\eqref{eq:decomp-melting-subsolidus}$ and $\eqref{eq:decomp-melting-meltregion}$. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
+# Figure 8.3a below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to equations $\eqref{eq:decomp-melting-subsolidus}$ and $\eqref{eq:decomp-melting-meltregion}$. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
 
 # In[7]:
 
+
+f, ax = plt.subplots()
+f.set_size_inches(4.5, 9.0)
 
 zF = - (Tp-Ts0)/(rho*g/C - alpha*g*Tp/c)  # metres
 zmax = -100.*1000.
@@ -162,13 +171,6 @@ Tmax = Tp*np.exp(-alpha*g*zmax/c)
 z = np.linspace(zmax, 0., 5000)
 T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
 Tsol = Ts0 - rho*g*z/C
-
-
-# In[8]:
-
-
-f, ax = plt.subplots()
-f.set_size_inches(4.5, 9.0)
 
 l1 = ax.plot(T-273., z/1000., '-k')[0]
 l2 = ax.plot(Tp * np.exp(-alpha*g*z/c) - 273., z/1000., '--k')[0]
@@ -187,13 +189,18 @@ ax.legend(handles=[l1, l2, l3],
           loc='lower left', fontsize=12)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+f.supxlabel("Figure 8.3a", fontsize=20)
+
 plt.show()
 
 
-# Next figure plots the degree of melting associated with the isentrope in figure above.
+# Figure 8.3b plots the degree of melting associated with the isentrope in figure above.
 
-# In[9]:
+# In[8]:
 
+
+f, ax = plt.subplots()
+f.set_size_inches(4.5, 9.0)
 
 zF = - (Tp-Ts0)/(rho*g/C - alpha*g*Tp/c)  # metres
 zmax = -100.*1000.
@@ -205,13 +212,6 @@ T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
 Tsol = Ts0 - rho*g*z/C
 F = np.maximum(M * (T[:, 0] - Tsol), 0.0)
 
-
-# In[10]:
-
-
-f, ax = plt.subplots()
-f.set_size_inches(4.5, 9.0)
-
 ax.plot(F, z/1000, '-k')
 ax.set_xlabel(r'$F$', fontsize=20)
 ax.set_xticks((0.0, 0.1, 0.2, 0.3, 0.4, 0.5))
@@ -221,5 +221,13 @@ ax.set_yticks(np.arange(-90., 1., 15))
 ax.set_ylim(-99., 0.0)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+f.supxlabel("Figure 8.3b", fontsize=20)
+
 plt.show()
+
+
+# In[ ]:
+
+
+
 

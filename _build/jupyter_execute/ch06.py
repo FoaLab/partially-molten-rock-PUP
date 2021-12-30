@@ -44,20 +44,16 @@ def compaction_rate(z):
     return -np.exp(z)
 
 
-# The compact rate function, equation $\eqref{eq:filterpress-cmprate}$, is plotted in Figure below.
+# The compact rate function, equation $\eqref{eq:filterpress-cmprate}$, is plotted in Figure 6.1 below.
 
 # In[3]:
 
 
-z = np.linspace(-8, 0.0, 1000)
-C = compaction_rate(z)
-
-
-# In[4]:
-
-
 fig, ax = plt.subplots()
 fig.set_size_inches(18.0, 4.5)
+
+z = np.linspace(-8, 0.0, 1000)
+C = compaction_rate(z)
 
 ax.plot([0., 0], [-2., 2], '--k', linewidth=1)
 ax.plot([-8.0, 1.0], [0., 0], ':k', linewidth=1)
@@ -68,6 +64,8 @@ ax.text(-7.0, -0.2, '$W_0 \Rightarrow$', fontsize=20)
 ax.set_xlim(-8.0, 0.3)
 ax.set_ylim(-1.1, 0.1)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.text(0.5, -0.1, "Figure 6.1", fontsize=20, ha='center')
 
 plt.show()
 
@@ -102,7 +100,7 @@ plt.show()
 # \end{equation}
 # $$
 
-# In[5]:
+# In[4]:
 
 
 def cmprate(fp, fm, f0, n, z):
@@ -134,7 +132,7 @@ def cmprate(fp, fm, f0, n, z):
 # \end{equation}
 # $$
 
-# In[6]:
+# In[5]:
 
 
 def segflux(fp, fm, f0, n, z):
@@ -157,21 +155,17 @@ def segflux(fp, fm, f0, n, z):
 
 # ### Case 1
 # 
-# The porosity increases with *z*: $f_m=0.85$, $f_p=1.15$.
+# Figure 6.2a plots the porosity increase with *z*: $f_m=0.85$, $f_p=1.15$.
 
-# In[7]:
-
-
-fm, fp = 0.85, 1.15
-z = np.linspace(-4.0, 4.0, 1000)
-f = np.asarray([fm if z_<0.0 else fp for z_ in z])
-
-
-# In[8]:
+# In[6]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(4.5, 9.0)
+
+fm, fp = 0.85, 1.15
+z = np.linspace(-4.0, 4.0, 1000)
+f = np.asarray([fm if z_<0.0 else fp for z_ in z])
 
 ax.plot(f, z, '-k', linewidth=2)
 ax.plot(np.ones(1000), z, ':k', linewidth=1)
@@ -179,13 +173,18 @@ ax.set_ylabel(r'$z/\delta_0$', fontsize=20)
 ax.set_xlabel(r'$\phi/\phi_0$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+fig.supxlabel("Figure 6.2a", fontsize=20)
+
 plt.show()
 
 
-# The figure below shows that the scaled compaction rate and segregation flux for the porosity increase:
+# The Figure 6.2b below shows that the scaled compaction rate and segregation flux for the porosity increase:
 
-# In[9]:
+# In[7]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(4.5, 9.0)
 
 zmax = 4
 n = 3
@@ -194,13 +193,6 @@ z = np.linspace(-4.0, 4.0, 1000)
 
 C = cmprate(fp, fm, f0, n, z)
 fwmW = segflux(fp, fm, f0, n, z)
-
-
-# In[10]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(4.5, 9.0)
 
 ax.plot(C, z, '-k', linewidth=2, label='$\mathcal{C}(z)\delta_0/(\phi_0w_0)$')
 ax.plot(fwmW, z,'--k', linewidth=2, label='$q(z)/(\phi_0w_0)$')
@@ -208,25 +200,23 @@ ax.set_ylabel(r'$z/\delta_0$', fontsize=20)
 ax.legend(fontsize=15, loc='upper center')
 ax.tick_params(axis='both', which='major', labelsize=13)
 
-plt.show()
+fig.supxlabel("Figure 6.2b", fontsize=20)
+
+plt.show();
 
 
 # ### Case 2
 # 
-# The porosity decreases with *z*: $f_m=1.15$, $f_p=0.85$
+# Figure 6.2c plots the porosity decreases with *z*: $f_m=1.15$, $f_p=0.85$:
 
-# In[11]:
-
-
-fm, fp = 1.15, 0.85
-f = np.asarray([fm if z_<0.0 else fp for z_ in z])
-
-
-# In[12]:
+# In[8]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(4.5, 9.0)
+
+fm, fp = 1.15, 0.85
+f = np.asarray([fm if z_<0.0 else fp for z_ in z])
 
 ax.plot(f, z, '-k', linewidth=2)
 ax.plot(np.ones(1000), z, ':k', linewidth=1)
@@ -234,13 +224,17 @@ ax.set_xticks((0.85, 1.0, 1.15))
 ax.set_ylabel(r'$z/\delta_0$', fontsize=20)
 ax.set_xlabel(r'$\phi/\phi_0$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
+fig.supxlabel("Figure 6.2c", fontsize=20)
 plt.show()
 
 
-# The figure below shows that the scaled compaction rate and segregation flux for the porosity decrease:
+# The Figure 6.2d below shows that the scaled compaction rate and segregation flux for the porosity decrease:
 
-# In[13]:
+# In[9]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(4.5, 9.0)
 
 zmax = 4
 n = 3
@@ -250,17 +244,11 @@ z = np.linspace(-4.0, 4.0, 1000)
 C = cmprate(fp, fm, f0, n, z)
 fwmW = segflux(fp, fm, f0, n, z)
 
-
-# In[14]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(4.5, 9.0)
-
 ax.plot(C, z, '-k', linewidth=2, label='$\mathcal{C}(z)\delta_0/(\phi_0w_0)$')
 ax.plot(fwmW, z,'--k', linewidth=2, label='$q(z)/(\phi_0w_0)$')
 ax.tick_params(axis='both', which='major', labelsize=13)
 ax.legend(fontsize=20, loc='lower center')
+fig.supxlabel("Figure 6.2d", fontsize=20)
 plt.show()
 
 
@@ -276,9 +264,9 @@ plt.show()
 # \end{align}
 # $$
 # 
-# The phase ($c_p$) and group ($c_g$) velocities are plotted below as a function of the wavelength $\lambda=2\pi/k$.
+# The phase ($c_p$) and group ($c_g$) velocities are plotted in Figure 6.3 below as a function of the wavelength $\lambda=2\pi/k$.
 
-# In[15]:
+# In[10]:
 
 
 lambdas = np.logspace(-2.0, 3.0, 1000)
@@ -293,7 +281,7 @@ cp_3 = n/(k**2 + 1)
 cg_3 = cp_3 - 2.0 * n * (k**2) / ((k**2 + 1.0) ** 2)
 
 
-# In[16]:
+# In[11]:
 
 
 fig, ax = plt.subplots()
@@ -314,6 +302,8 @@ ax.set_ylim(-0.5, 3.1)
 ax.set_xlim(10**(-2), 10**3)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+fig.supxlabel("Figure 6.3", fontsize=20)
+
 plt.legend(fontsize=20)
 plt.show()
 
@@ -332,22 +322,18 @@ plt.show()
 # \end{equation*}
 # $$
 # 
-# The dimensionless solitary wave speed $\upsilon$ computed with the equation above as a function of wave amplitude $\Lambda^*$ relative to the background porosity is plotted below.
+# The dimensionless solitary wave speed $\upsilon$ computed with the equation above as a function of wave amplitude $\Lambda^*$ relative to the background porosity is plotted in Figure 6.4 below.
 
-# In[17]:
+# In[12]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 lambdas = np.linspace(1.001, 4.0, 1000)
 
 c2 = (lambdas - 1.0)**2 / (lambdas * np.log(lambdas) - lambdas + 1.0)
 c3 = 2.0 * lambdas + 1.0
-
-
-# In[18]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
 
 ax.plot(lambdas, c2, '--k', linewidth=2, label='$n=2$')
 ax.plot(lambdas, c3, '-k', linewidth=2, label='$n=3$')
@@ -357,6 +343,9 @@ ax.set_xlabel(r'$\Lambda^*$', fontsize=20)
 ax.set_ylabel(r'$\upsilon$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
 ax.legend(fontsize=20)
+
+fig.supxlabel("Figure 6.4", fontsize=20)
+
 plt.show()
 
 
@@ -375,7 +364,7 @@ plt.show()
 # 
 # which is implemented in Python as
 
-# In[19]:
+# In[13]:
 
 
 def porosity(f, z, A): 
@@ -391,10 +380,14 @@ def porosity(f, z, A):
     return z + np.sqrt(A+0.5)*(-2.*sqrtAf + np.log((sqrtAm1-sqrtAf)/(sqrtAm1+sqrtAf))/sqrtAm1)
 
 
-# Profiles of normalised porosity perturbation for solitary waves of various amplitude are plotted below. We set $n=3$ in all cases.
+# Profiles of normalised porosity perturbation for solitary waves of various amplitude are plotted in Figures 6.5a below. We set $n=3$ in all cases.
 
-# In[20]:
+# In[14]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(18.0, 9.0)
+fig.set_facecolor('w')
 
 zmax = 25.0
 zs = np.linspace(0.0, zmax, 100)
@@ -404,14 +397,6 @@ AsLS = {2.: '-.', 4.: '-', 6.:'--', 8.: ':'}
 phi = {}
 for A, ls in AsLS.items():
     phi[A] = np.asarray([brentq(lambda f: porosity(f, z, A), 1.000000001, A) for z in zs])
-
-
-# In[21]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
-fig.set_facecolor('w')
 
 for A, ls in AsLS.items():
     ax.plot(np.concatenate((-zs[::-1], zs), axis=0), np.concatenate((phi[A][::-1], phi[A]), axis=0), 
@@ -423,13 +408,19 @@ ax.set_xlabel(r'$Z$, compaction lengths', fontsize=20)
 ax.set_ylabel(r'$\Lambda$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
 ax.legend(fontsize=20)
+
+fig.supxlabel("Figure 6.5a", fontsize=20)
+
 plt.show()
 
 
-# Profiles of compaction rate for solitary waves of various amplitude. $n=3$ in all cases. The gravity vector $\gravity$ points to the left, as indicated in the figure below.
+# Profiles of compaction rate for solitary waves of various amplitude. $n=3$ in all cases. The gravity vector $\gravity$ points to the left, as indicated in the Figure 6.5b below.
 
-# In[22]:
+# In[15]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(18.0, 9.0)
 
 zmax = 25.0
 zs = np.linspace(0.0, zmax, 100)
@@ -440,13 +431,6 @@ C = {}
 for A, ls in AsLS.items():
     C[A] = -(2.0*A + 1.0)*(phi[8][1:]-phi[8][0:-1])/(zs[1]-zs[0])  # phi is defined in the previous cell
 
-
-# In[23]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
-
 for A, ls in AsLS.items():
     plt.plot(np.concatenate((-zm[::-1], zm), axis=0), np.concatenate((-C[A][::-1], C[A]), axis=0), 
              'k', linestyle=ls, linewidth=2)
@@ -456,6 +440,9 @@ ax.grid()
 ax.set_xlabel(r'Z, compaction lengths', fontsize=20)
 ax.set_ylabel(r'$\lambda$', fontSize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 6.5b", fontsize=20)
+
 plt.show()
 
 
@@ -472,7 +459,7 @@ plt.show()
 # 
 # which is plotted below:
 
-# In[24]:
+# In[16]:
 
 
 def get_compaction_rate_dirichlet(phi, n, dz, phi0):
@@ -495,7 +482,7 @@ def get_compaction_rate_dirichlet(phi, n, dz, phi0):
     return Cmp
 
 
-# In[25]:
+# In[17]:
 
 
 def solitary_wave_update_porosity(PhiOld, n, phi0, dz, dt):
@@ -506,7 +493,7 @@ def solitary_wave_update_porosity(PhiOld, n, phi0, dz, dt):
     return PhiNew
 
 
-# In[26]:
+# In[18]:
 
 
 fig, ax = plt.subplots(figsize=(4.5, 9.0))
@@ -549,7 +536,7 @@ animation.FuncAnimation(fig, update, frames=np.linspace(0, tmax, Nt), init_func=
 
 # ## Solitary-wave swap
 
-# In[27]:
+# In[19]:
 
 
 def xi(f, A):
@@ -563,7 +550,7 @@ def xi(f, A):
                                                     (np.sqrt(A-1)+np.sqrt(A-f)))/np.sqrt(A-1.))
 
 
-# In[28]:
+# In[20]:
 
 
 def SolitaryWaveGenerator(Amplitude, z, z0):
@@ -584,7 +571,7 @@ def SolitaryWaveGenerator(Amplitude, z, z0):
     return g
 
 
-# In[29]:
+# In[21]:
 
 
 fig, ax = plt.subplots(figsize=(4.5, 9.0))

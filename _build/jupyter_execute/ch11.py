@@ -84,7 +84,7 @@ imphi = np.asarray([[fsolve(lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), phi
                     for Z, phi_ij in zip(z, phi_i)] for qi, phi_i in zip(Q, phi)])
 
 
-# Figures below plot the solutions of the melting column model with prescribed melting rate $\eqref{eq:constant-adiabatic-melting}$, under the assumption that Darcy drag balances buoyancy of the liquid phase. Black lines show the analytical solution $\eqref{eq:meltcol-porosity-n2}$ and $w(z)/W_0 = F(z)/\phi(z)$. Parameters are $\Fmax=0.2$, $\permexp=2$, and $\fluxpar$ as given in the legend. __(a)__ Degree of melting. __(b)__ Scaled solid upwelling rate. __(c)__ Porosity. Thin grey lines show the numerical solution of the implicit equation $\eqref{eq:col-compaction-nondim_1}$. __(d)__ Liquid upwelling rate scaled with the inflow solid upwelling rate.
+# Figure 11.1 below plot the solutions of the melting column model with prescribed melting rate $\eqref{eq:constant-adiabatic-melting}$, under the assumption that Darcy drag balances buoyancy of the liquid phase. Black lines show the analytical solution $\eqref{eq:meltcol-porosity-n2}$ and $w(z)/W_0 = F(z)/\phi(z)$. Parameters are $\Fmax=0.2$, $\permexp=2$, and $\fluxpar$ as given in the legend. __(a)__ Degree of melting. __(b)__ Scaled solid upwelling rate. __(c)__ Porosity. Thin grey lines show the numerical solution of the implicit equation $\eqref{eq:col-compaction-nondim_1}$. __(d)__ Liquid upwelling rate scaled with the inflow solid upwelling rate.
 
 # In[4]:
 
@@ -139,6 +139,8 @@ ax[3].set_ylim(0.0, 1.0)
 ax[3].tick_params(axis='both', which='major', labelsize=13)
 ax[3].text(45., 0.01, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
 
+f.supxlabel("Figure 11.1", fontsize=20)
+
 plt.show()
 
 
@@ -146,6 +148,10 @@ plt.show()
 
 # In[5]:
 
+
+f, ax = plt.subplots(1, 2)
+f.set_size_inches(9.0, 9.0)
+f.set_facecolor('w')
 
 n = 2
 Fmax = 0.2
@@ -164,14 +170,6 @@ zz = np.asarray([1e-5, 1e-4])
 ff = zz * 0.8
 zzz = np.asarray([3e-2, 6e-1])
 fff = np.power(zzz, 1.0/n)/25.0
-
-
-# In[6]:
-
-
-f, ax = plt.subplots(1, 2)
-f.set_size_inches(9.0, 9.0)
-f.set_facecolor('w')
 
 p1 = ax[0].loglog(phi[0, :], z, '-k', linewidth=2)
 p2 = ax[0].loglog(phi[1, :], z, '--k', linewidth=2)
@@ -200,6 +198,8 @@ ax[1].set_yscale('log')
 ax[1].set_yticks(())
 ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].text(-8.5, 0.5, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+
+f.supxlabel("Figure 11.2", fontsize=20)
 
 plt.show()
 
@@ -253,7 +253,7 @@ plt.show()
 # $\soltemp_0$ | 1373 | K
 # $\potemp$ | 1623 | K
 
-# In[7]:
+# In[6]:
 
 
 z0 = 60e3  # column height, metres
@@ -275,9 +275,9 @@ T = 1 - rho*g*z0*z/C/Tsz0
 phi = np.asarray([0.5/qi * (np.sqrt(1. + 4.*z*Fmax*qi) - 1.0) for qi in Q])
 
 
-# Figures below plot the solutions of the one-component melting column model with melting rate $\eqref{eq:col-onecomp-meltrate-Fmax}$ under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. __(a)__ Temperature. The slope of this curve is $-\rho g/\clapeyron$. __(b)__ Degree of melting with $\Fmax^{1c}$ as given in $\eqref{eq:col-onecomp-Fmax}$. __(c)__ Scaled porosity from $\eqref{eq:meltcol-porosity-n2}$.
+# Figure 11.3 below plot the solutions of the one-component melting column model with melting rate $\eqref{eq:col-onecomp-meltrate-Fmax}$ under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. __(a)__ Temperature. The slope of this curve is $-\rho g/\clapeyron$. __(b)__ Degree of melting with $\Fmax^{1c}$ as given in $\eqref{eq:col-onecomp-Fmax}$. __(c)__ Scaled porosity from $\eqref{eq:meltcol-porosity-n2}$.
 
-# In[8]:
+# In[7]:
 
 
 f, ax = plt.subplots(1, 3)
@@ -316,6 +316,8 @@ ax[2].text(0.029, 0.01, '(c)', fontsize=18, verticalalignment='bottom', horizont
 plt.legend(handles=(p1[0], p2[0]), fontsize=15, labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
            bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
 
+f.supxlabel("Figure 11.3", fontsize=20)
+
 plt.plot()
 
 
@@ -349,7 +351,7 @@ plt.plot()
 # $\soltemp_0$ | 1373 | K
 # $\potemp$ | 1623 | K
 
-# In[9]:
+# In[8]:
 
 
 z0 = 60e3  # column height, metres
@@ -378,9 +380,9 @@ phi = np.asarray([0.5/qi * (np.sqrt(1.0 + 4.0*z*Fmax*qi) - 1.0) for qi in Q])
 Cb = np.asarray([F - phii for phii in phi])
 
 
-# Figures below plot the solutions of the two-component, batch-melting column model with melting rate $\eqref{eq:col-twocomp-Gamma}$ under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. __(a)__ Temperature. Dotted line shows the Clausius-Clapeyron slope $-\rho g/\clapeyron$. __(b)__ Scaled porosity. __(c)__ Scaled bulk composition. The degree of melting $F$ is not shown; it increases linearly to $\Fmax^{2c} = 0.225$, as discussed in the main text.
+# Figure 11.4 below plot the solutions of the two-component, batch-melting column model with melting rate $\eqref{eq:col-twocomp-Gamma}$ under the assumption that Darcy drag balances buoyancy of the liquid phase. Parameters are given in table above. __(a)__ Temperature. Dotted line shows the Clausius-Clapeyron slope $-\rho g/\clapeyron$. __(b)__ Scaled porosity. __(c)__ Scaled bulk composition. The degree of melting $F$ is not shown; it increases linearly to $\Fmax^{2c} = 0.225$, as discussed in the main text.
 
-# In[10]:
+# In[9]:
 
 
 f, ax = plt.subplots(1, 3)
@@ -419,6 +421,8 @@ ax[2].set_ylim(0.0, 1.0)
 ax[2].set_yticks(())
 ax[2].tick_params(axis='both', which='major', labelsize=13)
 ax[2].text(0.22, 0.01, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+
+f.supxlabel("Figure 11.4", fontsize=20)
 
 plt.show()
 
@@ -477,7 +481,7 @@ plt.show()
 # $\soltemp_0$ | 1373 | K
 # $\potemp$ | 1623 | K
 
-# In[11]:
+# In[10]:
 
 
 D = 0.01  # distribution coefficient
@@ -516,9 +520,9 @@ Tf = Ts0 - rho*g*z/C + M*(cf-c0)
 phif = 1./Q/2.*(np.sqrt(1.0 + 4.0*Ff*Q) - 1.0)
 
 
-# Figures below plot a solution of the two-component melting column model with a volatile component. Parameters given in the Table above. The onset of melting is marked by a red dot in each panel. The bottom of the column $z=0$ corresponds to a depth of 130 km and $\soltemp_0=1300^\circ$ C. The solid line represents the solution developed for equilibrium between solid and liquid phases (batch melting); the dashed line represents fractional melting (see main text for details). __(a)__ The normalised volatile concentration in the solid from equation $\eqref{eq:col-twocomp-vol-nonlinear-cs-solution}$. __(b)__ Degree of melting as a function of height, computed according to equation $\eqref{eq:col-twocomp-vol-nonlinear-F-solution}$. __(c)__ Temperature as a function of height in the melting column, obtained from the solidus relation $\eqref{eq:col-twocomp-pd-solidus}$. __(d)__ Porosity computed according to the approximate Darcy solution $\eqref{eq:meltcol-porosity-n2}$ for $\permexp=2$.
+# Figure 11.5 below plot a solution of the two-component melting column model with a volatile component. Parameters given in the Table above. The onset of melting is marked by a red dot in each panel. The bottom of the column $z=0$ corresponds to a depth of 130 km and $\soltemp_0=1300^\circ$ C. The solid line represents the solution developed for equilibrium between solid and liquid phases (batch melting); the dashed line represents fractional melting (see main text for details). __(a)__ The normalised volatile concentration in the solid from equation $\eqref{eq:col-twocomp-vol-nonlinear-cs-solution}$. __(b)__ Degree of melting as a function of height, computed according to equation $\eqref{eq:col-twocomp-vol-nonlinear-F-solution}$. __(c)__ Temperature as a function of height in the melting column, obtained from the solidus relation $\eqref{eq:col-twocomp-pd-solidus}$. __(d)__ Porosity computed according to the approximate Darcy solution $\eqref{eq:meltcol-porosity-n2}$ for $\permexp=2$.
 
-# In[12]:
+# In[11]:
 
 
 f, ax = plt.subplots(1, 4)
@@ -573,6 +577,8 @@ ax[3].set_yticks(())
 ax[3].tick_params(axis='both', which='major', labelsize=13)
 ax[3].text(0.8e-3, 0.950, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
 
+f.supxlabel("Figure 11.5", fontsize=20)
+
 plt.show()
 
 
@@ -621,7 +627,7 @@ plt.show()
 # $z_b$ | $z_0/100$
 # $\cmpvisc$ | $\por^{-1}$
 
-# In[13]:
+# In[12]:
 
 
 def AssembleMatrix_W(aw, dz, phi, n, d0):
@@ -694,7 +700,7 @@ def MeltingColNumerical(Q=1.e4,  # flux parameter
     return z, W, phi, np.gradient(W, z) / phi
 
 
-# In[14]:
+# In[13]:
 
 
 delta = 0.1
@@ -709,7 +715,7 @@ Z = np.linspace(0.0, 2.0, 1000)  # this is z/zb;
 S_z, S_W, S_phi, S_P = MeltingColNumerical(Q, delta, Fmax, 2)
 
 
-# In[15]:
+# In[14]:
 
 
 Pbl = -np.sqrt(Q)/delta*(2.0 - Z)
@@ -726,9 +732,9 @@ phibl = Fmax*zb*Z - V
 phi = 1.0/2.0/Q*(np.sqrt(1.0 + 4.0*zb*Z*Fmax*Q) - 1.0)
 
 
-# Figures below plot the numerical, Darcy, and boundary layer solutions to the one-dimensional melting column with constant decompressional melting productivity. The numerical solution of the system $\eqref{eq:tdcol-mechanics-compaction-nd}$-$\eqref{eq:tdcol-mechanics-porosity-nd}$ is discretised by finite differences and run to steady state.  The domain is limited to $0\le z \le 2z_b$. Non-dimensional parameters used to compute these solutions are $\cmplength=0.1$, $\fluxpar=10^4$, $\permexp=2$ and $\Fmax=0.22$. For these parameters, $z_b = z_0/100$. The non-dimensional augmented compaction viscosity is $\cmpvisc = \por^{-1}$. __(a)__ Solid upwelling rate. __(b)__ Compaction pressure non-dimensionalised by $\cmppres_0 = \xi_0W_0/z_0$. __(c)__ Porosity.
+# Figure 11.6 below plot the numerical, Darcy, and boundary layer solutions to the one-dimensional melting column with constant decompressional melting productivity. The numerical solution of the system $\eqref{eq:tdcol-mechanics-compaction-nd}$-$\eqref{eq:tdcol-mechanics-porosity-nd}$ is discretised by finite differences and run to steady state.  The domain is limited to $0\le z \le 2z_b$. Non-dimensional parameters used to compute these solutions are $\cmplength=0.1$, $\fluxpar=10^4$, $\permexp=2$ and $\Fmax=0.22$. For these parameters, $z_b = z_0/100$. The non-dimensional augmented compaction viscosity is $\cmpvisc = \por^{-1}$. __(a)__ Solid upwelling rate. __(b)__ Compaction pressure non-dimensionalised by $\cmppres_0 = \xi_0W_0/z_0$. __(c)__ Porosity.
 
-# In[16]:
+# In[15]:
 
 
 f, ax = plt.subplots(1, 3)
@@ -770,6 +776,8 @@ ax[2].set_yticks(())
 ax[2].set_xlabel(r'$\phi$', fontsize=20)
 ax[2].tick_params(axis='both', which='major', labelsize=13)
 ax[2].text(2e-4, 1.9e-4, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+
+f.supxlabel("Figure 11.6", fontsize=20)
 
 plt.show()
 
@@ -821,7 +829,7 @@ plt.show()
 # \end{equation}
 # $$
 
-# In[17]:
+# In[16]:
 
 
 R2 = np.asarray([0.0, 0.3, 0.6, 0.69])
@@ -838,9 +846,9 @@ w = np.asarray([(1-G)/Phii for Phii in Phi])
 W = np.asarray([1 - fovri*(1-G) for fovri in fovr])
 
 
-# Figures below plot the decompaction column. __(a)__ Quantities $G$, $G'$ and $G''$ as given by equations $\eqref{eq:shape_function_tanh-G}$, $\eqref{eq:shape_function_tanh-Gp}$ and $\eqref{eq:shape_function_tanh-Gpp}$, respectively. __(b)__ The normalised porosity computed with equation $\eqref{eq:decmp_porosity}$ for various values of $R=\cmplength_0/\freezelength$. __(c)__ Normalised liquid upwelling speed for various values of $R$. __(d)__ Normalised solid upwelling speed, equation $\eqref{eq:decomp_col_solid_vel}$, for various flux ratios $q_\infty/W_0$.
+# Figure 11.7 below plot the decompaction column. __(a)__ Quantities $G$, $G'$ and $G''$ as given by equations $\eqref{eq:shape_function_tanh-G}$, $\eqref{eq:shape_function_tanh-Gp}$ and $\eqref{eq:shape_function_tanh-Gpp}$, respectively. __(b)__ The normalised porosity computed with equation $\eqref{eq:decmp_porosity}$ for various values of $R=\cmplength_0/\freezelength$. __(c)__ Normalised liquid upwelling speed for various values of $R$. __(d)__ Normalised solid upwelling speed, equation $\eqref{eq:decomp_col_solid_vel}$, for various flux ratios $q_\infty/W_0$.
 
-# In[18]:
+# In[17]:
 
 
 f, ax = plt.subplots(1, 4)
@@ -890,6 +898,8 @@ ax[3].legend(loc='lower right', fontsize=15)
 ax[3].tick_params(axis='both', which='major', labelsize=13)
 ax[3].text(0.15, -3.9, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
 
+f.supxlabel("Figure 11.7", fontsize=20)
+
 plt.show()
 
 
@@ -919,7 +929,7 @@ plt.show()
 # \end{equation}
 # $$
 
-# In[19]:
+# In[18]:
 
 
 fmax = np.logspace(-5.0, 0.0, 1000)
@@ -936,7 +946,7 @@ al2f = 1.0 + lmbda[1]*z0/W0/Fmax*(D[0]-D[1])
 al3f = 1 + lmbda[2]*z0/W0/Fmax*(D[1]-D[2])
 
 
-# Figure below plots the ingrowth factors at the top of the column, with the following parameters
+# Figure 11.8 below plots the ingrowth factors at the top of the column, with the following parameters
 # 
 # Parameters | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | unit
 # --- | --- | ---
@@ -952,7 +962,7 @@ al3f = 1 + lmbda[2]*z0/W0/Fmax*(D[1]-D[2])
 # 
 # __(b)__ Fast transport regime, computed with equations $\eqref{eq:const-coltop-fast-transport}$.
 
-# In[20]:
+# In[19]:
 
 
 f, ax = plt.subplots(1, 2)
@@ -986,6 +996,8 @@ ax[1].set_xticks((1e-8, 1e-6))
 ax[1].set_xlabel(r'$W_0 F_{max}/z_0$', fontsize=20)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].text(1e-8, 1.1e0, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+
+f.supxlabel("Figure 11.8", fontsize=20)
 
 plt.show()
 
@@ -1025,7 +1037,7 @@ plt.show()
 # $\velratio$ | 0.001 | ––
 # $\permexp$ | 2 | ––
 
-# In[21]:
+# In[20]:
 
 
 class El:
@@ -1098,7 +1110,7 @@ def DecayChainColumnSolver(el, col):
         eli.ab = St[:, i]
 
 
-# In[22]:
+# In[21]:
 
 
 el = [El(0.0086, 1.5e-10, 1.0), El(0.0065, 9.19e-6, 1.0), El(0.0005, 4.33e-4)]
@@ -1106,9 +1118,9 @@ col = Col()
 DecayChainColumnSolver(el, col)
 
 
-# Figure below plot the numerical solution of equation $\eqref{eq:col-activity}$ for parameters from table above. __(a)__ Porosity from $\eqref{eq:meltcol-porosity-n2}$. __(b)__ The batch melting factor of equation $\eqref{eq:activity-decomposition}$ showing enrichment in the liquid due to the small partition coefficients. The dotted line has a value of $1/\Fmax$. __(c)__ The ingrowth factor of equation $\eqref{eq:activity-decomposition}$. __(d)__ The total activity. __(d)__ Parent-daughter activity ratios. In secular equilibrium, these ratios are unity (dotted line).
+# Figure 11.9 below plot the numerical solution of equation $\eqref{eq:col-activity}$ for parameters from table above. __(a)__ Porosity from $\eqref{eq:meltcol-porosity-n2}$. __(b)__ The batch melting factor of equation $\eqref{eq:activity-decomposition}$ showing enrichment in the liquid due to the small partition coefficients. The dotted line has a value of $1/\Fmax$. __(c)__ The ingrowth factor of equation $\eqref{eq:activity-decomposition}$. __(d)__ The total activity. __(d)__ Parent-daughter activity ratios. In secular equilibrium, these ratios are unity (dotted line).
 
-# In[23]:
+# In[22]:
 
 
 f, ax = plt.subplots(1, 5)
@@ -1170,10 +1182,12 @@ ax[4].text(0.5, 0.01, '(e)', fontsize=20, verticalalignment='bottom', horizontal
 ax[4].legend(handles=[q_[0] for q_ in q], labels=[r'$^{238}$U$/^{230}$Th', r'$^{230}$Th$/^{226}$Ra'], fontsize=15,
              bbox_to_anchor=(0.0, 1.02, 0.8, .2),  loc='lower left', ncol=1, mode="expand", borderaxespad=0.)
 
+f.supxlabel("Figure 11.9", fontsize=20)
+
 plt.show()
 
 
-# In[24]:
+# In[23]:
 
 
 class ColTop:
@@ -1182,7 +1196,7 @@ class ColTop:
         self.ab = np.zeros(N*N).reshape(N, N)
 
 
-# In[25]:
+# In[24]:
 
 
 el = [El(0.0086, 1.5e-10, 1.0), El(0.0065, 9.19e-6, 1.0), El(0.0005, 4.33e-4)]
@@ -1212,9 +1226,9 @@ for j, fmaxj in enumerate(fmax):  # j=1:length(fmax)
             coltopk.ab[i, j] = elk.ab[-1]
 
 
-# Figures below plot the parameter space diagrams for the column-top daughter-parent activity ratios. Lines are activity-ratio isopleths. Stars represent column-top values from the column shown in Figure above. __(a)__ $\isotp{230}{Th}/\isotp{238}{U}$. __(b)__ $\isotp{226}{Ra}/\isotp{230}{Th}$.
+# Figure 11.10 below plot the parameter space diagrams for the column-top daughter-parent activity ratios. Lines are activity-ratio isopleths. Stars represent column-top values from the column shown in Figure above. __(a)__ $\isotp{230}{Th}/\isotp{238}{U}$. __(b)__ $\isotp{226}{Ra}/\isotp{230}{Th}$.
 
-# In[26]:
+# In[25]:
 
 
 f, ax = plt.subplots(1, 2)
@@ -1253,6 +1267,8 @@ ax[1].set_yticklabels([1e-3, 1e-2, 1e-1])
 ax[1].set_xlabel(r'$\phi_{max}$', fontsize=20)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].set_title(r'(b) $a^\ell_{226Ra}/a^\ell_{230Th}$', fontsize=15)
+
+f.supxlabel("Figure 11.10", fontsize=20)
 
 plt.show()
 

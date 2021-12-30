@@ -44,7 +44,7 @@ warnings.filterwarnings('ignore')
 # \end{alignat}
 # $$
 # 
-# The base-state solutions $\eqref{eq:rxflow-base-state-solution_1}$-$\eqref{eq:rxflow-base-state-solution_4}$ are plotted below for two values of $\rpro$. Thick lines are the full solution and narrow lines are the linear approximation. In each case, $\stiff=1$, $\dpro=1$ and $\permexp=3$. The values of $\por\zeroth$ (panel __(c)__) and $w\zeroth$ (panel __(d)__) at $z=0$ are given by $\cbasestate^{-1}$ and $\cbasestate$, respectively.
+# The base-state solutions $\eqref{eq:rxflow-base-state-solution_1}$-$\eqref{eq:rxflow-base-state-solution_4}$ are plotted in Figure 12.2 below for two values of $\rpro$. Thick lines are the full solution and narrow lines are the linear approximation. In each case, $\stiff=1$, $\dpro=1$ and $\permexp=3$. The values of $\por\zeroth$ (panel __(c)__) and $w\zeroth$ (panel __(d)__) at $z=0$ are given by $\cbasestate^{-1}$ and $\cbasestate$, respectively.
 
 # In[2]:
 
@@ -113,6 +113,8 @@ ax[3].set_xlim(0.0, 1.3)
 ax[3].set_ylim(0.0, 1.0)
 ax[3].set_xticks((0.0, 0.5, 1.0))
 ax[3].text(0.02, 0.01, '(d)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+
+f.supxlabel("Figure 12.2", fontsize=20)
 
 plt.show()
 
@@ -568,7 +570,7 @@ Chi = np.real(Chi)
 Chi = (Chi - np.amin(Chi))/(np.amax(Chi) - np.amin(Chi))
 
 
-# Figure below illustrates the results of numerical solutions of the stability problem. __(a)__ Dispersion curves: growth rate $\sigma$ as a function of wavenumber $\wavenumber$ from numerical solutions for $\sigma,m_j,A_j$ for three different values of $\Da$. All three curves use the parameters $\Pe=100,\,\rpro=0.01,\,\dpro=\stiff=1$ and $\permexp=3$ (corresponding to the parameters used to compute the base state in the Figure above). The star symbol marks the maximum growth rate for the reference curve. __(b)__ The eigenmode with maximum growth rate $\sigma^*\approx 2.96$ at $\wavenumber^*\approx 24.6$ ($\lambda^*\approx0.26$) for the curve with $\Da=1000$ corresponding to the star marker in panel (a). The perturbation to the compaction pressure $\cmppres\first$ is shown in the grayscale background image. The narrow lines are contours of the porosity perturbation $\por\first$, which has maxima where the compaction pressure has minima. The white curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-5}$. The velocity perturbation $\vel\first$ is computed with equation $\vel\first = \left(\permexp - 1\right)\por\first\zhat - \stiff\Grad\cmppres\first$.
+# Figure 12.3 below illustrates the results of numerical solutions of the stability problem. __(a)__ Dispersion curves: growth rate $\sigma$ as a function of wavenumber $\wavenumber$ from numerical solutions for $\sigma,m_j,A_j$ for three different values of $\Da$. All three curves use the parameters $\Pe=100,\,\rpro=0.01,\,\dpro=\stiff=1$ and $\permexp=3$ (corresponding to the parameters used to compute the base state in the Figure above). The star symbol marks the maximum growth rate for the reference curve. __(b)__ The eigenmode with maximum growth rate $\sigma^*\approx 2.96$ at $\wavenumber^*\approx 24.6$ ($\lambda^*\approx0.26$) for the curve with $\Da=1000$ corresponding to the star marker in panel (a). The perturbation to the compaction pressure $\cmppres\first$ is shown in the grayscale background image. The narrow lines are contours of the porosity perturbation $\por\first$, which has maxima where the compaction pressure has minima. The white curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-5}$. The velocity perturbation $\vel\first$ is computed with equation $\vel\first = \left(\permexp - 1\right)\por\first\zhat - \stiff\Grad\cmppres\first$.
 
 # In[17]:
 
@@ -611,6 +613,8 @@ ax1.set_ylim(0.0, 1.0)
 ax1.set_yticks((0, 0.5, 1))
 ax1.text(-0.04, 0.95, '(b)', fontsize=20, verticalalignment='top', horizontalalignment='right')
 
+f.supxlabel("Figure 12.3", fontsize=20)
+
 plt.show()
 
 
@@ -647,7 +651,7 @@ for vals in [10., 100., 1000.]:
     DC_quad[vals] = reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks)
 
 
-# Figure below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial $\eqref{eq:characteristic-poly-cbs}$, solid lines) and the large-$\Da$ problem (quadratic $\eqref{eq:characteristic-poly-quad}$, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
+# Figure 12.4 below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial $\eqref{eq:characteristic-poly-cbs}$, solid lines) and the large-$\Da$ problem (quadratic $\eqref{eq:characteristic-poly-quad}$, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
 
 # In[19]:
 
@@ -669,6 +673,7 @@ plt.xlabel(r'$k$', fontsize=24)
 plt.ylim(0, 3.2)
 plt.ylabel(r'$\sigma$', fontsize=24)
 plt.legend()
+f.supxlabel("Figure 12.4", fontsize=20)
 plt.show()
 
 
@@ -783,7 +788,7 @@ for s_ in S:
     s.append(ReactiveFlowAnalyticalSolution(k, n, Da, Pe, s_))
 
 
-# Figure below plot the results for the modified problem with $\cmppres\first=0$ at $z=1$. __(a)__ Dispersion curves for $n=3$, $\Da=1000$, $\Pe=100$ and four values of $\stiff$. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. __(b)__ The $\cmppres\first$ eigenfunction for $\stiff=1$. White curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-3}$. __(c)__ $\cmppres\first$ for $\stiff=0.1$ with superimposed contours of the porosity perturbation $\por\first$. Porosity is larger in the low-pressure channels. __(d)__ $\cmppres\first$ for $\stiff=0.01$.
+# Figure 12.5 below plot the results for the modified problem with $\cmppres\first=0$ at $z=1$. __(a)__ Dispersion curves for $n=3$, $\Da=1000$, $\Pe=100$ and four values of $\stiff$. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. __(b)__ The $\cmppres\first$ eigenfunction for $\stiff=1$. White curves are streamlines of the flow $\vel\liq = \zhat + \smallpar\vel\first$, with $\smallpar$ chosen to be $3\times10^{-3}$. __(c)__ $\cmppres\first$ for $\stiff=0.1$ with superimposed contours of the porosity perturbation $\por\first$. Porosity is larger in the low-pressure channels. __(d)__ $\cmppres\first$ for $\stiff=0.01$.
 
 # In[22]:
 
@@ -850,6 +855,8 @@ ax3.set_xticks((0, 2*lambda_))
 ax3.set_xticklabels((0., 2.))
 ax3.set_yticklabels(())
 plt.text(-0.02, 0.01, r'(d)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
+
+fig.supxlabel("Figure 12.5", fontsize=20)
 
 plt.show()
 
@@ -975,8 +982,7 @@ def full_dispersion(k, n, Da, Pe, S, l):
 # In[25]:
 
 
-zoom = 2.0
-fig = plt.figure(figsize=(10*zoom, 5*zoom))
+fig = plt.figure(figsize=(21, 10))
 gs = gridspec.GridSpec(1, 2, width_ratios=[1, 1])
 
 ax0 = plt.subplot(gs[0])
@@ -1047,6 +1053,8 @@ ax1.text(1.4e4, 0.02, r'$\leftarrow$rigid compactible$\rightarrow$', rotation=-9
 ax1.text(0.58, 11, r'$\leftarrow$diffusion ctrl advection ctrl$\rightarrow$', horizontalalignment='center',
          verticalalignment='bottom', fontsize=15)
 
+fig.supxlabel("Figure 12.6", fontsize=20)
+
 plt.show()
 
 
@@ -1113,8 +1121,7 @@ def Dispersion(k, n, Da, Pe, S):
 # In[27]:
 
 
-zoom = 2.0
-fig = plt.figure(figsize=(8*zoom, 4*zoom))
+fig = plt.figure(figsize=(18.0, 9.0))
 
 par = PAR()
 k = np.logspace(4, 8, 10000)
@@ -1134,6 +1141,8 @@ plt.xticks((1e-2, 1e0, 1e2))
 plt.yticks((1.5, 2.0, 2.5))
 plt.xlabel('Horizontal wavelength, m', fontsize=18)
 plt.ylabel('Growth time, Ma', fontsize=18)
+
+fig.supxlabel("Figure 12.7", fontsize=20)
 
 plt.show()
 

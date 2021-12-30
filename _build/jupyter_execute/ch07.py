@@ -24,7 +24,7 @@ from scipy.interpolate import griddata
 # \end{equation}
 # $$
 # 
-# The orientation of these waves is described by an angle $\theta$ to the $x$-axis, as shown in the figure below.
+# The orientation of these waves is described by an angle $\theta$ to the $x$-axis, as shown in the Figure 7.3 below.
 
 # In[2]:
 
@@ -35,6 +35,9 @@ theta = 30.
 # In[3]:
 
 
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
+
 x = np.linspace(-1.0, 1.0, 1000)
 y = np.linspace(-1.0, 1.0, 1000)
 [X, Y] = np.meshgrid(x,y)
@@ -43,13 +46,6 @@ k0 = 3.*(2.*np.pi)
 theta_rad = theta * np.pi/180.
 k = np.asarray([k0*np.sin(-theta_rad), k0*np.cos(-theta_rad)])
 z = np.real(np.exp(1.j*(k[0]*X + k[1]*Y)))
-
-
-# In[4]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
 
 ax.imshow(z, extent=[-1.5, 1.1, -1.5, 1.1], cmap=plt.get_cmap('Greys'))
 ax.set_xlim(-1.1, 1.1)
@@ -67,6 +63,8 @@ ax.text(1.12, 0.2, r'$y$', fontsize=20)
 ax.text(1.12, -0.045, r'$\longrightarrow$', fontsize=30, rotation=90-theta)
 ax.text(1.28, 0.15, r'$\mathbf{k}$', fontsize=18)
 ax.text(1.195, 0.07, r'$\theta$', fontsize=10)
+
+fig.supxlabel("Figure 7.3", fontsize=20)
 
 ax.set_axis_off()
 plt.show()
@@ -86,20 +84,16 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Dispersion curves showing normalised growth rate of perturbations versus perturbation wavelength are plotted below on log-linear axes:
+# Dispersion curves showing normalised growth rate of perturbations versus perturbation wavelength are plotted in Figure 7.4a below on log-linear axes:
 
-# In[5]:
-
-
-x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
-y = (2*np.pi/x)/(1.0+2.0*np.pi/x)
-
-
-# In[6]:
+# In[4]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(18.0, 9.0)
+
+x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
+y = (2*np.pi/x)/(1.0+2.0*np.pi/x)
 
 ax.semilogx(x, y, '-k', linewidth=2)
 ax.set_xlim(1e-3, 1e4)
@@ -114,23 +108,22 @@ ax.set_ylabel(r'$\vert \dot{s}\vert/[2(1-\phi^{(0)})\lambda\dot{\gamma}/\nu^{(0)
 ax.set_yticks((0.0, 0.25, 0.5, 0.75, 1.0))
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.gca().yaxis.grid(True, which='major')
+
+fig.supxlabel("Figure 7.4a", fontsize=20)
+
 plt.show()
 
 
-# and on log-log axes:
+# and on log-log axes in Figure 7.4b:
 
-# In[7]:
-
-
-x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
-y = (2.*np.pi/x)/(1.+2.*np.pi/x)
-
-
-# In[8]:
+# In[5]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(18.0, 9.0)
+
+x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
+y = (2.*np.pi/x)/(1.+2.*np.pi/x)
 
 ax.loglog(x, y, '-k', linewidth=2)
 ax.set_xlim(1e-3, 1e4)
@@ -147,6 +140,8 @@ ax.plot([2.*np.pi, 2.*np.pi], [1e-10, 10.0], ':r')
 ax.text(2*np.pi*1.1, 0.005, r'$l=2\pi\delta_{0}$', rotation=-90, va='bottom', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+fig.supxlabel("Figure 7.4b", fontsize=20)
+
 plt.show()
 
 
@@ -154,15 +149,15 @@ plt.show()
 # 
 # #### Porosity advection by the base-state
 # 
-# Schematic diagram normal to the shear plane showing a representative high-porosity band oriented at an angle $\theta$ with normal $\boldsymbol{k}$. The band is being rotated to higher $\theta$ by the simple-shear flow.
+# Figure 7.5a plots the schematic diagram normal to the shear plane showing a representative high-porosity band oriented at an angle $\theta$ with normal $\boldsymbol{k}$. The band is being rotated to higher $\theta$ by the simple-shear flow.
 
-# In[9]:
+# In[6]:
 
 
 th2 = 20.0
 
 
-# In[10]:
+# In[7]:
 
 
 fig, ax = plt.subplots()
@@ -194,11 +189,13 @@ ax.set_ylim(-1.0, 1.0)
 ax.text(-0.5*np.abs(np.cos((180.-th2)*np.pi/180.)), 0.04, r'$\theta$', fontsize=20)
 ax.text(0.4, 0.05, r'shear plane', fontsize=20)
 
+fig.supxlabel("Figure 7.5a", fontsize=20)
+
 ax.set_axis_off()
 plt.show()
 
 
-# Figure above shows a wave-front with wavevector $\boldsymbol{k}$ at time $t$. It makes an angle to the shear plane of
+# Figure 7.5a above shows a wave-front with wavevector $\boldsymbol{k}$ at time $t$. It makes an angle to the shear plane of
 # 
 # $$
 # \begin{equation}
@@ -207,21 +204,17 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# A plot of band angle from equation $\eqref{eq:simpleshear-bandangle}$ as a function of progressive shear strain (on the $y$-axis) is shown in below.
+# A plot of band angle from equation $\eqref{eq:simpleshear-bandangle}$ as a function of progressive shear strain (on the $y$-axis) is shown in Figure 7.5b below.
 
-# In[11]:
-
-
-th0 = np.arange(5, 61, 5)*np.pi/180.
-t = np.linspace(0., 3., 1000)
-th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
-
-
-# In[12]:
+# In[8]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(18.0, 9.0)
+
+th0 = np.arange(5, 61, 5)*np.pi/180.
+t = np.linspace(0., 3., 1000)
+th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
 
 for th_ in th:
     ax.plot(th_*180/np.pi, t, '-k')
@@ -232,6 +225,8 @@ ax.set_xticks(np.arange(0.0, 150.1, 30.0))
 ax.set_ylabel(r'$\gamma = \dot{\gamma}t$', fontsize=20)
 ax.set_yticks((0.0, 0.5, 1, 1.5, 2, 2.5, 3))
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 7.5b", fontsize=20)
 
 plt.show()
 
@@ -250,9 +245,9 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and Newtonian viscosity.
+# Figure 7.6a below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and Newtonian viscosity.
 
-# In[13]:
+# In[9]:
 
 
 fig, ax = plt.subplots()
@@ -273,6 +268,9 @@ ax.text(45., 0.5, 'growth', fontsize=20, ha='center', va='bottom')
 ax.text(135., -0.5, 'decay', fontsize=20, ha='center', va='bottom')
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.grid(True)
+
+fig.supxlabel("Figure 7.6a", fontsize=20)
+
 plt.show()
 
 
@@ -291,9 +289,9 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Figure below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and non-Newtonian viscosity with various values of $\mathfrak{n}$. The vertical dotted lines mark $\theta=15^\circ$.
+# Figure 7.6b below plots the normalised growth rate of small-wavelength ($l\ll\delta_0$) porosity bands under simple shear and non-Newtonian viscosity with various values of $\mathfrak{n}$. The vertical dotted lines mark $\theta=15^\circ$.
 
-# In[14]:
+# In[10]:
 
 
 fig, ax = plt.subplots()
@@ -317,6 +315,9 @@ ax.set_yticks(np.arange(-1.0, 1.01, 0.5))
 ax.legend(fontsize=15, loc='upper right')
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.grid(True)
+
+fig.supxlabel("Figure 7.6b", fontsize=20)
+
 plt.show()
 
 
@@ -336,10 +337,13 @@ plt.show()
 # 
 # where $t'$ is a dummy variable of integration, to distinguish it from the (variable) upper limit of integration, $t$.
 # 
-# Figure below plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$. Dotted curves are passive advection trajectories from equation $\eqref{eq:simpleshear-bandangle}$ with Newtonian viscosity ($\mathfrak{n}=1,\,\mathcal{N}=0$).
+# Figure 7.7a below plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$. Dotted curves are passive advection trajectories from equation $\eqref{eq:simpleshear-bandangle}$ with Newtonian viscosity ($\mathfrak{n}=1,\,\mathcal{N}=0$).
 
-# In[15]:
+# In[11]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(18.0, 9.0)
 
 ncontours = 20
 
@@ -365,13 +369,6 @@ convec = np.setdiff1d(convec, convecB)
 th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.pi/180.
 th_ = np.asarray([np.arctan2(np.sin(th0i), (np.cos(th0i) - t*np.sin(th0i))) for th0i in th0_])
 
-
-# In[16]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
-
 CS = ax.contour(th0*180./np.pi, t, A, convec, cmap=plt.cm.binary, linewidths=1)
 CSB = ax.contour(th0*180./np.pi, t, A, convecB, colors='k', linewidths=2)
 ax.clabel(CSB, inline=1, fontsize=15)
@@ -385,13 +382,19 @@ ax.set_ylim(0., np.amax(t))
 ax.set_xticks((0, 15, 30, 45, 60, 90, 120))
 ax.set_yticks((0, 1, 2, 3))
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 7.7a", fontsize=20)
+
 plt.show()
 
 
-# Figure below also plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\mathfrak{n}=6,\,\mathcal{N}=5/6$).
+# Figure 7.7b below also plots the amplitude of porosity perturbations $\text{e}^{s(t)}$ as a function of angle and strain $\gamma=\dot{\gamma} t$, but the dotted curves are passive advection trajectories consider Non-Newtonian viscosity ($\mathfrak{n}=6,\,\mathcal{N}=5/6$).
 
-# In[17]:
+# In[12]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(18.0, 9.0)
 
 eps = 2.2204e-16
 n = 6.
@@ -424,13 +427,6 @@ convec = np.setdiff1d(convec, convecB)
 th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.pi/180.
 th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_])
 
-
-# In[18]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
-
 CS = ax.contour(th0*180./np.pi, t, A, convec, cmap=plt.cm.binary, linewidths=1.0)
 CSB = ax.contour(th0*180./np.pi, t, A, convecB, colors='k', linewidths=2)
 ax.clabel(CSB, inline=1, fontsize=15)
@@ -445,6 +441,8 @@ ax.set_ylim(-0.02, np.amax(t))
 ax.set_xticks((0, 15, 30, 45, 60, 90, 120))
 ax.set_yticks((0, 1, 2, 3))
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 7.7b", fontsize=20)
 
 plt.show()
 
@@ -461,22 +459,18 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in log-linear scale.
+# Increasing values of $\text{D}_\mathcal{I}$ represent an increasing strength of surface-tension driven segregation. Figure 7.8a below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in log-linear scale.
 
-# In[19]:
+# In[13]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 k = np.logspace(-2, 3, 10000)
 Rb = np.asarray([0., 0.0001, 0.001, 0.01])
 sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
-
-
-# In[20]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
 
 for i in np.arange(len(Rb)):
     colr = 1.-(len(Rb) - i)/len(Rb)*np.asarray([1, 1, 1])
@@ -492,25 +486,24 @@ ax.set_ylim(-0.02, 1.02)
 ax.legend(fontsize=15, loc='upper right')
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.grid(True)
+
+fig.supxlabel("Figure 7.8a", fontsize=20)
+
 plt.show()
 
 
-# Figure below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in the log-log scale.
+# Figure 7.8b below plots $\eqref{eq:porband-sfcten-growrate-wavenum}$ in the log-log scale.
 
-# In[21]:
+# In[14]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 k = np.logspace(-2,3,10000)
 Rb = np.asarray([0., 0.0001, 0.001, 0.01])
 sd = np.asarray([k**2.*(1. - Rbi*k**2)/(k**2+1.) for Rbi in Rb])
 l_on_d = 2*np.pi/k
-
-
-# In[22]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
 
 for i in np.arange(len(Rb)):
     colr = 1.-(len(Rb) - i)/len(Rb)*np.asarray([1, 1, 1])
@@ -527,24 +520,23 @@ ax.set_ylim(1e-3, 1e0)
 ax.legend(fontsize=15, loc='upper right')
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.grid(True)
+
+fig.supxlabel("Figure 7.8b", fontsize=20)
+
 plt.show()
 
 
-# The characteristics of the dominant perturbation as a function of $\text{D}_\mathcal{I}$ is plotted below for the wavelength with the largest growth rate $l^\text{max}/\delta_0$.
+# The characteristics of the dominant perturbation as a function of $\text{D}_\mathcal{I}$ is plotted in Figure 7.9a below for the wavelength with the largest growth rate $l^\text{max}/\delta_0$.
 
-# In[23]:
-
-
-Rb = np.logspace(-5., 1., 10000)
-ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
-l = 2. * np.pi/ks
-
-
-# In[24]:
+# In[15]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
+
+Rb = np.logspace(-5., 1., 10000)
+ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
+l = 2. * np.pi/ks
 
 ax.loglog(Rb, l, '-k', linewidth=2)
 ax.set_xlabel(r'D$_\mathcal{I}$', fontsize=20)
@@ -554,24 +546,22 @@ ax.set_ylabel(r'$l^{max}/\delta_{0}$', fontsize=20)
 ax.set_yticks((1e0, 1e1))
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+fig.supxlabel("Figure 7.9a", fontsize=20)
+
 plt.show()
 
 
-# And below for the growth rate of the dominant perturbation $s_*^\text{max}$.
+# And Figure 7.9b below for the growth rate of the dominant perturbation $s_*^\text{max}$.
 
-# In[25]:
-
-
-Rb = np.logspace(-5., 1., 10000)
-ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
-s = ks**2. * (1. - Rb*ks**2)/(ks**2. + 1.)
-
-
-# In[26]:
+# In[16]:
 
 
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
+
+Rb = np.logspace(-5., 1., 10000)
+ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))
+s = ks**2. * (1. - Rb*ks**2)/(ks**2. + 1.)
 
 ax.loglog(Rb, s, '-k', linewidth=2)
 ax.set_xlim(1e-5, 1e1)
@@ -580,6 +570,8 @@ ax.set_yticks([1e-2, 1e-1, 1e0])
 ax.set_xlabel(r'D$_\mathcal{I}$', fontsize=20)
 ax.set_ylabel(r'$\dot{s}^{max}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 7.9b", fontsize=20)
 
 plt.show()
 

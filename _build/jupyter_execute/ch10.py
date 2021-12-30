@@ -225,7 +225,7 @@ def EquilibriumState(n, cbar, T, P, par, parco_func):
     return Theta
 
 
-# Ideal-solution model of a two-component system of _olivine_ ($j=1$) and _basalt_ ($j=2$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(c)__ Grey lines are the solidus and liquidus temperature as a function of the basalt fraction at a pressure of 1 GPa. The composition along the solidus curve refers to the solid phase; that along the liquidus curve refers to the liquid phase. Black lines indicate the compositional evolution of a closed system with bulk composition of 25% basalt component. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 25% basalt component at 1 GPa.
+# Figure 10.1 plots the ideal-solution model of a two-component system of _olivine_ ($j=1$) and _basalt_ ($j=2$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(c)__ Grey lines are the solidus and liquidus temperature as a function of the basalt fraction at a pressure of 1 GPa. The composition along the solidus curve refers to the solid phase; that along the liquidus curve refers to the liquid phase. Black lines indicate the compositional evolution of a closed system with bulk composition of 25% basalt component. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 25% basalt component at 1 GPa.
 
 # In[7]:
 
@@ -319,6 +319,8 @@ axC.text(0.05, 1150,'solid', fontsize=20)
 axC.tick_params(axis='both', which='major', labelsize=13)
 axC.legend(fontsize=15)
 
+fig.supxlabel("Figure 10.1", fontsize=20)
+
 plt.show()
 
 
@@ -349,7 +351,7 @@ npts = 100
 conc_water_in_pure_component = 1e-4/cref[2]
 
 
-# Figures below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 75 wt\% olivine component with and without 0.2 wt\% of hydrated basalt component at 1 GPa.
+# Figures 10.2 below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(a)__ Pure-component melting temperatures $\melttemp_j$ as a linear function of pressure. __(b)__ Partition coefficients $\parco_j$ as a function of temperature at a constant pressure of 1 GPa. __(d)__ Equilibrium melt fraction as a function of temperature for a bulk composition of 75 wt\% olivine component with and without 0.2 wt\% of hydrated basalt component at 1 GPa.
 
 # In[11]:
 
@@ -416,10 +418,12 @@ f_hold  = np.array([th.f for th in Theta_wet])
 cl_hold[f_hold<1e-6] = np.nan
 cs_hold[1-f_hold<1e-6] = np.nan
 
+fig.supxlabel("Figure 10.2", fontsize=20)
+
 plt.show()
 
 
-# Figure below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(c)__ Surfaces are the solidus and liquidus temperature through the full, 3-component space at a pressure of 1 GPa. The composition along the solidus surface refers to the solid phase; that along the liquidus surface refers to the liquid phase. The compositional evolution of the melt for a closed system with 75 wt\% olivine and 0.2 wt\% hydrous basalt is shown by the solid line.  It starts at the triangle and progresses toward the circle with increasing $\temp$ and $\equi\mf$.
+# Figure 10.2c below plot the ideal-solution model of a three-component system of "olivine" ($j=1$), "basalt" ($j=2$) and "hydrous basalt" ($j=3$). Parameter values are given in table above. __(c)__ Surfaces are the solidus and liquidus temperature through the full, 3-component space at a pressure of 1 GPa. The composition along the solidus surface refers to the solid phase; that along the liquidus surface refers to the liquid phase. The compositional evolution of the melt for a closed system with 75 wt\% olivine and 0.2 wt\% hydrous basalt is shown by the solid line.  It starts at the triangle and progresses toward the circle with increasing $\temp$ and $\equi\mf$.
 
 # In[12]:
 
@@ -502,6 +506,8 @@ axC.set_xticks(())
 axC.set_yticks(())
 axC.set_zticks(())
 
+fig.supxlabel("Figure 10.2c", fontsize=20)
+
 ticks_ = (0., 0.2, 0.4, 0.6, 0.8, 1.)
 cbar = fig.colorbar(surf, aspect=5, ticks=(ticks_))
 cticks_ = (int((np.nanmax(Tliq) - np.nanmin(Tliq))*s + np.nanmin(Tliq)) for s in ticks_)
@@ -510,7 +516,7 @@ cbar.ax.set_yticklabels((cticks_));
 
 # ### Approaching the eutectic phase diagram
 # 
-# A eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution parameters are $R_1=60$ J/kg/K, $\latent_1=\latent_2=500$ kJ/kg. __(a)__ Solidus and liquidus curves computed with ideal solution theory compared with the eutectic solidus and liquidus. __(b)__ Isobaric melting curves computed based on the phase loops and the eutectic.
+# Figure 10.3 plots a eutectic phase diagram compared with ideal-solution phase loops for different values of $R_2$. Other ideal-solution parameters are $R_1=60$ J/kg/K, $\latent_1=\latent_2=500$ kJ/kg. __(a)__ Solidus and liquidus curves computed with ideal solution theory compared with the eutectic solidus and liquidus. __(b)__ Isobaric melting curves computed based on the phase loops and the eutectic.
 
 # In[16]:
 
@@ -630,6 +636,8 @@ handles = [p[0] for p in plots]
 plt.legend(handles=handles, fontsize=15, labels=labels,
            bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left', ncol=4, mode="expand", borderaxespad=0.)
 
+fig.supxlabel("Figure 10.3", fontsize=20)
+
 plt.show()
 
 
@@ -651,7 +659,7 @@ plt.show()
 # 
 # where $\solslope$ is the constant slope of the solidus with concentration in the two component space and $\soltemp_\text{ref}$ is a reference temperature at $\pres=\pres_\text{ref}$ and $\equi\con\sol=\equi\con\sol_\text{ref}$.  Also, $\Delta\equi\con \equiv \equi\con\sol - \equi\con\liq$ is the concentration difference between the solidus and the liquidus.  If $\Delta\equi\con$ is taken to be a constant then the liquidus slope $\liqslope$ and the solidus slope $\solslope$ are equal.
 # 
-# Figure below plots a comparison of a two-component, ideal-solution phase loop with a linearised solidus and liquidus at 1 GPa. The phase loop uses the parameters from the Table above. __(a)__ Solidus and liquidus curves.  Evolution of an initially unmolten rock with 25 wt% basaltic component for increasing temperature, along the linearised phase boundaries. __(b)__ Isobaric melting curves.
+# Figure 10.4 below plots a comparison of a two-component, ideal-solution phase loop with a linearised solidus and liquidus at 1 GPa. The phase loop uses the parameters from the Table above. __(a)__ Solidus and liquidus curves.  Evolution of an initially unmolten rock with 25 wt% basaltic component for increasing temperature, along the linearised phase boundaries. __(b)__ Isobaric melting curves.
 
 # In[23]:
 
@@ -756,6 +764,8 @@ axB.set_yticks((0., 0.1, 0.2, 0.3, 0.4))
 axB.text(1200.01, 0.385, '(b)', fontsize=20)
 axB.tick_params(axis='both', which='major', labelsize=13)
 axB.legend(fontsize=15)
+
+fig.supxlabel("Figure 10.4", fontsize=20)
 
 plt.show()
 

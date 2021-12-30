@@ -170,7 +170,7 @@ z = np.linspace(-1.0, 0.0, 500)
 [U, W, P] = solution_cartesian_coords(X, Z, theta_p);  # reter to equations (8) and (10)
 
 
-# Figure below plots the velocity streamlines and pressure contours.
+# Figure 3.1 plots the velocity streamlines and pressure contours.
 
 # In[6]:
 
@@ -211,5 +211,13 @@ ax.text(-0.7, -np.sin(theta_p)/3.5, r'$-U_0$', fontsize=20)
 
 ax.set_axis_off()
 
+fig.supxlabel("Figure 3.1", fontsize=20)
+
 plt.show()
+
+
+# In[ ]:
+
+
+
 

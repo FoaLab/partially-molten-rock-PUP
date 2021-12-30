@@ -29,7 +29,7 @@ import csv
 Theta = 30.0  # the dihedral angle
 
 
-# Interfaces oriented according to angles $\Theta_k$ and interfacial tensions $\sigma_k$.
+# Interfaces oriented according to angles $\Theta_k$ and interfacial tensions $\sigma_k$, as shown in Figure 5.2a.
 
 # In[3]:
 
@@ -71,6 +71,9 @@ ax.annotate(r'$\sigma_3$', xy=(-1.0, 0.1), fontsize=20, rotation=0.0)
 ax.annotate(r'$\Longleftarrow$', xy=(-1.0, 0.01), fontsize=20, rotation=0.0)
 
 ax.set_axis_off()
+
+fig.supxlabel("Figure 5.2a", fontsize=20)
+
 plt.show()
 
 
@@ -108,7 +111,7 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Then, by geometry, $y_0 = y_\Lambda + \text{sgn}(y'_\Lambda)\sqrt{r_1^2 - x_\Lambda^2}$. These values and equation $\eqref{eq:pore-zero-curvature_y}$ are used to plot the upper interface below. The other two interfaces are
+# Then, by geometry, $y_0 = y_\Lambda + \text{sgn}(y'_\Lambda)\sqrt{r_1^2 - x_\Lambda^2}$. These values and equation $\eqref{eq:pore-zero-curvature_y}$ are used to plot the upper interface in Figure 5.2b. The other two interfaces are
 # obtained by rotating the upper interface by $\pm120^\circ$ about the origin.
 
 # In[4]:
@@ -168,6 +171,8 @@ ax.set_xlim(-1.01, 1.01)
 ax.set_ylim(-1.01, 1.01)
 ax.set_axis_off()
 
+fig.supxlabel("Figure 5.2b", fontsize=20)
+
 plt.show()
 
 
@@ -182,7 +187,7 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Equation $\eqref{eq:permeability-simple}$ is plotted below for two values of n. Also shown are permeabilities computed on the basis of simulation of ow through pores of a measured pore geometry.
+# Equation $\eqref{eq:permeability-simple}$ is plotted in Figure 5.3 below for two values of n. Also shown are permeabilities computed on the basis of simulation of ow through pores of a measured pore geometry.
 
 # In[5]:
 
@@ -239,5 +244,13 @@ ax.set_xlabel(r'$\phi$', fontsize=20)
 ax.set_ylabel(r'$k_\phi$, $m^2$', fontsize=20)
 ax.legend(loc='upper left', fontsize=15)
 
+fig.supxlabel("Figure 5.3", fontsize=20)
+
 plt.show()
+
+
+# In[ ]:
+
+
+
 

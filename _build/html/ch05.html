@@ -305,7 +305,7 @@
 </div>
 </div>
 </div>
-<p>Interfaces oriented according to angles <span class="math notranslate nohighlight">\(\Theta_k\)</span> and interfacial tensions <span class="math notranslate nohighlight">\(\sigma_k\)</span>.</p>
+<p>Interfaces oriented according to angles <span class="math notranslate nohighlight">\(\Theta_k\)</span> and interfacial tensions <span class="math notranslate nohighlight">\(\sigma_k\)</span>, as shown in Figure 5.2a.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -345,6 +345,9 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Longleftarrow$&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 5.2a&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -383,7 +386,7 @@ y'(x_\Lambda)&amp;=\tan(\pi/6 - \dihed/2)\equiv y'_\Lambda.
   r_1 = \frac{x_\Lambda}{y'_\Lambda}\sqrt{1 + {y'_\Lambda}^2}.
 \end{equation}
 \]</div>
-<p>Then, by geometry, <span class="math notranslate nohighlight">\(y_0 = y_\Lambda + \text{sgn}(y'_\Lambda)\sqrt{r_1^2 - x_\Lambda^2}\)</span>. These values and equation <span class="math notranslate nohighlight">\(\eqref{eq:pore-zero-curvature_y}\)</span> are used to plot the upper interface below. The other two interfaces are
+<p>Then, by geometry, <span class="math notranslate nohighlight">\(y_0 = y_\Lambda + \text{sgn}(y'_\Lambda)\sqrt{r_1^2 - x_\Lambda^2}\)</span>. These values and equation <span class="math notranslate nohighlight">\(\eqref{eq:pore-zero-curvature_y}\)</span> are used to plot the upper interface in Figure 5.2b. The other two interfaces are
 obtained by rotating the upper interface by <span class="math notranslate nohighlight">\(\pm120^\circ\)</span> about the origin.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -441,6 +444,8 @@ obtained by rotating the upper interface by <span class="math notranslate nohigh
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.01</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 5.2b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -460,7 +465,7 @@ obtained by rotating the upper interface by <span class="math notranslate nohigh
   \perm = k_0(\por/\por_0)^\permexp.
 \end{equation}
 \]</div>
-<p>Equation <span class="math notranslate nohighlight">\(\eqref{eq:permeability-simple}\)</span> is plotted below for two values of n. Also shown are permeabilities computed on the basis of simulation of ow through pores of a measured pore geometry.</p>
+<p>Equation <span class="math notranslate nohighlight">\(\eqref{eq:permeability-simple}\)</span> is plotted in Figure 5.3 below for two values of n. Also shown are permeabilities computed on the basis of simulation of ow through pores of a measured pore geometry.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -515,6 +520,8 @@ obtained by rotating the upper interface by <span class="math notranslate nohigh
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\phi$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$k_\phi$, $m^2$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 5.3&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>

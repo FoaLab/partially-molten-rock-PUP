@@ -24,10 +24,13 @@ from scipy.linalg import expm
 # \end{equation}
 # $$
 # 
-# The curve is plotted for two sets of $D_j,D_k$. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.
+# The curve is plotted in Figure 9.1 for two sets of $D_j,D_k$. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.
 
 # In[2]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 Dj = 1e-3
 Dk = 1e-2
@@ -36,13 +39,6 @@ f = phi*(Dk-Dj)/(phi+Dj)/(phi+Dk)
 Djs = 2e-3
 Dks = 0.5e-2
 fs  = phi*(Dks-Djs)/(phi+Djs)/(phi+Dks)
-
-
-# In[3]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
 
 ax.semilogx(phi, f, '-k', linewidth=2, label=r'$D_j=1\times10^{-3},D_k=1\times10^{-2}$')
 ax.plot([Dj, Dk], np.interp([Dj, Dk], phi, f), 'ok', markersize=10)
@@ -57,6 +53,8 @@ ax.set_xlabel(r'$\phi$', fontsize=20)
 ax.set_ylabel(r'$(v^{D_j}-v^{D_k})/(v^\ell-v^s)$', fontsize=20)
 ax.legend(fontsize=15)
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 9.1", fontsize=20)
 
 plt.show()
 
@@ -75,9 +73,9 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Figure below plots the closed system evolution of the uranium-series decay chain under melting only.
+# Figure 9.2 below plots the closed system evolution of the uranium-series decay chain under melting only.
 
-# In[4]:
+# In[3]:
 
 
 fig, ax = plt.subplots()
@@ -111,6 +109,8 @@ ax.set_ylabel(r'$c^\ell_j/c^s_j\vert_0$', fontsize=20)
 ax.legend(handles=lines, labels=['U', 'Th', 'Ra'],loc='upper right', fontsize=13)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
+fig.supxlabel("Figure 9.2a", fontsize=20)
+
 plt.show()
 
 
@@ -125,9 +125,9 @@ plt.show()
 # \end{equation}
 # $$
 # 
-# Figure below plots the closed system evolution of the uranium-series decay chain under ingrowth only.
+# Figure 9.2b below plots the closed system evolution of the uranium-series decay chain under ingrowth only.
 
-# In[5]:
+# In[4]:
 
 
 def eigenvectors(lamb_):
@@ -154,8 +154,11 @@ def eigenvectors(lamb_):
     return V, iV
 
 
-# In[6]:
+# In[5]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 lambda_ = np.asarray([1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], dtype=np.float128)
 D = np.asarray([0.0086, 0.0086, 0.0065, 0.0005], dtype=np.float128)
@@ -173,13 +176,6 @@ expmLd = np.asarray([np.diag(eLd) for eLd in expmLd])
 al = np.asarray([np.dot(np.dot(np.dot(V, eLd), Vi), al0) for eLd in expmLd])
 lines = []
 
-
-# In[7]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
-
 for ali, lstyi, lambdai, labli, alvi in zip(al.transpose(), lsty, lambda_, labl, alv):
     lines.append(plt.loglog(t, ali, 'k', linewidth=2, linestyle=lstyi)[0])
     ax.plot([np.log(2.)/lambdai, np.log(2.)/lambdai], [1e-10, 1e10], ':k')
@@ -196,6 +192,8 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 ax.legend(handles=lines, 
           labels=['$^{238}$U', '$^{234}$U', '$^{230}$Th', '$^{226}$Ra'], 
           loc='upper right', fontsize=15)
+
+fig.supxlabel("Figure 9.2b", fontsize=20)
 
 plt.show()
 
@@ -216,10 +214,13 @@ plt.show()
 # 
 # #### Slow melting: $\mathcal{G}=\frac{1}{100} D_\textrm{Th} \big/ \tau^{(1/2)}_\textrm{Th}$
 # 
-# Figure below plots evolution for a slow melting rate, in which activity ratios go to secular equilibrium by ingrowth.
+# Figure 9.3a below plots evolution for a slow melting rate, in which activity ratios go to secular equilibrium by ingrowth.
 
-# In[8]:
+# In[6]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 Dtag = ['',r'D_{U}',r'D_{Th}',r'D_{Ra}']
 Ttag = ['','',r'\tau^{(1/2)}_{(230,Th)}',r'\tau^{(1/2)}_{(226,Ra)}']
@@ -247,13 +248,6 @@ al = np.asarray([np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)]
 alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 
-
-# In[9]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
-
 for i in np.arange(2, len(lambda_)):
     lines.append(plt.loglog(t, al[:, i-1]/al[:, i], 'k', linewidth=3, linestyle=lsty[i-2])[0])
     ax.plot([np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], [1e-10, 1e10], 
@@ -275,15 +269,20 @@ ax.tick_params(axis='both', which='major', labelsize=13)
 ax.legend(handles=lines, loc='center right', fontsize=15,
            labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$'])
 
+fig.supxlabel("Figure 9.3a", fontsize=20)
+
 plt.show()
 
 
 # #### Fast melting: $\mathcal{G}=100 D_\textrm{Ra} \big/ \tau_\textrm{Ra}^{(1/2)}$
 # 
-# Figure below plots evolution for a fast melting rate. Activity ratios go to secular equilibrium by dilution back to the activities of the solid (which were in secular equilibrium initially).
+# Figure 9.3b below plots evolution for a fast melting rate. Activity ratios go to secular equilibrium by dilution back to the activities of the solid (which were in secular equilibrium initially).
 
-# In[10]:
+# In[7]:
 
+
+fig, ax = plt.subplots()
+fig.set_size_inches(9.0, 9.0)
 
 Dtag = ['',r'D_{U}',r'D_{Th}',r'D_{Ra}']
 Ttag = ['','',r'\tau^{(1/2)}_{(230,Th)}',r'\tau^{(1/2)}_{(226,Ra)}']
@@ -311,13 +310,6 @@ al = np.asarray([np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)]
 alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 
-
-# In[11]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
-
 for i in np.arange(2, len(lambda_)):
     lines.append(plt.loglog(t, al[:, i-1]/al[:, i], 'k', linewidth=3, linestyle=lsty[i-2])[0])
     ax.plot([np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], [1e-10, 1e10], 
@@ -338,6 +330,8 @@ ax.set_xlabel(r'$\mathcal{G}t$', fontsize=20)
 ax.legend(handles=lines, loc='center left', fontsize=15,
            labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$'])
 ax.tick_params(axis='both', which='major', labelsize=13)
+
+fig.supxlabel("Figure 9.3b", fontsize=20)
 
 plt.show()
 

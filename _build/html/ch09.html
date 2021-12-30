@@ -334,24 +334,19 @@
   \frac{\por\liq(\dico_k-\dico_j)}{(\por\liq+\dico_j)(\por\liq+\dico_k)}.
 \end{equation}
 \]</div>
-<p>The curve is plotted for two sets of <span class="math notranslate nohighlight">\(D_j,D_k\)</span>. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.</p>
+<p>The curve is plotted in Figure 9.1 for two sets of <span class="math notranslate nohighlight">\(D_j,D_k\)</span>. Note the speed difference between the two trace elements is plotted as a fraction of the speed difference between liquid and solid.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dj</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">Dj</span> <span class="o">=</span> <span class="mf">1e-3</span>
 <span class="n">Dk</span> <span class="o">=</span> <span class="mf">1e-2</span>
 <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="p">(</span><span class="n">Dk</span><span class="o">-</span><span class="n">Dj</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">Dj</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">Dk</span><span class="p">)</span>
 <span class="n">Djs</span> <span class="o">=</span> <span class="mf">2e-3</span>
 <span class="n">Dks</span> <span class="o">=</span> <span class="mf">0.5e-2</span>
 <span class="n">fs</span>  <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="p">(</span><span class="n">Dks</span><span class="o">-</span><span class="n">Djs</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">Djs</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">Dks</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$D_j=1\times10^{-3},D_k=1\times10^{-2}$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">Dj</span><span class="p">,</span> <span class="n">Dk</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">([</span><span class="n">Dj</span><span class="p">,</span> <span class="n">Dk</span><span class="p">],</span> <span class="n">phi</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;ok&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -367,12 +362,14 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 9.1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch09_4_0.png" src="_images/ch09_4_0.png" />
+<img alt="_images/ch09_3_0.png" src="_images/ch09_3_0.png" />
 </div>
 </div>
 </div>
@@ -389,7 +386,7 @@
   {\dico_j + (1-\dico_j)\boxmeltrate t}.
 \end{equation}
 \]</div>
-<p>Figure below plots the closed system evolution of the uranium-series decay chain under melting only.</p>
+<p>Figure 9.2 below plots the closed system evolution of the uranium-series decay chain under melting only.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -423,12 +420,14 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;Th&#39;</span><span class="p">,</span> <span class="s1">&#39;Ra&#39;</span><span class="p">],</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 9.2a&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch09_6_0.png" src="_images/ch09_6_0.png" />
+<img alt="_images/ch09_5_0.png" src="_images/ch09_5_0.png" />
 </div>
 </div>
 </div>
@@ -442,7 +441,7 @@
   \actvec\liq(t) = \eigenvecs ~ \e^{\ddecaymatrix t} ~ \eigenvecs^{-1} ~ \actvec\liq\vert_0.
 \end{equation}
 \]</div>
-<p>Figure below plots the closed system evolution of the uranium-series decay chain under ingrowth only.</p>
+<p>Figure 9.2b below plots the closed system evolution of the uranium-series decay chain under ingrowth only.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eigenvectors</span><span class="p">(</span><span class="n">lamb_</span><span class="p">):</span>
@@ -473,7 +472,10 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.5e-10</span><span class="p">,</span> <span class="mf">2.83e-6</span><span class="p">,</span> <span class="mf">9.19e-6</span><span class="p">,</span> <span class="mf">4.33e-4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">lambda_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.5e-10</span><span class="p">,</span> <span class="mf">2.83e-6</span><span class="p">,</span> <span class="mf">9.19e-6</span><span class="p">,</span> <span class="mf">4.33e-4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">)</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0086</span><span class="p">,</span> <span class="mf">0.0086</span><span class="p">,</span> <span class="mf">0.0065</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">)</span>
 <span class="n">lsty</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">]</span>
 <span class="n">labl</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$\tau_{1/2}^{(238U)}$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$\tau_{1/2}^{(234U)}$&#39;</span><span class="p">,</span>
@@ -488,14 +490,6 @@
 <span class="n">expmLd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eLd</span><span class="p">)</span> <span class="k">for</span> <span class="n">eLd</span> <span class="ow">in</span> <span class="n">expmLd</span><span class="p">])</span>
 <span class="n">al</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">eLd</span><span class="p">),</span> <span class="n">Vi</span><span class="p">),</span> <span class="n">al0</span><span class="p">)</span> <span class="k">for</span> <span class="n">eLd</span> <span class="ow">in</span> <span class="n">expmLd</span><span class="p">])</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ali</span><span class="p">,</span> <span class="n">lstyi</span><span class="p">,</span> <span class="n">lambdai</span><span class="p">,</span> <span class="n">labli</span><span class="p">,</span> <span class="n">alvi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">al</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">lsty</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">labl</span><span class="p">,</span> <span class="n">alv</span><span class="p">):</span>
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ali</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">lstyi</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
@@ -514,12 +508,14 @@
           <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;$^</span><span class="si">{238}</span><span class="s1">$U&#39;</span><span class="p">,</span> <span class="s1">&#39;$^</span><span class="si">{234}</span><span class="s1">$U&#39;</span><span class="p">,</span> <span class="s1">&#39;$^</span><span class="si">{230}</span><span class="s1">$Th&#39;</span><span class="p">,</span> <span class="s1">&#39;$^</span><span class="si">{226}</span><span class="s1">$Ra&#39;</span><span class="p">],</span> 
           <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 9.2b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch09_10_0.png" src="_images/ch09_10_0.png" />
+<img alt="_images/ch09_8_0.png" src="_images/ch09_8_0.png" />
 </div>
 </div>
 </div>
@@ -537,10 +533,13 @@
 <p>The activities are plotted below in terms of parent/daughter isotope ratios as a function of <span class="math notranslate nohighlight">\(\mathcal{G} t\)</span>, which corresponds to <span class="math notranslate nohighlight">\(F\)</span> for values up to unity (at which <span class="math notranslate nohighlight">\(F\)</span> is capped). Vertical lines mark key time-scales for ingrowth and melting. Horizontal lines mark the <span class="math notranslate nohighlight">\(D\)</span> ratios of parent–daughter pairs that control the initial elemental fractionation (for small <span class="math notranslate nohighlight">\(F\)</span>).</p>
 <div class="section" id="slow-melting-mathcal-g-frac-1-100-d-textrm-th-big-tau-1-2-textrm-th">
 <h4>Slow melting: <span class="math notranslate nohighlight">\(\mathcal{G}=\frac{1}{100} D_\textrm{Th} \big/ \tau^{(1/2)}_\textrm{Th}\)</span><a class="headerlink" href="#slow-melting-mathcal-g-frac-1-100-d-textrm-th-big-tau-1-2-textrm-th" title="Permalink to this headline">¶</a></h4>
-<p>Figure below plots evolution for a slow melting rate, in which activity ratios go to secular equilibrium by ingrowth.</p>
+<p>Figure 9.3a below plots evolution for a slow melting rate, in which activity ratios go to secular equilibrium by ingrowth.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dtag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{U}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Th}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Ra}</span><span class="s1">&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">Dtag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{U}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Th}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Ra}</span><span class="s1">&#39;</span><span class="p">]</span>
 <span class="n">Ttag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;\tau^{(1/2)}_{(230,Th)}&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;\tau^{(1/2)}_{(226,Ra)}&#39;</span><span class="p">]</span>
 
 <span class="n">Ttag_height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">)</span>
@@ -565,14 +564,6 @@
 <span class="n">al</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">VeVi</span><span class="p">,</span> <span class="n">as0</span><span class="o">/</span><span class="p">(</span><span class="n">D</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">D</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">VeVi</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">VeLdVi</span><span class="p">,</span> <span class="n">F</span><span class="p">)])</span>
 <span class="n">alb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">as0</span><span class="o">/</span><span class="p">(</span><span class="n">D</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">D</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">F</span><span class="p">])</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lambda_</span><span class="p">)):</span>
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">al</span><span class="p">[:,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">al</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">lsty</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
@@ -595,21 +586,26 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
            <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$a^\ell_</span><span class="si">{U}</span><span class="s1"> /a^\ell_</span><span class="si">{Th}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$a^\ell_</span><span class="si">{Th}</span><span class="s1">/a^\ell_</span><span class="si">{Ra}</span><span class="s1">$&#39;</span><span class="p">])</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 9.3a&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch09_13_0.png" src="_images/ch09_13_0.png" />
+<img alt="_images/ch09_10_0.png" src="_images/ch09_10_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="fast-melting-mathcal-g-100-d-textrm-ra-big-tau-textrm-ra-1-2">
 <h4>Fast melting: <span class="math notranslate nohighlight">\(\mathcal{G}=100 D_\textrm{Ra} \big/ \tau_\textrm{Ra}^{(1/2)}\)</span><a class="headerlink" href="#fast-melting-mathcal-g-100-d-textrm-ra-big-tau-textrm-ra-1-2" title="Permalink to this headline">¶</a></h4>
-<p>Figure below plots evolution for a fast melting rate. Activity ratios go to secular equilibrium by dilution back to the activities of the solid (which were in secular equilibrium initially).</p>
+<p>Figure 9.3b below plots evolution for a fast melting rate. Activity ratios go to secular equilibrium by dilution back to the activities of the solid (which were in secular equilibrium initially).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dtag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{U}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Th}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Ra}</span><span class="s1">&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+
+<span class="n">Dtag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{U}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Th}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;D_</span><span class="si">{Ra}</span><span class="s1">&#39;</span><span class="p">]</span>
 <span class="n">Ttag</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;\tau^{(1/2)}_{(230,Th)}&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;\tau^{(1/2)}_{(226,Ra)}&#39;</span><span class="p">]</span>
 
 <span class="n">Ttag_height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">)</span>
@@ -634,14 +630,6 @@
 <span class="n">al</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">VeVi</span><span class="p">,</span> <span class="n">as0</span><span class="o">/</span><span class="p">(</span><span class="n">D</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">D</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">VeVi</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">VeLdVi</span><span class="p">,</span> <span class="n">F</span><span class="p">)])</span>
 <span class="n">alb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">as0</span><span class="o">/</span><span class="p">(</span><span class="n">D</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">D</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">F</span><span class="p">])</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lambda_</span><span class="p">)):</span>
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">al</span><span class="p">[:,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">al</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">lsty</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
@@ -664,12 +652,14 @@
            <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$a^\ell_</span><span class="si">{U}</span><span class="s1"> /a^\ell_</span><span class="si">{Th}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$a^\ell_</span><span class="si">{Th}</span><span class="s1">/a^\ell_</span><span class="si">{Ra}</span><span class="s1">$&#39;</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
+<span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 9.3b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ch09_16_0.png" src="_images/ch09_16_0.png" />
+<img alt="_images/ch09_12_0.png" src="_images/ch09_12_0.png" />
 </div>
 </div>
 </div>

@@ -192,7 +192,7 @@ def SolitaryWaveGenerator(Amplitude, z, z0):
     return f
 
 
-# Figure below plots the error $\error$ versus number of nodes $N_z$ for numerical solutions of the Compaction Equation $\eqref{eq:num-cmp-eqn}$. The solid line marks the error for the finite difference method $\eqref{eq:num-cmpeqn-stencil}$. The dashed line marks the error for the finite element method. The analytical solution is shown in chapter 6.
+# Figure 14.2 below plots the error $\error$ versus number of nodes $N_z$ for numerical solutions of the Compaction Equation $\eqref{eq:num-cmp-eqn}$. The solid line marks the error for the finite difference method $\eqref{eq:num-cmpeqn-stencil}$. The dashed line marks the error for the finite element method. The analytical solution is shown in chapter 6.
 
 # In[5]:
 
@@ -245,6 +245,9 @@ plt.text(par.ni[5], 190*np.power(par.ni[6], -2), r'slope$=-2$',
 plt.xlim(10.0, 3.e4)
 plt.ylim(1.e-8, 1.0)
 leg = plt.legend(handles=[p1, p2], labels=['finite difference', 'finite element'])
+
+fig.supxlabel("Figure 14.2", fontsize=20)
+
 plt.show()
 
 
@@ -351,7 +354,7 @@ class PAR:
         self.A_phi = a_phi
 
 
-# Figure below plots the manufactured solution, computed using equations $\eqref{eq:num-manufac-solution1}$-$\eqref{eq:num-manufac-solution4}$, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. __(a)__ The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. __(b)__ The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. __(c)__ The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.
+# Figure 14.4 below plots the manufactured solution, computed using equations $\eqref{eq:num-manufac-solution1}$-$\eqref{eq:num-manufac-solution4}$, for $m=2$, $\psi^*=\scalarpotential^*=1$, and $\phi^*=0.1$. All quantities are dimensionless. The pressure $\pres_\manufac$ is not shown. __(a)__ The shear potential $\psi_\manufac$ is shown in grayscale; vectors illustrate $\Curl\psi_\manufac\zhat$, the incompressible part of the flow. __(b)__ The compaction potential $\scalarpotential_\manufac$ is shown in grayscale; vectors illustrate $\Grad\scalarpotential_\manufac$, the compaction part of the flow. __(c)__ The porosity $\phi_\manufac$ is shown in grayscale; vectors illustrate the total solid flow field $\vel\sol_\manufac$.
 
 # In[10]:
 
@@ -394,6 +397,8 @@ ax[2].quiver(X[0::ss, 0::ss], Y[0::ss, 0::ss], Vx[0::ss, 0::ss], Vy[0::ss, 0::ss
 ax[2].text(0.02, 0.02, '(c)', fontsize=24, verticalalignment='bottom', horizontalalignment='left')
 ax[2].set_xlabel('$x$', fontsize=24)
 ax[2].set_xticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
+
+fig.supxlabel("Figure 14.4", fontsize=20)
 
 plt.show()
 
@@ -679,7 +684,7 @@ def SolveEquationsFiniteDifference(phi, dx, par):
     return P, Vx, Vy
 
 
-# Figure below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system $\eqref{eq:num_mfcsol_gov_compaction}$-$\eqref{eq:num_mfcsol_gov_stokes}$. The solid line marks the velocity error; the dashed line marks the pressure error.
+# Figure 14.7 below plots the error $\error$ versus number of nodes $\sqrt{N}$ along one direction. Solutions are obtained by finite-difference discretisation of the Stokes/Darcy system $\eqref{eq:num_mfcsol_gov_compaction}$-$\eqref{eq:num_mfcsol_gov_stokes}$. The solid line marks the velocity error; the dashed line marks the pressure error.
 
 # In[15]:
 
@@ -732,5 +737,6 @@ ax.text(40.0, 0.01, 'slope$=-2$',
 ax.set_xlim(5.0, 100.0)
 ax.set_ylim(1.e-4, 1.0)
 ax.tick_params(axis='both', labelsize='large')
+f.supxlabel("Figure 14.7", fontsize=20)
 plt.show()
 
