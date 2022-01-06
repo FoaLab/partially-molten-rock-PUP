@@ -31,52 +31,6 @@ Theta = 30.0  # the dihedral angle
 
 # Interfaces oriented according to angles $\Theta_k$ and interfacial tensions $\sigma_k$, as shown in Figure 5.2a.
 
-# In[3]:
-
-
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
-
-theta_3_rad = Theta * np.pi / 180. / 2.0
-thre5_rad = (5. + Theta) * np.pi / 180. / 2.0
-thre10_rad = (12. + Theta) * np.pi / 180. / 2.0
-
-factor = lambda t: 0.05 + (0.0 if t > 80. else 0.5*(80. - t)/80.)
-
-ct = np.cos(theta_3_rad)
-st = np.sin(theta_3_rad)
-x = [-1.0, 0.0, ct, 0.0, ct]
-y = [0.0, 0.0, st, 0.0, -st]
-
-ax.plot(x, y, '-k', linewidth=2)
-ax.plot(x, y, 'bo')
-ax.set_xlim(-1.01, 1.01)
-ax.set_ylim(-1.01, 1.01)
-
-ax.annotate(r'$\Theta_1$', xy=[-0.01, 0.08], fontsize=20)
-ax.annotate(r'$\Theta_2$', xy=[-0.01, -0.1], fontsize=20)
-ax.annotate(r'$\Theta_3$', xy=[factor(Theta), -0.02], fontsize=20)
-
-ax.text(np.cos(thre10_rad), -np.sin(thre10_rad), r'$\sigma_1$', 
-        horizontalalignment='center', verticalalignment='center', fontsize=20)
-ax.text(np.cos(thre5_rad), -np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=-0.5*Theta, 
-        horizontalalignment='center', verticalalignment='center')
-
-ax.text(np.cos(thre10_rad), np.sin(thre10_rad), r'$\sigma_2$', fontsize=20, 
-        horizontalalignment='center', verticalalignment='center')
-ax.text(np.cos(thre5_rad), np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=0.5*Theta, 
-        horizontalalignment='center', verticalalignment='center')
-
-ax.annotate(r'$\sigma_3$', xy=(-1.0, 0.1), fontsize=20, rotation=0.0)
-ax.annotate(r'$\Longleftarrow$', xy=(-1.0, 0.01), fontsize=20, rotation=0.0)
-
-ax.set_axis_off()
-
-fig.supxlabel("Figure 5.2a", fontsize=20)
-
-plt.show()
-
-
 # We can represent the upper liquid--solid interface $y(x)$ as a circular arc-segment with its centre at $(0,y_0)$ and a radius $r_1$,
 # 
 # $$
@@ -114,12 +68,51 @@ plt.show()
 # Then, by geometry, $y_0 = y_\Lambda + \text{sgn}(y'_\Lambda)\sqrt{r_1^2 - x_\Lambda^2}$. These values and equation $\eqref{eq:pore-zero-curvature_y}$ are used to plot the upper interface in Figure 5.2b. The other two interfaces are
 # obtained by rotating the upper interface by $\pm120^\circ$ about the origin.
 
-# In[4]:
+# In[3]:
 
 
-fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig, ax = plt.subplots(1, 2)
+fig.set_size_inches(18.0, 9.0)
 
+# Figure 5.2 a
+
+theta_3_rad = Theta * np.pi / 180. / 2.0
+thre5_rad = (5. + Theta) * np.pi / 180. / 2.0
+thre10_rad = (12. + Theta) * np.pi / 180. / 2.0
+
+factor = lambda t: 0.05 + (0.0 if t > 80. else 0.5*(80. - t)/80.)
+
+ct = np.cos(theta_3_rad)
+st = np.sin(theta_3_rad)
+x = [-1.0, 0.0, ct, 0.0, ct]
+y = [0.0, 0.0, st, 0.0, -st]
+
+ax[0].plot(x, y, '-k', linewidth=2)
+ax[0].plot(x, y, 'bo')
+ax[0].set_xlim(-1.01, 1.01)
+ax[0].set_ylim(-1.01, 1.01)
+
+ax[0].annotate(r'$\Theta_1$', xy=[-0.01, 0.08], fontsize=20)
+ax[0].annotate(r'$\Theta_2$', xy=[-0.01, -0.1], fontsize=20)
+ax[0].annotate(r'$\Theta_3$', xy=[factor(Theta), -0.02], fontsize=20)
+
+ax[0].text(np.cos(thre10_rad), -np.sin(thre10_rad), r'$\sigma_1$', 
+           horizontalalignment='center', verticalalignment='center', fontsize=20)
+ax[0].text(np.cos(thre5_rad), -np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=-0.5*Theta, 
+           horizontalalignment='center', verticalalignment='center')
+
+ax[0].text(np.cos(thre10_rad), np.sin(thre10_rad), r'$\sigma_2$', fontsize=20, 
+           horizontalalignment='center', verticalalignment='center')
+ax[0].text(np.cos(thre5_rad), np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=0.5*Theta, 
+           horizontalalignment='center', verticalalignment='center')
+ax[0].text(0.0, -1.0, '(a)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+
+ax[0].annotate(r'$\sigma_3$', xy=(-1.0, 0.1), fontsize=20, rotation=0.0)
+ax[0].annotate(r'$\Longleftarrow$', xy=(-1.0, 0.01), fontsize=20, rotation=0.0)
+
+ax[0].set_axis_off()
+
+# Figure 5.2 b
 theta_rad = Theta * np.pi / 180.
 beta = 120.*np.pi/180./2.
 ysh = 0.2
@@ -135,43 +128,45 @@ RX = np.fliplr(np.dot(R, X))
 RRX = np.fliplr(np.dot(np.linalg.inv(R), X))
 x = np.concatenate((np.fliplr(RX)[0, :], x, np.fliplr(RRX)[0, :]), axis=0)
 y = np.concatenate((np.fliplr(RX)[1, :], y, np.fliplr(RRX)[1, :]), axis=0)
-ax.plot(x, y+ysh, '--k', linewidth=2)
+ax[1].plot(x, y+ysh, '--k', linewidth=2)
 
 cT = np.cos(beta) 
 sT = np.sin(beta)
 ss = np.array(((0.0, 0.0), (-1.0, np.amin(y))))
-ax.plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
+ax[1].plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
 ss = np.dot(np.linalg.inv(R), ss)
-ax.plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
+ax[1].plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
 ss = np.dot(np.linalg.inv(R), ss)
-ax.plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
+ax[1].plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
 
-ax.plot([0, 0.5], [ysh, ysh], '-b', linewidth=0.5)
-ax.plot([0, 0], [ysh, 0.5+ysh], '-b', linewidth=0.5)
-ax.annotate(r'$x$', xy=(0.65, ysh), fontsize=20, verticalalignment='top', horizontalalignment='left')
-ax.annotate(r'$y$', xy=(0.0, 0.65+ysh), fontsize=20, verticalalignment='bottom', horizontalalignment='left')
+ax[1].plot([0, 0.5], [ysh, ysh], '-b', linewidth=0.5)
+ax[1].plot([0, 0], [ysh, 0.5+ysh], '-b', linewidth=0.5)
+ax[1].annotate(r'$x$', xy=(0.65, ysh), fontsize=20, verticalalignment='top', horizontalalignment='left')
+ax[1].annotate(r'$y$', xy=(0.0, 0.65+ysh), fontsize=20, verticalalignment='bottom', horizontalalignment='left')
 
 f = 0.25
 vx = [-f*np.sin(theta_rad/2), 0.0, f*np.sin(theta_rad/2)]
 vy = [f*np.cos(theta_rad/2) + np.amin(y) +ysh, np.amin(y) + ysh, f*np.cos(theta_rad/2) + np.amin(y) + ysh]
-ax.plot(vx, vy, '-r', linewidth=0.6)
-ax.annotate(r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], verticalalignment='bottom',
+ax[1].plot(vx, vy, '-r', linewidth=0.6)
+ax[1].annotate(r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], verticalalignment='bottom',
             horizontalalignment='center', fontsize=20)
 
-ax.annotate(r'$\ell s$', xy=(-0.2, ysh), fontsize=20, rotation=-55., 
+ax[1].annotate(r'$\ell s$', xy=(-0.2, ysh), fontsize=20, rotation=-55., 
             verticalalignment='center', horizontalalignment='right')
-ax.annotate(r'$ss$', xy=(0.5, 0.33+ysh), fontsize=20, rotation=30., 
+ax[1].annotate(r'$ss$', xy=(0.5, 0.33+ysh), fontsize=20, rotation=30., 
             verticalalignment='center', horizontalalignment='right')
-ax.annotate(r'$ss$', xy=(-0.5, 0.33+ysh), fontsize=20, rotation=-30., 
+ax[1].annotate(r'$ss$', xy=(-0.5, 0.33+ysh), fontsize=20, rotation=-30., 
             verticalalignment='center', horizontalalignment='left')
-ax.annotate(r'$ss$', xy=(-0.01, -0.5+ysh), fontsize=20, rotation=90., 
+ax[1].annotate(r'$ss$', xy=(-0.01, -0.5+ysh), fontsize=20, rotation=90., 
             verticalalignment='bottom', horizontalalignment='right')
 
-ax.set_xlim(-1.01, 1.01)
-ax.set_ylim(-1.01, 1.01)
-ax.set_axis_off()
+ax[1].text(0.0, -1.0, '(b)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
 
-fig.supxlabel("Figure 5.2b", fontsize=20)
+ax[1].set_xlim(-1.01, 1.01)
+ax[1].set_ylim(-1.01, 1.01)
+ax[1].set_axis_off()
+
+fig.supxlabel("Figure 5.2", fontsize=20)
 
 plt.show()
 
@@ -189,7 +184,7 @@ plt.show()
 # 
 # Equation $\eqref{eq:permeability-simple}$ is plotted in Figure 5.3 below for two values of n. Also shown are permeabilities computed on the basis of simulation of ow through pores of a measured pore geometry.
 
-# In[5]:
+# In[4]:
 
 
 phi = np.logspace(-3.0, 0.0, 1000, endpoint=False)
@@ -217,7 +212,7 @@ with open('Data_Permeability_Miller2015.csv', mode='r') as csv_file:
 data = np.asarray([[float(l) for l in l_] for l_ in lst[1:]])
 
 
-# In[6]:
+# In[5]:
 
 
 fig, ax = plt.subplots()
