@@ -586,14 +586,13 @@ ax0.legend()
 ax1 = plt.subplot(gs[1])
 ax1.imshow(np.flipud(P), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
 ax1.contour(X, Z, phi, levels=np.linspace(-1, 1, 20))
-nlines = 72
+nlines = 24
 h = 2.0 * lambda_/(nlines+1.0)
 seed = np.zeros((nlines, 2))
-#seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
-seed[:, 0] = np.linspace(0., 2.0*lambda_, nlines)
-seed[:, 1] = 0.001
+seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
+seed[:, 1] = 0.15
 ax1.streamplot(X, Z, np.roll(U, 250, axis=1), np.roll(W, 250, axis=1), start_points=seed, 
-               integration_direction='forward', density=(90, 60),
+               integration_direction='both', density=(90, 60),
                color=[0.8, 0.8, 0.8], arrowstyle='-')
 ax1.set_xlabel(r'$x/\lambda^*$', fontsize=24)
 ax1.set_xlim(0, 2.*lambda_)
@@ -649,8 +648,7 @@ for vals in [10., 100., 1000.]:
 
 
 f, ax = plt.subplots()
-zoom = 2.0
-f.set_size_inches(4.0 * zoom, 4.9 * zoom)
+f.set_size_inches(9.0, 9.0)
 f.set_facecolor('w')
 
 for vals, gray in zip([10., 100., 1000.], [0.8, 0.4, 0.0]):
@@ -708,7 +706,7 @@ class PAR_MOD:
 
         
 def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
-    K = (1 + k**2 / Da / Pe).astype(np.clongdouble)
+    K = (1 + k*k / Da / Pe).astype(np.clongdouble)
     b = np.pi
     # growth rate - upper branch
     full = np.zeros((k.shape[0], 2), dtype=np.clongdouble)
@@ -746,9 +744,9 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     a = 0.5 * (n * K / S + s.smax * s.kmax ** 2 / Da) / (s.smax * K - n / Da / S)
     m = a + 1j * np.pi
     lambda_ = 2 * np.pi / s.kmax
-    x = np.linspace(0, 2 * lambda_, 1000)
+    x = np.linspace(0, 2 * lambda_, 3000)
     hx = x[2]-x[1]
-    y = np.linspace(0, 1, 1000)
+    y = np.linspace(0, 1, 3000)
     hy = y[2]-y[1]
     s.X, s.Y = np.meshgrid(x, y)
     s.P = np.exp(a * s.Y) * np.sin(np.pi * s.Y) * np.sin(s.kmax * s.X)
@@ -785,15 +783,16 @@ for s_ in S:
 # In[21]:
 
 
-zoom = 2.0
-fig = plt.figure(figsize=(zoom*9.7, zoom*5.0))
+fig = plt.figure(figsize=(21., 9.))
 gs = gridspec.GridSpec(1, 4, width_ratios=[6, 3, 2, 1])
 
 ax0 = plt.subplot(gs[0])
+
 for s_, lstyi, S_ in zip(s, {'--k', '-k', '-.k', ':k'}, S):
     ax0.semilogx(s_.k, s_.s, lstyi, linewidth=2, 
                  label=r'$\mathcal{S}=' + str(np.real(S_).astype(np.float32)) + '$')
     ax0.plot(s_.kmax, s_.smax, '*k', linewidth=1, markersize=10)
+
 ax0.set_xlabel(r'$k$', fontsize=24)
 ax0.set_xlim(0.5, 8000)
 ax0.set_xticks(ticks=(1.e0, 1.e1, 1.e2, 1.e3))
@@ -809,19 +808,22 @@ lambda_ = np.float32(AR[0])
 ax1 = plt.subplot(gs[1])
 ax1.imshow(np.real(s[2].P).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
 ax1.set_ylabel(r'$y$', fontsize=24)
-nlines = 18
+nlines = 48
 h = 2 * lambda_ / (nlines + 1)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5 * h, 2.0 * lambda_ - 0.5 * h, nlines)
-seed[:, 1] = np.ones_like(seed[:, 0]) / 1000.0
+seed[:, 1] = 0.15
 epsilon = 3e-3
 U = epsilon * np.real(s[2].U).astype(np.float64)
-W = 1.0 + epsilon * np.real(s[2].W).astype(np.float64)
-x = np.linspace(0, 2 * lambda_, 1000)
-y = np.linspace(0, 1, 1000)
+W = 1. + epsilon * np.real(s[2].W).astype(np.float64)
+x = np.linspace(0., 2. * lambda_, 3000)
+y = np.linspace(0., 1., 3000)
 X, Y = np.meshgrid(x, y)
-ax1.streamplot(X, Y, U, W, start_points=seed,
-               integration_direction='forward', color=[0.8, 0.8, 0.8], linewidth=1)
+
+ax1.streamplot(X, Y, np.roll(U, 250, axis=1), np.roll(W, 250, axis=1), start_points=seed, 
+               integration_direction='both', density=(90, 60),
+               color=[0.8, 0.8, 0.8], arrowstyle='-')
+
 ax1.set_xticks((0, AR[0], 2*AR[0]))
 ax1.set_xticklabels((0, 1, 2))
 ax1.text(-0.01, 0.01, '(b)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
@@ -830,8 +832,8 @@ ax2 = plt.subplot(gs[2])
 lambda_ = np.float32(AR[1])
 ax2 = plt.subplot(gs[2])
 ax2.imshow(np.flipud(np.real(s[1].P)).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
-x = np.linspace(0, 2 * lambda_, 1000)
-y = np.linspace(0, 1, 1000)
+x = np.linspace(0, 2 * lambda_, 3000)
+y = np.linspace(0, 1, 3000)
 X, Y = np.meshgrid(x, y)
 ax2.contour(X, Y, np.real(s[1].phi).astype(np.float32), levels=np.linspace(0, 1, 12))
 ax2.set_xticks((0, lambda_, 2*lambda_))
@@ -1137,4 +1139,10 @@ plt.ylabel('Growth time, Ma', fontsize=18)
 fig.supxlabel("Figure 12.7", fontsize=20)
 
 plt.show()
+
+
+# In[ ]:
+
+
+
 
