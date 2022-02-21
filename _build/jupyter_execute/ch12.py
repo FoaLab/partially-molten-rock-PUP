@@ -259,15 +259,23 @@ def characteristic_polynomial(k, sig, par):
 
 def boundary_condition_matrix(k, m, sig, par): 
     if par.bc_type == 1:
-        M = np.asarray([[1.0, mi, np.exp(mi)] for mi in m]).transpose()
+        M = np.array(
+            [[1.0, mi, np.exp(mi)] for mi in m]
+        ).transpose()
     elif par.bc_type == 2:
-        M = np.asarray([[1.0, mi, mi * np.exp(mi)] for mi in m]).transpose()
+        M = np.array(
+            [[1.0, mi, mi * np.exp(mi)] for mi in m]
+        ).transpose()
     elif par.bc_type == 3:
         q = sig * par.S / par.n
-        M = np.asarray([[q * mi - 1.0, q * mi ** 2 - mi - q * k ** 2, mi * np.exp(mi)] for mi in m]).transpose()
+        M = np.array(
+            [[q * mi - 1.0, q * mi * mi - mi - q * k ** 2, mi * np.exp(mi)] for mi in m]
+        ).transpose()
     else:
-        q = k ** 2 * par.Da / par.DaPe
-        M = np.asarray([[1.0 - par.S * mi, mi ** 2 + q * mi, mi * np.exp(mi)] for mi in m]).transpose()
+        q = k * k * par.Da / par.DaPe
+        M = np.array(
+            [[1.0 - par.S * mi, mi * mi + q * mi, mi * np.exp(mi)] for mi in m]
+        ).transpose()
     return M
 
 
@@ -280,17 +288,20 @@ def zero_by_sigma_or_wavenumber(sig, k, par):
         residual = np.real(m[0]) * np.sin(np.imag(m[0])) + np.imag(m[0]) * np.cos(np.imag(m[0]))
     else:
         detM = det(boundary_condition_matrix(k, m, sig, par))
-        residual = np.real((1.0 - 1.j) * detM)
+        residual = np.real((1. - 1.j) * detM)
     return residual
 
 
 # In[8]:
 
 
+from scipy.linalg import lstsq
+
 def form_eigenfunction(k, sigma, par):
     m = np.roots(characteristic_polynomial(k, sigma, par))
     z = np.linspace(0.0, 1.0, par.nz)
     eig = EIG()
+
     if par.largeDa:
         eig.P = np.exp(np.real(m[0]) * z) * np.sin(np.imag(m[0]) * z)
         eig.P = eig.P / np.max(np.abs(eig.P))
@@ -298,12 +309,18 @@ def form_eigenfunction(k, sigma, par):
         eig.phi = np.power(par.F, -1.0 - par.n) * par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
     else:
         M = boundary_condition_matrix(k, m, sigma, par)
-        subM = M[:, 1::]
+        subM = M[:, 1:]
         b = -M[:, 0]
-        A = np.concatenate((np.asarray([1.0+0.j]), np.linalg.lstsq(subM, b, rcond=None)[0]))
-        eig.P = np.sum(np.asarray([Aj * np.exp(mj * z) for Aj, mj in zip(A, m)]).transpose(), axis=1)
-        Q = np.sum(np.asarray([(mj ** 2 - k ** 2) * Aj * np.exp(mj * z) 
-                               for Aj, mj in zip(A, m)]).transpose(), axis=1)
+        A = (1.+0.j) * np.ones(3)
+        A[1:] = lstsq(subM, b)[0]
+
+        eig.P = np.zeros_like(z, dtype=np.complex128)
+        Q = np.zeros_like(z, dtype=np.complex128)
+        for Aj, mj in zip(A, m):
+            tmp = Aj * np.exp(mj * z)
+            eig.P += tmp
+            Q += (mj * mj - k * k) * tmp
+
         eig.phi = np.power(par.F, -1 - par.n) * par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
     return eig
 
@@ -452,7 +469,7 @@ def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks, verbo
     n = 0  # can n be zero?
     Lk = np.full((1, ), np.inf)  # dictionaries
     s = np.full((1, ), np.inf)
-    m = m = np.full((1, 2), np.inf + 0.j, dtype=complex) if par.largeDa         else np.full((1, 3), np.inf + 0.j, dtype=complex)
+    m = np.full((1, 2), np.inf + 0.j, dtype=complex) if par.largeDa         else np.full((1, 3), np.inf + 0.j, dtype=complex)
 
     for j in [0, 1]:
         fails = 0
@@ -518,7 +535,7 @@ iref = np.argmax(DC_ref.s)
 # In[13]:
 
 
-dpar = par
+dpar = PAR()
 dpar.Da = 10.0
 DC_a = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
 
@@ -526,7 +543,7 @@ DC_a = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
 # In[14]:
 
 
-dpar = par
+dpar = PAR()
 dpar.Da = 100.0
 DC_b = reactive_flow_trace_dispersion_curve(dpar, Lkbounds, sbounds, init_Lks)
 
@@ -544,10 +561,12 @@ P = np.real(np.tile(SA_ref.eig.P, (par.nz, 1)).transpose() * np.exp(1j * k_iref 
 phi = np.real(np.tile(SA_ref.eig.phi, (par.nz, 1)).transpose() * np.exp(1j * k_iref * X))
 epsilon = 3.e-5
 h = 0.1/(par.nz+1.0)
-Px, Pz = np.gradient(P, h, h)
-F = par.F  # F = np.power(1. + par.S * par.M * (1. + par.G), 1./par.n)
-U = epsilon * np.real(np.power(-F,1-par.n) * par.S * Px)
-W = F + epsilon * np.real(F * F * (par.n-1) * phi - np.power(F, 1 - par.n) * par.S * Pz)
+hx = X[0,1] - X[0,0]
+hz =  Z[1,0] - Z[0,0]
+Pz, Px = np.gradient(P, hz, hx)
+F = par.F 
+U = epsilon * np.real(- par.S * Px)
+W = F + epsilon * np.real((par.n-1) * phi - par.S * Pz)
 Chi = s_iref * phi - P
 
 P = np.real(P)
@@ -586,13 +605,13 @@ ax0.legend()
 ax1 = plt.subplot(gs[1])
 ax1.imshow(np.flipud(P), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
 ax1.contour(X, Z, phi, levels=np.linspace(-1, 1, 20))
-nlines = 24
+nlines = 48
 h = 2.0 * lambda_/(nlines+1.0)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
-seed[:, 1] = 0.15
-ax1.streamplot(X, Z, np.roll(U, 250, axis=1), np.roll(W, 250, axis=1), start_points=seed, 
-               integration_direction='both', density=(90, 60),
+seed[:, 1] = 0.001
+ax1.streamplot(X, Z, U, W, start_points=seed, 
+               integration_direction='forward', density=(90, 60),
                color=[0.8, 0.8, 0.8], arrowstyle='-')
 ax1.set_xlabel(r'$x/\lambda^*$', fontsize=24)
 ax1.set_xlim(0, 2.*lambda_)
@@ -744,9 +763,9 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     a = 0.5 * (n * K / S + s.smax * s.kmax ** 2 / Da) / (s.smax * K - n / Da / S)
     m = a + 1j * np.pi
     lambda_ = 2 * np.pi / s.kmax
-    x = np.linspace(0, 2 * lambda_, 3000)
+    x = np.linspace(0, 2 * lambda_, 1000)
     hx = x[2]-x[1]
-    y = np.linspace(0, 1, 3000)
+    y = np.linspace(0, 1, 1000)
     hy = y[2]-y[1]
     s.X, s.Y = np.meshgrid(x, y)
     s.P = np.exp(a * s.Y) * np.sin(np.pi * s.Y) * np.sin(s.kmax * s.X)
@@ -754,7 +773,7 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     dphi_dy = S * ((a ** 2 - np.pi ** 2 - s.kmax ** 2) * s.P + 2 * a * np.pi * tmp) / n
     s.phi = np.cumsum(dphi_dy, axis=0) * hy
 
-    Px, Py = np.gradient(s.P, hx, hy)
+    Py, Px = np.gradient(s.P, hy, hx)
     s.U = -S * Px
     s.W = (n - 1) * s.phi - S * Py
 
@@ -812,16 +831,16 @@ nlines = 48
 h = 2 * lambda_ / (nlines + 1)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5 * h, 2.0 * lambda_ - 0.5 * h, nlines)
-seed[:, 1] = 0.15
+seed[:, 1] = 0.001
 epsilon = 3e-3
 U = epsilon * np.real(s[2].U).astype(np.float64)
 W = 1. + epsilon * np.real(s[2].W).astype(np.float64)
-x = np.linspace(0., 2. * lambda_, 3000)
-y = np.linspace(0., 1., 3000)
+x = np.linspace(0., 2. * lambda_, 1000)
+y = np.linspace(0., 1., 1000)
 X, Y = np.meshgrid(x, y)
 
-ax1.streamplot(X, Y, np.roll(U, 250, axis=1), np.roll(W, 250, axis=1), start_points=seed, 
-               integration_direction='both', density=(90, 60),
+ax1.streamplot(X, Y, U, W, start_points=seed, 
+               integration_direction='forward', density=(90, 60),
                color=[0.8, 0.8, 0.8], arrowstyle='-')
 
 ax1.set_xticks((0, AR[0], 2*AR[0]))
@@ -832,8 +851,8 @@ ax2 = plt.subplot(gs[2])
 lambda_ = np.float32(AR[1])
 ax2 = plt.subplot(gs[2])
 ax2.imshow(np.flipud(np.real(s[1].P)).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
-x = np.linspace(0, 2 * lambda_, 3000)
-y = np.linspace(0, 1, 3000)
+x = np.linspace(0, 2 * lambda_, 1000)
+y = np.linspace(0, 1, 1000)
 X, Y = np.meshgrid(x, y)
 ax2.contour(X, Y, np.real(s[1].phi).astype(np.float32), levels=np.linspace(0, 1, 12))
 ax2.set_xticks((0, lambda_, 2*lambda_))
