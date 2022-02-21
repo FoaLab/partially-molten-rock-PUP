@@ -36,28 +36,36 @@ theta = 30.
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(9., 9.)
 
-x = np.linspace(-1.0, 1.0, 1000)
-y = np.linspace(-1.0, 1.0, 1000)
+x = np.linspace(-1., 1., 1000)
+y = np.linspace(-1., 1., 1000)
 [X, Y] = np.meshgrid(x,y)
 
-k0 = 3.*(2.*np.pi)
+k0 = 3. * 2. * np.pi
 theta_rad = theta * np.pi/180.
-k = np.asarray([k0*np.sin(-theta_rad), k0*np.cos(-theta_rad)])
-z = np.real(np.exp(1.j*(k[0]*X + k[1]*Y)))
+k = np.asarray([k0 * np.sin(-theta_rad), k0 * np.cos(-theta_rad)])
+z = np.real(np.exp(1.j * (k[0] * X + k[1] * Y)))
 
 ax.imshow(z, extent=[-1.5, 1.1, -1.5, 1.1], cmap=plt.get_cmap('Greys'))
 ax.set_xlim(-1.1, 1.1)
 ax.set_ylim(-1.1, 1.1)
 
-ax.plot([-1.1, 1.1], [0.0, 0.0], '-b', linewidth=3)
-ax.plot([0.2, 0.2-2.*np.cos(theta_rad)],[0., 2.*np.sin(theta_rad)], '-r', linewidth=2)
-ax.plot([0.2, 0.2+2.*np.cos(theta_rad)],[0., -2.*np.sin(theta_rad)],'-r', linewidth=2)
+ax.plot([-1.1, 1.1], [0., 0.], '-b', linewidth=3)
+ax.plot(
+    [0.2, 0.2 - 2. * np.cos(theta_rad)],
+    [0., 2. * np.sin(theta_rad)], 
+    '-r', linewidth=2
+)
+ax.plot(
+    [0.2, 0.2 + 2. * np.cos(theta_rad)],
+    [0., -2. * np.sin(theta_rad)],
+    '-r', linewidth=2
+)
 
-ax.text(0.0, 0.0, r'$\theta$', fontsize=20, ha='right', va='bottom')
+ax.text(0., 0., r'$\theta$', fontsize=20, ha='right', va='bottom')
 ax.text(1.15, -0.05, r'$\longrightarrow$', fontsize=30)
-ax.text(1.39, 0.0, r'$x$', fontsize=20)
+ax.text(1.39, 0., r'$x$', fontsize=20)
 ax.text(1.12, -0.015, r'$\longrightarrow$', fontsize=30, rotation=90)
 ax.text(1.12, 0.2, r'$y$', fontsize=20)
 ax.text(1.12, -0.045, r'$\longrightarrow$', fontsize=30, rotation=90-theta)
@@ -90,22 +98,28 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15., 9.)
 
-x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
-y = (2*np.pi/x)/(1.0+2.0*np.pi/x)
+x = 2. * np.pi * np.logspace(-6., 4., 1000)
+y = (2. * np.pi  / x) / (1. + 2. * np.pi / x)
 
 ax.semilogx(x, y, '-k', linewidth=2)
 ax.set_xlim(1e-3, 1e4)
 ax.set_ylim(-0.01, 1.01)
 
-ax.plot([2*np.pi, 2*np.pi], [-0.01, 1.01], ':r')
-ax.text(2*np.pi*1.1, 0.85, r'$l=2\pi\delta_{0}$', rotation=-90, va='bottom', fontsize=20)
+ax.plot([2. * np.pi, 2. * np.pi], [-0.01, 1.01], ':r')
+ax.text(
+    2. * np.pi * 1.1, 0.85, r'$l=2\pi\delta_{0}$', 
+    rotation=-90, va='bottom', fontsize=20
+)
 ax.set_xlabel(r'$l/\delta_{0}$', fontsize=20)
 ax.set_xticks((1e-2, 1e0, 1e2, 1e4))
 plt.gca().xaxis.grid(True, which='minor', linestyle='--')
-ax.set_ylabel(r'$\vert \dot{s}\vert/[2(1-\phi^{(0)})\lambda\dot{\gamma}/\nu^{(0)}_\phi]$', fontsize=20)
-ax.set_yticks((0.0, 0.25, 0.5, 0.75, 1.0))
+ax.set_ylabel(
+    r'$\vert \dot{s}\vert/[2(1-\phi^{(0)})\lambda\dot{\gamma}/\nu^{(0)}_\phi]$', 
+    fontsize=20
+)
+ax.set_yticks((0.0, 0.25, 0.5, 0.75, 1.))
 ax.tick_params(axis='both', which='major', labelsize=13)
 plt.gca().yaxis.grid(True, which='major')
 
@@ -120,10 +134,10 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15.0, 9.0)
 
 x = 2. * np.pi * np.logspace(-6.0, 4.0, 1000)
-y = (2.*np.pi/x)/(1.+2.*np.pi/x)
+y = (2. * np.pi / x)/(1. + 2. * np.pi / x)
 
 ax.loglog(x, y, '-k', linewidth=2)
 ax.set_xlim(1e-3, 1e4)
@@ -132,12 +146,18 @@ ax.set_ylim(1e-3, 1.1)
 ax.set_xlabel(r'$l/\delta_{0}$', fontsize=20)
 ax.set_xticks((1e-2, 1e0, 1e2, 1e4))
 plt.gca().xaxis.grid(True, which='minor', linestyle='--')
-ax.set_ylabel(r'$\vert \dot{s}\vert/[2(1-\phi^{(0)})\lambda\dot{\gamma}/\nu^{(0)}_\phi]$', fontsize=20)
+ax.set_ylabel(
+    r'$\vert \dot{s}\vert/[2(1-\phi^{(0)})\lambda\dot{\gamma}/\nu^{(0)}_\phi]$', 
+    fontsize=20
+)
 ax.set_yticks((1e-3, 1e-2, 1e-1, 1e0))
 plt.gca().yaxis.grid(True, which='major')
 
 ax.plot([2.*np.pi, 2.*np.pi], [1e-10, 10.0], ':r')
-ax.text(2*np.pi*1.1, 0.005, r'$l=2\pi\delta_{0}$', rotation=-90, va='bottom', fontsize=20)
+ax.text(
+    2. * np.pi * 1.1, 0.005, r'$l=2\pi\delta_{0}$', 
+    rotation=-90, va='bottom', fontsize=20
+)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 7.4b", fontsize=20)
@@ -161,7 +181,7 @@ th2 = 20.0
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(9.0, 4.5)
 
 rot = -th2*np.pi/180.
 M = np.asarray(((np.cos(rot), -np.sin(rot)), (np.sin(rot), np.cos(rot))))
@@ -170,8 +190,15 @@ ax.plot(aM[0, :], aM[1, :], '-k', linewidth=3)
 ax.plot([-1., 1.], [-np.sin(rot), -np.sin(rot)], 'k')  # bottom line
 ax.plot([-1., 1.], [0., 0.], '--k')  # middle line
 ax.plot([-1., 1.], [np.sin(rot), np.sin(rot)], 'k')  # top line
-ax.plot([-0.3, 0.3, 0.1], [1.1*np.sin(rot), 1.1*np.sin(rot), 1.2*np.sin(rot)], 'r')  # top red arrow
-ax.plot([0.3, -0.3, -0.1], [-1.1*np.sin(rot), -1.1*np.sin(rot), -1.2*np.sin(rot)], 'r')  # bottom red arrow
+ax.plot(
+    [-0.3, 0.3, 0.1], [1.1*np.sin(rot), 
+    1.1*np.sin(rot), 1.2*np.sin(rot)], 'r'
+)  # top red arrow
+ax.plot(
+    [0.3, -0.3, -0.1], 
+    [-1.1*np.sin(rot), -1.1*np.sin(rot), -1.2*np.sin(rot)], 
+    'r'
+)  # bottom red arrow
 
 al = 0.5 * np.abs(np.sin(rot))
 ahl = 0.05 * np.abs(np.sin(rot))
@@ -179,14 +206,20 @@ av = np.zeros(5 * 2).reshape(2, 5)
 av[0, :] = np.asarray((0., al, al-ahl, al, al-ahl))
 av[1, :] = np.asarray((0., 0., ahl, 0., -ahl))
 rot_90 = (90.-th2)*np.pi/180.
-M = np.asarray(((np.cos(rot_90), -np.sin(rot_90)), (np.sin(rot_90), np.cos(rot_90))))
+M = np.asarray((
+    (np.cos(rot_90), -np.sin(rot_90)), 
+    (np.sin(rot_90),  np.cos(rot_90))
+))
 aM = np.dot(M, av)
 ax.plot(aM[0, :], aM[1, :], '-k')
 ax.text(aM[0, -1], aM[1, -1], r'$\mathbf{k}$', fontsize=20, va='top', ha='left')
 
 ax.set_xlim(-1.0, 1.0)
 ax.set_ylim(-1.0, 1.0)
-ax.text(-0.5*np.abs(np.cos((180.-th2)*np.pi/180.)), 0.04, r'$\theta$', fontsize=20)
+ax.text(
+    -0.5 * np.abs(np.cos((180. - th2) * np.pi / 180.)), 
+    0.04, r'$\theta$', fontsize=20
+)
 ax.text(0.4, 0.05, r'shear plane', fontsize=20)
 
 fig.supxlabel("Figure 7.5a", fontsize=20)
@@ -210,11 +243,13 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15.0, 9.0)
 
 th0 = np.arange(5, 61, 5)*np.pi/180.
 t = np.linspace(0., 3., 1000)
-th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
+th = np.asarray(
+    [np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0]
+)
 
 for th_ in th:
     ax.plot(th_*180/np.pi, t, '-k')
@@ -251,7 +286,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15.0, 9.0)
 
 theta = np.linspace(0., np.pi, 1000)
 
@@ -262,7 +297,10 @@ ax.set_ylim(-1.1, 1.1)
 
 ax.set_xlabel(r'$\theta$, degrees', fontsize=20)
 ax.set_xticks(np.arange(0.0, 180.1, 45.))
-ax.set_ylabel(r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
+ax.set_ylabel(
+    r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', 
+    fontsize=20
+)
 ax.set_yticks(np.arange(-1.0, 1.01, 0.5))
 ax.text(45., 0.5, 'growth', fontsize=20, ha='center', va='bottom')
 ax.text(135., -0.5, 'decay', fontsize=20, ha='center', va='bottom')
@@ -295,7 +333,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15.0, 9.0)
 
 ax.plot([15., 15.], [-2., 2.], ':k')
 n = np.asarray((1, 2, 4, 6))
@@ -310,7 +348,10 @@ ax.set_xlim(0., 180.)
 ax.set_ylim(-1.4, 1.4)
 ax.set_xlabel(r'$\theta$, degrees', fontsize=20)
 ax.set_xticks(np.arange(0.0, 180.1, 45.))
-ax.set_ylabel(r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
+ax.set_ylabel(
+    r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', 
+    fontsize=20
+)
 ax.set_yticks(np.arange(-1.0, 1.01, 0.5))
 ax.legend(fontsize=15, loc='upper right')
 ax.tick_params(axis='both', which='major', labelsize=13)
@@ -343,7 +384,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15., 9.)
 
 ncontours = 20
 
@@ -351,14 +392,21 @@ N = 600
 tmax = 3.3
 th0 = np.linspace(0., 135.*np.pi/180., N, endpoint=True)
 t = np.linspace(0., tmax, N)
-theta = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
-amp = np.asarray([integrate.cumtrapz(np.sin(2.*th), t, initial=0) for th in theta])
+theta = np.asarray(
+    [np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0]
+)
+amp = np.asarray(
+    [integrate.cumtrapz(np.sin(2.*th), t, initial=0) for th in theta]
+)
 
 THETA, T = np.meshgrid(th0, t)
 
 tt = np.tile(t, N)
 exp_amp = np.exp(amp)
-F = griddata((theta.reshape(N*N), tt), exp_amp.reshape(N*N), (THETA.reshape(N*N), T.reshape(N*N)))
+F = griddata(
+    (theta.reshape(N*N), tt), exp_amp.reshape(N*N), 
+    (THETA.reshape(N*N), T.reshape(N*N))
+)
 A = np.exp(F).reshape(N, N)
 A = np.asarray([a/np.max(a) for a in A])
                                                    
@@ -366,8 +414,12 @@ convec = np.linspace(0.05, 0.95, 10, endpoint=True)
 convecB = np.linspace(0.05, 0.95, 4, endpoint=True)
 convec = np.setdiff1d(convec, convecB)
 
-th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.pi/180.
-th_ = np.asarray([np.arctan2(np.sin(th0i), (np.cos(th0i) - t*np.sin(th0i))) for th0i in th0_])
+th0_ = np.concatenate(
+    (np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0
+) * np.pi / 180.
+th_ = np.asarray(
+    [np.arctan2(np.sin(th0i), (np.cos(th0i) - t*np.sin(th0i))) for th0i in th0_]
+)
 
 CS = ax.contour(th0*180./np.pi, t, A, convec, cmap=plt.cm.binary, linewidths=1)
 CSB = ax.contour(th0*180./np.pi, t, A, convecB, colors='k', linewidths=2)
@@ -394,7 +446,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(15.0, 9.0)
 
 eps = 2.2204e-16
 n = 6.
@@ -409,14 +461,23 @@ assert th0.shape[0] == N, 'th0 was wrongly calculated'
 t = np.linspace(0., tmax, N)
 nf = (1.-n)/n
 
-theta = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0])
-amp = np.asarray([integrate.cumtrapz(np.sin(2.*th)/(1+nf*np.cos(2.*th)**2), t, initial=0) for th in theta])
+theta = np.asarray(
+    [np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0]
+)
+amp = np.asarray([
+    integrate.cumtrapz(
+        np.sin(2.*th)/(1+nf*np.cos(2.*th)**2), t, initial=0
+    ) for th in theta
+])
 
 THETA, T = np.meshgrid(th0, t)
 
 tt = np.tile(t, N)
 exp_amp = np.exp(amp)
-F = griddata((theta.reshape(N*N), tt), exp_amp.reshape(N*N), (THETA.reshape(N*N), T.reshape(N*N)))
+F = griddata(
+    (theta.reshape(N*N), tt), exp_amp.reshape(N*N), 
+    (THETA.reshape(N*N), T.reshape(N*N))
+)
 A = np.exp(F).reshape(N, N)
 A = np.asarray([a/np.max(a) for a in A])
 
@@ -424,8 +485,13 @@ convec = np.linspace(0.05, 0.95, 10, endpoint=True)
 convecB = np.linspace(0.05, 0.95, 4, endpoint=True)
 convec = np.setdiff1d(convec, convecB)
 
-th0_ = np.concatenate((np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0)*np.pi/180.
-th = np.asarray([np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_])
+th0_ = np.concatenate(
+    (np.arange(2, 45, 4), np.arange(49, 135, 8)), axis=0
+) * np.pi / 180.
+
+th = np.asarray(
+    [np.arctan2(np.sin(th0i), np.cos(th0i) - t*np.sin(th0i)) for th0i in th0_]
+)
 
 CS = ax.contour(th0*180./np.pi, t, A, convec, cmap=plt.cm.binary, linewidths=1.0)
 CSB = ax.contour(th0*180./np.pi, t, A, convecB, colors='k', linewidths=2)
@@ -474,13 +540,19 @@ l_on_d = 2*np.pi/k
 
 for i in np.arange(len(Rb)):
     colr = 1.-(len(Rb) - i)/len(Rb)*np.asarray([1, 1, 1])
-    ax.semilogx(l_on_d, sd[i, :], '-', linewidth=2, color=colr, label=f'$D_I={str(Rb[i])}$')
+    ax.semilogx(
+        l_on_d, sd[i, :], '-', linewidth=2, 
+        color=colr, label=f'$D_I={str(Rb[i])}$'
+    )
 
 ax.set_xlabel(r'$l/\delta_{0}$', fontsize=20)
 ax.set_xticks(np.power(10., np.arange(-2.0, 2.1, 1.)))
 ax.set_xlim(1e-2, np.power(10, 2.8))
 plt.gca().xaxis.grid(True, which='minor', linestyle='--')
-ax.set_ylabel(r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
+ax.set_ylabel(
+    r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', 
+    fontsize=20
+)
 ax.set_yticks(np.arange(0., 1.01, 0.25))
 ax.set_ylim(-0.02, 1.02)
 ax.legend(fontsize=15, loc='upper right')
@@ -507,14 +579,20 @@ l_on_d = 2*np.pi/k
 
 for i in np.arange(len(Rb)):
     colr = 1.-(len(Rb) - i)/len(Rb)*np.asarray([1, 1, 1])
-    ax.loglog(l_on_d, sd[i, :], '-', linewidth=2, color=colr, label=f'$D_I={str(Rb[i])}$')
+    ax.loglog(
+        l_on_d, sd[i, :], '-', linewidth=2, 
+        color=colr, label=f'$D_I={str(Rb[i])}$'
+    )
 
 ax.set_xlabel(r'$l/\delta_{0}$', fontsize=20)
 ax.set_xticks(np.power(10., np.arange(-2.0, 2.1, 1.)))
 ax.set_xlim(1e-2, np.power(10, 2.8))
 plt.gca().xaxis.grid(True, which='minor', linestyle='--')
 
-ax.set_ylabel(r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
+ax.set_ylabel(
+    r'$\dot{s}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', 
+    fontsize=20
+)
 ax.set_yticks(np.power(10., np.arange(-3, 0.1, 1)))
 ax.set_ylim(1e-3, 1e0)
 ax.legend(fontsize=15, loc='upper right')
@@ -568,7 +646,10 @@ ax.set_xlim(1e-5, 1e1)
 ax.set_xticks(np.power(10., np.arange(-4., 1., 2)))
 ax.set_yticks([1e-2, 1e-1, 1e0])
 ax.set_xlabel(r'D$_\mathcal{I}$', fontsize=20)
-ax.set_ylabel(r'$\dot{s}^{max}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', fontsize=20)
+ax.set_ylabel(
+    r'$\dot{s}^{max}/[(1-\phi^{(0)})\lambda\dot{\gamma}/(n\nu^{(0)}_\phi)]$', 
+    fontsize=20
+)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 7.9b", fontsize=20)

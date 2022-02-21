@@ -8,7 +8,6 @@
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 from matplotlib import pyplot as plt
-import matplotlib.cm as cm
 import numpy as np 
 
 import warnings 
@@ -99,8 +98,10 @@ def solution_polar_coords(X, Z, theta):
     U = vr * np.sin(T) + vt * np.cos(T)
     W = -vr * np.cos(T) + vt * np.sin(T)
     P = 2. * C4 / R * np.cos(T)
-    P = np.asarray([[p if np.abs(t) <= 0.5 * np.pi - theta else np.NaN for t, p in zip(rT, rP)] 
-                    for rT, rP in zip(T, P)])
+    P = np.asarray([
+        [p if np.abs(t) <= 0.5 * np.pi - theta else np.NaN for t, p in zip(rT, rP)] 
+        for rT, rP in zip(T, P)
+    ])
     return U, W, P
 
 
@@ -140,8 +141,10 @@ def solution_cartesian_coords(X, Z, theta):
     W = C4 * (np.sin(theta) ** 2 - Z ** 2. / Q)
     P = -2. * C4 * Z / Q
 
-    P = np.asarray([[p if np.abs(t) <= 0.5 * np.pi - theta else np.NaN for t, p in zip(rT, rP)]
-                    for rT, rP in zip(T, P)])
+    P = np.asarray([
+        [p if np.abs(t) <= 0.5 * np.pi - theta else np.NaN for t, p in zip(rT, rP)]
+        for rT, rP in zip(T, P)
+    ])
 
     return U, W, P
 
@@ -152,7 +155,7 @@ def solution_cartesian_coords(X, Z, theta):
 # In[4]:
 
 
-theta_p = 25.*np.pi/180.  # it can vary from 0 to 60 deg.
+theta_p = 25. * np.pi / 180.  # it can vary from 0 to 60 deg.
 
 
 # The velocity and pressure from $\eqref{eq:one-phase-cornerflow-vel}$ and $\eqref{eq:one-phase-cornerflow-press}$ (or, equivalently, $\eqref{eq:one-phase-cornerflow-cartesian-vel-x}$-$\eqref{eq:one-phase-cornerflow-cartesian-press}$) are computed below:
@@ -176,34 +179,50 @@ z = np.linspace(-1.0, 0.0, 500)
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18., 9.0)
+fig.set_size_inches(18., 9.)
 
 nlines = 7
 sm = 0.2 * np.minimum(np.sin(theta_p), np.cos(theta_p))
+
 # velocity streamlines in the positive X axis
 seed = np.zeros([nlines, 2])
 seed[:, 0] = np.linspace(sm*np.cos(theta_p), np.cos(theta_p), nlines)
 seed[:, 1] = np.linspace(-sm*np.sin(theta_p), -np.sin(theta_p), nlines)
 ax.plot(seed[:, 0], seed[:, 1], 'bo')
-ax.streamplot(X, Z, U, W, arrowstyle='-', color='b', start_points=seed, integration_direction='backward')
+ax.streamplot(
+    X, Z, U, W, arrowstyle='-', color='b', start_points=seed, 
+    integration_direction='backward'
+)
 
 # velocity streamlines in the negative X axis
 seed[:, 0] = np.linspace(-np.cos(theta_p), -sm*np.cos(theta_p), nlines)
 seed[:, 1] = np.linspace(-np.sin(theta_p), -sm*np.sin(theta_p), nlines)
 ax.plot(seed[:, 0], seed[:, 1], 'ro')
-ax.streamplot(X, Z, U, W, arrowstyle='-', color='r', start_points=seed, integration_direction='backward')
+ax.streamplot(
+    X, Z, U, W, arrowstyle='-', color='r', 
+    start_points=seed, integration_direction='backward'
+)
 
 # pressure contours
-ax.contour(X, Z, P, levels=[-100., -50., -10., -5.], colors='g', linestyles='-')
+ax.contour(
+    X, Z, P, levels=[-100., -50., -10., -5.], colors='g', linestyles='-'
+)
 
 # plot X axis
 ax.plot([-1., 1.], [0., 0.], '-k', linewidth=2)
+
 # plot the bottom of the lithosphere plates
-ax.plot([-np.cos(theta_p), 0., np.cos(theta_p)], [-np.sin(theta_p), 0., -np.sin(theta_p)], '-k', linewidth=2)
+ax.plot(
+    [-np.cos(theta_p), 0., np.cos(theta_p)], 
+    [-np.sin(theta_p), 0., -np.sin(theta_p)], 
+    '-k', linewidth=2
+)
+
 # U_0 line
 ax.plot([0.6, 0.9], [-np.sin(theta_p)/3., -np.sin(theta_p)/3.], '-k', linewidth=2)
 ax.plot(0.9, -np.sin(theta_p)/3., '>k', markersize=10, markerfacecolor='k')
 ax.text(0.65, -np.sin(theta_p)/3.5, r'$U_0$', fontsize=20)
+
 # -U_0 line
 ax.plot([-0.6, -0.9], [-np.sin(theta_p)/3., -np.sin(theta_p)/3.], '-k', linewidth=2)
 ax.plot(-0.9, -np.sin(theta_p)/3., '<k', markersize=10, markerfacecolor='k')

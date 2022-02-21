@@ -96,16 +96,29 @@ ax[0].annotate(r'$\Theta_1$', xy=[-0.01, 0.08], fontsize=20)
 ax[0].annotate(r'$\Theta_2$', xy=[-0.01, -0.1], fontsize=20)
 ax[0].annotate(r'$\Theta_3$', xy=[factor(Theta), -0.02], fontsize=20)
 
-ax[0].text(np.cos(thre10_rad), -np.sin(thre10_rad), r'$\sigma_1$', 
-           horizontalalignment='center', verticalalignment='center', fontsize=20)
-ax[0].text(np.cos(thre5_rad), -np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=-0.5*Theta, 
-           horizontalalignment='center', verticalalignment='center')
-
-ax[0].text(np.cos(thre10_rad), np.sin(thre10_rad), r'$\sigma_2$', fontsize=20, 
-           horizontalalignment='center', verticalalignment='center')
-ax[0].text(np.cos(thre5_rad), np.sin(thre5_rad), r'$\Longrightarrow$', fontsize=20, rotation=0.5*Theta, 
-           horizontalalignment='center', verticalalignment='center')
-ax[0].text(0.0, -1.0, '(a)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+ax[0].text(
+    np.cos(thre10_rad), -np.sin(thre10_rad), r'$\sigma_1$', 
+    horizontalalignment='center', verticalalignment='center', 
+    fontsize=20
+)
+ax[0].text(
+    np.cos(thre5_rad), -np.sin(thre5_rad), r'$\Longrightarrow$', 
+    fontsize=20, rotation=-0.5*Theta, 
+    horizontalalignment='center', verticalalignment='center'
+)
+ax[0].text(
+    np.cos(thre10_rad), np.sin(thre10_rad), r'$\sigma_2$', fontsize=20, 
+    horizontalalignment='center', verticalalignment='center'
+)
+ax[0].text(
+    np.cos(thre5_rad), np.sin(thre5_rad), r'$\Longrightarrow$', 
+    fontsize=20, rotation=0.5*Theta, 
+    horizontalalignment='center', verticalalignment='center'
+)
+ax[0].text(
+    0.0, -1.0, '(a)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 ax[0].annotate(r'$\sigma_3$', xy=(-1.0, 0.1), fontsize=20, rotation=0.0)
 ax[0].annotate(r'$\Longleftarrow$', xy=(-1.0, 0.01), fontsize=20, rotation=0.0)
@@ -119,7 +132,7 @@ ysh = 0.2
 
 xI = 0.3 
 x = np.linspace(0.0, xI, 100)
-y = 0.5 * xI * ((x**2/xI**2 - 1.)*np.tan(np.pi/6. - 0.5*theta_rad) + 2.0*np.tan(np.pi/6.))
+y = 0.5 * xI *     ((x**2/xI**2 - 1.)*np.tan(np.pi/6. - 0.5*theta_rad) + 2.0*np.tan(np.pi/6.))
 X = np.zeros(x.shape[0] * 2 * 2).reshape(2, 2*x.shape[0])
 X[0, :] = np.concatenate((-x[::-1], x), axis=0)
 X[1, :] = np.concatenate((y[::-1], y), axis=0)
@@ -141,26 +154,48 @@ ax[1].plot(ss[0, :], ss[1, :]+ysh, '-k', linewidth=2)
 
 ax[1].plot([0, 0.5], [ysh, ysh], '-b', linewidth=0.5)
 ax[1].plot([0, 0], [ysh, 0.5+ysh], '-b', linewidth=0.5)
-ax[1].annotate(r'$x$', xy=(0.65, ysh), fontsize=20, verticalalignment='top', horizontalalignment='left')
-ax[1].annotate(r'$y$', xy=(0.0, 0.65+ysh), fontsize=20, verticalalignment='bottom', horizontalalignment='left')
+ax[1].annotate(
+    r'$x$', xy=(0.65, ysh), fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
+ax[1].annotate(
+    r'$y$', xy=(0.0, 0.65+ysh), fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 f = 0.25
 vx = [-f*np.sin(theta_rad/2), 0.0, f*np.sin(theta_rad/2)]
-vy = [f*np.cos(theta_rad/2) + np.amin(y) +ysh, np.amin(y) + ysh, f*np.cos(theta_rad/2) + np.amin(y) + ysh]
+vy = [
+    f*np.cos(theta_rad/2) + np.amin(y) +ysh, np.amin(y) + ysh, 
+    f*np.cos(theta_rad/2) + np.amin(y) + ysh
+]
 ax[1].plot(vx, vy, '-r', linewidth=0.6)
-ax[1].annotate(r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], verticalalignment='bottom',
-            horizontalalignment='center', fontsize=20)
+ax[1].annotate(
+    r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], 
+    verticalalignment='bottom', horizontalalignment='center', fontsize=20
+)
 
-ax[1].annotate(r'$\ell s$', xy=(-0.2, ysh), fontsize=20, rotation=-55., 
-            verticalalignment='center', horizontalalignment='right')
-ax[1].annotate(r'$ss$', xy=(0.5, 0.33+ysh), fontsize=20, rotation=30., 
-            verticalalignment='center', horizontalalignment='right')
-ax[1].annotate(r'$ss$', xy=(-0.5, 0.33+ysh), fontsize=20, rotation=-30., 
-            verticalalignment='center', horizontalalignment='left')
-ax[1].annotate(r'$ss$', xy=(-0.01, -0.5+ysh), fontsize=20, rotation=90., 
-            verticalalignment='bottom', horizontalalignment='right')
+ax[1].annotate(
+    r'$\ell s$', xy=(-0.2, ysh), fontsize=20, rotation=-55., 
+    verticalalignment='center', horizontalalignment='right'
+)
+ax[1].annotate(
+    r'$ss$', xy=(0.5, 0.33+ysh), fontsize=20, rotation=30., 
+    verticalalignment='center', horizontalalignment='right'
+)
+ax[1].annotate(
+    r'$ss$', xy=(-0.5, 0.33+ysh), fontsize=20, rotation=-30., 
+    verticalalignment='center', horizontalalignment='left'
+)
+ax[1].annotate(
+    r'$ss$', xy=(-0.01, -0.5+ysh), fontsize=20, rotation=90., 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-ax[1].text(0.0, -1.0, '(b)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+ax[1].text(
+    0.0, -1.0, '(b)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 ax[1].set_xlim(-1.01, 1.01)
 ax[1].set_ylim(-1.01, 1.01)
@@ -219,14 +254,25 @@ fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
 fig.set_facecolor('w')
 
-ax.loglog(phi, K2, '-k', label=r'$k_0(\phi/\phi_0)^{2.7}$', linewidth=2)
-ax.loglog(phi, K3, '--k', label=r'$k_0(\phi/\phi_0)^3$', linewidth=2)
-ax.loglog(phi, Kkc, '-.k', label=r'$k_0(\phi/\phi_0)^3[(1-\phi)/(1-\phi_0)]^{-2}$', linewidth=2)
+ax.loglog(
+    phi, K2, '-k', label=r'$k_0(\phi/\phi_0)^{2.7}$', linewidth=2
+)
+ax.loglog(
+    phi, K3, '--k', label=r'$k_0(\phi/\phi_0)^3$', linewidth=2
+)
+ax.loglog(
+    phi, Kkc, '-.k', linewidth=2,
+    label=r'$k_0(\phi/\phi_0)^3[(1-\phi)/(1-\phi_0)]^{-2}$'
+)
 
 # data and data fit
-ax.loglog(dmphi, dmk, '-', color=[0.5, 0.5, 0.5], linewidth=2, label=r'$d^2\phi^{2.7}/C$')
+ax.loglog(
+    dmphi, dmk, '-', color=[0.5, 0.5, 0.5], 
+    linewidth=2, label=r'$d^2\phi^{2.7}/C$'
+)
 
 ax.loglog(data[:, 0], data[:, -1], 'ok', label=r'Miller et al. 2015')
+
 for d in data:
     ax.plot([d[0]+d[1], d[0]+d[2]], [d[3], d[3]], '-k', linewidth=1)
 
