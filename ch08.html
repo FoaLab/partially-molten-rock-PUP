@@ -422,15 +422,15 @@
 <p>The following constants are defined:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="mf">1200.</span>  <span class="c1"># heat capacity</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mf">3e-5</span>  <span class="c1"># expansivity</span>
-<span class="n">rho</span> <span class="o">=</span> <span class="mf">3000.</span>  <span class="c1"># density</span>
-<span class="n">g</span> <span class="o">=</span> <span class="mf">10.</span>  <span class="c1"># gravity</span>
-<span class="n">L</span> <span class="o">=</span> <span class="mf">5e5</span>  <span class="c1"># latent heat J/kg</span>
-<span class="n">M</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">500</span>  <span class="c1"># isobaric productivity</span>
-<span class="n">C</span> <span class="o">=</span> <span class="mf">6.5e6</span>  <span class="c1"># clapeyron Pa/K</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="mf">1200.</span>           <span class="c1"># heat capacity</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">3e-5</span>        <span class="c1"># expansivity</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">3000.</span>         <span class="c1"># density</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">10.</span>             <span class="c1"># gravity</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">5e5</span>             <span class="c1"># latent heat J/kg</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">500</span>           <span class="c1"># isobaric productivity</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mf">6.5e6</span>           <span class="c1"># clapeyron Pa/K</span>
 <span class="n">Ts0</span> <span class="o">=</span> <span class="mf">1100.</span> <span class="o">+</span> <span class="mf">273.</span>  <span class="c1"># solidus at P=0</span>
-<span class="n">Tp</span> <span class="o">=</span> <span class="mf">1350.</span> <span class="o">+</span> <span class="mf">273.</span>  <span class="c1"># mantle potential temperature</span>
+<span class="n">Tp</span> <span class="o">=</span> <span class="mf">1350.</span> <span class="o">+</span> <span class="mf">273.</span>   <span class="c1"># mantle potential temperature</span>
 </pre></div>
 </div>
 </div>
@@ -453,7 +453,10 @@
 <span class="n">l2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Tp</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mf">273.</span><span class="p">,</span> <span class="n">z</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]:</span>
     <span class="n">l3</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Tsol</span> <span class="o">-</span> <span class="mf">273.</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="n">M</span><span class="p">,</span> <span class="n">z</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span> <span class="s1">&#39;:k&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1415</span><span class="p">,</span> <span class="o">-</span><span class="mi">65</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">110</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;$F=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+        <span class="mi">1415</span><span class="p">,</span> <span class="o">-</span><span class="mi">65</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">110</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;$F=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> 
+        <span class="n">rotation</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
+    <span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$T, ^\circ$C&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1300</span><span class="p">,</span> <span class="mi">1400</span><span class="p">))</span>
