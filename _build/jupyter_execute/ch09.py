@@ -40,9 +40,15 @@ Djs = 2e-3
 Dks = 0.5e-2
 fs  = phi*(Dks-Djs)/(phi+Djs)/(phi+Dks)
 
-ax.semilogx(phi, f, '-k', linewidth=2, label=r'$D_j=1\times10^{-3},D_k=1\times10^{-2}$')
+ax.semilogx(
+    phi, f, '-k', linewidth=2, 
+    label=r'$D_j=1\times10^{-3},D_k=1\times10^{-2}$'
+)
 ax.plot([Dj, Dk], np.interp([Dj, Dk], phi, f), 'ok', markersize=10)
-ax.semilogx(phi, fs, '--k', linewidth=1, label=r'$D_j=2\times10^{-3},D_k=\frac{1}{2}\times10^{-2}$')
+ax.semilogx(
+    phi, fs, '--k', linewidth=1, 
+    label=r'$D_j=2\times10^{-3},D_k=\frac{1}{2}\times10^{-2}$'
+)
 ax.plot([Djs, Dks], np.interp([Djs, Dks], phi, fs), 'ok', markersize=10)
 
 ax.set_xlim(1e-5, 1e0)
@@ -93,12 +99,20 @@ Gt = np.logspace(-5.0, -1.0, 1000)
 clocs = np.asarray([np.power(di + (1.-di)*Gt, -1.0) for di in D])
 lines = []
 
-for clocsi, lstyi, Di, labli, alhi, labmi, alvi in zip(clocs, lsty, D, labl, alh, labm, alv):
+for clocsi, lstyi, Di, labli, alhi, labmi, alvi in zip(
+    clocs, lsty, D, labl, alh, labm, alv
+):
     lines.append(plt.loglog(Gt, clocsi,'k', linewidth=2, linestyle=lstyi)[0])
     ax.plot([Di, Di], [1e-10, 1e10], ':k')[0]
     ax.plot([1e-5, 1e-1], [1./Di, 1./Di], ':k')[0]
-    ax.text(Di, 10.1**4, labli, fontsize=12, verticalalignment='bottom', horizontalalignment=alhi)
-    ax.text(0.11, 1./Di, labmi, fontsize=12, horizontalalignment='left', verticalalignment=alvi)
+    ax.text(
+        Di, 10.1**4, labli, fontsize=12, 
+        verticalalignment='bottom', horizontalalignment=alhi
+    )
+    ax.text(
+        0.11, 1./Di, labmi, fontsize=12, 
+        horizontalalignment='left', verticalalignment=alvi
+    )
 
 ax.set_xlim(1e-5, 1e-1)
 ax.set_ylim(1e1, 1e4)
@@ -249,15 +263,26 @@ alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 
 for i in np.arange(2, len(lambda_)):
-    lines.append(plt.loglog(t, al[:, i-1]/al[:, i], 'k', linewidth=3, linestyle=lsty[i-2])[0])
-    ax.plot([np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], [1e-10, 1e10], 
-             linestyle=lsty[i-2], color=[grey, grey, grey])
+    lines.append(
+        plt.loglog(t, al[:, i-1]/al[:, i], 'k', 
+        linewidth=3, linestyle=lsty[i-2])[0]
+    )
+    ax.plot(
+        [np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], 
+        [1e-10, 1e10], linestyle=lsty[i-2], color=[grey, grey, grey]
+    )
     ax.plot([D[i], D[i]], [1e-10, 1e10], 'k', linestyle=lsty[i-2])
     ax.plot([1e-10, 1e3], [D[i]/D[i-1], D[i]/D[i-1]], ':k')
-    ax.text(np.log(2.)/(lambda_[i]/G), 1.025, f'$t={Ttag[i]}$', fontsize=15, rotation=60, 
-            verticalalignment='bottom', horizontalalignment='left')
-    ax.text(D[i], 1.025, f'$t={Dtag[i]}'+'\mathcal{G}^{-1}$', fontsize=15, rotation=60,
-            verticalalignment='bottom', horizontalalignment='left')
+    ax.text(
+        np.log(2.)/(lambda_[i]/G), 1.025, f'$t={Ttag[i]}$', 
+        fontsize=15, rotation=60, 
+        verticalalignment='bottom', horizontalalignment='left'
+    )
+    ax.text(
+        D[i], 1.025, f'$t={Dtag[i]}'+'\mathcal{G}^{-1}$', 
+        fontsize=15, rotation=60,
+        verticalalignment='bottom', horizontalalignment='left'
+    )
 
 ax.set_xlim(1e-8, 1e1)
 ax.set_ylim(np.power(10., -1.3), np.power(10., 0.01))
@@ -266,8 +291,10 @@ ax.set_yticks((1e-1, 1e0))
 ax.set_ylabel(r'$a^\ell_{j-1}/a^\ell_j$', fontsize=22)
 ax.set_xlabel(r'$\mathcal{G}t$', fontsize=22)
 ax.tick_params(axis='both', which='major', labelsize=13)
-ax.legend(handles=lines, loc='center right', fontsize=15,
-           labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$'])
+ax.legend(
+    handles=lines, loc='center right', fontsize=15,
+    labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$']
+)
 
 fig.supxlabel("Figure 9.3a", fontsize=20)
 
@@ -311,15 +338,29 @@ alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 
 for i in np.arange(2, len(lambda_)):
-    lines.append(plt.loglog(t, al[:, i-1]/al[:, i], 'k', linewidth=3, linestyle=lsty[i-2])[0])
-    ax.plot([np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], [1e-10, 1e10], 
-             linestyle=lsty[i-2], color=[grey, grey, grey])
+    lines.append(
+        plt.loglog(
+            t, al[:, i-1]/al[:, i], 'k', 
+            linewidth=3, linestyle=lsty[i-2]
+        )[0]
+    )
+    ax.plot(
+        [np.log(2.)/(lambda_[i]/G), np.log(2)/(lambda_[i]/G)], 
+        [1e-10, 1e10], linestyle=lsty[i-2], 
+        color=[grey, grey, grey]
+    )
     ax.plot([D[i], D[i]], [1e-10, 1e10], 'k', linestyle=lsty[i-2])
     ax.plot([1e-10, 1e3], [D[i]/D[i-1], D[i]/D[i-1]], ':k')
-    ax.text(np.log(2.)/(lambda_[i]/G), 1.0, f'$t={Ttag[i]}$', fontsize=15, rotation=60, 
-            verticalalignment='bottom', horizontalalignment='left')
-    ax.text(D[i], 1.025, f'$t={Dtag[i]}'+'\mathcal{G}^{-1}$', fontsize=14, rotation=60,
-            verticalalignment='bottom', horizontalalignment='left')
+    ax.text(
+        np.log(2.)/(lambda_[i]/G), 1.0, f'$t={Ttag[i]}$', 
+        fontsize=15, rotation=60, 
+        verticalalignment='bottom', horizontalalignment='left'
+    )
+    ax.text(
+        D[i], 1.025, f'$t={Dtag[i]}'+'\mathcal{G}^{-1}$', 
+        fontsize=14, rotation=60,
+        verticalalignment='bottom', horizontalalignment='left'
+    )
 
 ax.set_xlim(1e-8, 1e1)
 ax.set_ylim(np.power(10., -1.3), np.power(10., 0.01))
@@ -327,8 +368,10 @@ ax.set_xticks((1e-8, 1e-6, 1e-4, 1e-2, 1e0))
 ax.set_yticks((1e-1, 1e0))
 ax.set_ylabel(r'$a^\ell_{j-1}/a^\ell_j$', fontsize=20)
 ax.set_xlabel(r'$\mathcal{G}t$', fontsize=20)
-ax.legend(handles=lines, loc='center left', fontsize=15,
-           labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$'])
+ax.legend(
+    handles=lines, loc='center left', fontsize=15,
+    labels=[r'$a^\ell_{U} /a^\ell_{Th}$', r'$a^\ell_{Th}/a^\ell_{Ra}$']
+)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 9.3b", fontsize=20)

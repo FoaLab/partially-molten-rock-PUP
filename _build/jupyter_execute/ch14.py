@@ -73,6 +73,7 @@ warnings.filterwarnings('ignore')
 
 
 def SolveCompactionRateFiniteDifference(phi, dz):
+
     # matrix size
     n_ = len(phi)
     # form permeability
@@ -90,6 +91,7 @@ def SolveCompactionRateFiniteDifference(phi, dz):
     mtx = sp.dia_matrix((data, offsets), shape=(n_, n_))
     mtx = mtx.tocsr()
     x = spla.dsolve.spsolve(mtx, b)
+    
     return x
 
 
@@ -143,6 +145,7 @@ def SolveCompactionRateFiniteDifference(phi, dz):
 
 
 def SolveCompactionRateFiniteElement(phi, dz):
+
     N = len(phi)  # number of nodes
     N_elements = N - 1  # number of elements
     A = sp.dok_matrix((N, N), dtype=np.double)  # allocate memory
@@ -154,7 +157,8 @@ def SolveCompactionRateFiniteElement(phi, dz):
     Ce = sp.dok_matrix([[dz/3., dz/6.], [dz/6., dz/3.]], dtype=np.double)
     re = np.asarray([-1.0, 1.0], dtype=np.double)
 
-    K = np.power(0.5 * (phi[0:-1] + phi[1:]), par.n)  # form permeability at element centres
+    # form permeability at element centres
+    K = np.power(0.5 * (phi[0:-1] + phi[1:]), par.n)
 
     for e in range(N_elements):  # loop over elements
         # element bilinear form
@@ -169,6 +173,7 @@ def SolveCompactionRateFiniteElement(phi, dz):
     b[0] = b[-1] = 0  # boundary condition
     A = A.tocsr()
     x = spla.dsolve.spsolve(A, b)  # solve
+
     return x
 
 
@@ -178,17 +183,32 @@ def SolveCompactionRateFiniteElement(phi, dz):
 
 
 def xi(f, A):
-    return -np.sqrt(A+0.5)*(-2.*np.sqrt(A-f)+np.log((np.sqrt(A-1.0)-np.sqrt(A-f))/
-                                                    (np.sqrt(A-1)+np.sqrt(A-f)))/np.sqrt(A-1.))
+
+    return -np.sqrt(A + 0.5) * (
+        -2. * np.sqrt(A - f) + np.log(
+            (
+                np.sqrt(A - 1.)-np.sqrt(A - f)
+            ) / (
+                np.sqrt(A - 1.)+np.sqrt(A - f)
+            )
+        ) / np.sqrt(A - 1.)
+    )
 
 def SolitaryWaveGenerator(Amplitude, z, z0):
+
     f = np.ones(z.shape[0])
     zeta = np.abs(z-z0)
     fEpsilon = 1.000000001
     zetaEpsilon = xi(fEpsilon, Amplitude)
     ifill = np.nonzero(zeta <= zetaEpsilon)
+
     for i in ifill[0]:
-        f[i] = brentq(lambda phi_: xi(phi_, Amplitude)-zeta[i], fEpsilon, Amplitude)
+        f[i] = brentq(
+            lambda phi_: xi(phi_, Amplitude)-zeta[i], 
+            fEpsilon, 
+            Amplitude
+        )
+    
     return f
 
 
@@ -198,7 +218,14 @@ def SolitaryWaveGenerator(Amplitude, z, z0):
 
 
 class PAR:
-    def __init__(self, n=3, ls=4, zm=40, ni=np.power(2., [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])):
+
+    def __init__(
+        self, n=3, ls=4, zm=40, 
+        ni=np.power(
+            2., [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        )
+    ):
+
         self.n = n
         self.Ls = ls
         self.V = 2*self.Ls + 1
@@ -214,14 +241,21 @@ err_fd = np.zeros(len(par.ni))
 err_fe = np.zeros(len(par.ni))
 
 for n, ni in enumerate(par.ni):
+
     z = np.linspace(-par.zm, par.zm, int(ni))
+
     # semi-analytical solitary wave profile
     phi = SolitaryWaveGenerator(par.Ls, z, 0)
+
     # analytical compaction rate
-    a_cmp = np.sign(z) * np.sqrt(-2. * par.V * (phi-1)**2 / phi**2 * (phi - (par.V-1.)/2.))
+    a_cmp = np.sign(z) * np.sqrt(
+        -2. * par.V * (phi-1)**2 / phi**2 * (phi - (par.V-1.)/2.)
+    )
+
     # numerical compaction rate
     n_cmp_fd = SolveCompactionRateFiniteDifference(phi, z[1]-z[0])
     n_cmp_fe = SolveCompactionRateFiniteElement(phi, z[1]-z[0])
+
     # error
     err_fd[n] = np.linalg.norm(a_cmp-n_cmp_fd, 2) / np.linalg.norm(a_cmp, 2)
     err_fe[n] = np.linalg.norm(a_cmp-n_cmp_fe, 2) / np.linalg.norm(a_cmp, 2)
@@ -231,20 +265,25 @@ for n, ni in enumerate(par.ni):
 
 
 fig, ax = plt.subplots()
-zoom = 2.0
-fig.set_size_inches(6.4 * zoom, 5.1 * zoom)
+fig.set_size_inches(12., 9.)
 
 # plotting
 p1, = plt.loglog(par.ni, err_fd, '-ok', linewidth=2)
 p2, = plt.loglog(par.ni, err_fe, '--ok', linewidth=2)
-plt.loglog(par.ni[3:7], 100*np.power(par.ni[3:7], -2), '-k', linewidth=1)
+plt.loglog(
+    par.ni[3:7], 100*np.power(par.ni[3:7], -2), '-k', linewidth=1
+)
 plt.xlabel(r'$N$', fontsize=20)
 plt.ylabel(r'$E(\mathcal{C})$', fontsize=25)
-plt.text(par.ni[5], 190*np.power(par.ni[6], -2), r'slope$=-2$', 
-         fontsize=16, rotation=-36, horizontalalignment='center')
+plt.text(
+    par.ni[5], 190*np.power(par.ni[6], -2), r'slope$=-2$', 
+    fontsize=16, rotation=-36, horizontalalignment='center'
+)
 plt.xlim(10.0, 3.e4)
 plt.ylim(1.e-8, 1.0)
-leg = plt.legend(handles=[p1, p2], labels=['finite difference', 'finite element'])
+leg = plt.legend(
+    handles=[p1, p2], labels=['finite difference', 'finite element']
+)
 
 fig.supxlabel("Figure 14.2", fontsize=20)
 
@@ -288,53 +327,83 @@ plt.show()
 
 
 def MnfcSoln_phi(X, Y, par):
-    return par.phi0 * (1.0 + par.A_phi * np.cos(np.pi * par.m * X) * np.cos(np.pi * par.m * Y))
+
+    return par.phi0 * (
+        1.0 
+        + par.A_phi * np.cos(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+    )
 
 
 def MnfcSoln_psi(X, Y, par):
-    return par.A_psi * (1.0 - np.cos(np.pi * par.m * X)) * (1.0 - np.cos(np.pi * par.m * Y))
+
+    return par.A_psi * (
+        1.0 - np.cos(np.pi * par.m * X)
+    ) * (
+        1.0 - np.cos(np.pi * par.m * Y)
+    )
 
 
 def MnfcSoln_U(X, Y, par):
-    return par.A_U * np.sin(np.pi * par.m * X)*np.sin(np.pi * par.m * Y)
+
+    return par.A_U *         np.sin(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
 
 
 def MnfcSoln_P(X, Y, par):
-    return par.A_ * np.sin(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
+
+    return par.A_ *         np.sin(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
 
 
 def MnfcSoln_CurlPsi(X, Y, par):
-    Cpsi_x = par.A_psi * (1.0 - np.cos(np.pi * par.m * X)) * (np.pi * par.m * np.sin(np.pi * par.m * Y))
-    Cpsi_y = -par.A_psi * (np.pi * par.m * np.sin(np.pi * par.m * X)) * (1.0 - np.cos(np.pi * par.m * Y))
+
+    Cpsi_x = par.A_psi * (
+        1.0 - np.cos(np.pi * par.m * X)
+    ) * (
+        np.pi * par.m * np.sin(np.pi * par.m * Y)
+    )
+    Cpsi_y = -par.A_psi * (
+        np.pi * par.m * np.sin(np.pi * par.m * X)
+    ) * (
+        1.0 - np.cos(np.pi * par.m * Y)
+    )
+
     return Cpsi_x, Cpsi_y
 
 
 def MnfcSoln_GradU(X, Y, par):
-    GU_x = par.A_U * np.pi * par.m * np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
-    GU_y = par.A_U * np.pi * par.m * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+
+    GU_x = par.A_U *         np.pi * par.m * np.cos(np.pi * par.m * X) *         np.sin(np.pi * par.m * Y)
+    GU_y = par.A_U *         np.pi * par.m * np.sin(np.pi * par.m * X) *         np.cos(np.pi * par.m * Y)
+
     return GU_x, GU_y
 
 
 def MnfcSoln_DelsqU(X, Y, par):
-    return -2.0*np.pi**2 * par.m**2 * MnfcSoln_U(X, Y, par)
+
+    return -2.0 * np.pi**2 * par.m**2 * MnfcSoln_U(X, Y, par)
 
 
 def MnfcSoln_GradDelsqU(X, Y, par):
+
     GdelsqU_x, GdelsqU_y = MnfcSoln_GradU(X, Y, par)
     GdelsqU_x = -2.0*np.pi**2 * par.m**2 * GdelsqU_x
     GdelsqU_y = -2.0*np.pi**2 * par.m**2 * GdelsqU_y
+
     return GdelsqU_x, GdelsqU_y
 
 
 def MnfcSoln_GradP(X, Y, par):
-    GP_x = par.A_P * np.pi * par.m * np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
-    GP_y = par.A_P * np.pi * par.m * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+
+    GP_x = par.A_P * np.pi * par.m *         np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
+    GP_y = par.A_P * np.pi * par.m *         np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+
     return GP_x, GP_y
 
 
 def MnfcSoln_VelS(X, Y, par):
+
     Vx, Vy = MnfcSoln_CurlPsi(X, Y, par)
     Vxc, Vyc = MnfcSoln_GradU(X, Y, par)
+
     return Vx + Vxc, Vy + Vyc
 
 
@@ -342,7 +411,12 @@ def MnfcSoln_VelS(X, Y, par):
 
 
 class PAR:
-    def __init__(self, m=2, n=3, phi0=0.01, delta=1, a_psi=1.0, a_u=1.0, a_p=1.0, a_phi=0.1):
+
+    def __init__(
+        self, m=2, n=3, phi0=0.01, delta=1, 
+        a_psi=1.0, a_u=1.0, a_p=1.0, a_phi=0.1
+    ):
+
         self.m = m
         self.n = n
         self.phi0 = phi0
@@ -360,8 +434,7 @@ class PAR:
 
 
 fig, ax = plt.subplots(1, 3)
-zoom = 2.0
-fig.set_size_inches(13.6 * zoom, 5.4 * zoom)
+fig.set_size_inches(15.0, 9.0)
 
 par = PAR()
 
@@ -374,27 +447,53 @@ ss = 3
 psi = MnfcSoln_psi(X, Y, par)  # shear potential
 ax[0].imshow(psi, cmap=plt.cm.gray, extent=[0, 1, 0, 1])
 Vx, Vy = MnfcSoln_CurlPsi(X, Y, par)
-ax[0].quiver(X[0::ss, 0::ss], Y[0::ss, 0::ss], Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b')
+ax[0].quiver(
+    X[0::ss, 0::ss], Y[0::ss, 0::ss], 
+    Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b'
+)
 ax[0].set_xlabel('$x$', fontsize=24)
-ax[0].set_xticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
+ax[0].set_xticklabels(
+    (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20
+)
 ax[0].set_ylabel('$y$', fontsize=24)
-ax[0].set_yticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
-ax[0].text(0.02, 0.02, r'(a)', fontsize=24, verticalalignment='bottom', horizontalalignment='left', color='white')
+ax[0].set_yticklabels(
+    (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20
+)
+ax[0].text(
+    0.02, 0.02, r'(a)', fontsize=24, 
+    verticalalignment='bottom', horizontalalignment='left', 
+    color='white'
+)
 
 U = MnfcSoln_U(X, Y, par)
 Vx, Vy = MnfcSoln_GradU(X, Y, par)
 ax[1].imshow(U, cmap=plt.cm.gray, extent=[0, 1, 0, 1])
-ax[1].quiver(X[0::ss, 0::ss], Y[0::ss, 0::ss], Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b')
+ax[1].quiver(
+    X[0::ss, 0::ss], Y[0::ss, 0::ss], 
+    Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b'
+)
 ax[1].set_xlabel('$x$', fontsize=24)
-ax[1].set_xticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
+ax[1].set_xticklabels(
+    (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20
+)
 ax[1].set_yticklabels(())
-ax[1].text(0.02, 0.02, r'(b)', fontsize=24, verticalalignment='bottom', horizontalalignment='left', color='white')
+ax[1].text(
+    0.02, 0.02, r'(b)', fontsize=24, 
+    verticalalignment='bottom', horizontalalignment='left', 
+    color='white'
+)
 
 phi = MnfcSoln_phi(X, Y, par)
 Vx, Vy = MnfcSoln_VelS(X, Y, par)
 ax[2].imshow(phi, cmap=plt.cm.gray, extent=[0, 1, 0, 1])
-ax[2].quiver(X[0::ss, 0::ss], Y[0::ss, 0::ss], Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b')
-ax[2].text(0.02, 0.02, '(c)', fontsize=24, verticalalignment='bottom', horizontalalignment='left')
+ax[2].quiver(
+    X[0::ss, 0::ss], Y[0::ss, 0::ss], 
+    Vx[0::ss, 0::ss], Vy[0::ss, 0::ss], color='b'
+)
+ax[2].text(
+    0.02, 0.02, '(c)', fontsize=24, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 ax[2].set_xlabel('$x$', fontsize=24)
 ax[2].set_xticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
 
@@ -409,8 +508,13 @@ plt.show()
 
 
 class PAR:
-    def __init__(self, m=2, n=3, phi0=0.01, delta=1, a_psi=1.0, a_u=1.0, a_p=1.0,
-                 a_phi=0.1, ni=(7, 12, 22, 42, 82)):  # ni=(7, 12, 22, 42, 82, 162, 322)
+
+    def __init__(
+        self, m=2, n=3, phi0=0.01, delta=1, 
+        a_psi=1.0, a_u=1.0, a_p=1.0,
+        a_phi=0.1, ni=(7, 12, 22, 42, 82)
+    ):
+
         # physics parameters
         self.n = n
         self.phi0 = phi0
@@ -425,114 +529,170 @@ class PAR:
 
 
 def MnfcSoln_F(X, Y, par):
-    return - MnfcSoln_DelsqU(X, Y, par) + MnfcSoln_DivKGradP(X, Y, par)
+
+    return - MnfcSoln_DelsqU(X, Y, par) +         MnfcSoln_DivKGradP(X, Y, par)
 
 
 def MnfcSoln_DivKGradP(X, Y, par):
+
     phi = MnfcSoln_phi(X, Y, par)
     K = np.power(phi/par.phi0, par.n)
-    Kx = par.n / np.power(par.phi0, par.n) * (np.power(phi, par.n-1)) * MnfcSoln_GradPhi(X, Y, 1, par)
-    Ky = par.n / np.power(par.phi0, par.n) * (np.power(phi, par.n-1)) * MnfcSoln_GradPhi(X, Y, 2, par)
-    return Kx * MnfcSoln_GradP(X, Y, 1, par) + Ky * (MnfcSoln_GradP(X, Y, 2, par) + 1) + K * MnfcSoln_DelsqP(X, Y, par)
+    Kx = par.n / np.power(par.phi0, par.n) * (
+        np.power(phi, par.n-1)
+    ) * MnfcSoln_GradPhi(X, Y, 1, par)
+    Ky = par.n / np.power(par.phi0, par.n) * (
+        np.power(phi, par.n-1)
+    ) * MnfcSoln_GradPhi(X, Y, 2, par)
+
+    return Kx * MnfcSoln_GradP(X, Y, 1, par) +         Ky * (MnfcSoln_GradP(X, Y, 2, par) + 1) +         K * MnfcSoln_DelsqP(X, Y, par)
 
 
 def MnfcSoln_DelsqP(X, Y, par):
+
     return -2.0 * np.pi**2 * par.m**2 * MnfcSoln_P(X, Y, par)
 
 
 def MnfcSoln_GradPhi(X, Y, dir, par):
+
     if dir == 1:
-        return -par.phi0 * np.pi * par.m * par.A_phi * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+        return -par.phi0 * np.pi * par.m * par.A_phi *             np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
     else:
-        return -par.phi0 * np.pi * par.m * par.A_phi * np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
+        return -par.phi0 * np.pi * par.m * par.A_phi *             np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
 
 
 def MnfcSoln_DelsqU(X, Y, par):
+
     return -2.0 * np.pi**2 * par.m**2 * MnfcSoln_U(X, Y, par)
 
 
 def MnfcSoln_G(X, Y, dir, par):
+
     coeff = MnfcSoln_phi(X, Y, par) if dir == 2 else 0.0
-    return - MnfcSoln_GradP(X, Y, dir, par)            + par.delta**2 * MnfcSoln_CurlDelsqPsi(X, Y, dir, par)            + 3.0 * par.delta**2 * MnfcSoln_GradDelsqU(X, Y, dir, par)            - coeff
+
+    return - MnfcSoln_GradP(X, Y, dir, par)         + par.delta**2 * MnfcSoln_CurlDelsqPsi(X, Y, dir, par)         + 3.0 * par.delta**2 * MnfcSoln_GradDelsqU(X, Y, dir, par)         - coeff
 
 
 def MnfcSoln_CurlDelsqPsi(X, Y, dir, par):
+
     if dir == 1:
-        return par.A_psi * np.pi**3 * par.m**3 * (np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
-                                                  - (1.0 - np.cos(np.pi * par.m * X)) * np.sin(np.pi * par.m * Y))
+        return par.A_psi * np.pi**3 * par.m**3 * (
+            np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y) - (
+                1.0 - np.cos(np.pi * par.m * X)
+            ) * np.sin(np.pi * par.m * Y)
+        )
     else:
-        return -par.A_psi * np.pi**3 * par.m**3 * (np.cos(np.pi * par.m * Y) * np.sin(np.pi * par.m * X)
-                                                   - (1.0 - np.cos(np.pi * par.m * Y)) * np.sin(np.pi * par.m * X))
+        return -par.A_psi * np.pi**3 * par.m**3 * (
+            np.cos(np.pi * par.m * Y) * np.sin(np.pi * par.m * X) - (
+                1.0 - np.cos(np.pi * par.m * Y)
+            ) * np.sin(np.pi * par.m * X)
+        )
 
 
 def MnfcSoln_phi(X, Y, par):
-    return par.phi0 * (1.0 + par.A_phi * np.cos(np.pi * par.m * X) * np.cos(np.pi * par.m * Y))
+
+    return par.phi0 * (
+        1.0 
+        + par.A_phi * np.cos(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+    )
 
 
 def MnfcSoln_V(X, Y, dir, par):
+
     return MnfcSoln_CurlPsi(X, Y, dir, par) + MnfcSoln_GradU(X, Y, dir, par)
 
 
 def MnfcSoln_U(X, Y, par):
+
     return par.A_U * np.sin(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
 
 
 def MnfcSoln_P(X, Y, par):
+
     return par.A_P * np.sin(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
 
 
 def MnfcSoln_GradP(X, Y, dir, par):
+
     if dir == 1:
-        return par.A_P * np.pi * par.m * np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
+        return par.A_P * np.pi * par.m *             np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
     else:
-        return par.A_P * np.pi * par.m * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+        return par.A_P * np.pi * par.m *             np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
 
 
 def MnfcSoln_CurlPsi(X, Y, dir, par):
+
     if dir == 1:
-        return par.A_psi * (1.0 - np.cos(np.pi * par.m * X)) * (np.pi * par.m * np.sin(np.pi * par.m * Y))
+        return par.A_psi * (
+            1.0 - np.cos(np.pi * par.m * X)
+        ) * (
+            np.pi * par.m * np.sin(np.pi * par.m * Y)
+        )
     else:
-        return -par.A_psi * (np.pi * par.m * np.sin(np.pi * par.m * X)) * (1.0 - np.cos(np.pi * par.m * Y))
+        return -par.A_psi * (
+            np.pi * par.m * np.sin(np.pi * par.m * X)
+        ) * (
+            1.0 - np.cos(np.pi * par.m * Y)
+        )
 
 
 def MnfcSoln_GradDelsqU(X, Y, dir, par):
+
     return -2 * np.pi**2 * par.m**2 * MnfcSoln_GradU(X, Y, dir, par)
 
 
 def MnfcSoln_GradU(X, Y, dir, par):
+
     if dir == 1:
-        return par.A_U * np.pi * par.m * np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
+        return par.A_U * np.pi * par.m *             np.cos(np.pi * par.m * X) * np.sin(np.pi * par.m * Y)
     else:
-        return par.A_U * np.pi * par.m * np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
+        return par.A_U * np.pi * par.m *             np.sin(np.pi * par.m * X) * np.cos(np.pi * par.m * Y)
 
 
 # In[12]:
 
 
 def AssembleMatrixAndRHS(phi, dx, par):
+
     Nj, Ni = phi.shape
     N = Ni*Nj
     n = lambda i, j: i + j*Ni
-    X, Y = np.meshgrid(dx * (np.arange(0, ni)-1), dx * (np.arange(0, ni)-1))  # node position
+    # node position
+    X, Y = np.meshgrid(
+        dx * (np.arange(0, ni)-1), 
+        dx * (np.arange(0, ni)-1)
+    )
     e = np.ones(N)
 
     # stokes equation, x - direction
     APx_stk = (-1. * sp.eye(N, k=-1) + sp.eye(N, k=0))/dx  # dP / dx
     # delsq(u)
-    Axu_stk = (sp.eye(N, k=-Ni) + sp.eye(N, k=-1) - 4.0*sp.eye(N, k=0)
-               + sp.eye(N, k=1) + sp.eye(N, k=Ni))*(par.delta/dx)**2 \
-              + (sp.eye(N, k=-1) - 2.0 * sp.eye(N, k=0) + sp.eye(N, k=1)) * 2.0 * (par.delta/dx)**2  # cmp stress
+    Axu_stk = (
+        sp.eye(N, k=-Ni) + sp.eye(N, k=-1) - 4.0*sp.eye(N, k=0)
+        + sp.eye(N, k=1) + sp.eye(N, k=Ni)
+    ) * (par.delta/dx)**2 + (
+        sp.eye(N, k=-1) - 2.0 * sp.eye(N, k=0) + sp.eye(N, k=1)
+    ) * 2.0 * (par.delta/dx)**2  # cmp stress
     # cmp stress
-    Acxv_stk = (sp.eye(N, k=-1) - sp.eye(N, k=0) + sp.eye(N, k=Ni) - sp.eye(N, k=Ni-1)) * 2.0 * (par.delta/dx)**2
+    Acxv_stk = (
+        sp.eye(N, k=-1) - sp.eye(N, k=0) 
+        + sp.eye(N, k=Ni) - sp.eye(N, k=Ni-1)
+    ) * 2.0 * (par.delta/dx)**2
 
     # stokes equation, y - direction
     APy_stk = (-1. * sp.eye(N, k=-Ni) + sp.eye(N, k=0)) / dx  # dP / dy
     # delsq(v)
-    Ayv_stk = (sp.eye(N, k=-Ni) + sp.eye(N, k=-1) - 4.0 * sp.eye(N, k=0)
-               + sp.eye(N, k=1) + sp.eye(N, k=Ni)) * (par.delta / dx) ** 2 \
-              + (sp.eye(N, k=-Ni) - 2.0 * sp.eye(N, k=0) + sp.eye(N, k=Ni)) * 2.0 * (par.delta / dx) ** 2  # cmp stress
+    Ayv_stk = (
+        sp.eye(N, k=-Ni) + sp.eye(N, k=-1) - 4.0 * sp.eye(N, k=0)
+        + sp.eye(N, k=1) + sp.eye(N, k=Ni)
+    ) * (par.delta / dx) ** 2 + (
+        sp.eye(N, k=-Ni) - 2.0 * sp.eye(N, k=0) + sp.eye(N, k=Ni)
+    ) * 2.0 * (par.delta / dx) ** 2  # cmp stress
+
     # cmp stress
-    Acyu_stk = (sp.eye(N, k=-Ni) - sp.eye(N, k=-Ni+1) - sp.eye(N, k=0) + sp.eye(N, k=1)) * 2.0 * (par.delta / dx) ** 2
+    Acyu_stk = (
+        sp.eye(N, k=-Ni) - sp.eye(N, k=-Ni+1) 
+        - sp.eye(N, k=0) + sp.eye(N, k=1)
+    ) * 2.0 * (par.delta / dx) ** 2
     # compaction equation,
     Au_cmp = (-1. * sp.eye(N, k=0) + sp.eye(N, k=1))/dx  # div(vs)
     Av_cmp = (-1. * sp.eye(N, k=0) + sp.eye(N, k=Ni))/dx  # div(vs)
@@ -540,32 +700,56 @@ def AssembleMatrixAndRHS(phi, dx, par):
     Kx = np.power((phi[:, 0:-1] + phi[:, 1:]) / 2.0 / par.phi0, par.n)
     Ky = np.power((phi[0:-1, :] + phi[1:, :]) / 2.0 / par.phi0, par.n)
 
-    row_ind, col_ind, data_cmp = np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.int64),                                  np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.int64),                                  np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.float64)
+    row_ind = np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.int64)
+    col_ind = np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.int64)
+    data_cmp = np.zeros(((Ni-2)*(Nj-2), 5), dtype=np.float64)
+
     k = 0  # indices counter
     for j in np.arange(1, Nj-1):
         for i in np.arange(1, Ni-1):
             # div K gradP
             row_ind[k, :] = n(i, j)
-            col_ind[k, :] = np.asarray([n(i, j-1), n(i-1, j), n(i, j), n(i+1, j), n(i, j+1)])
-            data_cmp[k, :] = np.asarray([Ky[j-1, i],
-                                         Kx[j, i-1],
-                                         -(Kx[j, i] + Kx[j, i-1] + Ky[j, i] + Ky[j-1, i]),
-                                         Kx[j, i],
-                                         Ky[j, i]]) / (dx ** 2)
+            col_ind[k, :] = np.asarray(
+                [
+                    n(i, j-1), n(i-1, j), 
+                    n(i, j), n(i+1, j), n(i, j+1)
+                ]
+            )
+            data_cmp[k, :] = np.asarray(
+                [
+                    Ky[j-1, i], Kx[j, i-1], 
+                    -(Kx[j, i] + Kx[j, i-1] + Ky[j, i] + Ky[j-1, i]), 
+                    Kx[j, i], Ky[j, i]
+                ]
+            ) / (dx ** 2)
             k += 1
 
     # for div darcy flow
-    AP_cmp = sp.csr_matrix((data_cmp.flatten(), (row_ind.flatten(), col_ind.flatten())), shape=(N, N))
+    AP_cmp = sp.csr_matrix(
+        (
+            data_cmp.flatten(), 
+            (
+                row_ind.flatten(), 
+                col_ind.flatten()
+            )
+        ), 
+        shape=(N, N)
+    )
 
-    A = sp.vstack([sp.hstack([Axu_stk, Acxv_stk, -APx_stk]),
-                   sp.hstack([Acyu_stk, Ayv_stk, -APy_stk]),
-                   sp.hstack([-Au_cmp, -Av_cmp, AP_cmp])])
+    A = sp.vstack(
+        [
+            sp.hstack([Axu_stk, Acxv_stk, -APx_stk]),
+            sp.hstack([Acyu_stk, Ayv_stk, -APy_stk]),
+            sp.hstack([-Au_cmp, -Av_cmp, AP_cmp])
+        ]
+    )
 
     # right - hand side
     Gx = MnfcSoln_G(X, Y + 0.5*dx, 1, par).flatten()
     Gy = MnfcSoln_G(X + 0.5*dx, Y, 2, par).flatten()
     F = MnfcSoln_F(X + 0.5*dx, Y + 0.5*dx, par).flatten()
     b = np.hstack((Gx, Gy, F))
+    
     for j in np.arange(1, Nj - 1):
         for i in np.arange(1, Ni - 1):
             row = n(i, j)
@@ -580,29 +764,46 @@ def AssembleMatrixAndRHS(phi, dx, par):
 
 
 def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
-    X, Y = np.meshgrid(dx * (np.arange(0, Ni)-1), dx * (np.arange(0, Ni)-1))  # node position
+
+    # node position
+    X, Y = np.meshgrid(
+        dx * (np.arange(0, Ni)-1), 
+        dx * (np.arange(0, Ni)-1)
+    )
     N = Ni*Nj
     n = lambda i, j: i + j*Ni
     Xl = X.flatten()
     Yl = Y.flatten()
     # zero u boundary rows
-    rows = np.hstack([n(0, np.arange(0, Nj)),
-                      n(1, np.arange(1, Nj-1)),
-                      n(Ni-1, np.arange(0, Nj)),
-                      n(np.arange(1, Ni-1), 0),
-                      n(np.arange(1, Ni-1), Nj-1)])
+    rows = np.hstack(
+        [
+            n(0, np.arange(0, Nj)),
+            n(1, np.arange(1, Nj-1)),
+            n(Ni-1, np.arange(0, Nj)),
+            n(np.arange(1, Ni-1), 0),
+            n(np.arange(1, Ni-1), Nj-1)
+        ]
+    )
     A[rows, :] = 0.0
     # u boundary conditions
-    rows = np.hstack([n(0, np.arange(0, Nj)),
-                      n(1, np.arange(1, Nj-1)),
-                      n(Ni-1, np.arange(0, Nj))])
+    rows = np.hstack(
+        [
+            n(0, np.arange(0, Nj)),
+            n(1, np.arange(1, Nj-1)),
+            n(Ni-1, np.arange(0, Nj))
+        ]
+    )
     A[rows, rows] = 1.0
-    b[rows] = MnfcSoln_V(Xl[rows], Yl[rows] + 0.5 * dx, 1, par)
+    b[rows] = MnfcSoln_V(
+        Xl[rows], Yl[rows] + 0.5 * dx, 1, par
+    )
 
     rows = n(np.arange(1, Ni-1), 0)
     A[rows, rows] = 0.5
     A[rows, rows + Ni] = 0.5
-    b[rows] = MnfcSoln_V(Xl[rows], Yl[rows]+dx, 1, par)
+    b[rows] = MnfcSoln_V(
+        Xl[rows], Yl[rows]+dx, 1, par
+    )
 
     rows = n(np.arange(1, Ni-1), Nj-1)
     A[rows, rows] = 0.5
@@ -610,17 +811,25 @@ def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
     b[rows] = MnfcSoln_V(Xl[rows], Yl[rows], 1, par)
 
     # zero w boundary rows
-    rows = N + np.hstack([n(np.arange(0, Ni), 0),
-                          n(np.arange(1, Ni-1), 1),
-                          n(np.arange(0, Ni), Nj-1),
-                          n(0, np.arange(1, Nj-1)),
-                          n(Ni-1, np.arange(1, Nj-1))])
+    rows = N + np.hstack(
+        [
+            n(np.arange(0, Ni), 0),
+            n(np.arange(1, Ni-1), 1),
+            n(np.arange(0, Ni), Nj-1),
+            n(0, np.arange(1, Nj-1)),
+            n(Ni-1, np.arange(1, Nj-1))
+        ]
+    )
     A[rows, :] = 0
 
     # w boundary conditions
-    rows = N + np.hstack([n(np.arange(0, Ni), 0),
-                          n(np.arange(1, Ni-1), 1),
-                          n(np.arange(0, Ni), Nj-1)])
+    rows = N + np.hstack(
+        [
+            n(np.arange(0, Ni), 0),
+            n(np.arange(1, Ni-1), 1),
+            n(np.arange(0, Ni), Nj-1)
+        ]
+    )
     A[rows, rows] = 1.0
     b[rows] = MnfcSoln_V(Xl[rows - N] + 0.5 * dx, Yl[rows - N], 2, par)
 
@@ -635,32 +844,44 @@ def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
     b[rows] = MnfcSoln_V(Xl[rows-N], Yl[rows-N], 2, par)
 
     # zero P boundary rows
-    rows = 2*N + np.hstack([n(0, np.arange(0, Nj)),
-                            n(Ni-1, np.arange(0, Nj)),
-                            n(np.arange(1, Ni-1), 0),
-                            n(np.arange(1, Ni-1), Nj-1)])
+    rows = 2*N + np.hstack(
+        [
+            n(0, np.arange(0, Nj)),
+            n(Ni-1, np.arange(0, Nj)),
+            n(np.arange(1, Ni-1), 0),
+            n(np.arange(1, Ni-1), Nj-1)
+        ]
+    )
     A[rows, :] = 0.0
 
     # p boundary conditions
     rows = 2*N + n(0, np.arange(0, Nj))
     A[rows, rows] = 0.5
     A[rows, rows + 1] = 0.5
-    b[rows] = MnfcSoln_P(Xl[rows-2*N] + dx, Yl[rows-2*N] + 0.5*dx, par)
+    b[rows] = MnfcSoln_P(
+        Xl[rows-2*N] + dx, Yl[rows-2*N] + 0.5*dx, par
+    )
 
     rows = 2*N + n(Ni-1, np.arange(0, Nj))
     A[rows, rows] = 0.5
     A[rows, rows - 1] = 0.5
-    b[rows] = MnfcSoln_P(Xl[rows-2*N], Yl[rows-2*N] + 0.5*dx, par)
+    b[rows] = MnfcSoln_P(
+        Xl[rows-2*N], Yl[rows-2*N] + 0.5*dx, par
+    )
 
     rows = 2*N + n(np.arange(1, Ni-1), 0)
     A[rows, rows] = 0.5
     A[rows, rows + Ni] = 0.5
-    b[rows] = MnfcSoln_P(Xl[rows-2*N] + 0.5*dx, Yl[rows-2*N] + dx, par)
+    b[rows] = MnfcSoln_P(
+        Xl[rows-2*N] + 0.5*dx, Yl[rows-2*N] + dx, par
+    )
 
     rows = 2*N + n(np.arange(1, Ni-1), Nj-1)
     A[rows, rows] = 0.5
     A[rows, rows - Ni] = 0.5
-    b[rows] = MnfcSoln_P(Xl[rows-2*N] + 0.5*dx, Yl[rows-2*N], par)
+    b[rows] = MnfcSoln_P(
+        Xl[rows-2*N] + 0.5*dx, Yl[rows-2*N], par
+    )
 
     return A, b
 
@@ -669,6 +890,7 @@ def InsertBoundaryConditions(A, b, par, Ni, Nj, dx):
 
 
 def SolveEquationsFiniteDifference(phi, dx, par):
+
     Nj, Ni = phi.shape
     N = Ni * Nj
 
@@ -681,6 +903,7 @@ def SolveEquationsFiniteDifference(phi, dx, par):
     Vx = x[0:N].reshape(Nj, Ni)
     Vy = x[N:2*N].reshape(Nj, Ni)
     P = x[2*N:].reshape(Nj, Ni)
+
     return P, Vx, Vy
 
 
@@ -694,8 +917,13 @@ par = PAR()
 ev, ep = [], []
 
 for ni, nj in zip(par.ni, par.ni):
+    
     dx = 1. / (ni - 2)
-    X, Y = np.meshgrid(dx * (np.arange(0, ni)-1), dx * (np.arange(0, ni)-1))  # node position
+    # node position
+    X, Y = np.meshgrid(
+        dx * (np.arange(0, ni)-1), 
+        dx * (np.arange(0, ni)-1)
+    ) 
 
     # solve the finite difference problem
     phi = MnfcSoln_phi(X + dx / 2, Y + dx / 2, par)
@@ -708,14 +936,29 @@ for ni, nj in zip(par.ni, par.ni):
     V = np.hstack((Vx.flatten(), Vy.flatten()))
 
     # manufactured solution
-    P_mfc = MnfcSoln_P(X[1:-1, 1:-1]+dx/2, Y[1:-1, 1:-1]+dx/2, par)
-    Vx_mfc = MnfcSoln_V(X[1:-1, 1:], Y[1:-1, 1:]+dx/2, 1, par)
-    Vy_mfc = MnfcSoln_V(X[1:, 1:-1]+dx/2, Y[1:, 1:-1], 2, par)
-    V_mfc = np.hstack((Vx_mfc.flatten(), Vy_mfc.flatten()))
+    P_mfc = MnfcSoln_P(
+        X[1:-1, 1:-1]+dx/2, Y[1:-1, 1:-1]+dx/2, par
+    )
+    Vx_mfc = MnfcSoln_V(
+        X[1:-1, 1:], Y[1:-1, 1:]+dx/2, 1, par
+    )
+    Vy_mfc = MnfcSoln_V(
+        X[1:, 1:-1]+dx/2, Y[1:, 1:-1], 2, par
+    )
+    V_mfc = np.hstack(
+        (
+            Vx_mfc.flatten(), 
+            Vy_mfc.flatten()
+        )
+    )
 
     # compute error norms
-    ep.append(np.linalg.norm(P_mfc - P) / np.linalg.norm(P_mfc))
-    ev.append(np.linalg.norm(V_mfc - V) / np.linalg.norm(V_mfc))
+    ep.append(
+        np.linalg.norm(P_mfc - P) / np.linalg.norm(P_mfc)
+    )
+    ev.append(
+        np.linalg.norm(V_mfc - V) / np.linalg.norm(V_mfc)
+    )
 
 
 # In[16]:
@@ -723,9 +966,7 @@ for ni, nj in zip(par.ni, par.ni):
 
 # plotting
 f, ax = plt.subplots()
-zoom = 2.0
-f.set_size_inches(6.1 * zoom, 5.0 * zoom)
-f.set_facecolor('w')
+f.set_size_inches(12.0, 9.0)
 
 ax.loglog(par.ni, ev, '-ok', linewidth=2, label='velocity')
 ax.loglog(par.ni, ep,'--ok', linewidth=2, label='pressure')

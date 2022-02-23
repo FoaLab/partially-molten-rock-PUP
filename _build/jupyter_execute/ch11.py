@@ -39,6 +39,7 @@ warnings.filterwarnings('ignore')
 
 
 def implicit_porosity(f, F, Ql, n):
+
     return Ql * np.power(f, n)*(1-f)**2 + f - F
 
 
@@ -80,8 +81,13 @@ phi = np.asarray([1. / 2. / qi * (np.sqrt(1. + 4 * z * Fmax * qi)-1) for qi in Q
 w = np.asarray([Fmax*z/phi_i for phi_i in phi])
 W = np.asarray([(1.0 - Fmax*z)/(1.0 - phi_i) for phi_i in phi])
 
-imphi = np.asarray([[fsolve(lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), phi_ij)[0]
-                    for Z, phi_ij in zip(z, phi_i)] for qi, phi_i in zip(Q, phi)])
+imphi = np.asarray([
+    [fsolve(
+        lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), phi_ij
+    )[0]
+    for Z, phi_ij in zip(z, phi_i)]
+    for qi, phi_i in zip(Q, phi)
+])
 
 
 # Figure 11.1 below plot the solutions of the melting column model with prescribed melting rate $\eqref{eq:constant-adiabatic-melting}$, under the assumption that Darcy drag balances buoyancy of the liquid phase. Black lines show the analytical solution $\eqref{eq:meltcol-porosity-n2}$ and $w(z)/W_0 = F(z)/\phi(z)$. Parameters are $\Fmax=0.2$, $\permexp=2$, and $\fluxpar$ as given in the legend. __(a)__ Degree of melting. __(b)__ Scaled solid upwelling rate. __(c)__ Porosity. Thin grey lines show the numerical solution of the implicit equation $\eqref{eq:col-compaction-nondim_1}$. __(d)__ Liquid upwelling rate scaled with the inflow solid upwelling rate.
@@ -89,55 +95,72 @@ imphi = np.asarray([[fsolve(lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), phi
 # In[4]:
 
 
-f, ax = plt.subplots(1, 4)
-f.set_size_inches(18.0, 9.0)
+f, ax = plt.subplots(2, 2)
+f.set_size_inches(9.0, 18.0)
 f.set_facecolor('w')
 
-ax[0].plot(z*Fmax, z, '-k', linewidth=2)
-ax[0].plot([Fmax, Fmax], [0., 1.], ':k')
-ax[0].set_xlabel(r'$F$', fontsize=20)
-ax[0].set_xticks((0.0, 0.5, 1.0))
-ax[0].set_xlim(0.0, 1.0)
-ax[0].set_ylim(0.0, 1.0)
-ax[0].set_ylabel(r'$z/z_0$', fontsize=20)
-ax[0].set_yticks(np.arange(0.0, 1.1, 0.2))
-ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.26, 0.1, r'$F_{max}$', fontsize=20, verticalalignment='bottom', 
-           horizontalalignment='center', rotation=-90.0)
-ax[0].text(0.98, 0.01, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0, 0].plot(z*Fmax, z, '-k', linewidth=2)
+ax[0, 0].plot([Fmax, Fmax], [0., 1.], ':k')
+ax[0, 0].set_xlabel(r'$F$', fontsize=20)
+ax[0, 0].set_xticks((0.0, 0.5, 1.0))
+ax[0, 0].set_xlim(0.0, 1.0)
+ax[0, 0].set_ylim(0.0, 1.0)
+ax[0, 0].set_ylabel(r'$z/z_0$', fontsize=20)
+ax[0, 0].set_yticks(np.arange(0.0, 1.1, 0.2))
+ax[0, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 0].text(
+    0.26, 0.1, r'$F_{max}$', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='center', rotation=-90.0
+)
+ax[0, 0].text(
+    0.98, 0.01, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-ax[1].plot(W[0, :], z, '-k', linewidth=2)
-ax[1].set_xlabel(r'$W/W_0$', fontsize=20)
-ax[1].set_xlim(0.0, 1.05)
-ax[1].set_ylim(0.0, 1.0)
-ax[1].set_xticks((0.0, 0.5, 1.0))
-ax[1].set_yticks(())
-ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(0.2, 0.01, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0, 1].plot(W[0, :], z, '-k', linewidth=2)
+ax[0, 1].set_xlabel(r'$W/W_0$', fontsize=20)
+ax[0, 1].set_xlim(0.0, 1.05)
+ax[0, 1].set_ylim(0.0, 1.0)
+ax[0, 1].set_xticks((0.0, 0.5, 1.0))
+ax[0, 1].set_yticks(())
+ax[0, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 1].text(
+    0.2, 0.01, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-p1 = ax[2].plot(phi[0, :], z, '-k', linewidth=2)
-p2 = ax[2].plot(phi[1, :], z, '--k', linewidth=2)
-ax[2].plot(imphi[0, :], z, '-', linewidth=1, color=[0.6, 0.6, 0.6])
-ax[2].plot(imphi[1, :], z, '--', linewidth=1, color=[0.6, 0.6, 0.6])
-ax[2].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
-ax[2].set_xticks((0.0, 0.005, 0.01, 0.015))
-ax[2].set_yticks(())
-ax[2].set_ylim(0.0, 1.0)
-ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(0.015,0.01, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+p1 = ax[1, 0].plot(phi[0, :], z, '-k', linewidth=2)
+p2 = ax[1, 0].plot(phi[1, :], z, '--k', linewidth=2)
+ax[1, 0].plot(imphi[0, :], z, '-', linewidth=1, color=[0.6, 0.6, 0.6])
+ax[1, 0].plot(imphi[1, :], z, '--', linewidth=1, color=[0.6, 0.6, 0.6])
+ax[1, 0].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
+ax[1, 0].set_xticks((0.0, 0.005, 0.01, 0.015))
+ax[1, 0].set_yticks(())
+ax[1, 0].set_ylim(0.0, 1.0)
+ax[1, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 0].text(
+    0.015, 0.01, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-plt.legend(handles=(p1[0], p2[0]), fontsize=15,
-           labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
-           bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=(p1[0], p2[0]), fontsize=15,
+    labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
+    bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left', 
+    ncol=2, mode="expand", borderaxespad=0.
+)
 
-ax[3].plot(w[0, :], z, '-k', linewidth=2)
-ax[3].plot(w[1, :], z, '--k', linewidth=2)
-ax[3].set_xlabel(r'$w/W_0$', fontsize=20)
-ax[3].set_xticks((0.0, 20.0, 40.0))
-ax[3].set_yticks(())
-ax[3].set_ylim(0.0, 1.0)
-ax[3].tick_params(axis='both', which='major', labelsize=13)
-ax[3].text(45., 0.01, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1, 1].plot(w[0, :], z, '-k', linewidth=2)
+ax[1, 1].plot(w[1, :], z, '--k', linewidth=2)
+ax[1, 1].set_xlabel(r'$w/W_0$', fontsize=20)
+ax[1, 1].set_xticks((0.0, 20.0, 40.0))
+ax[1, 1].set_yticks(())
+ax[1, 1].set_ylim(0.0, 1.0)
+ax[1, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 1].text(
+    45., 0.01, '(d)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.1", fontsize=20)
 
@@ -161,10 +184,12 @@ zmin = 1e-5
 z = np.logspace(np.log10(zmin), 0.0, 1000)
 phi = np.asarray([0.5/qi*(np.sqrt(1+4*z*Fmax*qi) - 1.0) for qi in Q])
 
-DP = np.asarray([-Fmax/(phi[0, :]/0.01),
-                 -Fmax/(phi[1, :]/0.01),
-                 -Fmax*(-np.log(phi[0, :]/0.01)),
-                 -Fmax*(-np.log(phi[1, :]/0.01))])
+DP = np.asarray([
+    -Fmax/(phi[0, :]/0.01),
+    -Fmax/(phi[1, :]/0.01),
+    -Fmax*(-np.log(phi[0, :]/0.01)),
+    -Fmax*(-np.log(phi[1, :]/0.01))
+])
 
 zz = np.asarray([1e-5, 1e-4])
 ff = zz * 0.8
@@ -182,9 +207,16 @@ ax[0].set_ylabel(r'$z/z_0$', fontsize=20)
 ax[0].set_ylim((1e-5, 1.0))
 ax[0].set_yticks((1e-4, 1e-2, 1e0))
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(5e-5, 0.5, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
-plt.legend(handles=(p1[0], p2[0]), fontsize=15, labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
-           bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
+ax[0].text(
+    5e-5, 0.5, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
+plt.legend(
+    handles=(p1[0], p2[0]), fontsize=15, 
+    labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
+    bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', 
+    ncol=2, mode="expand", borderaxespad=0.
+)
 
 ax[1].plot(DP[0, :], z, '-k', linewidth=2)
 ax[1].plot(DP[1, :], z, '--k', linewidth=2)
@@ -197,7 +229,10 @@ ax[1].set_ylim((1e-5, 1.0))
 ax[1].set_yscale('log')
 ax[1].set_yticks(())
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(-8.5, 0.5, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    -8.5, 0.5, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.2", fontsize=20)
 
@@ -256,13 +291,13 @@ plt.show()
 # In[6]:
 
 
-z0 = 60e3  # column height, metres
-c = 1200.  # heat capacity
-alpha = 3e-5  # expansivity
-rho = 3000.  # density
-g = 10.  # gravity
-L = 5e5  # latent heat J/kg
-C = 6.5e6  # clapeyron Pa/K
+z0 = 60e3            # column height, metres
+c = 1200.            # heat capacity
+alpha = 3e-5         # expansivity
+rho = 3000.          # density
+g = 10.              # gravity
+L = 5e5              # latent heat J/kg
+C = 6.5e6            # clapeyron Pa/K
 TsP0 = 1100. + 273.  # solidus at P=0
 Tsz0 = TsP0 + rho*g*z0/C
 
@@ -290,7 +325,10 @@ ax[0].set_ylabel(r'$z/z_0$', fontsize=20)
 ax[0].set_ylim(0.0, 1.0)
 ax[0].set_yticks(np.arange(0.0, 1.01, 0.2))
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.85, 0.01, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0].text(
+    0.85, 0.01, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 ax[1].plot(Fmax*z, z, '-k', linewidth=2)
 ax[1].plot([Fmax, Fmax], [0.0, 1.0], ':k')
@@ -299,9 +337,15 @@ ax[1].set_xlim(0.0, 1.0)
 ax[1].set_ylim(0.0, 1.0)
 ax[1].set_yticks(())
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(Fmax+0.07, 0.1, r'$F_{max}^{1c}$', fontsize=20, verticalalignment='bottom',
-           horizontalalignment='center', rotation=-90)
-ax[1].text(0.9, 0.01, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    Fmax+0.07, 0.1, r'$F_{max}^{1c}$', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='center', 
+    rotation=-90
+)
+ax[1].text(
+    0.9, 0.01, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 p1 = ax[2].plot(phi[0, :], z, '-k', linewidth=2)
 p2 = ax[2].plot(phi[1, :], z, '--k', linewidth=2)
@@ -311,14 +355,19 @@ ax[2].set_xticks((0.0, 0.01, 0.02, 0.03))
 ax[2].set_ylim(0.0, 1.0)
 ax[2].set_yticks(())
 ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(0.029, 0.01, '(c)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
+ax[2].text(
+    0.029, 0.01, '(c)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-plt.legend(handles=(p1[0], p2[0]), fontsize=15, labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
-           bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=(p1[0], p2[0]), fontsize=15, 
+    labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
+    bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', 
+    ncol=2, mode="expand", borderaxespad=0.
+)
 
-f.supxlabel("Figure 11.3", fontsize=20)
-
-plt.plot()
+f.supxlabel("Figure 11.3", fontsize=20);
 
 
 # #### Two-component mantle column
@@ -354,14 +403,14 @@ plt.plot()
 # In[8]:
 
 
-z0 = 60e3  # column height, metres
-c = 1200.  # heat capacity
-alpha = 3e-5  # expansivity
-rho = 3000.  # density
-g = 10.  # gravity
-L = 5e5  # latent heat J/kg
-C = 6.5e6  # clapeyron Pa/K
-Mdc = 700.  # sol slope times Delta c, K
+z0 = 60e3            # column height, metres
+c = 1200.            # heat capacity
+alpha = 3e-5         # expansivity
+rho = 3000.          # density
+g = 10.              # gravity
+L = 5e5              # latent heat J/kg
+C = 6.5e6            # clapeyron Pa/K
+Mdc = 700.           # sol slope times Delta c, K
 TsP0 = 1100. + 273.  # solidus at P=0
 Tsz0 = TsP0 + rho*g*z0/C
 
@@ -376,7 +425,9 @@ W = 1. - F
 T = 1. - rho*g/C*z0/Tsz0*z + Mdc*F/Tsz0
 Tcc = 1. - rho*g/C*z0/Tsz0*z
 
-phi = np.asarray([0.5/qi * (np.sqrt(1.0 + 4.0*z*Fmax*qi) - 1.0) for qi in Q])
+phi = np.asarray(
+    [0.5/qi * (np.sqrt(1.0 + 4.0*z*Fmax*qi) - 1.0) for qi in Q]
+)
 Cb = np.asarray([F - phii for phii in phi])
 
 
@@ -397,8 +448,14 @@ ax[0].set_ylabel(r'$z/z_0$', fontsize=20)
 ax[0].set_yticks(np.arange(0.0, 1.01, 0.2))
 ax[0].set_ylim(0.0, 1.0)
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.85, 0.54, r'Clausius-Clapeyron slope', fontsize=15, horizontalalignment='left', rotation=-72)
-ax[0].text(0.83, 0.01, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0].text(
+    0.85, 0.54, r'Clausius-Clapeyron slope', 
+    fontsize=15, horizontalalignment='left', rotation=-72
+)
+ax[0].text(
+    0.83, 0.01, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 p1 = ax[1].plot(phi[0, :], z, '-k', linewidth=2)
 p2 = ax[1].plot(phi[1, :], z, '--k', linewidth=2)
@@ -407,10 +464,17 @@ ax[1].set_xticks((0, 0.005, 0.01))
 ax[1].set_yticks(())
 ax[1].set_ylim(0.0, 1.0)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(0.015, 0.01, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    0.015, 0.01, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-plt.legend(handles=(p1[0], p2[0]), fontsize=15, labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
-           bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=(p1[0], p2[0]), fontsize=15, 
+    labels=(r'$\mathcal{Q}=10^3$', r'$\mathcal{Q}=10^4$'),
+    bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', 
+    ncol=2, mode="expand", borderaxespad=0.
+)
 
 ax[2].plot(Cb[0, :], z, '-k', linewidth=2)
 ax[2].plot(Cb[1, :], z, '--k', linewidth=2)
@@ -420,7 +484,10 @@ ax[2].set_xticks((0.0, 0.1, 0.2))
 ax[2].set_ylim(0.0, 1.0)
 ax[2].set_yticks(())
 ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(0.22, 0.01, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[2].text(
+    0.22, 0.01, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.4", fontsize=20)
 
@@ -484,19 +551,19 @@ plt.show()
 # In[10]:
 
 
-D = 0.01  # distribution coefficient
-c = 1200.  # heat capacity J/kg/K
-alpha = 3e-5  # expansivity /K
-rho = 3000.  # density
-g = 10.  # gravity
-L = 5e5  # latent heat J/kg
-C = 6.5e6  # clapeyron Pa/K
-M = -4.  # solidus slope, K per ppm volatile
-c0 = 100.  # volatile concentration, ppm
+D = 0.01             # distribution coefficient
+c = 1200.            # heat capacity J/kg/K
+alpha = 3e-5         # expansivity /K
+rho = 3000.          # density
+g = 10.              # gravity
+L = 5e5              # latent heat J/kg
+C = 6.5e6            # clapeyron Pa/K
+M = -4.              # solidus slope, K per ppm volatile
+c0 = 100.            # volatile concentration, ppm
 TsP0 = 1100. + 273.  # solidus at P=0
-Ts0 = 1300. + 273.  # mantle temperature
-Q = 1e4           # flux parameter
-n = 2               # permeability exponent
+Ts0 = 1300. + 273.   # mantle temperature
+Q = 1e4              # flux parameter
+n = 2                # permeability exponent
 
 Mc0 = M*c0
 z0 = (Ts0 - TsP0 - Mc0)/(rho*g/C)
@@ -514,7 +581,8 @@ phi = 1./2./Q*(np.sqrt(1.0 + 4.*F*Q) - 1.0)
 a = (1/D - 1)*c*M/L
 beta = -g*rho/(M*C) + alpha*g*Ts0/(c*M)
 
-cf =  -lambertw((-c0)*a*np.exp((-c0)*a)*np.exp(a*beta*z))/a  # Lambert W approximation
+# Lambert W approximation
+cf =  -lambertw((-c0)*a*np.exp((-c0)*a)*np.exp(a*beta*z))/a
 Ff = c/L*(rho*g*z/C + M*(c0-cf) - alpha*g*Ts0*z/c)
 Tf = Ts0 - rho*g*z/C + M*(cf-c0)
 phif = 1./Q/2.*(np.sqrt(1.0 + 4.0*Ff*Q) - 1.0)
@@ -525,61 +593,76 @@ phif = 1./Q/2.*(np.sqrt(1.0 + 4.0*Ff*Q) - 1.0)
 # In[11]:
 
 
-f, ax = plt.subplots(1, 4)
-f.set_size_inches(18.0, 9.0)
+f, ax = plt.subplots(2, 2)
+f.set_size_inches(12.0, 18.0)
 f.set_facecolor('w')
 
-ax[0].plot(cs/c0, z/z0, '-k', linewidth=2)
-ax[0].plot(cf/c0, z/z0, '--k', linewidth=2)
-ax[0].plot(1., 0., 'or', markersize=10)
-ax[0].set_xlabel(r'$c^s/c^s\vert_0$', fontsize=20)
-ax[0].set_ylabel(r'$z/z_0$', fontsize=20)
-ax[0].set_xlim(0.0, 1.0)
-ax[0].set_xticks((0.0, 0.5, 1.0))
-ax[0].set_ylim(0.0, 1.0)
-ax[0].set_yticks(np.arange(0.0, 1.01, 0.1))
-ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.95, 0.95, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0, 0].plot(cs/c0, z/z0, '-k', linewidth=2)
+ax[0, 0].plot(cf/c0, z/z0, '--k', linewidth=2)
+ax[0, 0].plot(1., 0., 'or', markersize=10)
+ax[0, 0].set_xlabel(r'$c^s/c^s\vert_0$', fontsize=20)
+ax[0, 0].set_ylabel(r'$z/z_0$', fontsize=20)
+ax[0, 0].set_xlim(0.0, 1.0)
+ax[0, 0].set_xticks((0.0, 0.5, 1.0))
+ax[0, 0].set_ylim(0.0, 1.0)
+ax[0, 0].set_yticks(np.arange(0.0, 1.01, 0.1))
+ax[0, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 0].text(
+    0.95, 0.95, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-p1, = ax[1].plot(F, z/z0, '-k', linewidth=2, label='Batch')
-p2, = ax[1].plot(Ff, z/z0, '--k', linewidth=2, label='Fractional')
-ax[1].plot(0.0, 0.0, 'or', markersize=10)
-ax[1].set_xlim(0.0, np.amax(F)+0.05)
-ax[1].set_xticks((0.0, 0.3))
-ax[1].set_xlabel(r'$F$', fontsize=20)
-ax[1].set_ylim(0.0, 1.0)
-ax[1].set_yticks(())
-ax[1].legend(handles=[p1, p2], fontsize=15, loc='lower right')
-ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(0.07, 0.95, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+p1, = ax[0, 1].plot(F, z/z0, '-k', linewidth=2, label='Batch')
+p2, = ax[0, 1].plot(Ff, z/z0, '--k', linewidth=2, label='Fractional')
+ax[0, 1].plot(0.0, 0.0, 'or', markersize=10)
+ax[0, 1].set_xlim(0.0, np.amax(F)+0.05)
+ax[0, 1].set_xticks((0.0, 0.3))
+ax[0, 1].set_xlabel(r'$F$', fontsize=20)
+ax[0, 1].set_ylim(0.0, 1.0)
+ax[0, 1].set_yticks(())
+ax[0, 1].legend(handles=[p1, p2], fontsize=15, loc='lower right')
+ax[0, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 1].text(
+    0.07, 0.95, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-ax[2].plot(T/Ts0, z/z0, '-k', linewidth=2)
-ax[2].plot(Tf/Ts0,z/z0,'--k', linewidth=2)
-ax[2].plot(1.0, 0.0, 'or', markersize=10)
-ax[2].plot(Tcc/Ts0, z/z0 + 0.70, ':k', linewidth=2)
-ax[2].set_xlabel(r'$T/T^\mathcal{S}_0$', fontsize=20)
-ax[2].set_xlim(np.amin(T/Ts0), 1.01)
-ax[2].set_xticks((0.9, 1.0))
-ax[2].set_ylim(0.0, 1.0)
-ax[2].set_yticks(())
-ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(0.90, 0.73, r'Clausius-Clapeyron slope', fontsize=15, horizontalalignment='left', rotation=-40)
-ax[2].text(1.0, 0.95, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1, 0].plot(T/Ts0, z/z0, '-k', linewidth=2)
+ax[1, 0].plot(Tf/Ts0,z/z0,'--k', linewidth=2)
+ax[1, 0].plot(1.0, 0.0, 'or', markersize=10)
+ax[1, 0].plot(Tcc/Ts0, z/z0 + 0.70, ':k', linewidth=2)
+ax[1, 0].set_xlabel(r'$T/T^\mathcal{S}_0$', fontsize=20)
+ax[1, 0].set_xlim(np.amin(T/Ts0), 1.01)
+ax[1, 0].set_xticks((0.9, 1.0))
+ax[1, 0].set_ylim(0.0, 1.0)
+ax[1, 0].set_yticks(())
+ax[1, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 0].text(
+    0.90, 0.78, r'Clausius-Clapeyron slope', 
+    fontsize=15, horizontalalignment='left', rotation=-30
+)
+ax[1, 0].text(
+    1.0, 0.95, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-ax[3].plot(phi, z/z0, '-k', linewidth=2)
-ax[3].plot(phif, z/z0, '--k', linewidth=2)
-ax[3].plot(0.0, 0.0, 'or', markersize=10)
-ax[3].set_xlim(0.0, np.max(phi))
-ax[3].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
-ax[3].set_xticks((0.0, 3.e-3, 6.e-3))
-ax[3].set_ylim(0.0, 1.0)
-ax[3].set_yticks(())
-ax[3].tick_params(axis='both', which='major', labelsize=13)
-ax[3].text(0.8e-3, 0.950, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1, 1].plot(phi, z/z0, '-k', linewidth=2)
+ax[1, 1].plot(phif, z/z0, '--k', linewidth=2)
+ax[1, 1].plot(0.0, 0.0, 'or', markersize=10)
+ax[1, 1].set_xlim(0.0, np.max(phi))
+ax[1, 1].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
+ax[1, 1].set_xticks((0.0, 3.e-3, 6.e-3))
+ax[1, 1].set_ylim(0.0, 1.0)
+ax[1, 1].set_yticks(())
+ax[1, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 1].text(
+    0.8e-3, 0.950, '(d)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.5", fontsize=20)
 
-plt.show()
+plt.plot()
 
 
 # ## The visco-gravitational boundary layer
@@ -631,24 +714,41 @@ plt.show()
 
 
 def AssembleMatrix_W(aw, dz, phi, n, d0):
+
     zh = 1./(0.5*(phi[0:-1] + phi[1:]))  # bulk viscosity
     b = np.power(phi[1:-1], n)
     aw.data[0] = np.concatenate((b*zh[0:-1], -1.0, 0.0), axis=None)
-    aw.data[1] = np.concatenate((1.0, -(b*(zh[0:-1]+zh[1:]) + dz*dz/d0/d0), 1.0), axis=None)
+    aw.data[1] = np.concatenate(
+        (
+            1.0, 
+            -(b*(zh[0:-1]+zh[1:]) + dz*dz/d0/d0), 1.0
+        ), 
+        axis=None
+    )
     aw.data[2] = np.concatenate((0.0, 0.0, b*zh[1:]), axis=None)
 
 
 def AssembleRHS_W(dz, phi, w, d0, Q, n, F0):
-    return np.concatenate((w[0], dz*dz/d0/d0*(Q*(phi[1:-1] ** n) - 1), -F0*dz), axis=None)
+
+    return np.concatenate(
+        (
+            w[0], 
+            dz*dz/d0/d0*(Q*(phi[1:-1] ** n) - 1), 
+            -F0*dz
+        ), 
+        axis=None
+    )
 
 
 def AssembleMatrix_phi(Ap, W, dt, dz):
+
     dtzW = 0.5*dt/dz*W[1:]
     Ap.data[0] = np.concatenate((-dtzW, 0.0), axis=None)
     Ap.data[1] = np.concatenate((1.0, dtzW + 1.0), axis=None)
 
 
 def AssembleRHS_phi(z, phi, W, dz, F0, dt):
+
     cmp = np.gradient(W, z)
     cmp_F0 = np.concatenate((cmp[1:-1], -F0), axis=None)
     phidot = -W[1:] * (phi[1:]-phi[0:-1])/dz/2. + (F0 + cmp_F0)
@@ -665,13 +765,7 @@ def MeltingColNumerical(Q=1.e4,  # flux parameter
     z = np.linspace(0.0, 4. * zb, 5000)
     dz = z[1] - z[0]
     phi_t0 = np.power(F0/Q*z, 1./n)  # Darcy solution
-    W_t0 = 1 - F0 * z  # Darcy solution
-
-    # P0 = - f0 * zb / d0 ** 2 / e0 - F0 * (1 - F0 * zb) / np.power(f0 / e0 * F0 * zb, 1./n)
-    # zd = np.linspace(0.0, zb, 10000)
-    # phid = F0 / f0 * zd
-    # Wd = 1 + F0 * P0 / 2 / f0 * zd ** 2
-    # Pd = f0 / (d0 ** 2) / e0 * zd + P0
+    W_t0 = 1 - F0 * z                # Darcy solution
 
     # allocate matrices and solution vectors
     N = len(z)
@@ -695,7 +789,7 @@ def MeltingColNumerical(Q=1.e4,  # flux parameter
         phi = spsolve(Ap.tocsr(), R)  # porosity evolution
 
         # if change of solution is smaller than tolerance, break
-        del_ = np.linalg.norm(phi - phio, 2) / dt / np.linalg.norm(phi, 2)  # change of solution
+        del_ = np.linalg.norm(phi - phio, 2) / dt / np.linalg.norm(phi, 2)
 
     return z, W, phi, np.gradient(W, z) / phi
 
@@ -722,7 +816,9 @@ Pbl = -np.sqrt(Q)/delta*(2.0 - Z)
 Pbl[Z > 1.5] = np.nan
 P   = -1.0/(zb*Z)
 
-V = Fmax*Z*zb - Fmax*zb*np.sqrt(np.pi/2.0)*np.exp(0.5*(Z-2.0)**2) * (erf(np.sqrt(2.0)) + erf(np.sqrt(2.0) * 0.5*(Z-2.0)))
+V = Fmax*Z*zb - Fmax*zb*np.sqrt(np.pi/2.0)*np.exp(0.5*(Z-2.0)**2) * (
+    erf(np.sqrt(2.0)) + erf(np.sqrt(2.0) * 0.5*(Z-2.0))
+)
 V[Z > 1.5] = np.nan
 Wbl = 1 - V
 Wbl[Z > 1.5] = np.nan
@@ -750,7 +846,10 @@ ax[0].set_yticks(np.arange(0.0, 2.1, 0.2))
 ax[0].set_xlabel(r'$W/W_0$', fontsize=20)
 ax[0].set_ylabel(r'$z/z_b$', fontsize=20)
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.9996, 0.0, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0].text(
+    0.9996, 0.0, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 p0, = ax[1].plot(S_P, S_z/zb, '-k', linewidth=2)
 p1, = ax[1].plot(P, Z, ':k', linewidth=2)
@@ -762,10 +861,16 @@ ax[1].set_ylim(0.0, 2.0)
 ax[1].set_yticks(())
 ax[1].set_xlabel(r'$\mathcal{P}/\mathcal{P}_0$', fontsize=20)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(-5.4, 0.0, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    -5.4, 0.0, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-plt.legend(handles=[p0, p1, p2], labels=['Numerical', 'Darcy', 'Boundary layer'], fontsize=15,
-           bbox_to_anchor=(-1.0, 1.02, 2.0, .2),  loc='lower left', ncol=3, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=[p0, p1, p2], labels=['Numerical', 'Darcy', 'Boundary layer'], 
+    fontsize=15, bbox_to_anchor=(-1.0, 1.02, 2.0, .2),  
+    loc='lower left', ncol=3, mode="expand", borderaxespad=0.
+)
 
 ax[2].plot(phi, Z, ':k', phibl, Z, '--k', S_phi, S_z/zb, '-k', linewidth=2)
 ax[2].plot([1e-10, 2.0*np.max(S_phi)], [1.0, 1.0], '-', color=[0.5, 0.5, 0.5])
@@ -775,7 +880,10 @@ ax[2].set_ylim(0.0, 2.0)
 ax[2].set_yticks(())
 ax[2].set_xlabel(r'$\phi$', fontsize=20)
 ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(2e-4, 1.9e-4, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[2].text(
+    2e-4, 1.9e-4, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.6", fontsize=20)
 
@@ -852,7 +960,7 @@ W = np.asarray([1 - fovri*(1-G) for fovri in fovr])
 
 
 f, ax = plt.subplots(1, 4)
-f.set_size_inches(18.0, 9.0)
+f.set_size_inches(15.0, 9.0)
 f.set_facecolor('w')
 
 ax[0].plot(G, zeta, '-k', linewidth=2, label=r'$G$')
@@ -864,11 +972,16 @@ ax[0].set_xticks((0.0, 0.5, 1.0, 1.5))
 ax[0].set_yticks((-4, -3, -2, -1, 0))
 ax[0].legend(loc='lower right', fontsize=15)
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(0.22, -3.9, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0].text(
+    0.22, -3.9, '(a)', fontsize=20,
+    verticalalignment='bottom', horizontalalignment='right'
+)
                     
 for Phii, pltstyi, R2i in zip(Phi, {':k','-.k','--k','-k'}, np.sqrt(R2)):
-    ax[1].plot(Phii, zeta, pltstyi, linewidth=2, 
-               label="R={0:.2f}".format(R2i))
+    ax[1].plot(
+        Phii, zeta, pltstyi, linewidth=2, label="R={0:.2f}".format(R2i)
+    )
+
 ax[1].set_xlim(0.0, 2.3)
 ax[1].set_ylim(-4.0, 0.0)
 ax[1].set_xticks((0.0, 1.0, 2.0))
@@ -876,27 +989,43 @@ ax[1].set_yticks(())
 ax[1].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
 ax[1].legend(loc='lower right', fontsize=15)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(0.32, -3.9, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    0.32, -3.9, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 for wi, pltstyi, R2i in zip(w, {':k','-.k','--k','-k'}, np.sqrt(R2)):
-    ax[2].plot(wi, zeta, pltstyi, linewidth=2, label="R={0:.2f}".format(R2i))
+    ax[2].plot(
+        wi, zeta, pltstyi, linewidth=2, label="R={0:.2f}".format(R2i)
+    )
+
 ax[2].set_xlabel(r'$w/w_0$', fontsize=20)
 ax[2].set_ylim(-4.0, 0.0)
 ax[2].set_xticks((0.0, 0.5, 1.0))
 ax[2].set_yticks(())
 ax[2].legend(loc='lower left', fontsize=15)
 ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(0.95, -3.9, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[2].text(
+    0.95, -3.9, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 for Wi, pltstyi, fovri in zip(W, {':k','-.k','--k','-k'}, fovr):
-    ax[3].plot(Wi, zeta, pltstyi, linewidth=2, label="$q_\infty/W_0={0:.2f}$".format(fovri))
+    ax[3].plot(
+        Wi, zeta, pltstyi, linewidth=2, 
+        label="$q_\infty/W_0={0:.2f}$".format(fovri)
+    )
+
 ax[3].set_yticks(())
 ax[3].set_ylim(-4.0, 0.0)
 ax[3].set_xticks((0.0, 0.5, 1.0))
 ax[3].set_xlabel('$W/W_0$', fontsize=20)
 ax[3].legend(loc='lower right', fontsize=15)
 ax[3].tick_params(axis='both', which='major', labelsize=13)
-ax[3].text(0.15, -3.9, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[3].text(
+    0.15, -3.9, '(d)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.7", fontsize=20)
 
@@ -966,36 +1095,55 @@ al3f = 1 + lmbda[2]*z0/W0/Fmax*(D[1]-D[2])
 
 
 f, ax = plt.subplots(1, 2)
-f.set_size_inches(18.0, 9.0)
+f.set_size_inches(15.0, 9.0)
 f.set_facecolor('w')
 
 p0, = ax[0].loglog(fmax, al2s, '-k', linewidth=2)
 p1, = ax[0].loglog(fmax, al3s, '--k', linewidth=2)
+
 for i, Di in enumerate(D):
     ax[0].plot([Di, Di], [1e-10, 1e10], ':k')
-    ax[0].text(Di, 30., r"$D_{0}$".format(i+1), fontsize=15, rotation=-90, verticalalignment='bottom')
+    ax[0].text(
+        Di, 30., r"$D_{0}$".format(i+1), fontsize=15, 
+        rotation=-90, verticalalignment='bottom'
+    )
+
 ax[0].set_ylim(1e0, 1e2)
 ax[0].set_xlim(1e-5, 1e-1)
 ax[0].set_xticks((1e-5, 1e-3, 1e-1))
 ax[0].set_xlabel(r'$\phi_{max}$', fontsize=20)
 ax[0].set_ylabel(r'$\tilde{a}_j^\ell\vert_1$', fontsize=20)
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(5e-5, 1.1e0, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
-plt.legend(handles=[p0, p1], labels=[r'$\tilde{a}_2^\ell\vert_1$', r'$\tilde{a}_3^\ell\vert_1$'], fontsize=15,
-           bbox_to_anchor=(-1.0, 1.02, 1.5, .2),  loc='lower left', ncol=2, mode="expand", borderaxespad=0.)
+ax[0].text(
+    5e-5, 1.1e0, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
+
+plt.legend(
+    handles=[p0, p1], 
+    labels=[r'$\tilde{a}_2^\ell\vert_1$', r'$\tilde{a}_3^\ell\vert_1$'], 
+    fontsize=15, bbox_to_anchor=(-1.0, 1.02, 1.5, .2), 
+    loc='lower left', ncol=2, mode="expand", borderaxespad=0.
+)
 
 ax[1].loglog(W0*Fmax/z0, al2f, '-k', W0*Fmax/z0, al3f, '--k', linewidth=2)
+
 for (i, lmbdai), x in zip(enumerate(lmbda[1:]), D[0:-1] - D[1:]):
     ax[1].plot([lmbdai*x, lmbdai*x], [1e-10, 1e10], ':k')
-    ax[1].text(lmbdai*x, 30., '$\lambda_{0}(D_{1}-D_{2})$'.format(i+2,i+1,i+2), 
-               fontsize=15, rotation=-90, verticalalignment='bottom')
+    ax[1].text(
+        lmbdai*x, 30., '$\lambda_{0}(D_{1}-D_{2})$'.format(i+2,i+1,i+2), 
+        fontsize=15, rotation=-90, verticalalignment='bottom'
+    )
 ax[1].set_ylim(1e0, 1e2)
 ax[1].set_xlim(np.power(10, -8.5), np.power(10, -5.5))
 ax[1].set_yticks(())
 ax[1].set_xticks((1e-8, 1e-6))
 ax[1].set_xlabel(r'$W_0 F_{max}/z_0$', fontsize=20)
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(1e-8, 1.1e0, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    1e-8, 1.1e0, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 11.8", fontsize=20)
 
@@ -1041,7 +1189,9 @@ plt.show()
 
 
 class El:
+
     def __init__(self, d_=0.0086, l_=1.5e-10, a_=1.0):
+
         self.D = d_
         self.lambda_ = l_
         self.as0 = a_
@@ -1050,27 +1200,33 @@ class El:
 
 
 class Col:
-    def __init__(self, z0_=50e3, w0_=0.05, vr_=1e-3, Fm_=0.25, fm_=0.0045, n_=2, Nz_=1000):
-        self.z0 = z0_  # column height, metres
-        self.W0 = w0_  # upwelling rate, metres per year
-        self.vr = vr_  # W0/w0
+
+    def __init__(
+        self, z0_=50e3, w0_=0.05, vr_=1e-3, Fm_=0.25, 
+        fm_=0.0045, n_=2, Nz_=1000
+    ):
+
+        self.z0 = z0_    # column height, metres
+        self.W0 = w0_    # upwelling rate, metres per year
+        self.vr = vr_    # W0/w0
         self.Fmax = Fm_  # Maximum degree of melting
         self.fmax = fm_  # Maximum porosity
-        self.n = n_  # permeability exponent
-        self.Nz = Nz_  # number of steps in z for output
-        # column vectors (for plotting)
+        self.n = n_      # permeability exponent
+        self.Nz = Nz_    # number of steps in z for output
         self.z = np.linspace(0.0, 1.0, Nz_)  # height (non-dim)
-        self.f = np.sqrt(0.25 * vr_ ** 2 + fm_ ** 2 * self.z) - 0.5 * vr_  # porosity
+        # porosity
+        self.f = np.sqrt(0.25 * vr_ ** 2 + fm_ ** 2 * self.z) - 0.5 * vr_
         self.F = Fm_ * self.z  # degree of melting
 
 
 def derivatives(a, z, el, col, batch):
+
     ap = 0
     Dp = 1
     F = col.Fmax * z
-    # f = col.fmax * np.power(z, 1 / col.n)
     f = np.sqrt(0.25*col.vr**2 + col.fmax**2 * z) - 0.5*col.vr
     dadz = np.zeros(len(el)).reshape(len(el))
+
     for i, (eli, ai) in enumerate(zip(el, a)):
         D = eli.D
         Dr = (f + (1 - f) * Dp) / (f + (1 - f) * D)
@@ -1091,6 +1247,7 @@ def derivatives(a, z, el, col, batch):
     return dadz
 
 def DecayChainColumnSolver(el, col):
+
     # assemble initial condition
     #  N.B. the governing equation is derived assuming
     #  that the solid is in secular equilibrium at the bottom
@@ -1100,12 +1257,19 @@ def DecayChainColumnSolver(el, col):
     # solve ODEs
     # solve with melting/transport & ingrowth
     batch = False
-    Sf = odeint(derivatives, a0, col.z, args=(el, col, batch), rtol=1e-5)
+    Sf = odeint(
+        derivatives, a0, col.z, args=(el, col, batch), rtol=1e-5
+    )
+
     for i, eli in enumerate(el):
         eli.a = Sf[:, i]
+
     # solve with melting/transport only
     batch = True
-    St = odeint(derivatives, a0, col.z, args=(el, col, batch), rtol=1e-5)
+    St = odeint(
+        derivatives, a0, col.z, args=(el, col, batch), rtol=1e-5
+    )
+
     for i, eli in enumerate(el):
         eli.ab = St[:, i]
 
@@ -1113,8 +1277,14 @@ def DecayChainColumnSolver(el, col):
 # In[21]:
 
 
-el = [El(0.0086, 1.5e-10, 1.0), El(0.0065, 9.19e-6, 1.0), El(0.0005, 4.33e-4)]
+el = [
+    El(0.0086, 1.5e-10, 1.0), 
+    El(0.0065, 9.19e-6, 1.0), 
+    El(0.0005, 4.33e-4)
+]
+
 col = Col()
+
 DecayChainColumnSolver(el, col)
 
 
@@ -1136,10 +1306,14 @@ ax[0].set_ylim(0.0, 1.0)
 ax[0].set_xticks((0.0, 0.5, 1.0))
 ax[0].set_yticks(np.arange(0.0, 1.01, 0.1))
 ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(1.0, 0.01, '(a)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[0].text(
+    1.0, 0.01, '(a)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 for eli, lstyi in zip(el, lsty):
     ax[1].plot(eli.ab, col.z, 'k', linewidth=2, linestyle=lstyi)
+
 ax[1].plot([1./col.Fmax, 1./col.Fmax], [0., 1.], ':k', linewidth=1)
 ax[1].set_xscale('log')
 ax[1].set_xlabel(r'$[D_j + (1-D_j)F_{max}z]^{-1}$', fontsize=20)
@@ -1147,30 +1321,51 @@ ax[1].set_ylim(0.0, 1.0)
 ax[1].set_xticks((1e0, 1e2))
 ax[1].set_yticks(())
 ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(2e3, 0.02, '(b)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[1].text(
+    2e3, 0.02, '(b)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 for eli, lstyi in zip(el, lsty):
     ax[2].plot(eli.a/eli.ab, col.z, 'k', linewidth=2, linestyle=lstyi)
+
 ax[2].set_yticks(())
 ax[2].set_xlim(0.9, 5.0)
 ax[2].set_ylim(0.0, 1.0)
 ax[2].set_xlabel(r'$\tilde{a}_j^\ell$', fontsize=20)
 ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(4.9, 0.01, '(c)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
+ax[2].text(
+    4.9, 0.01, '(c)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
-p = [ax[3].semilogx(eli.a, col.z, 'k', linewidth=2, linestyle=lstyi) for eli, lstyi in zip(el, lsty)]
+p = [
+    ax[3].semilogx(
+        eli.a, col.z, 'k', linewidth=2, linestyle=lstyi
+    ) for eli, lstyi in zip(el, lsty)
+]
 ax[3].set_xticks((1e0, 1e2))
 ax[3].set_yticks(())
 ax[3].set_ylim(0.0, 1.0)
 ax[3].set_xlabel(r'$a^\ell_j$', fontsize=20)
 ax[3].tick_params(axis='both', which='major', labelsize=13)
-ax[3].text(2e3, 0.02, '(d)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
-ax[3].legend(handles=[p_[0] for p_ in p], labels=['$^{238}$U', r'$^{230}$Th', r'$^{226}$Ra'], fontsize=15,
-             bbox_to_anchor=(-1.5, 1.02, 2.0, .2),  loc='lower left', ncol=3, mode="expand", borderaxespad=0.)
+ax[3].text(
+    2e3, 0.02, '(d)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
+ax[3].legend(
+    handles=[p_[0] for p_ in p], 
+    labels=['$^{238}$U', r'$^{230}$Th', r'$^{226}$Ra'], 
+    fontsize=15, bbox_to_anchor=(-1.5, 1.02, 2.0, .2), 
+    loc='lower left', ncol=3, mode="expand", borderaxespad=0.
+)
 
+q = [
+    ax[4].plot(
+        elim.a/eli.a, col.z, 'k', linewidth=2, linestyle=lstyi
+    ) for elim, eli, lstyi in zip(el[0:-1], el[1:], lsty[0:-1])
+]
 
-q = [ax[4].plot(elim.a/eli.a, col.z, 'k', linewidth=2, linestyle=lstyi) 
-     for elim, eli, lstyi in zip(el[0:-1], el[1:], lsty[0:-1])]
 ax[4].plot([1.0, 1.0], [0.0, 1.0], ':k', linewidth=1)
 ax[4].set_xticks((0.0, 0.5, 1.0))
 ax[4].set_yticks(())
@@ -1178,9 +1373,16 @@ ax[4].set_xlim(0.0, 1.15)
 ax[4].set_ylim(0.0, 1.0)
 ax[4].set_xlabel(r'${a}_{j-1}^\ell/{a}_{j}^\ell$', fontsize=20)
 ax[4].tick_params(axis='both', which='major', labelsize=13)
-ax[4].text(0.5, 0.01, '(e)', fontsize=20, verticalalignment='bottom', horizontalalignment='right')
-ax[4].legend(handles=[q_[0] for q_ in q], labels=[r'$^{238}$U$/^{230}$Th', r'$^{230}$Th$/^{226}$Ra'], fontsize=15,
-             bbox_to_anchor=(0.0, 1.02, 0.8, .2),  loc='lower left', ncol=1, mode="expand", borderaxespad=0.)
+ax[4].text(
+    0.5, 0.01, '(e)', fontsize=20, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
+ax[4].legend(
+    handles=[q_[0] for q_ in q], 
+    labels=[r'$^{238}$U$/^{230}$Th', r'$^{230}$Th$/^{226}$Ra'], 
+    fontsize=15, bbox_to_anchor=(0.0, 1.02, 0.8, .2), 
+    loc='lower left', ncol=1, mode="expand", borderaxespad=0.
+)
 
 f.supxlabel("Figure 11.9", fontsize=20)
 
@@ -1191,7 +1393,9 @@ plt.show()
 
 
 class ColTop:
+
     def __init__(self, N):
+
         self.a = np.zeros(N*N).reshape(N, N)
         self.ab = np.zeros(N*N).reshape(N, N)
 
@@ -1199,7 +1403,12 @@ class ColTop:
 # In[24]:
 
 
-el = [El(0.0086, 1.5e-10, 1.0), El(0.0065, 9.19e-6, 1.0), El(0.0005, 4.33e-4)]
+el = [
+    El(0.0086, 1.5e-10, 1.0), 
+    El(0.0065, 9.19e-6, 1.0), 
+    El(0.0005, 4.33e-4)
+]
+
 col = Col()
 DecayChainColumnSolver(el, col)
 col.Nz = 10
@@ -1216,11 +1425,14 @@ W0   = np.logspace(span_W0[0], span_W0[1], NW0)
 
 coltop = [ColTop(NW0), ColTop(NW0), ColTop(NW0)]
 
-for j, fmaxj in enumerate(fmax):  # j=1:length(fmax)
-    for i, W0i in enumerate(W0):  # =1:length(W0)
+for j, fmaxj in enumerate(fmax):
+
+    for i, W0i in enumerate(W0):
+        
         col.W0 = W0i
         col.fmax = fmaxj
         DecayChainColumnSolver(el, col)
+
         for elk, coltopk in zip(el, coltop):
             coltopk.a[i, j] = elk.a[-1]
             coltopk.ab[i, j] = elk.ab[-1]
@@ -1238,9 +1450,15 @@ f.set_facecolor('w')
 actratio = coltop[1].a / coltop[0].a
 cvec = np.arange(1.0, 2.005, 0.01)
 cvec = np.setdiff1d(cvec, cvec[5:-1:5])
-cs = ax[0].contour(np.log10(fmax), np.log10(W0), actratio, cvec, colors='g', linewidths=0.5)
+cs = ax[0].contour(
+    np.log10(fmax), np.log10(W0), actratio, 
+    cvec, colors='g', linewidths=0.5
+)
 cvec = np.arange(1.05, 2.01, 0.05)
-cs = ax[0].contour(np.log10(fmax), np.log10(W0), actratio, cvec, colors='k', linewidths=2)
+cs = ax[0].contour(
+    np.log10(fmax), np.log10(W0), 
+    actratio, cvec, colors='k', linewidths=2
+)
 ax[0].clabel(cs, inline=1, fontsize=15, fmt="%1.1f")
 ax[0].plot(np.log10(0.005), np.log10(0.05), '*k', markersize=10)
 ax[0].set_xticks([-3.0, -2.0, -1.0])
@@ -1255,9 +1473,15 @@ ax[0].set_title(r'(a) $a^\ell_{230Th}/a^\ell_{238U}$', fontsize=15)
 actratio = coltop[2].a / coltop[1].a
 cvec = np.arange(1.0, 12.1, 0.25)
 cvec = np.setdiff1d(cvec, cvec[4::8])
-cs = ax[1].contour(np.log10(fmax), np.log10(W0), actratio, cvec, colors='g', linewidths=0.5)
+cs = ax[1].contour(
+    np.log10(fmax), np.log10(W0), actratio, 
+    cvec, colors='g', linewidths=0.5
+)
 cvec = np.arange(2.0, 12.1, 2.0)
-cs = ax[1].contour(np.log10(fmax), np.log10(W0), actratio, cvec, colors='k', linewidths=2)
+cs = ax[1].contour(
+    np.log10(fmax), np.log10(W0), actratio, 
+    cvec, colors='k', linewidths=2
+)
 ax[1].clabel(cs, inline=1, fontsize=15, fmt="%1.1f")
 ax[1].plot(np.log10(0.005), np.log10(0.05), '*k', markersize=10)
 ax[1].set_xticks([-3.0, -2.0, -1.0])

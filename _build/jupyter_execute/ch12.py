@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import numpy as np
 from scipy.optimize import fsolve
-from scipy.linalg import det
+from scipy.linalg import det, lstsq
 from cycler import cycler
 
 import warnings 
@@ -59,21 +59,33 @@ z = np.linspace(0.0, H, 1000)
 F = np.power([1.0 + S*m*(1+G) for m in M], 1/n)
 chi = np.asarray([(1.+G)*np.exp(m*z) - G for m in M])
 cmp = -(chi + G)
-phi = np.power([chij/(1.0 - S*m*cmpj) for chij, m, cmpj in zip(chi, M, cmp)], 1.0/n)
+phi = np.power(
+    [chij/(1.0 - S*m*cmpj) for chij, m, cmpj in zip(chi, M, cmp)], 
+    1.0/n
+)
 w = chi/phi
 cmpl = -(1.0+G) * np.asarray([1.0 + m*z for m in M])
 chil = 1.0 + np.asarray([m*(1+G)*z for m in M])
-phil = np.asarray([1.0/Fj * (1.0 + m*(1.0 + G)/n*z) for Fj, m in zip(F, M)])
-wl = np.asarray([Fj*(1.0 + m*(1.0+G)*(1.0-1.0/n)*z) for Fj, m in zip(F, M)])
+phil = np.asarray(
+    [1.0/Fj * (1.0 + m*(1.0 + G)/n*z) for Fj, m in zip(F, M)]
+)
+wl = np.asarray(
+    [Fj*(1.0 + m*(1.0+G)*(1.0-1.0/n)*z) for Fj, m in zip(F, M)]
+)
 
 
 # In[3]:
 
 
 f, ax = plt.subplots(1, 4)
-f.set_size_inches(18.0, 9.0)
+f.set_size_inches(15.0, 9.0)
 
-plt.rc('axes', prop_cycle=(cycler(color=['k', 'k', 'k', 'k']) + cycler(linestyle=['-', '--', ':', '-.'])))
+plt.rc(
+    'axes', 
+    prop_cycle=(
+        cycler(color=['k', 'k', 'k', 'k']) + cycler(linestyle=['-', '--', ':', '-.'])
+    )
+)
 
 lines = ax[0].plot(chi.transpose(), z, linewidth=2.0)
 ax[0].set_xlabel(r'$\chi^{(0)}$', fontsize=18)
@@ -81,11 +93,19 @@ ax[0].set_xlim(0.0, 1.3)
 ax[0].set_xticks((0.0, 0.5, 1.0))
 ax[0].set_ylabel('$z$', fontsize=18)
 ax[0].set_ylim(0.0, 1.0)
-ax[0].text(0.02, 0.01, '(a)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
-plt.legend(handles=(lines[0], lines[1]), 
-           labels=(r'$\mathcal{M}=0.01\,(\mathcal{F}\approx1.007)$', r'$\mathcal{M}=0.1\,(\mathcal{F}\approx1.06)$'),
-           fontsize=15, bbox_to_anchor=(-2.5, 1.02, 2.5, .2),
-           loc='lower right', ncol=2, mode="expand", borderaxespad=0.)
+ax[0].text(
+    0.02, 0.01, '(a)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
+plt.legend(
+    handles=(lines[0], lines[1]), 
+    labels=(
+        r'$\mathcal{M}=0.01\,(\mathcal{F}\approx1.007)$', 
+        r'$\mathcal{M}=0.1\,(\mathcal{F}\approx1.06)$'
+    ),
+    fontsize=15, bbox_to_anchor=(-2.5, 1.02, 2.5, .2),
+    loc='lower right', ncol=2, mode="expand", borderaxespad=0.
+)
 
 ax[1].plot(cmp.transpose(), z, linewidth=2.0)
 ax[1].plot(cmpl.transpose(), z, linewidth=0.5)
@@ -94,7 +114,10 @@ ax[1].set_xlim(-2.3, 0.0)
 ax[1].set_xticks((-2.0, -1.0, 0.0))
 ax[1].set_yticks(())
 ax[1].set_ylim(0.0, 1.0)
-ax[1].text(-0.35, 0.01, '(b)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+ax[1].text(
+    -0.35, 0.01, '(b)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 ax[2].plot(phi.transpose(), z, linewidth=2)
 ax[2].plot(phil.transpose(), z, linewidth=0.5)
@@ -103,7 +126,10 @@ ax[2].set_xlabel(r'$\phi^{(0)}$', fontsize=18)
 ax[2].set_xlim(0.0, 1.1)
 ax[2].set_xticks((0.0, 0.5, 1.0))
 ax[2].set_ylim(0.0, 1.0)
-ax[2].text(0.02, 0.01, '(c)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+ax[2].text(
+    0.02, 0.01, '(c)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 ax[3].plot(w.transpose(), z, linewidth=2)
 ax[3].plot(wl.transpose(), z, linewidth=0.5)
@@ -112,7 +138,10 @@ ax[3].set_yticks(())
 ax[3].set_xlim(0.0, 1.3)
 ax[3].set_ylim(0.0, 1.0)
 ax[3].set_xticks((0.0, 0.5, 1.0))
-ax[3].text(0.02, 0.01, '(d)', fontsize=18, verticalalignment='bottom', horizontalalignment='left')
+ax[3].text(
+    0.02, 0.01, '(d)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
 f.supxlabel("Figure 12.2", fontsize=20)
 
@@ -149,31 +178,39 @@ plt.show()
 
 
 class PAR:
-    def __init__(self, F_=1.0, n_=3, S_=1.0, Da_=1000.0, Pe_=100.0, M_=0.01, G_=1,
-                 bc_=2, nz_=2000, tol_=1e-5, plot_=False, step_=0.01, largeDa_=False):
-        self.F = F_  # base - state parameter - force to be constant
-        self.n = n_  # permeability exponent
-        self.S = S_  # rigidity parameter
-        self.Da = Da_  # Damkohler number
-        self.Pe = Pe_  # Peclet number
-        self.M = M_  # solubility gradient parameter
-        self.G = G_  # decompression melting parameter
+
+    def __init__(
+        self, F_=1.0, n_=3, S_=1.0, Da_=1000.0, Pe_=100.0, M_=0.01, G_=1,
+        bc_=2, nz_=2000, tol_=1e-5, plot_=False, step_=0.01, largeDa_=False
+    ):
+
+        self.F = F_         # base - state parameter - force to be constant
+        self.n = n_         # permeability exponent
+        self.S = S_         # rigidity parameter
+        self.Da = Da_       # Damkohler number
+        self.Pe = Pe_       # Peclet number
+        self.M = M_         # solubility gradient parameter
+        self.G = G_         # decompression melting parameter
         self.bc_type = bc_  # boundary condition type -- 1) P(1)=0; 2) P'(1)=0
-        self.nz = nz_  # number of points for eigenfunction
-        self.tol = tol_  # tolerance
-        self.plot = plot_  # plot eigenfunction
-        self.step = step_  # stepsize in log10(k) - sigma space
+        self.nz = nz_       # number of points for eigenfunction
+        self.tol = tol_     # tolerance
+        self.plot = plot_   # plot eigenfunction
+        self.step = step_   # stepsize in log10(k) - sigma space
         self.largeDa = largeDa_
 
         
 class EIG:
+
     def __init__(self, p_=0.0, phi_=0.0):
+
         self.P = p_
         self.phi = phi_
 
 
 class SA:
+    
     def __init__(self, k_=0.0, sigma_=0.0, m_=0.0, flag_=False):
+
         self.k = k_
         self.sigma = sigma_
         self.m = m_
@@ -182,7 +219,9 @@ class SA:
 
 
 class DC:
+
     def __init__(self, s_=0.0, k_=0.0, m_=0.0):
+
         self.s = s_
         self.k = k_
         self.m = m_
@@ -207,13 +246,25 @@ class DC:
 
 
 def characteristic_polynomial(k, sig, par):
+
     k2 = k[0] * k[0] if type(k) is np.ndarray else k * k
     K_ = k2 / par.Da / par.Pe / par.F + 1.0
-    p3 = 0.0 if par.largeDa else sig / par.Da  # cubic
-    p2 = sig * K_ - par.n * np.power(par.F, 1 + par.n) / par.Da / par.S  # quadratic
-    p1 = -(par.n * np.power(par.F, 1 + par.n) * K_ / par.S + sig * k2 / par.Da)  # linear
-    p0 = k2 * (par.n * np.power(par.F, 1 - par.n) - sig * K_)  # constant
+    # cubic
+    p3 = 0.0 if par.largeDa else sig / par.Da
+    # quadratic
+    p2 = sig * K_ - par.n * np.power(
+        par.F, 1 + par.n
+    ) / par.Da / par.S
+    # linear
+    p1 = -(
+        par.n * np.power(
+            par.F, 1 + par.n
+        ) * K_ / par.S + sig * k2 / par.Da
+    )
+    # constant
+    p0 = k2 * (par.n * np.power(par.F, 1 - par.n) - sig * K_)
     p = np.array([p3, p2, p1, p0])
+
     return p.reshape(p.shape[0])
 
 
@@ -258,6 +309,7 @@ def characteristic_polynomial(k, sig, par):
 
 
 def boundary_condition_matrix(k, m, sig, par): 
+
     if par.bc_type == 1:
         M = np.array(
             [[1.0, mi, np.exp(mi)] for mi in m]
@@ -268,14 +320,20 @@ def boundary_condition_matrix(k, m, sig, par):
         ).transpose()
     elif par.bc_type == 3:
         q = sig * par.S / par.n
-        M = np.array(
-            [[q * mi - 1.0, q * mi * mi - mi - q * k ** 2, mi * np.exp(mi)] for mi in m]
-        ).transpose()
+        M = np.array([[
+            q * mi - 1.0, 
+            q * mi * mi - mi - q * k ** 2, 
+            mi * np.exp(mi)
+        ] for mi in m]).transpose()
     else:
         q = k * k * par.Da / par.DaPe
         M = np.array(
-            [[1.0 - par.S * mi, mi * mi + q * mi, mi * np.exp(mi)] for mi in m]
+            [[1.0 - par.S * mi, 
+            mi * mi + q * mi, 
+            mi * np.exp(mi)] 
+            for mi in m]
         ).transpose()
+
     return M
 
 
@@ -283,21 +341,23 @@ def boundary_condition_matrix(k, m, sig, par):
 
 
 def zero_by_sigma_or_wavenumber(sig, k, par):
+
     m = np.roots(characteristic_polynomial(k, sig, par))
+
     if par.largeDa:
-        residual = np.real(m[0]) * np.sin(np.imag(m[0])) + np.imag(m[0]) * np.cos(np.imag(m[0]))
+        residual = np.real(m[0]) * np.sin(np.imag(m[0])) +             np.imag(m[0]) * np.cos(np.imag(m[0]))
     else:
         detM = det(boundary_condition_matrix(k, m, sig, par))
         residual = np.real((1. - 1.j) * detM)
+
     return residual
 
 
 # In[8]:
 
 
-from scipy.linalg import lstsq
-
 def form_eigenfunction(k, sigma, par):
+
     m = np.roots(characteristic_polynomial(k, sigma, par))
     z = np.linspace(0.0, 1.0, par.nz)
     eig = EIG()
@@ -306,7 +366,7 @@ def form_eigenfunction(k, sigma, par):
         eig.P = np.exp(np.real(m[0]) * z) * np.sin(np.imag(m[0]) * z)
         eig.P = eig.P / np.max(np.abs(eig.P))
         Q = (m[0] ** 2 - k ** 2) * eig.P
-        eig.phi = np.power(par.F, -1.0 - par.n) * par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
+        eig.phi = np.power(par.F, -1.0 - par.n) *             par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
     else:
         M = boundary_condition_matrix(k, m, sigma, par)
         subM = M[:, 1:]
@@ -321,7 +381,8 @@ def form_eigenfunction(k, sigma, par):
             eig.P += tmp
             Q += (mj * mj - k * k) * tmp
 
-        eig.phi = np.power(par.F, -1 - par.n) * par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
+        eig.phi = np.power(par.F, -1 - par.n) *             par.S / par.n * np.cumsum(Q) * (z[1] - z[0])
+
     return eig
 
 
@@ -331,10 +392,6 @@ def form_eigenfunction(k, sigma, par):
 
 
 def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
-    # input parameters:
-    #   k -- horizontal wavenumber (required)
-    #   sigma_guess -- guess at the eigenvalue (optional)
-    #   par -- parameter structure (optional)
 
     sa = SA()
 
@@ -349,30 +406,42 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
     else:
         # solving for wavenumber k at a fixed value of growthrate sigma
         solve_for_sigma = False
-        sa.sigma = sigma_guess if type(sigma_guess) is not np.ndarray else sigma_guess[0]
+
+        if type(sigma_guess) is not np.ndarray:
+            sa.sigma = sigma_guess 
+        else:
+            sa.sigma = sigma_guess[0]
 
     if par.F is None:
         par.F = np.power(1.0 + par.S * par.M * (1.0 + par.G), 1.0 / par.n)
 
     sigma = np.zeros_like(sigma_guess)
     k = np.zeros_like(k_guess)
+
     if solve_for_sigma:
         # solve eigenvalue problem to find growth rate of fastest-growing mode
         res = np.zeros_like(sigma_guess)
         exitflag = np.zeros_like(sigma_guess)
         converged = np.zeros_like(sigma_guess)
         problem_sigma = lambda s: zero_by_sigma_or_wavenumber(s, sa.k, par)
+
         for j in range(len(sigma_guess)):
-            [sigma[j], infodict, exitflag[j], _] = fsolve(problem_sigma, sigma_guess[j], 
-                                                          full_output=True, xtol=1.e-14)
+
+            [sigma[j], infodict, exitflag[j], _] = fsolve(
+                problem_sigma, sigma_guess[j], full_output=True, xtol=1.e-14
+            )
             res[j] = infodict["fvec"]
             converged[j] = exitflag[j] == 1 and np.abs(res[j]) < par.tol
+
             if par.largeDa:
-                m = np.roots(characteristic_polynomial(sa.k, sigma[j], par))
-                converged[j] = converged[j] and np.pi / 2 < np.abs(np.imag(m[0])) < np.pi
+                m = np.roots(
+                    characteristic_polynomial(sa.k, sigma[j], par)
+                )
+                converged[j] =                     converged[j] and np.pi / 2 < np.abs(np.imag(m[0])) < np.pi
+
             if par.plot and converged[j] == 1:
                 eig = form_eigenfunction(sa.k, sigma[j], par)
-                # plt.plot(np.linspace(0.0, 1.0, par.nz), np.real(eig.P))
+
     else:
         # solve eigenvalue problem to find wavenumber of mode
         problem_wavenumber = lambda s: zero_by_sigma_or_wavenumber(sa.sigma, s, par)
@@ -380,17 +449,21 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
         exitflag = np.zeros_like(k_guess)
         converged = np.zeros_like(k_guess)
         for j in range(len(k_guess)):
-            [k[j], infodict, exitflag[j], _] = fsolve(problem_wavenumber, k_guess[j], full_output=True, xtol=1.e-14)
+            
+            [k[j], infodict, exitflag[j], _] = fsolve(
+                problem_wavenumber, k_guess[j], full_output=True, xtol=1.e-14
+            )
             res[j] = infodict["fvec"]
             converged[j] = exitflag[j] == 1 or abs(res[j]) < par.tol
+
             if par.largeDa:
                 m = np.roots(characteristic_polynomial(k[j], sa.sigma, par))
-                converged[j] = converged[j] and np.pi / 2 < np.abs(np.imag(m[0])) < np.pi
+                converged[j] =                     converged[j] and np.pi / 2 < np.abs(np.imag(m[0])) < np.pi
+
             if par.plot and converged[j] == 1:
                 eig = form_eigenfunction(k[j], sa.sigma, par)
                 plt.plot(np.linspace(0.0, 1.0, par.nz), np.real(eig.P))
 
-        # [converged', exitflag', log10(abs(res'))];
     none_converged = not np.sum(converged)
 
     # handle failure to find solution
@@ -417,14 +490,22 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
     if (gP < 0).any() and par.bc_type != 1:
         sa.flag = False
         if verbose:
-            print(f'FAILURE: non-monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
+            print(
+                'FAILURE: non-monotonic eigenfunction ' + 
+                f' for k={sa.k}, sigma={sa.sigma}'
+            )
     else:
         sa.flag = True
         if verbose:
-            print(f'SUCCESS: monotonic eigenfunction for k={sa.k}, sigma={sa.sigma}')
+            print(
+                'SUCCESS: monotonic eigenfunction ' + 
+                f' for k={sa.k}, sigma={sa.sigma}'
+            )
 
     if par.plot:
-        plt.plot(np.linspace(0, 1, par.nz), np.real(sa.eig.P), linewidth=2)
+        plt.plot(
+            np.linspace(0, 1, par.nz), np.real(sa.eig.P), linewidth=2
+        )
 
     return sa
 
@@ -433,6 +514,7 @@ def reactive_flow_solve_dispersion(k_guess, sigma_guess, par, verbose=False):
 
 
 def taylor_series_extension(n, x, y, step, init_Lks):
+
     if n == 0:
         xguess = init_Lks[0]
         yguess = init_Lks[1]
@@ -465,16 +547,22 @@ def taylor_series_extension(n, x, y, step, init_Lks):
 # In[11]:
 
 
-def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks, verbose=False):
+def reactive_flow_trace_dispersion_curve(
+    par, Lkbounds, sbounds, init_Lks, verbose=False
+):
+
     n = 0  # can n be zero?
     Lk = np.full((1, ), np.inf)  # dictionaries
     s = np.full((1, ), np.inf)
     m = np.full((1, 2), np.inf + 0.j, dtype=complex) if par.largeDa         else np.full((1, 3), np.inf + 0.j, dtype=complex)
 
     for j in [0, 1]:
+
         fails = 0
         while n < 1_000_000:
+
             Lk_guess, s_guess = taylor_series_extension(n, Lk, s, par.step, init_Lks)
+
             if Lk_guess <= Lkbounds[0] or Lk_guess >= Lkbounds[1]:
                 break
             if s_guess <= sbounds[0] or s_guess >= sbounds[1]:
@@ -482,18 +570,29 @@ def reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks, verbo
 
             if n == 0:
                 s_guess = np.linspace(0.1, par.n, 30)
+
             elif fails <= 1:
                 if n % 50 == 0 or n == 0:
-                    print(f'Iteration {n}: searching for solution at k={np.power(10, Lk_guess)}')
+                    print(
+                        f'Iteration {n}: ' + 
+                        f' searching for solution at k={np.power(10, Lk_guess)}'
+                    )
                 s_guess = s_guess * np.linspace(0.99, 1.01, 16)
+    
             elif fails == 2:
                 if n % 50 == 0 or n == 0:
-                    print(f'Iteration {n}: searching for solution at sigma={s_guess}')
+                    print(
+                        f'Iteration {n}: ' + 
+                        f' searching for solution at sigma={s_guess}'
+                    )
                 Lk_guess = Lk_guess * np.linspace(0.99, 1.01, 16)
+
             else:
                 break
 
-            sa = reactive_flow_solve_dispersion(np.power(10., Lk_guess), s_guess, par)
+            sa = reactive_flow_solve_dispersion(
+                np.power(10., Lk_guess), s_guess, par
+            )
 
             if sa.flag:
                 # found lowest mode; prepare for next iteration
@@ -556,9 +655,18 @@ par = PAR()
 SA_ref = reactive_flow_solve_dispersion(k_iref, s_iref, par)
 
 lambda_ = 2.0 * np.pi/k_iref
-X, Z = np.meshgrid(np.linspace(0.0, 2.0 * lambda_, par.nz), np.linspace(0.0, 1.0, par.nz))
-P = np.real(np.tile(SA_ref.eig.P, (par.nz, 1)).transpose() * np.exp(1j * k_iref * X))
-phi = np.real(np.tile(SA_ref.eig.phi, (par.nz, 1)).transpose() * np.exp(1j * k_iref * X))
+X, Z = np.meshgrid(
+    np.linspace(0.0, 2.0 * lambda_, par.nz), 
+    np.linspace(0.0, 1.0, par.nz)
+)
+P = np.real(
+    np.tile(SA_ref.eig.P, (par.nz, 1)).transpose() * \
+        np.exp(1j * k_iref * X)
+)
+phi = np.real(
+    np.tile(SA_ref.eig.phi, (par.nz, 1)).transpose() * \
+        np.exp(1j * k_iref * X)
+)
 epsilon = 3.e-5
 h = 0.1/(par.nz+1.0)
 hx = X[0,1] - X[0,0]
@@ -598,8 +706,10 @@ ax0.set_xlim(1.0, 400.0)
 ax0.set_xticks((1e0, 1e1, 1e2))
 ax0.set_ylim(0.0, 3.2)
 ax0.set_ylabel(r'$\sigma$', fontsize=24)
-ax0.text(1.1, 3.1, '(a)', fontsize=20, 
-         verticalalignment='top', horizontalalignment='left')
+ax0.text(
+    1.1, 3.1, '(a)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 ax0.legend()
 
 ax1 = plt.subplot(gs[1])
@@ -610,9 +720,11 @@ h = 2.0 * lambda_/(nlines+1.0)
 seed = np.zeros((nlines, 2))
 seed[:, 0] = np.linspace(0.5*h, 2.0*lambda_-0.5*h, nlines)
 seed[:, 1] = 0.001
-ax1.streamplot(X, Z, U, W, start_points=seed, 
-               integration_direction='forward', density=(90, 60),
-               color=[0.8, 0.8, 0.8], arrowstyle='-')
+ax1.streamplot(
+    X, Z, U, W, start_points=seed, 
+    integration_direction='forward', density=(90, 60),
+    color=[0.8, 0.8, 0.8], arrowstyle='-'
+)
 ax1.set_xlabel(r'$x/\lambda^*$', fontsize=24)
 ax1.set_xlim(0, 2.*lambda_)
 ax1.set_xticks((0, lambda_, 2*lambda_))
@@ -620,8 +732,10 @@ ax1.set_xticklabels((0, 1, 2))
 ax1.set_ylabel(r'$z$', fontsize=24)
 ax1.set_ylim(0.0, 1.0)
 ax1.set_yticks((0, 0.5, 1))
-ax1.text(-0.04, 0.98, '(b)', fontsize=20, 
-         verticalalignment='top', horizontalalignment='right')
+ax1.text(
+    -0.04, 0.98, '(b)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='right'
+)
 
 f.supxlabel("Figure 12.3", fontsize=20)
 
@@ -654,11 +768,16 @@ DC_cube = {}
 DC_quad = {}
 
 for vals in [10., 100., 1000.]:
+    
     par = PAR(Da_=vals, largeDa_=False)
-    DC_cube[vals] = reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks)
+    DC_cube[vals] = reactive_flow_trace_dispersion_curve(
+        par, Lkbounds, sbounds, init_Lks
+    )
 
     par = PAR(Da_=vals, largeDa_=True)
-    DC_quad[vals] = reactive_flow_trace_dispersion_curve(par, Lkbounds, sbounds, init_Lks)
+    DC_quad[vals] = reactive_flow_trace_dispersion_curve(
+        par, Lkbounds, sbounds, init_Lks
+    )
 
 
 # Figure 12.4 below plots the dispersion curves for growth rate $\sigma$ as a function of wavenumber $\wavenumber$. Curves come from numerical solutions to the full problem (cubic polynomial $\eqref{eq:characteristic-poly-cbs}$, solid lines) and the large-$\Da$ problem (quadratic $\eqref{eq:characteristic-poly-quad}$, dashed lines). The agreement for $\Da \ge 100$ suggests that the large-Damköhler approximation is very good for geologically relevant conditions.
@@ -668,13 +787,17 @@ for vals in [10., 100., 1000.]:
 
 f, ax = plt.subplots()
 f.set_size_inches(9.0, 9.0)
-f.set_facecolor('w')
 
 for vals, gray in zip([10., 100., 1000.], [0.8, 0.4, 0.0]):
-    plt.plot(DC_cube[vals].k, DC_cube[vals].s, '-', linewidth=2, 
-             color=[gray, gray, gray], label=r'Da='+str(vals))
-    plt.plot(DC_quad[vals].k, DC_quad[vals].s, '--', linewidth=2, 
-             color=[gray, gray, gray], label=r'Da=' + str(vals) + ' (large Da)')
+
+    plt.plot(
+        DC_cube[vals].k, DC_cube[vals].s, '-', linewidth=2, 
+        color=[gray, gray, gray], label=r'Da='+str(vals)
+    )
+    plt.plot(
+        DC_quad[vals].k, DC_quad[vals].s, '--', linewidth=2, 
+        color=[gray, gray, gray], label=r'Da=' + str(vals) + ' (large Da)'
+    )
 
 plt.xscale('log')
 plt.xlim(1, 300)
@@ -739,28 +862,58 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     k4 = k ** 4
     k6 = k ** 6
     S2 = S ** 2
-    full[:, 0] = (2.0 * n * np.sqrt(-Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4
-                                    - 3.0 * Da3 * K2 * S * k4 - 2 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4)
-                  + 4 * Da * K * b2 * n + Da * K * k2 * n + 2 * Da2 * K * S * k2 * n) / (
-            4 * S * Da2 * K2 * b2 + 4 * S * Da2 * K2 * k2 + S * k4)
+    full[:, 0] = (
+        2.0 * n * np.sqrt(
+            -Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4
+            - 3.0 * Da3 * K2 * S * k4 - 2 * Da2 * K2 * b2 * k2 
+            - Da * S * k6 - b2 * k4
+        )
+        + 4 * Da * K * b2 * n + Da * K * k2 * n 
+        + 2 * Da2 * K * S * k2 * n
+    ) / (
+        4 * S * Da2 * K2 * b2 + 4 * S * Da2 * K2 * k2 + S * k4
+    )
     # lower branch
-    full[:, 1] = -(2.0 * n * np.sqrt(- Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4
-                                     - 3 * Da3 * K2 * S * k4 - 2 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4)
-                   - K * (4 * Da * n * b2 + n * (2 * S * Da2 + Da) * k2)) / (
-            S * (4 * Da2 * K2 * b2 + 4 * Da2 * K2 * k2 + k4))
+    full[:, 1] = -(
+        2.0 * n * np.sqrt(
+            - Da4 * K4 * b2 - Da4 * K4 * k2 
+            + Da4 * K2 * S2 * k4 - 3 * Da3 * K2 * S * k4 
+            - 2 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4
+        ) 
+        - K * (4 * Da * n * b2 + n * (2 * S * Da2 + Da) * k2)
+    ) / (
+        S * (4 * Da2 * K2 * b2 + 4 * Da2 * K2 * k2 + k4)
+    )
 
-    real1 = np.nonzero(np.imag(full[:, 0]).astype(np.float32) == 0.0)
-    real2 = np.nonzero(np.imag(full[:, 1]).astype(np.float32) == 0.0)
+    real1 = np.nonzero(
+        np.imag(full[:, 0]).astype(np.float32) == 0.0
+    )
+    real2 = np.nonzero(
+        np.imag(full[:, 1]).astype(np.float32) == 0.0
+    )
     s = PAR_MOD()
-    s.s = np.real(np.concatenate((np.flipud(full[real1, 0].flatten()), full[real2, 1].flatten())))
-    s.k = np.real(np.concatenate((np.flipud(k[real1].flatten()), k[real2].flatten())))
+    s.s = np.real(
+        np.concatenate((
+            np.flipud(full[real1, 0].flatten()), 
+            full[real2, 1].flatten()
+        ))
+    )
+    s.k = np.real(
+        np.concatenate((
+            np.flipud(k[real1].flatten()), k[real2].flatten()
+        ))
+    )
     I = np.argmax(s.s)
     s.smax = s.s[I]
     s.kmax = s.k[I]
 
     # eigenfunctions
     K = 1 + s.kmax ** 2 / Da / Pe
-    a = 0.5 * (n * K / S + s.smax * s.kmax ** 2 / Da) / (s.smax * K - n / Da / S)
+    a = 0.5 * (
+        n * K / S + s.smax * s.kmax ** 2 / Da
+    ) / (
+        s.smax * K - n / Da / S
+    )
     m = a + 1j * np.pi
     lambda_ = 2 * np.pi / s.kmax
     x = np.linspace(0, 2 * lambda_, 1000)
@@ -770,7 +923,9 @@ def ReactiveFlowAnalyticalSolution(k, n, Da, Pe, S):
     s.X, s.Y = np.meshgrid(x, y)
     s.P = np.exp(a * s.Y) * np.sin(np.pi * s.Y) * np.sin(s.kmax * s.X)
     tmp = np.exp(a * s.Y) * np.cos(np.pi * s.Y) * np.sin(s.kmax * s.X)
-    dphi_dy = S * ((a ** 2 - np.pi ** 2 - s.kmax ** 2) * s.P + 2 * a * np.pi * tmp) / n
+    dphi_dy = S * (
+        (a ** 2 - np.pi ** 2 - s.kmax ** 2) * s.P + 2 * a * np.pi * tmp
+    ) / n
     s.phi = np.cumsum(dphi_dy, axis=0) * hy
 
     Py, Px = np.gradient(s.P, hy, hx)
@@ -794,6 +949,7 @@ k = np.logspace(-1.0, 4.0, 10000).astype(np.clongdouble)
 s = []
 
 for s_ in S:
+
     s.append(ReactiveFlowAnalyticalSolution(k, n, Da, Pe, s_))
 
 
@@ -808,9 +964,13 @@ gs = gridspec.GridSpec(1, 4, width_ratios=[6, 3, 2, 1])
 ax0 = plt.subplot(gs[0])
 
 for s_, lstyi, S_ in zip(s, {'--k', '-k', '-.k', ':k'}, S):
-    ax0.semilogx(s_.k, s_.s, lstyi, linewidth=2, 
-                 label=r'$\mathcal{S}=' + str(np.real(S_).astype(np.float32)) + '$')
-    ax0.plot(s_.kmax, s_.smax, '*k', linewidth=1, markersize=10)
+    ax0.semilogx(
+        s_.k, s_.s, lstyi, linewidth=2, 
+        label=r'$\mathcal{S}=' + str(np.real(S_).astype(np.float32)) + '$'
+    )
+    ax0.plot(
+        s_.kmax, s_.smax, '*k', linewidth=1, markersize=10
+    )
 
 ax0.set_xlabel(r'$k$', fontsize=24)
 ax0.set_xlim(0.5, 8000)
@@ -818,14 +978,20 @@ ax0.set_xticks(ticks=(1.e0, 1.e1, 1.e2, 1.e3))
 ax0.set_ylabel(r'$\sigma$', fontsize=24)
 ax0.set_ylim(0.0, 3.0)
 ax0.legend(fontsize=16)
-ax0.text(0.5e4, 0.05, '(a)', fontsize=16, verticalalignment='bottom', horizontalalignment='right')
+ax0.text(
+    0.5e4, 0.05, '(a)', fontsize=16, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 AR = 2 * np.pi / np.asarray([s[2].kmax, s[1].kmax, s[0].kmax])
 
 ax1 = plt.subplot(gs[1])
 lambda_ = np.float32(AR[0])
 ax1 = plt.subplot(gs[1])
-ax1.imshow(np.real(s[2].P).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
+ax1.imshow(
+    np.real(s[2].P).astype(np.float32), cmap='gray', 
+    extent=[0.0, 2.*lambda_, 0.0, 1.0]
+)
 ax1.set_ylabel(r'$y$', fontsize=24)
 nlines = 48
 h = 2 * lambda_ / (nlines + 1)
@@ -839,35 +1005,55 @@ x = np.linspace(0., 2. * lambda_, 1000)
 y = np.linspace(0., 1., 1000)
 X, Y = np.meshgrid(x, y)
 
-ax1.streamplot(X, Y, U, W, start_points=seed, 
-               integration_direction='forward', density=(90, 60),
-               color=[0.8, 0.8, 0.8], arrowstyle='-')
+ax1.streamplot(
+    X, Y, U, W, start_points=seed, 
+    integration_direction='forward', density=(90, 60),
+    color=[0.8, 0.8, 0.8], arrowstyle='-'
+)
 
 ax1.set_xticks((0, AR[0], 2*AR[0]))
 ax1.set_xticklabels((0, 1, 2))
-ax1.text(-0.01, 0.01, '(b)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
+ax1.text(
+    -0.01, 0.01, '(b)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 ax2 = plt.subplot(gs[2])
 lambda_ = np.float32(AR[1])
 ax2 = plt.subplot(gs[2])
-ax2.imshow(np.flipud(np.real(s[1].P)).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
+ax2.imshow(
+    np.flipud(np.real(s[1].P)).astype(np.float32), cmap='gray', 
+    extent=[0.0, 2.*lambda_, 0.0, 1.0]
+)
 x = np.linspace(0, 2 * lambda_, 1000)
 y = np.linspace(0, 1, 1000)
 X, Y = np.meshgrid(x, y)
-ax2.contour(X, Y, np.real(s[1].phi).astype(np.float32), levels=np.linspace(0, 1, 12))
+ax2.contour(
+    X, Y, np.real(s[1].phi).astype(np.float32), 
+    levels=np.linspace(0, 1, 12)
+)
 ax2.set_xticks((0, lambda_, 2*lambda_))
 ax2.set_xticklabels((0, 1, 2))
 ax2.set_yticklabels(())
 ax2.set_xlabel(r'$x/\lambda^*$', fontsize=24)
-ax2.text(-0.01, 0.01, r'(c)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
+ax2.text(
+    -0.01, 0.01, r'(c)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 ax3 = plt.subplot(gs[3])
 lambda_ = np.float32(AR[2])
-ax3.imshow(np.flipud(np.real(s[0].P)).astype(np.float32), cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0])
+ax3.imshow(
+    np.flipud(np.real(s[0].P)).astype(np.float32), 
+    cmap='gray', extent=[0.0, 2.*lambda_, 0.0, 1.0]
+)
 ax3.set_xticks((0, 2*lambda_))
 ax3.set_xticklabels((0., 2.))
 ax3.set_yticklabels(())
-plt.text(-0.02, 0.01, r'(d)', fontsize=18, verticalalignment='bottom', horizontalalignment='right')
+plt.text(
+    -0.02, 0.01, r'(d)', fontsize=18, 
+    verticalalignment='bottom', horizontalalignment='right'
+)
 
 fig.supxlabel("Figure 12.5", fontsize=20)
 
@@ -919,7 +1105,9 @@ plt.show()
 
 
 class SA_Growth():
+
     def __init__(self):
+
         self.k = None
         self.a = None
         self.e = None
@@ -927,17 +1115,19 @@ class SA_Growth():
 
 
 def asym_maxgrowth(k, n, Da, Pe, S, l):
+
     b = l * np.pi
     B = b**2 + 1.0/4.0/S**2
     s_ = SA_Growth()
     k = np.power(4.0*Da*Pe*(b**2 + 1.0/4.0/S**2)/(4.0 + Pe/Da), 0.25)
     a = 1.0/2.0/S + k**2.0/2.0/Da
     e = (a**2 + b**2)/k**2 + k**2/Da/Pe
-    s = n*(1.0 - 1.0/Da/2.0/S - 2.0*np.sqrt(B*(1.0/Da/Pe + 1.0/4.0/Da**2)))
+    s = n * (1.0 - 1.0/Da/2.0/S - 2.0*np.sqrt(B*(1.0/Da/Pe + 1.0/4.0/Da**2)))
     s_.k = np.real(k).astype(np.float32)
     s_.a = np.real(a).astype(np.float32)
     s_.e = np.real(e).astype(np.float32)
     s_.s = np.real(s).astype(np.float32)
+
     return s_
 
 
@@ -945,21 +1135,26 @@ def asym_maxgrowth(k, n, Da, Pe, S, l):
 
 
 class SA_Dispersion():
+
     def __init__(self):
+
         self.s = None
         self.k = None
 
 
 def asym_dispersion(k, n, Da, Pe, S, l):
+
     a = 1/2/S + k**2/2/Da
     b = l * np.pi
     epsilon = (a**2 + b**2)/k**2 + k**2/Da/Pe
     s = n*(1-epsilon)
     s[np.imag(s) != 0.0] = np.nan
+
     return np.real(s).astype(np.float32)
 
 
 def full_dispersion(k, n, Da, Pe, S, l):
+
     b = np.clongdouble(l * np.pi)
     b2 = b ** 2
     k2 = k**2
@@ -975,18 +1170,42 @@ def full_dispersion(k, n, Da, Pe, S, l):
     S2 = np.clongdouble(S ** 2)
 
     # upper branch
-    su = (2.0 * n * np.sqrt(-Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
-                            - 2.0 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4) + 4.0 * Da * K * b2 * n
-          + Da * K * k2 * n + 2.0 * Da2 * K * S * k2 * n) / (4.0 * S * Da2 * K2 * b2 + 4.0 * S * Da2 * K2 * k2 + S * k4)
+    su = (
+        2.0 * n * np.sqrt(
+            -Da4 * K4 * b2 - Da4 * K4 * k2 
+            + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
+            - 2.0 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4
+        ) 
+        + 4.0 * Da * K * b2 * n 
+        + Da * K * k2 * n + 2.0 * Da2 * K * S * k2 * n
+    ) / (
+        4.0 * S * Da2 * K2 * b2 + 4.0 * S * Da2 * K2 * k2 + S * k4
+    )
     iu = np.imag(su) == 0.0
+
     # lower branch
-    sl = -(2.0 * n * np.sqrt(-Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
-                             - 2.0 * Da2 * K2 * b2 * k2 - Da*S*k6 - b2 * k4)
-           - K*(4 * Da * n * b2 + n * (2.0 * S * Da2 + Da) * k2)) / (S*(4 * Da2 * K2 * b2 + 4.0 * Da2 * K2 * k2 + k4))
+    sl = -(
+        2.0 * n * np.sqrt(
+            -Da4 * K4 * b2 - Da4 * K4 * k2 
+            + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
+            - 2.0 * Da2 * K2 * b2 * k2 - Da*S*k6 - b2 * k4
+        ) 
+        - K * (4 * Da * n * b2 
+        + n * (2.0 * S * Da2 + Da) * k2)
+    ) / (
+        S * (4 * Da2 * K2 * b2 + 4.0 * Da2 * K2 * k2 + k4)
+    )
     il = np.imag(sl) == 0
     s = SA_Dispersion()
-    s.s = np.hstack([np.flip(np.real(su[iu]).astype(np.float32)), np.real(sl[il]).astype(np.float32)])
-    s.k = np.hstack([np.flip(np.real(k[iu]).astype(np.float32)), np.real(k[il]).astype(np.float32)])
+    s.s = np.hstack([
+        np.flip(np.real(su[iu]).astype(np.float32)), 
+        np.real(sl[il]).astype(np.float32)
+    ])
+    s.k = np.hstack([
+        np.flip(np.real(k[iu]).astype(np.float32)), 
+        np.real(k[il]).astype(np.float32)
+    ])
+
     return s
 
 
@@ -995,7 +1214,7 @@ def full_dispersion(k, n, Da, Pe, S, l):
 # In[24]:
 
 
-fig = plt.figure(figsize=(21, 10))
+fig = plt.figure(figsize=(15., 9.))
 gs = gridspec.GridSpec(1, 2, width_ratios=[1, 1])
 
 ax0 = plt.subplot(gs[0])
@@ -1010,18 +1229,32 @@ l = 1.0
 sfull = full_dispersion(k, n, Da, Pe, S[0], l)
 sasym = asym_dispersion(k, n, Da, Pe, S[0], l)
 smax = asym_maxgrowth(k, n, Da, Pe, S[0], l)
-ax0.loglog(sfull.k, sfull.s, '-', linewidth=2, color=[0.5, 0.5, 0.5], label=r'$\mathcal{S}='+str(np.real(S[0]))+'$')
-ax0.loglog(np.real(k), sasym, '--', linewidth=0.5, color=[0.5, 0.5, 0.5])
-ax0.plot(smax.k, smax.s, '*', markersize=7, color=[0.5, 0.5, 0.5])
+ax0.loglog(
+    sfull.k, sfull.s, '-', linewidth=2, 
+    color=[0.5, 0.5, 0.5], label=r'$\mathcal{S}='+str(np.real(S[0]))+'$'
+)
+ax0.loglog(
+    np.real(k), sasym, '--', 
+    linewidth=0.5, color=[0.5, 0.5, 0.5]
+)
+ax0.plot(
+    smax.k, smax.s, '*', markersize=7, 
+    color=[0.5, 0.5, 0.5]
+)
 
 sfull = full_dispersion(k, n, Da, Pe, S[1], l)
 sasym = asym_dispersion(k, n, Da, Pe, S[1], l)
 smax = asym_maxgrowth(k, n, Da, Pe, S[1], l)
-ax0.loglog(sfull.k, sfull.s, '-k', linewidth=2, label=r'$\mathcal{S}='+str(np.real(S[0]))+'$')
+ax0.loglog(
+    sfull.k, sfull.s, '-k', linewidth=2, 
+    label=r'$\mathcal{S}='+str(np.real(S[0]))+'$'
+)
 ax0.loglog(np.real(k), sasym, '--k', linewidth=0.5)
 ax0.plot(smax.k, smax.s, '*k', markersize=7)
 
-ax0.plot(np.real([k[0], k[-1]]), [n, n], ':k', label=r'$\sigma=n$')
+ax0.plot(
+    np.real([k[0], k[-1]]), [n, n], ':k', label=r'$\sigma=n$'
+)
 
 ax0.set_xlim(np.sqrt(0.1), np.power(10, 3.5))
 ax0.set_xticks([1.e0, 1.e1, 1.e2, 1.e3])
@@ -1032,9 +1265,15 @@ ax0.set_ylim(1.0, 3.1)
 ax0.set_yscale('linear')
 ax0.set_yticks([1, 2, 3])
 
-ax0.text(0.4, 1.1, r'(a)', fontsize=16, verticalalignment='bottom', horizontalalignment='left')
+ax0.text(
+    0.4, 1.1, r'(a)', fontsize=16, 
+    verticalalignment='bottom', horizontalalignment='left'
+)
 
-ax0.legend(fontsize=15, loc='upper left', bbox_to_anchor=(0.06, 1.09), ncol=3)
+ax0.legend(
+    fontsize=15, loc='upper left', 
+    bbox_to_anchor=(0.06, 1.09), ncol=3
+)
 
 ax1 = plt.subplot(gs[1])
 
@@ -1059,12 +1298,19 @@ ax1.set_xticks((1.e-4, 1.e-2, 1.e0, 1.e2, 1.e4))
 ax1.set_yticks((1.e-2, 1.e0))
 ax1.set_ylabel(r'$\mathcal{S}$', fontsize=20)
 ax1.set_xlabel(r'Pe$/$Da', fontsize=20)
-ax1.text(0.0002, 0.002, r'(b)', fontsize=20, verticalalignment='bottom',
-         horizontalalignment='left', backgroundcolor='w')
-ax1.text(1.4e4, 0.02, r'$\leftarrow$rigid compactible$\rightarrow$', rotation=-90, horizontalalignment='center',
-         verticalalignment='bottom', fontsize=15)
-ax1.text(0.58, 11, r'$\leftarrow$diffusion ctrl advection ctrl$\rightarrow$', horizontalalignment='center',
-         verticalalignment='bottom', fontsize=15)
+ax1.text(
+    0.0002, 0.002, r'(b)', fontsize=20, verticalalignment='bottom',
+    horizontalalignment='left', backgroundcolor='w'
+)
+ax1.text(
+    1.4e4, 0.02, r'$\leftarrow$rigid compactible$\rightarrow$', 
+    rotation=-90, horizontalalignment='center',
+    verticalalignment='bottom', fontsize=15
+)
+ax1.text(
+    0.58, 11, r'$\leftarrow$diffusion ctrl advection ctrl$\rightarrow$', 
+    horizontalalignment='center', verticalalignment='bottom', fontsize=15
+)
 
 fig.supxlabel("Figure 12.6", fontsize=20)
 
@@ -1097,16 +1343,19 @@ plt.show()
 
 
 class PAR:
+
     def __init__(self):
-        self.n = 3  # permeability exponent
-        self.S = 3e-5  # rigidity parameter
-        self.Da = 7e7  # Damkohler number
-        self.Pe = 7e9  # Peclet number
-        self.H = 8e4  # column height, metres
+
+        self.n = 3      # permeability exponent
+        self.S = 3e-5   # rigidity parameter
+        self.Da = 7e7   # Damkohler number
+        self.Pe = 7e9   # Peclet number
+        self.H = 8e4    # column height, metres
         self.tscale = 1 * 0.01 / 3e-11 / 2e-6 / (np.pi * 1e7)  # years
 
 
 def Dispersion(k, n, Da, Pe, S):
+
     k = k.astype(np.clongdouble)
     k2 = k * k
     k4 = k2 * k2
@@ -1122,9 +1371,16 @@ def Dispersion(k, n, Da, Pe, S):
     b2 = b * b
     S2 = S * S
     # upper branch
-    s = (2.0 * n * np.sqrt(-Da4 * K4 * b2 - Da4 * K4 * k2 + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
-                           - 2 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4) + 4.0 * Da * K * b2 * n + Da * K * k2 * n
-         + 2 * Da2 * K * S * k2 * n) / (4 * S * Da2 * K2 * b2 + 4.0 * S * Da2 * K2 * k2 + S * k4)
+    s = (2.0 * n *         np.sqrt(
+            -Da4 * K4 * b2 - Da4 * K4 * k2 
+            + Da4 * K2 * S2 * k4 - 3.0 * Da3 * K2 * S * k4
+            - 2 * Da2 * K2 * b2 * k2 - Da * S * k6 - b2 * k4
+        ) 
+        + 4.0 * Da * K * b2 * n + Da * K * k2 * n
+        + 2 * Da2 * K * S * k2 * n
+    ) / (
+        4 * S * Da2 * K2 * b2 + 4.0 * S * Da2 * K2 * k2 + S * k4
+    )
     s[np.imag(s) != 0.0] = np.nan
     return np.real(s).astype(np.float32)
 
@@ -1134,15 +1390,15 @@ def Dispersion(k, n, Da, Pe, S):
 # In[26]:
 
 
-fig = plt.figure(figsize=(18.0, 9.0))
+fig = plt.figure(figsize=(15.0, 9.0))
 
 par = PAR()
 k = np.logspace(4, 8, 10000)
 s = Dispersion(k, par.n, par.Da, par.Pe, par.S)
 
-lambda_ = (2 * np.pi / k) * par.H  # metres
-tau = (1. / s) * par.tscale / 1e6  # million years
-tau_ref = (1. / par.n) * par.tscale / 1e6  # million years
+lambda_ = (2 * np.pi / k) * par.H              # metres
+tau = (1. / s) * par.tscale / 1e6              # million years
+tau_ref = (1. / par.n) * par.tscale / 1e6      # million years
 tau_ref90 = (1.02 / par.n) * par.tscale / 1e6  # million years
 
 plt.semilogx(lambda_, tau, '-k', linewidth=2)

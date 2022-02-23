@@ -145,15 +145,15 @@ def TemperatureEquation(T, z, Ts0, rho, g, C, alpha, L, M):
 # In[6]:
 
 
-c = 1200.  # heat capacity
-alpha = 3e-5  # expansivity
-rho = 3000.  # density
-g = 10.  # gravity
-L = 5e5  # latent heat J/kg
-M = 1/500  # isobaric productivity
-C = 6.5e6  # clapeyron Pa/K
+c = 1200.           # heat capacity
+alpha = 3e-5        # expansivity
+rho = 3000.         # density
+g = 10.             # gravity
+L = 5e5             # latent heat J/kg
+M = 1/500           # isobaric productivity
+C = 6.5e6           # clapeyron Pa/K
 Ts0 = 1100. + 273.  # solidus at P=0
-Tp = 1350. + 273.  # mantle potential temperature
+Tp = 1350. + 273.   # mantle potential temperature
 
 
 # Figure 8.3a below plots the decompression melting curves with no melt segregation. Temperature as a function of $z$. The solid curve shows the isentropic temperature profile _isentrope_ computed according to equations $\eqref{eq:decomp-melting-subsolidus}$ and $\eqref{eq:decomp-melting-meltregion}$. The dashed line shows the isentrope for no melting. Dotted lines are isopleths of the degree of melting $F$.
@@ -176,7 +176,10 @@ l1 = ax.plot(T-273., z/1000., '-k')[0]
 l2 = ax.plot(Tp * np.exp(-alpha*g*z/c) - 273., z/1000., '--k')[0]
 for i in [0.0, 0.1, 0.2, 0.3]:
     l3 = ax.plot(Tsol - 273. + i/M, z/1000., ':k')[0]
-    ax.text(1415, -65+i*110, f'$F={str(i)}$', fontsize=12, rotation=-45, horizontalalignment='right')
+    ax.text(
+        1415, -65+i*110, f'$F={str(i)}$', fontsize=12, 
+        rotation=-45, horizontalalignment='right'
+    )
 
 ax.set_xlabel(r'$T, ^\circ$C', fontsize=20)
 ax.set_xticks((1200, 1300, 1400))

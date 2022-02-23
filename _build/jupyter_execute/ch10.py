@@ -7,13 +7,11 @@
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import matplotlib.tri as mtri
 import numpy as np
 import numpy.matlib
-from matplotlib import cm
-from scipy.optimize import fsolve, fminbound
+from scipy.optimize import fsolve
 from scipy.interpolate import interp1d
 
 import warnings
@@ -95,13 +93,8 @@ warnings.filterwarnings('ignore')
 
 
 class IdealSolutionParameters:
+    
     def __init__(self, L, R, clap, Tm0):
-        """
-        par.L = latent heat in J/kg
-        par.R = specific gas constant in J/kg/K
-        par.Tm0 = melting point at P=0, K
-        par.clap = Clapeyron slope in GPa/K
-        """
         self.L = L        # J/kg
         self.R = R        # J/kg/K
         self.clap = clap  # GPa/K
@@ -112,6 +105,7 @@ class IdealSolutionParameters:
 
 
 class ThetaStructure:
+    
     def __init__(self, f=0, cl=None, cs=None):
         self.Ts = 0.0
         self.Tf = 0.0
@@ -124,14 +118,9 @@ class ThetaStructure:
 
 
 def ParCoef_IdealSolution(T, P, par):
-    """
-    % Partition coefficient from ideal solution theory
-    %    returns K, the partition coefficient
-    %    inputs: T, temperature in Kelvin
-    %            P, pressure in GPa
-    %            par, parameter struct including
-    """
+    
     Tm = par.Tm0 + P/par.clap
+
     return np.exp(par.L / par.R * (1./T - 1./Tm))
 
 
@@ -139,8 +128,14 @@ def ParCoef_IdealSolution(T, P, par):
 
 
 def EquilibriumResidual(TT, ff, PP, cc, par, parco_func):
-    K = np.array([parco_func(TT, PP, par_j) for par_j in par]).flatten()
-    R = np.array([cc_j * (1. - K_) / (ff + (1. - ff) * K_) for cc_j, K_ in zip(cc, K)])
+
+    K = np.array(
+        [parco_func(TT, PP, par_j) for par_j in par]
+    ).flatten()
+    R = np.array(
+        [cc_j * (1. - K_) / (ff + (1. - ff) * K_) for cc_j, K_ in zip(cc, K)]
+    )
+
     return R.sum()
 
 
@@ -148,24 +143,6 @@ def EquilibriumResidual(TT, ff, PP, cc, par, parco_func):
 
 
 def EquilibriumState(n, cbar, T, P, par, parco_func):
-    """
-    % Partition coefficient from ideal solution theory
-    %    returns Theta structure containing
-    %       Theta.f = the melt fraction
-    %       Theta.cl = liquid concentration vector (length n)
-    %       Theta.cs = solid concentration vector (length n)
-    %    inputs: n, number of components
-    %            cbar = bulk composition (length n or n-1)
-    %            T, temperature in Kelvin
-    %            P, pressure in GPa
-    %            par, array of parameter structs of length n including
-    %               par.L = latent heat in J/kg
-    %               par.R = specific gas constant in J/kg/K
-    %               par.Tm0 = melting point at P=0, K
-    %               par.clap = Clapeyron slope in GPa/K
-    %            parco_func = function handle for computing partition coefficient
-    %               with interface K = parco_func(T,P,par)
-    """
 
     if n == 1:
         raise Exception('n must be greater than 1')
@@ -185,7 +162,10 @@ def EquilibriumState(n, cbar, T, P, par, parco_func):
         T = np.ones((r,)) * T
         P = np.ones((r,)) * P
     if len(T) != len(P):
-        raise Exception(f'length(T)={len(T)} and length(P)={len(P)} must be equal if both are greater than 1')
+        raise Exception(
+            f'length(T)={len(T)} and length(P)={len(P)}'
+            ' must be equal if both are greater than 1'
+        )
 
     r = len(T)
     if cbar.shape != (r, n) and cbar.shape != (1, n) and cbar.shape != (n,):
@@ -201,17 +181,30 @@ def EquilibriumState(n, cbar, T, P, par, parco_func):
 
     for T_i, P_i, cbar_i in zip(T, P, cbar):
         Theta_i = ThetaStructure()
-        Theta_i.Ts = fsolve(lambda T_: EquilibriumResidual(T_, 0.0, P_i, cbar_i, par, ParCoef_IdealSolution), T_i)[0]
-        Theta_i.Tl = fsolve(lambda T_: EquilibriumResidual(T_, 1.0, P_i, cbar_i, par, ParCoef_IdealSolution), 
-                            0.5*(T_i+Theta_i.Ts))[0]
+        Theta_i.Ts = fsolve(
+            lambda T_: EquilibriumResidual(
+                T_, 0.0, P_i, cbar_i, par, ParCoef_IdealSolution
+            ), 
+            T_i
+        )[0]
+        Theta_i.Tl = fsolve(
+            lambda T_: EquilibriumResidual(
+                T_, 1.0, P_i, cbar_i, par, ParCoef_IdealSolution
+                ), 
+            0.5*(T_i+Theta_i.Ts)
+        )[0]
 
         if T_i < Theta_i.Ts:
             Theta_i.f = 0.0
         elif Theta_i.Tl < T_i:
             Theta_i.f = 1.0
         else:
-            Theta_i.f = fsolve(lambda f_: EquilibriumResidual(T_i, f_, P_i, cbar_i, par, ParCoef_IdealSolution), 
-                               0.0)[0]
+            Theta_i.f = fsolve(
+                lambda f_: EquilibriumResidual(
+                    T_i, f_, P_i, cbar_i, par, ParCoef_IdealSolution
+                ), 
+                0.0
+            )[0]
 
         K = np.array([parco_func(T_i, P_i, par_j) for par_j in par])
 
@@ -230,8 +223,10 @@ def EquilibriumState(n, cbar, T, P, par, parco_func):
 # In[7]:
 
 
-par = [IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.), 
-       IdealSolutionParameters(450e3, 30., 1./100., 950. + 273.)]
+par = [
+    IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.), 
+    IdealSolutionParameters(450e3, 30., 1./100., 950. + 273.)
+]
 
 # thermodynamic state
 Pref = 1.
@@ -243,7 +238,7 @@ cvar = np.zeros((200, 2), dtype=float)
 cvar[:, 0] = np.linspace(0., 1., 200)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 200)
 
-fig, ((axA, axB), (axC, axD)) = plt.subplots(nrows=2, ncols=2, figsize=(18.0, 18.0))
+fig, ((axA, axB), (axC, axD)) = plt.subplots(nrows=2, ncols=2, figsize=(15.0, 15.0))
 
 P  =  Pvar
 T  =  Tref
@@ -256,7 +251,10 @@ axA.set_xlim(0.0, 7.0)
 axA.set_xlabel('$P$, GPa', fontsize=20)
 axA.set_ylim(900, 2000)
 axA.set_ylabel(r'$T$, $^\circ$C', fontsize=20)
-axA.text(0.01, 1990, r'(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axA.text(
+    0.01, 1990, r'(a)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axA.tick_params(axis='both', which='major', labelsize=13)
 axA.legend(loc='lower right', fontsize=15)
 
@@ -274,7 +272,10 @@ axB.set_xticklabels((1200, 1400, 1600, 1800))
 axB.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
 axB.set_ylim(0.01, 100)
 axB.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)
-axB.text(1050, 95.0, r'(b)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axB.text(
+    1050, 95.0, r'(b)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axB.tick_params(axis='both', which='major', labelsize=13)
 axB.legend(fontsize=15)
 
@@ -291,7 +292,10 @@ axD.set_ylim(-0.02, 1.02)
 axD.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
 axD.set_ylabel(r'$\check{f}$, wt. frac.', fontsize=20)
 axD.tick_params(axis='both', which='major', labelsize=13)
-axD.text(1200.0, 1.01, r'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axD.text(
+    1200.0, 1.01, r'(d)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 
 cl_hold = np.array([t.cl[1] for t in Theta])
 cs_hold = np.array([t.cs[1] for t in Theta])
@@ -304,15 +308,24 @@ P  = Pref
 T  = Tref
 Theta2 = EquilibriumState(len(par), c, T, P, par, ParCoef_IdealSolution)
 
-axC.plot(c[:, 1], [t.Ts - 273. for t in Theta2], '-', linewidth=4, color=[0.7, 0.7, 0.7])
-axC.plot(c[:, 1], [t.Tl - 273. for t in Theta2], '-', label='phase boundary', linewidth=4, color=[0.7, 0.7, 0.7])
+axC.plot(
+    c[:, 1], [t.Ts - 273. for t in Theta2], '-', 
+    linewidth=4, color=[0.7, 0.7, 0.7]
+)
+axC.plot(
+    c[:, 1], [t.Tl - 273. for t in Theta2], '-', 
+    label='phase boundary', linewidth=4, color=[0.7, 0.7, 0.7]
+)
 
 axC.plot(cl_hold, Tvar-273., '--k', label='$\check{c}^\ell_2$', linewidth=2)
 axC.plot(cs_hold, Tvar-273., '-k', linewidth=2, label='$\check{c}^\ell_2$')
 axC.set_xlim(0.0, 1.0)
 axC.set_xlabel('${c}^i_2$, wt. frac.', fontsize=20)
 axC.set_ylabel('$T$, $^\circ$C', fontsize=20)
-axC.text(0.005, 1990, '$(c)$', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axC.text(
+    0.005, 1990, '$(c)$', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axC.text(0.22, 1400, 'solid$+$liquid', fontsize=20)
 axC.text(0.72, 1500,'liquid', fontsize=20)
 axC.text(0.05, 1150,'solid', fontsize=20)
@@ -329,9 +342,11 @@ plt.show()
 # In[8]:
 
 
-par3 = [IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.), 
-        IdealSolutionParameters(450e3, 30., 1./100., 950. + 273.), 
-        IdealSolutionParameters(330e3, 30., 1./50., 410. + 273.)]
+par3 = [
+    IdealSolutionParameters(600e3, 70., 1./50., 1780. + 273.), 
+    IdealSolutionParameters(450e3, 30., 1./100., 950. + 273.), 
+    IdealSolutionParameters(330e3, 30., 1./50., 410. + 273.)
+]
 
 
 # In[9]:
@@ -356,7 +371,7 @@ conc_water_in_pure_component = 1e-4/cref[2]
 # In[11]:
 
 
-fig, ((axA, axB, axD)) = plt.subplots(nrows=1, ncols=3, figsize=(21.0, 9.0))
+fig, ((axA, axB, axD)) = plt.subplots(nrows=1, ncols=3, figsize=(15., 9.))
 
 P  =  Pvar
 T  =  Tref
@@ -371,7 +386,10 @@ axA.set_xlabel('$P$, GPa', fontsize=20)
 axA.set_ylim(100., 2100.)
 axA.set_ylabel(r'$T$, $^\circ$C', fontsize=20)
 axA.set_yticks((500, 1000, 1500, 2000))
-axA.text(0.01, 2080., r'(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axA.text(
+    0.01, 2080., r'(a)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axA.tick_params(axis='both', which='major', labelsize=13)
 axA.legend(loc='lower right', fontsize=15, ncol=3)
 
@@ -389,7 +407,10 @@ axB.set_xlabel(r'$T$, $^\circ$C', fontsize=20)
 axB.set_ylim(1e-5, 100.)
 axB.set_ylabel(r'${c}^s_j/{c}^\ell_j$', fontsize=20)
 axB.set_yticks((1e-4, 1e-2, 1e0))
-axB.text(1005., 90., r'(b)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axB.text(
+    1005., 90., r'(b)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axB.tick_params(axis='both', which='major', labelsize=13)
 axB.legend(fontsize=15)
 
@@ -401,14 +422,23 @@ Theta_wet = EquilibriumState(len(par3), cwet, T, P, par3, ParCoef_IdealSolution)
 cdry = np.array([0.75, 0.25, 0.])
 Theta_dry = EquilibriumState(len(par3), cdry, T, P, par3, ParCoef_IdealSolution)
 
-axD.plot(Tvar - 273., [t_wet.f for t_wet in Theta_wet], '-k', linewidth=2, label='wet')
-axD.plot(Tvar - 273., [t_dry.f for t_dry in Theta_dry], '--k', linewidth=2, label='dry')
+axD.plot(
+    Tvar - 273., [t_wet.f for t_wet in Theta_wet], 
+    '-k', linewidth=2, label='wet'
+)
+axD.plot(
+    Tvar - 273., [t_dry.f for t_dry in Theta_dry], 
+    '--k', linewidth=2, label='dry'
+)
 axD.set_xlabel('$T$, $^\circ$C', fontsize=20)
 axD.set_ylabel('$\check{f}$, wt. frac.', fontsize=20)
 axD.set_xlim(1000., 1500.)
 axD.set_ylim(0., 0.4)
 axD.set_yticks((0., 0.1, 0.2, 0.3, 0.4))
-axD.text(1000., 0.396,'(d)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axD.text(
+    1000., 0.396,'(d)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axD.tick_params(axis='both', which='major', labelsize=13)
 axD.legend(fontsize=15, loc='lower right')
 
@@ -522,9 +552,11 @@ cbar.ax.set_yticklabels((cticks_));
 
 
 def liquidusQuadratic(H, C, L, cp, T0, Te):
+
     a = L
     b = cp*(T0-Te)-H
     c = -C*cp*(T0-Te)
+
     return (-b + np.sqrt(b*b - 4*a*c))/2/a
 
 
@@ -532,12 +564,16 @@ def liquidusQuadratic(H, C, L, cp, T0, Te):
 
 
 def equilibriumEutectic(H, C, T0, Te, L, cp):
+
     He_low = 0
     He_high = L*C[1]
-    f = np.array([0 if Hj <= He_low else 
-                  Hj/L if Hj <= He_high else 
-                  np.minimum(liquidusQuadratic(Hj, C[1], L, cp, T0, Te), 1) for Hj in H])
+    f = np.array([
+        0 if Hj <= He_low else 
+        Hj/L if Hj <= He_high else 
+        np.minimum(liquidusQuadratic(Hj, C[1], L, cp, T0, Te), 1) for Hj in H
+    ])
     T = Te + (H - L * f)/cp
+    
     return T, f
 
 
@@ -545,6 +581,7 @@ def equilibriumEutectic(H, C, T0, Te, L, cp):
 
 
 def pseudoEutecticSolidus(C, T0, Te, gamma):
+    
     return T0 + (Te-T0)*(1-np.exp(-C/gamma))/(1-np.exp(-1/gamma))
 
 
@@ -552,6 +589,7 @@ def pseudoEutecticSolidus(C, T0, Te, gamma):
 
 
 def pseudoEutecticLiquidus(C, T0, Te, gamma):
+
     return T0 + (Te-T0)*C
 
 
@@ -559,22 +597,32 @@ def pseudoEutecticLiquidus(C, T0, Te, gamma):
 
 
 def equilibriumPseudoEutectic(T, C, T0, Te, L, gamma):
+    
     pES = pseudoEutecticSolidus(C, T0, Te, gamma)
     pEL = pseudoEutecticLiquidus(C, T0, Te, gamma)
-    cl = np.array([np.nan if Tj < pES else
-                   C if Tj > pEL else
-                   (Tj-T0)/(Te-T0) for Tj in T])
-    cs = np.array([C if Tj < pES else
-                   np.nan if Tj > pEL else
-                   -gamma*np.log(1-cl_j*(1-np.exp(-1/gamma))) for Tj, cl_j in zip(T, cl)])
-    f = np.array([0.0 if Tj < pES else
-                  1.0 if Tj > pEL else
-                  (C-cs_j)/(cl_j - cs_j) for Tj, cl_j, cs_j in zip(T, cl, cs)])
+    cl = np.array([
+        np.nan if Tj < pES else
+        C if Tj > pEL else
+        (Tj-T0)/(Te-T0) for Tj in T
+    ])
+    cs = np.array([
+        C if Tj < pES else
+        np.nan if Tj > pEL else
+        -gamma*np.log(1-cl_j*(1-np.exp(-1/gamma))) for Tj, cl_j in zip(T, cl)
+    ])
+    f = np.array([
+        0.0 if Tj < pES else
+        1.0 if Tj > pEL else
+        (C-cs_j)/(cl_j - cs_j) for Tj, cl_j, cs_j in zip(T, cl, cs)
+    ])
+
     return f
 
 
 # In[21]:
 
+
+fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(15.0, 9.0))
 
 npts =  500
 Tref = 1350
@@ -591,12 +639,6 @@ plotstyle = [':k', '-.k', '--k']
 cp = 1200
 H = np.linspace(-L, L + cp*(T0-Te), 1000)
 
-
-# In[22]:
-
-
-fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(18.0, 9.0))
-
 T = np.linspace(T0, Te)
 X = (T-Te)/(T0-Te)
 C = 1 - X
@@ -611,7 +653,10 @@ axA.set_ylabel('$T$, $^\circ$C', fontsize=20)
 axA.set_xlim((0, 1))
 axA.set_xlabel('${c}^i_2/c^E_2$', fontsize=20)
 axA.set_ylim((900, 2000))
-axA.text(0.94, 1990.,'(a)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axA.text(
+    0.94, 1990.,'(a)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axA.tick_params(axis='both', which='major', labelsize=13)
 
 TE, fE = equilibriumEutectic(H, cref, T0, Te, L, cp)
@@ -629,12 +674,18 @@ axB.set_xlim([950, 1900])
 axB.set_ylim([0, 1])
 axB.set_xlabel('$T$, $^\circ$C', fontsize=20)
 axB.set_ylabel('$\check{f}$, wt. frac.', fontsize=20)
-axB.text(1840, 0.99,'(b)', fontsize=20, verticalalignment='top', horizontalalignment='left')
+axB.text(
+    1840, 0.99,'(b)', fontsize=20, 
+    verticalalignment='top', horizontalalignment='left'
+)
 axB.tick_params(axis='both', which='major', labelsize=13)
 
 handles = [p[0] for p in plots]
-plt.legend(handles=handles, fontsize=15, labels=labels,
-           bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left', ncol=4, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=handles, fontsize=15, labels=labels,
+    bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left',
+    ncol=4, mode="expand", borderaxespad=0.
+)
 
 fig.supxlabel("Figure 10.3", fontsize=20)
 
@@ -661,24 +712,27 @@ plt.show()
 # 
 # Figure 10.4 below plots a comparison of a two-component, ideal-solution phase loop with a linearised solidus and liquidus at 1 GPa. The phase loop uses the parameters from the Table above. __(a)__ Solidus and liquidus curves.  Evolution of an initially unmolten rock with 25 wt% basaltic component for increasing temperature, along the linearised phase boundaries. __(b)__ Isobaric melting curves.
 
-# In[23]:
+# In[22]:
 
 
 def SolLiqTemperature(C, Cref, M, Tref):
+    
     return Tref + M*(C-Cref)
+
+
+# In[23]:
+
+
+def SolLiqComposition(T, Tref, M, Cref):
+    
+    return Cref + (T - Tref)/M
 
 
 # In[24]:
 
 
-def SolLiqComposition(T, Tref, M, Cref):
-    return Cref + (T - Tref)/M
-
-
-# In[25]:
-
-
 def MeltFraction(T, C, ML, MS, LCref, SCref, Tref):
+
     TS = SolLiqTemperature(C, SCref, MS, Tref)
     TL = SolLiqTemperature(C, LCref, ML, Tref)
     Cs = SolLiqComposition(T, Tref, MS, SCref)
@@ -688,17 +742,20 @@ def MeltFraction(T, C, ML, MS, LCref, SCref, Tref):
     F[T >= TL] = 1.
     Cs[T < TS] = C
     Cl[T < TS] = np.nan
+
     return F, Cs, Cl
 
 
+# In[25]:
+
+
+par_lin = [
+    IdealSolutionParameters(600e3, 70., 1./45., 1780. + 273.), 
+    IdealSolutionParameters(450e3, 30., 1./112., 950. + 273.)
+]
+
+
 # In[26]:
-
-
-par_lin = [IdealSolutionParameters(600e3, 70., 1./45., 1780. + 273.), 
-           IdealSolutionParameters(450e3, 30., 1./112., 950. + 273.)]
-
-
-# In[27]:
 
 
 Pref = 1.
@@ -711,10 +768,10 @@ cvar[:, 0] = np.linspace(0., 1., 300)
 cvar[:, 1] = 1.0 - np.linspace(0., 1., 300)
 
 
-# In[28]:
+# In[27]:
 
 
-fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(18.0, 9.0))
+fig, ((axA, axB)) = plt.subplots(nrows=1, ncols=2, figsize=(15.0, 9.0))
 
 c = cvar
 T = Tref
@@ -733,10 +790,28 @@ Cref = np.mean(Cint)
 F, Cs, Cl = MeltFraction(Tvar-273, cref[1], ML, MS, Cref, cref[1], Tref)
 
 plots = []
-axA.plot(c[:,1], np.array([th.Ts for th in Theta])-273, '-', linewidth=3, color=[0.6, 0.6, 0.6])
-plots.append(axA.plot(c[:,1], np.array([th.Tl for th in Theta])-273, '-', linewidth=3, color=[0.6, 0.6, 0.6]))
-plots.append(axA.plot(c[:,1], SolLiqTemperature(c[:,1], Cref, ML, Tref), '--', color=[0.6, 0.6, 0.6], linewidth=3))
-plots.append(axA.plot(c[:,1], SolLiqTemperature(c[:,1], cref[1], MS, Tref),'--', color=[0.6, 0.6, 0.6], linewidth=3))
+axA.plot(
+    c[:,1], np.array([th.Ts for th in Theta])-273, 
+    '-', linewidth=3, color=[0.6, 0.6, 0.6]
+)
+plots.append(
+    axA.plot(
+        c[:,1], np.array([th.Tl for th in Theta])-273, '-', 
+        linewidth=3, color=[0.6, 0.6, 0.6]
+    )
+)
+plots.append(
+    axA.plot(
+        c[:,1], SolLiqTemperature(c[:,1], Cref, ML, Tref), 
+        '--', color=[0.6, 0.6, 0.6], linewidth=3
+    )
+)
+plots.append(
+    axA.plot(
+        c[:,1], SolLiqTemperature(c[:,1], cref[1], MS, Tref),
+        '--', color=[0.6, 0.6, 0.6], linewidth=3
+    )
+)
 axA.plot(Cs, Tvar-273, '-k', linewidth=1.5)
 axA.plot(Cl, Tvar-273, '-k', linewidth=1.5)
 
@@ -746,15 +821,21 @@ axA.set_xlim([0, 1])
 axA.set_ylim([1000, 2000])
 axA.tick_params(axis='both', which='major', labelsize=13)
 axA.text(0.001, 1965., '(a)', fontsize=18)
-labels=['$T^\mathcal{S}, T^\mathcal{L}$ (ideal soln.)', '$T^\mathcal{S},T^\mathcal{L}$ (linear)',
-        '$\check{c}^s_2(T),\check{c}^\ell_2(T)$, (linear)']
+labels=[
+    '$T^\mathcal{S}, T^\mathcal{L}$ (ideal soln.)', 
+    '$T^\mathcal{S},T^\mathcal{L}$ (linear)',
+    '$\check{c}^s_2(T),\check{c}^\ell_2(T)$, (linear)'
+]
 axA.legend(handles=([p[0] for p in plots]), fontsize=15, labels=labels)
 
 T = Tvar
 P = Pref
 c = cref
 Theta = EquilibriumState(len(par_lin), c, T, P, par_lin, ParCoef_IdealSolution)
-axB.plot(T-273, np.array([th.f for th in Theta]), '-k', linewidth=2, label='ideal soln.')
+axB.plot(
+    T-273, np.array([th.f for th in Theta]), 
+    '-k', linewidth=2, label='ideal soln.'
+)
 axB.plot(T-273, F,'--k', linewidth=2, label='linear')
 axB.set_xlabel('$T$, $^\circ$C', fontsize=20)
 axB.set_xlim([1200, 1350])

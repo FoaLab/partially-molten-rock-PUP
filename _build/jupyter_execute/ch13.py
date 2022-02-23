@@ -85,11 +85,19 @@ warnings.filterwarnings('ignore')
 
 
 def vel_solid_radial(alph, theta):
-    return -(2.*np.sin(alph)**2 * np.cos(theta) - 2.*np.cos(theta) 
-             + 2.*theta*np.sin(theta))/(2.*alph - np.pi + np.sin(2.*alph))
+
+    return -(
+        2.*np.sin(alph)**2 * np.cos(theta) - 2.*np.cos(theta) 
+        + 2.*theta*np.sin(theta))/(2.*alph - np.pi + np.sin(2.*alph)
+    )
 
 def vel_solid_tangential(alph, theta):
-    return (2.*np.sin(alph)**2 * np.sin(theta) - 2.*theta*np.cos(theta))/(2.*alph - np.pi + np.sin(2.*alph))
+
+    return (
+        2.*np.sin(alph)**2 * np.sin(theta) - 2.*theta*np.cos(theta)
+    )/(
+        2.*alph - np.pi + np.sin(2.*alph)
+    )
 
 def vel_liquid_radial(alph, theta, r, e):
     sin_a = np.sin(alph)
@@ -97,7 +105,11 @@ def vel_liquid_radial(alph, theta, r, e):
     cos_t = np.cos(theta)
     numer = 2.*sin_a**2 * cos_t - 2.*cos_t + 2.*theta*sin_t
     denom = 2.*alph - np.pi + np.sin(2.*alph)
-    return -numer/denom - (cos_t - ((numer/denom - (2.*sin_a**2 * cos_t - 6.*cos_t + 2.*theta*sin_t)/denom))/r**2)/e
+    return -numer/denom - (
+        cos_t - (
+            numer/denom - (2.*sin_a**2 * cos_t - 6.*cos_t + 2.*theta*sin_t)/denom
+        )/r**2
+    )/e
 
 def vel_liquid_tangential(alph, theta, r, e):
     sin_t = np.sin(theta)
@@ -105,7 +117,10 @@ def vel_liquid_tangential(alph, theta, r, e):
     cos_t = np.cos(theta)
     numer = -2.*sin_a**2 * sin_t + 2.*theta*cos_t
     denom = 2.*alph - np.pi + np.sin(2.*alph)
-    return (sin_t - ((4.*sin_t + numer)/denom - (8.*sin_t + numer)/denom)/r**2)/e - numer/denom
+    return (sin_t - (
+            (4.*sin_t + numer)/denom - (8.*sin_t + numer)/denom
+        )/r**2
+    )/e - numer/denom
 
 
 # Figure 13.1 below plot the streamlines of the solid $\eqref{eq:cornerflow-solid-velocity}$ and liquid $\eqref{eq:cornerflow-liquid-velocity}$ velocities for the corner flow solution with uniform viscosity and porosity. The domain has a fixed size in dimensional units. The top row of panels has a larger lithospheric wedge angle $(\theta_p=30^\circ)$ than the bottom row $(\theta_p=15^\circ)$.  The left column has 100$\times$ slower melt segregation ($\velratio=1$) than the right column ($\velratio=0.01$).
@@ -114,7 +129,7 @@ def vel_liquid_tangential(alph, theta, r, e):
 
 
 f, ax = plt.subplots(2, 2)
-f.set_size_inches(18.0, 12.0)
+f.set_size_inches(15.0, 12.0)
 
 Ny = 500
 aspect = 2.0
@@ -161,15 +176,21 @@ for i, alph in enumerate(alphvec):
         seedVS[:, 0] = np.linspace(sm*np.cos(alph), np.cos(alph), 7)
         seedVS[:, 1] = np.linspace(sm*np.sin(alph), np.sin(alph), 7)
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
-        strm = ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
-                                   integration_direction='backward', minlength=0.5, arrowstyle='-')
+        strm = ax[i, j].streamplot(
+            X, Y, VSX, VSY, start_points=seedVS, 
+            color='r', maxlength=10.0, density=(100,100),
+            integration_direction='backward', minlength=0.5, arrowstyle='-'
+        )
         plots.append(strm.lines)
         # in the negative X axis
         seedVS[:, 0] = np.linspace(-np.cos(alph), -sm*np.cos(alph), 7)
         seedVS[:, 1] = np.flip(np.linspace(sm*np.sin(alph), np.sin(alph), 7))
         ax[i, j].plot(seedVS[:, 0], seedVS[:, 1], 'ro')
-        ax[i, j].streamplot(X, Y, VSX, VSY, start_points=seedVS, color='r', maxlength=10.0, density=(100,100),
-                            integration_direction='backward', minlength=0.5, arrowstyle='-')
+        ax[i, j].streamplot(
+            X, Y, VSX, VSY, start_points=seedVS, 
+            color='r', maxlength=10.0, density=(100,100),
+            integration_direction='backward', minlength=0.5, arrowstyle='-'
+        )
 
         # ------------------
         # liquid streamlines
@@ -178,33 +199,72 @@ for i, alph in enumerate(alphvec):
         seedVL[:, 0] = 0.7 * np.linspace(0.0, np.amax(x), 12)
         seedVL[:, 1] = 0.99
         ax[i, j].plot(seedVL[:, 0], seedVL[:, 1], 'bo')
-        strm2 = ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
-                                    integration_direction='forward', minlength=0.5, arrowstyle='-')
+        strm2 = ax[i, j].streamplot(
+            X, Y, VLX, VLY, start_points=seedVL, 
+            color='b', maxlength=10.0, density=(100,100),
+            integration_direction='forward', minlength=0.5, arrowstyle='-'
+        )
         plots.append(strm2.lines)
         # in the negative X axis
         seedVL[:, 0] = 0.7 * np.linspace(-np.amax(x), 0.0, 12)
         seedVL[:, 1] = 0.99
         ax[i, j].plot(seedVL[:, 0], seedVL[:, 1], 'bo')
-        ax[i, j].streamplot(X, Y, VLX, VLY, start_points=seedVL, color='b', maxlength=10.0, density=(100,100),
-                            integration_direction='forward', minlength=0.5, arrowstyle='-')
+        ax[i, j].streamplot(
+            X, Y, VLX, VLY, start_points=seedVL, 
+            color='b', maxlength=10.0, density=(100,100),
+            integration_direction='forward', minlength=0.5, arrowstyle='-'
+        )
 
-        ax[i, j].text(-0.47*aspect, -0.1, annotations[i][j], fontsize=20, verticalalignment='top', horizontalalignment='right')
-        ax[i, j].text(0.0, -0.15, r'$L \sqrt{2B}$', fontsize=15, verticalalignment='top', horizontalalignment='right')
-        ax[i, j].plot([-0.15*aspect, 0.0], [-0.025, -0.025], '--r', linewidth=2)
-        ax[i, j].text(0.2*aspect, -0.08, r'$\epsilon={}$'.format(e), fontsize=13, verticalalignment='top', horizontalalignment='right')
+        ax[i, j].text(
+            -0.47*aspect, -0.1, annotations[i][j], fontsize=20, 
+            verticalalignment='top', horizontalalignment='right'
+        )
+        ax[i, j].text(
+            0.0, -0.15, r'$L \sqrt{2B}$', fontsize=15, 
+            verticalalignment='top', horizontalalignment='right'
+        )
+        ax[i, j].plot(
+            [-0.15*aspect, 0.0], [-0.025, -0.025], 
+            '--r', linewidth=2
+        )
+        ax[i, j].text(
+            0.2*aspect, -0.08, r'$\epsilon={}$'.format(e), 
+            fontsize=13, verticalalignment='top', horizontalalignment='right'
+        )
         
         # annotations
         ax[i, j].plot([-1., 1.], [0., 0.], '-k', linewidth=2)
-        ax[i, j].plot([-np.cos(alph), 0., np.cos(alph)], [np.sin(alph), 0., np.sin(alph)], '-k', linewidth=2)
+        ax[i, j].plot(
+            [-np.cos(alph), 0., np.cos(alph)], 
+            [np.sin(alph), 0., np.sin(alph)], 
+            '-k', linewidth=2
+        )
         # U_0 line
-        ax[i, j].plot([0.6, 0.9], [np.sin(alph)/3., np.sin(alph)/3.], '-k', linewidth=2)
-        ax[i, j].plot(0.9, np.sin(alph)/3., '>k', markersize=10, markerfacecolor='k')
-        ax[i, j].annotate(r'$U_0$', xy=[0.7, np.sin(alph)/3.0], fontsize=14, verticalalignment='bottom')
+        ax[i, j].plot(
+            [0.6, 0.9], [np.sin(alph)/3., np.sin(alph)/3.], 
+            '-k', linewidth=2
+        )
+        ax[i, j].plot(
+            0.9, np.sin(alph)/3., '>k', markersize=10, markerfacecolor='k'
+        )
+        ax[i, j].annotate(
+            r'$U_0$', xy=[0.7, np.sin(alph)/3.0], 
+            fontsize=14, verticalalignment='bottom'
+        )
         # -U_0 line
-        ax[i, j].plot([-0.6, -0.9], [np.sin(alph)/3., np.sin(alph)/3.], '-k', linewidth=2)
-        ax[i, j].plot(-0.9, np.sin(alph)/3., '<k', markersize=10, markerfacecolor='k')
-        ax[i, j].annotate(r'$-U_0$', xy=[-0.65, np.sin(alph)/3.0], fontsize=14, verticalalignment='bottom', 
-                          horizontalalignment='right')
+        ax[i, j].plot(
+            [-0.6, -0.9], [np.sin(alph)/3., np.sin(alph)/3.], 
+            '-k', linewidth=2
+        )
+        ax[i, j].plot(
+            -0.9, np.sin(alph)/3., '<k', 
+            markersize=10, markerfacecolor='k'
+        )
+        ax[i, j].annotate(
+            r'$-U_0$', xy=[-0.65, np.sin(alph)/3.0], 
+            fontsize=14, verticalalignment='bottom', 
+            horizontalalignment='right'
+        )
         # axes
         ax[i, j].set_xlim(-0.5*aspect, 0.5*aspect)
         ax[i, j].set_ylim(-0.05, 1.02)
@@ -213,8 +273,11 @@ for i, alph in enumerate(alphvec):
 
 f.supxlabel("Figure 13.1", fontsize=20)
 
-f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid streamlines'], 
-         bbox_to_anchor=(0.5, 1.0), loc='center', ncol=2, borderaxespad=0.);
+f.legend(
+    handles=plots[0:2], fontsize=13, 
+    labels=['Solid streamlines', 'Liquid streamlines'], 
+    bbox_to_anchor=(0.5, 1.0), loc='center', ncol=2, borderaxespad=0.
+);
 
 
 # ## Melt focusing through a sub-lithospheric channel
@@ -244,15 +307,16 @@ f.legend(handles=plots[0:2], fontsize=13, labels=['Solid streamlines', 'Liquid s
 
 
 def integrand(zeta, Rsquared):
+
     G   = (zeta + np.log(2.0) + np.log(np.cosh(zeta)))/np.log(2.0)
-    # Gpp = np.sech(zeta)**2/np.log(2.0)  Numpy has no sech.
     Gpp = 1./(np.cosh(zeta)**2 * np.log(2.0))
+
     return (Rsquared*Gpp - G)/(1-Rsquared*Gpp)
 
 def integrand_Dx(zeta, Rsquared):
     G   = (zeta + np.log(2.0) + np.log(np.cosh(zeta)))/np.log(2.0)
-    # Gpp = np.sech(zeta)**2/np.log(2.0)  Numpy has no sech.
     Gpp = 1./(np.cosh(zeta)**2 * np.log(2.0))
+
     return Rsquared*Gpp/(1-Rsquared*Gpp)
 
 
@@ -286,22 +350,33 @@ ax[0].set_xticks((0, 10, 20, 30, 40))
 ax[0].set_yticks((-1, 0, 1, 2, 3))
 ax[0].set_xlabel(r'$\alpha$, degrees', fontsize=18)
 ax[0].set_ylabel(r'$E_F$', fontsize=18)
-ax[0].text(0.5, 2.95, '(a)', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[0].text(
+    0.5, 2.95, '(a)', fontsize=16, 
+    verticalalignment='top', horizontalalignment='left'
+)
 
 for Rsquared, pltsty in zip(R2, plot_style):
     integ_dx = lambda z: integrand_Dx(z, Rsquared)
     ExDlx = quad(integ_dx, -100, eps)
-    ax[1].plot(alpha*180.0/np.pi, np.tan(alpha)*ExDlx[0], pltsty, linewidth=2)
+    ax[1].plot(
+        alpha*180.0/np.pi, np.tan(alpha)*ExDlx[0], pltsty, linewidth=2
+    )
 
 ax[1].set_xlim(0.0, amax*180/np.pi)
 ax[1].set_xticks((0, 10, 20, 30, 40))
 ax[1].set_yticks((0, 5, 10, 15, 20, 25))
 ax[1].set_xlabel(r'$\alpha$, degrees', fontsize=18)
 ax[1].set_ylabel(r'$\Delta x_F/\delta_f$', fontsize=18)
-ax[1].text(0.5, 24.7, '(b)', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[1].text(
+    0.5, 24.7, '(b)', fontsize=16, 
+    verticalalignment='top', horizontalalignment='left'
+)
 
-plt.legend(handles=plots, fontsize=13, labels=labels,
-           bbox_to_anchor=(-1.0, 1.02, 2., .2),  loc='lower left', ncol=4, mode="expand", borderaxespad=0.)
+plt.legend(
+    handles=plots, fontsize=13, labels=labels,
+    bbox_to_anchor=(-1.0, 1.02, 2., .2), 
+    loc='lower left', ncol=4, mode="expand", borderaxespad=0.
+)
 
 fig.supxlabel("Figure 13.3", fontsize=20)
 
@@ -316,22 +391,24 @@ plt.show()
 
 
 class PAR:
+
     def __init__(self):
+
         secperyr = np.pi * 1.e7
-        self.Tsfc = 273.  # K
-        self.Tm = 1350. + 273.  # K 
-        self.TS0 = 1100. + 273.  # K
-        self.clapeyron = 6.5e6  # Pa/K
-        self.rho = 3300.  # kg/m3
-        self.kappa = 1e-6  # m2/sec (thermal diffusivity)
-        self.g = 10.  # m/sec2
-        self.x0 = 5000.  # m
-        self.U0 = 4./100./secperyr  # m/sec
-        self.zh0 = -10.  # m
-        self.zb = -70.  # m
+        self.Tsfc = 273.                   # K
+        self.Tm = 1350. + 273.             # K 
+        self.TS0 = 1100. + 273.            # K
+        self.clapeyron = 6.5e6             # Pa/K
+        self.rho = 3300.                   # kg/m3
+        self.kappa = 1e-6                  # m2/sec (thermal diffusivity)
+        self.g = 10.                       # m/sec2
+        self.x0 = 5000.                    # m
+        self.U0 = 4./100./secperyr         # m/sec
+        self.zh0 = -10.                    # m
+        self.zb = -70.                     # m
         self.Pi = 0.23/(self.zh0-self.zb)  # per m
-        self.heatcap = 1200.  # J/kg/K
-        self.alpha = 30. * np.pi/180  # radians
+        self.heatcap = 1200.               # J/kg/K
+        self.alpha = 30. * np.pi/180       # radians
 
         self.clapeyron = self.zb * self.rho * self.g/(self.TS0 - self.Tm)
         self.latent = self.heatcap*self.rho*self.g/self.Pi/self.clapeyron
@@ -355,22 +432,40 @@ ax.set_xlim(0.0, xd*1.05)
 ax.set_ylim(p.zb*1.1, 0.0)
 
 ax.plot([xd, xd], [p.zb, p.zb*1.1], ':k')
-ax.text(1.02*xd, p.zb*1.1, r'$x_d$', verticalalignment='top', horizontalalignment='center', fontsize=16)
+ax.text(
+    1.02*xd, p.zb*1.1, r'$x_d$', 
+    verticalalignment='top', horizontalalignment='center', fontsize=16
+)
 ax.set_xlabel(r'$x$, km', fontsize=20)
 ax.set_ylabel(r'$z$, km', fontsize=20)
 
-ax.text(x[75], zh[75], r'$z_h(x)$', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
-ax.text(x[75], zb[75], r'$z_b$', verticalalignment='bottom', horizontalalignment='left', fontsize=20)
-ax.text(40, -55, r'$\mathcal{Z}$', verticalalignment='center', horizontalalignment='left', fontsize=20)
+ax.text(
+    x[75], zh[75], r'$z_h(x)$', fontsize=20,
+    verticalalignment='bottom', horizontalalignment='left'
+)
+ax.text(
+    x[75], zb[75], r'$z_b$', fontsize=20,
+    verticalalignment='bottom', horizontalalignment='left'
+)
+ax.text(
+    40, -55, r'$\mathcal{Z}$', fontsize=20,
+    verticalalignment='center', horizontalalignment='left'
+)
 
 z = np.linspace(0, p.zb, 400)
 T = np.zeros((z.shape[0], x.shape[0]))
 for i, zh_i in enumerate(zh):
-    Tl = interp1d([0, zh_i], [p.Tsfc, p.TS0 - p.rho*p.g/p.clapeyron*zh_i], fill_value='extrapolate')(z)
+    Tl = interp1d(
+        [0, zh_i], 
+        [p.Tsfc, p.TS0 - p.rho*p.g/p.clapeyron*zh_i], 
+        fill_value='extrapolate'
+    )(z)
     Tm = p.TS0 - p.rho*p.g/p.clapeyron * z
     T[:, i] = Tm * (z < zh_i) + Tl * (z >= zh_i)
 
-cc = ax.contour(x, z, T, levels=9, colors='grey', linestyles='--', alpha=0.5)
+cc = ax.contour(
+    x, z, T, levels=9, colors='grey', linestyles='--', alpha=0.5
+)
 
 x0, x1, x2 = x[20-1], x[25-1], x[45-1]
 z0, z1, z2, z3 = zh[20-1], zh[25-1], zh[30-1], zh[55-1]
@@ -380,14 +475,38 @@ ax.plot([x1, x1],[z2, z3], ':k')
 ax.plot([x1, x2],[z0, z0], ':k')
 ax.plot([x1, x2],[z1, z1], ':k')
 
-ax.text(85, -20, r'$\longrightarrow x$', verticalalignment='top', horizontalalignment='left',fontsize=20)
-ax.text(85, -20, r'$\longrightarrow$', verticalalignment='center', horizontalalignment='left', fontsize=20, rotation=90)
-ax.text(85, -14, r'$z$', verticalalignment='top', horizontalalignment='left', fontsize=20)
-ax.text(x2, (z1+z0)/2, r'$\Rightarrow\,U_0$', verticalalignment='center', fontsize=20)
-ax.text(1.1*(x0+x1)/2, z3, r'$\Rightarrow$', verticalalignment='center', horizontalalignment='right', rotation=90, fontsize=20)
-ax.text(1.1*(x0+x1)/2, z3, r'$W_0$', verticalalignment='top', horizontalalignment='left',fontsize=20)
-ax.text(x0-1, z0, r'$\delta z$', verticalalignment='top', horizontalalignment='right', fontsize=13)
-ax.text((x0+x1)/2, z0, r'$\delta x$', verticalalignment='bottom', horizontalalignment='center', fontsize=13)
+ax.text(
+    85, -20, r'$\longrightarrow x$', fontsize=20,
+    verticalalignment='top', horizontalalignment='left'
+)
+ax.text(
+    85, -20, r'$\longrightarrow$', fontsize=20, rotation=90,
+    verticalalignment='center', horizontalalignment='left'
+)
+ax.text(
+    85, -14, r'$z$', fontsize=20,
+    verticalalignment='top', horizontalalignment='left'
+)
+ax.text(
+    x2, (z1+z0)/2, r'$\Rightarrow\,U_0$', 
+    verticalalignment='center', fontsize=20
+)
+ax.text(
+    1.1*(x0+x1)/2, z3, r'$\Rightarrow$', rotation=90, fontsize=20,
+    verticalalignment='center', horizontalalignment='right',
+)
+ax.text(
+    1.1*(x0+x1)/2, z3, r'$W_0$', fontsize=20,
+    verticalalignment='top', horizontalalignment='left'
+)
+ax.text(
+    x0-1, z0, r'$\delta z$', fontsize=13,
+    verticalalignment='top', horizontalalignment='right'
+)
+ax.text(
+    (x0+x1)/2, z0, r'$\delta x$', fontsize=13,
+    verticalalignment='bottom', horizontalalignment='center'
+)
 
 f.supxlabel("Figure 13.4", fontsize=20)
 
@@ -425,11 +544,11 @@ def FocusingModelTriangle(par=None):
     if par is None:
         par = PAR()
         par.Tsfc = 273.
-        par.Tm   = 1350. + 273.
-        par.TS0  = 1100. + 273.
+        par.Tm = 1350. + 273.
+        par.TS0 = 1100. + 273.
         par.zh0 = - 10*1e3
-        par.zb   = -70*1e3
-        par.Pi   = 0.23/(par.zh0 - par.zb)
+        par.zb = -70*1e3
+        par.Pi = 0.23/(par.zh0 - par.zb)
         par.rho = 3300
         par.kappa = 1e-6
         par.heatcap = 1200
@@ -448,7 +567,9 @@ def FocusingModelTriangle(par=None):
 
     # freezing rate
     Tzh = par.TS0 - par.rho * par.g * zh / par.clapeyron
-    G = par.kappa * par.heatcap / par.latent * (Tzh/zh + par.rho *par.g / par.clapeyron)
+    G = par.kappa * par.heatcap / par.latent * (
+        Tzh/zh + par.rho *par.g / par.clapeyron
+    )
    
     # flux divergence
     dqdx = (G + par.U0 * np.tan(par.alpha) * F)/(1 - F)
@@ -503,23 +624,31 @@ plt.show()
 
 
 f, ax = plt.subplots(1, 3)
-f.set_size_inches(21.0, 9.0)
+f.set_size_inches(15.0, 9.0)
 
 par = FocusingModelTriangle()
 
 alpha = np.array([20., 30., 40., 50.]) * np.pi/180.
 pltstl = ['-k', '--k', '-.k', 'k:']
+
 for a, stl in zip(alpha, pltstl):
     par.alpha = a
     A = FocusingModelTriangle(par);
-    ax[0].plot(A.x, A.cruth, stl, linewidth=2, label=r'$\alpha ='+str(np.ceil(a*180/np.pi))+'^\circ$')
+    ax[0].plot(
+        A.x, A.cruth, stl, linewidth=2, 
+        label=r'$\alpha ='+str(np.ceil(a*180/np.pi))+'^\circ$'
+    )
+
 ax[0].set_xlabel(r'$x$, km', fontsize=24)
 ax[0].set_ylabel(r'$-q/U_0$, km', fontsize=24)
 ax[0].set_xlim(0.0, 150)
 ax[0].set_xticks((0, 50, 100, 150))
 ax[0].set_yticks((0, 2, 4, 6, 8))
 ax[0].set_ylim(0.0, 8.0)
-ax[0].text(0.99, 7.9, r'$U_0 = 4$ cm/yr', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[0].text(
+    0.99, 7.9, r'$U_0 = 4$ cm/yr', fontsize=16, 
+    verticalalignment='top', horizontalalignment='left'
+)
 ax[0].text(0.1, 0.1, '(a)', fontsize=18)
 ax[0].legend(fontsize=13)
 
@@ -528,13 +657,19 @@ U0 = np.array([2., 4., 8., 16.])/100/secperyr  # m/sec
 for u0, stl in zip(U0, pltstl):
     par.U0 = u0
     A = FocusingModelTriangle(par)
-    ax[1].plot(A.x, A.cruth, stl, linewidth=2, label=r'$U_0 ='+str(int(u0*100.*secperyr))+'$ cm/yr')
+    ax[1].plot(
+        A.x, A.cruth, stl, linewidth=2, 
+        label=r'$U_0 ='+str(int(u0*100.*secperyr))+'$ cm/yr'
+    )
 ax[1].set_xlabel(r'$x$, km', fontsize=24)
 ax[1].set_xlim(0.0, 50.0)
 ax[1].set_ylim(0.0, 8.0)
 ax[1].set_yticks((0, 2, 4, 6, 8))
 ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
-ax[1].text(0.05, 7.9, r'$\alpha=30^\circ$', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[1].text(
+    0.05, 7.9, r'$\alpha=30^\circ$', fontsize=16, 
+    verticalalignment='top', horizontalalignment='left'
+)
 ax[1].legend(fontsize=13)
 
 secperyr = 60*60*24*365.5;
@@ -545,17 +680,24 @@ x_alpha = 5.  # km
 for u0, stl in zip(U0, pltstl):
     yL  = C * np.sqrt(K * (x_alpha * 1e3)/u0)  # lithospheric thickness, m
     yLp = C * C * K / 2. / u0 / yL;            # lithospheric slope
-    par.alpha = np.arctan(yLp)                   # local angle of the LAB, degrees
+    par.alpha = np.arctan(yLp)                 # local angle of the LAB, degrees
     par.U0 = u0
     A = FocusingModelTriangle(par)
-    plt.plot(A.x, A.cruth, stl, linewidth=2,
-             label=r'$U_0$ = ' + str(int(u0*100*secperyr)) + r'cm/yr, $\alpha$ =' + str(int(par.alpha*180/np.pi)) + r'$^\circ$')
+    plt.plot(
+        A.x, A.cruth, stl, linewidth=2,
+        label=r'$U_0$ = ' + str(int(u0*100*secperyr)) 
+            + r'cm/yr, $\alpha$ =' 
+            + str(int(par.alpha*180/np.pi)) + r'$^\circ$'
+    )
 ax[2].set_xlim(0.0, 250.0)
 ax[2].set_ylim(0.0, 8.0)
 ax[2].set_yticks((0, 2, 4, 6, 8))
 ax[2].set_xlabel(r'$x$, km', fontsize=24)
-ax[2].text(2.0, 0.3, r'(c)', fontsize=16, verticalalignment='top', horizontalalignment='left')
+ax[2].text(
+    2.0, 0.3, r'(c)', fontsize=16, 
+    verticalalignment='top', horizontalalignment='left'
+)
 ax[2].legend(fontsize=13);
 
-f.supxlabel("Figure 13.6", fontsize=20)
+f.supxlabel("Figure 13.6", fontsize=20);
 
