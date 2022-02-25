@@ -46,7 +46,7 @@ def compaction_rate(z):
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18.0, 4.5)
+fig.set_size_inches(12.0, 4.5)
 
 z = np.linspace(-8, 0.0, 1000)
 C = compaction_rate(z)
@@ -367,7 +367,6 @@ def porosity(f, z, A):
 
 fig, ax = plt.subplots()
 fig.set_size_inches(15., 9.)
-fig.set_facecolor('w')
 
 zmax = 25.
 zs = np.linspace(0., zmax, 100)
@@ -392,7 +391,7 @@ ax.set_ylim(0., 9.)
 ax.grid()
 ax.set_xlabel(r'$Z$, compaction lengths', fontsize=20)
 ax.set_ylabel(r'$\Lambda$', fontsize=20)
-ax.tick_params(axis='both', which='major', labelsize=13)
+ax.tick_params(axis='both', which='major', labelsize=15)
 ax.legend(fontsize=20)
 
 fig.supxlabel("Figure 6.5a", fontsize=20)
@@ -431,7 +430,7 @@ ax.set_ylim(-10., 10.)
 ax.grid()
 ax.set_xlabel(r'Z, compaction lengths', fontsize=20)
 ax.set_ylabel(r'$\lambda$', fontSize=20)
-ax.tick_params(axis='both', which='major', labelsize=13)
+ax.tick_params(axis='both', which='major', labelsize=15)
 
 fig.supxlabel("Figure 6.5b", fontsize=20)
 

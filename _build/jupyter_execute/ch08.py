@@ -40,8 +40,10 @@ from scipy.integrate import odeint
 
 
 def thick(y, t, pi, lam):  # y = [H, phi]
+
     H = y[0]
     phi = y[1]
+
     return [-pi * H * phi, np.exp(-lam*phi) - pi * (1. - phi) * phi]
 
 
@@ -51,7 +53,7 @@ def thick(y, t, pi, lam):  # y = [H, phi]
 
 
 f, ax = plt.subplots()
-f.set_size_inches(12.0, 9.0)
+f.set_size_inches(12., 9.5)
 
 y0 = [1., 0.0]  # initial condition: H=1, phi=0.0
 lambda_ = 27.0
@@ -82,7 +84,7 @@ plt.show()
 
 
 f, ax = plt.subplots()
-f.set_size_inches(12.0, 9.0)
+f.set_size_inches(12., 9.5)
 
 y0 = [1., 0.0]  # initial condition: H=1, phi=0.0
 lambda_ = 27.0
@@ -92,9 +94,15 @@ linesty = ['-', '--', '-.']
 for pi, tm, ls in zip(Pi, tmax, linesty):
     t = np.arange(0.0, tm, 0.005)
     S = odeint(thick, y0, t, args=(pi, lambda_), rtol=1e-8)
-    ax.loglog(t, S[:, 1], 'k', linestyle=ls, linewidth=2, label=f'$\Pi={str(pi)}$')
+    ax.loglog(
+        t, S[:, 1], 'k', linestyle=ls, 
+        linewidth=2, label=f'$\Pi={str(pi)}$'
+    )
 
-ax.set_xlabel(r'$t/[\rho L\mathcal{H}_0^2/(\eta_0\mathcal{S}_0^2)]$', fontsize=22)
+ax.set_xlabel(
+    r'$t/[\rho L\mathcal{H}_0^2/(\eta_0\mathcal{S}_0^2)]$', 
+    fontsize=22
+)
 ax.set_xticks((1e-2, 1e-1, 1e0, 1e1, 1e2))
 ax.set_ylabel(r'$\phi$', fontsize=22)
 ax.set_yticks((1e-2, 1e-1))
@@ -133,10 +141,9 @@ plt.show()
 
 
 def TemperatureEquation(T, z, Ts0, rho, g, C, alpha, L, M):
-    """
-    this function solves for T, given Ts0, rho, g, C, alpha, L, M)
-    """
+
     Tsol = Ts0 - rho*g*z/C
+
     return -(alpha*T*g/c + rho*g/C)/(1 + L*M/c) if T > Tsol else -alpha*T*g/c
 
 
@@ -169,7 +176,12 @@ zmax = -100.*1000.
 Tmax = Tp*np.exp(-alpha*g*zmax/c)
 
 z = np.linspace(zmax, 0., 5000)
-T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
+T = odeint(
+    TemperatureEquation, 
+    Tmax, 
+    z, 
+    args=(Ts0, rho, g, C, alpha, L, M)
+)
 Tsol = Ts0 - rho*g*z/C
 
 l1 = ax.plot(T-273., z/1000., '-k')[0]
@@ -187,9 +199,11 @@ ax.set_xlim(1175, 1425)
 ax.set_ylabel(r'$z,$ km', fontsize=20)
 ax.set_yticks(np.arange(-90., 1., 15))
 ax.set_ylim(-99., 0.0)
-ax.legend(handles=[l1, l2, l3], 
-          labels=['isentrope', '$\Gamma=0$ isentrope', '$F$ isopleth'], 
-          loc='lower left', fontsize=12)
+ax.legend(
+    handles=[l1, l2, l3], 
+    labels=['isentrope', '$\Gamma=0$ isentrope', '$F$ isopleth'], 
+    loc='lower left', fontsize=12
+)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 f.supxlabel("Figure 8.3a", fontsize=20)
@@ -210,7 +224,12 @@ zmax = -100.*1000.
 Tmax = Tp*np.exp(-alpha*g*zmax/c)
 
 z = np.linspace(zmax, 0., 5000)
-T = odeint(TemperatureEquation, Tmax, z, args=(Ts0, rho, g, C, alpha, L, M))
+T = odeint(
+    TemperatureEquation, 
+    Tmax, 
+    z, 
+    args=(Ts0, rho, g, C, alpha, L, M)
+)
 
 Tsol = Ts0 - rho*g*z/C
 F = np.maximum(M * (T[:, 0] - Tsol), 0.0)

@@ -30,7 +30,7 @@ from scipy.linalg import expm
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(12.0, 9.0)
 
 Dj = 1e-3
 Dk = 1e-2
@@ -49,7 +49,10 @@ ax.semilogx(
     phi, fs, '--k', linewidth=1, 
     label=r'$D_j=2\times10^{-3},D_k=\frac{1}{2}\times10^{-2}$'
 )
-ax.plot([Djs, Dks], np.interp([Djs, Dks], phi, fs), 'ok', markersize=10)
+ax.plot(
+    [Djs, Dks], np.interp([Djs, Dks], phi, fs), 
+    'ok', markersize=10
+)
 
 ax.set_xlim(1e-5, 1e0)
 ax.set_ylim(0.0, 0.65)
@@ -57,7 +60,7 @@ ax.set_xticks((1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0))
 ax.set_yticks((0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6))
 ax.set_xlabel(r'$\phi$', fontsize=20)
 ax.set_ylabel(r'$(v^{D_j}-v^{D_k})/(v^\ell-v^s)$', fontsize=20)
-ax.legend(fontsize=15)
+ax.legend(loc='upper center', fontsize=15, ncol=2)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 9.1", fontsize=20)
@@ -102,15 +105,19 @@ lines = []
 for clocsi, lstyi, Di, labli, alhi, labmi, alvi in zip(
     clocs, lsty, D, labl, alh, labm, alv
 ):
-    lines.append(plt.loglog(Gt, clocsi,'k', linewidth=2, linestyle=lstyi)[0])
+    lines.append(
+        plt.loglog(
+            Gt, clocsi,'k', linewidth=2, linestyle=lstyi
+        )[0]
+    )
     ax.plot([Di, Di], [1e-10, 1e10], ':k')[0]
     ax.plot([1e-5, 1e-1], [1./Di, 1./Di], ':k')[0]
     ax.text(
-        Di, 10.1**4, labli, fontsize=12, 
+        Di, 10.1**4, labli, fontsize=13, 
         verticalalignment='bottom', horizontalalignment=alhi
     )
     ax.text(
-        0.11, 1./Di, labmi, fontsize=12, 
+        0.11, 1./Di, labmi, fontsize=13, 
         horizontalalignment='left', verticalalignment=alvi
     )
 
@@ -120,7 +127,10 @@ ax.set_xticks((1e-5, 1e-4, 1e-3, 1e-2, 1e-1))
 ax.set_yticks((1e1, 1e2, 1e3, 1e4))
 ax.set_xlabel(r'$\mathcal{G}t$', fontsize=20)
 ax.set_ylabel(r'$c^\ell_j/c^s_j\vert_0$', fontsize=20)
-ax.legend(handles=lines, labels=['U', 'Th', 'Ra'],loc='upper right', fontsize=13)
+ax.legend(
+    handles=lines, labels=['U', 'Th', 'Ra'], 
+    loc='upper right', fontsize=13
+)
 ax.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 9.2a", fontsize=20)
@@ -174,11 +184,19 @@ def eigenvectors(lamb_):
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
 
-lambda_ = np.asarray([1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], dtype=np.float128)
-D = np.asarray([0.0086, 0.0086, 0.0065, 0.0005], dtype=np.float128)
+lambda_ = np.asarray(
+    [1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], 
+    dtype=np.float128
+)
+D = np.asarray(
+    [0.0086, 0.0086, 0.0065, 0.0005], 
+    dtype=np.float128
+)
 lsty = ['-',':','-.','--']
-labl = [r'$\tau_{1/2}^{(238U)}$', r'$\tau_{1/2}^{(234U)}$',
-        r'$\tau_{1/2}^{(230Th)}$', r'$\tau_{1/2}^{(226Ra)}$']
+labl = [
+    r'$\tau_{1/2}^{(238U)}$', r'$\tau_{1/2}^{(234U)}$',
+    r'$\tau_{1/2}^{(230Th)}$', r'$\tau_{1/2}^{(226Ra)}$'
+]
 alv = ['bottom','bottom','bottom','bottom']
 tmax = 11.0
 t = np.logspace(0.0, tmax, 1000, dtype=np.float128)
@@ -187,14 +205,25 @@ Ld = np.diag(-lambda_).astype(np.float128)
 V, Vi = eigenvectors(lambda_)
 expmLd = np.asarray([np.diag(expm(Ld*tj)) for tj in t])
 expmLd = np.asarray([np.diag(eLd) for eLd in expmLd])
-al = np.asarray([np.dot(np.dot(np.dot(V, eLd), Vi), al0) for eLd in expmLd])
+al = np.asarray(
+    [np.dot(np.dot(np.dot(V, eLd), Vi), al0) for eLd in expmLd]
+)
 lines = []
 
 for ali, lstyi, lambdai, labli, alvi in zip(al.transpose(), lsty, lambda_, labl, alv):
-    lines.append(plt.loglog(t, ali, 'k', linewidth=2, linestyle=lstyi)[0])
-    ax.plot([np.log(2.)/lambdai, np.log(2.)/lambdai], [1e-10, 1e10], ':k')
-    ax.text(np.log(2.)/lambdai, 1e4, labli, fontsize=15, 
-            rotation=60, verticalalignment=alvi, horizontalalignment='left')
+    lines.append(
+        plt.loglog(
+            t, ali, 'k', linewidth=2, linestyle=lstyi
+        )[0]
+    )
+    ax.plot(
+        [np.log(2.)/lambdai, np.log(2.)/lambdai], [1e-10, 1e10], 
+        ':k'
+     )
+    ax.text(
+        np.log(2.)/lambdai, 1e4, labli, fontsize=15, 
+        rotation=60, verticalalignment=alvi, horizontalalignment='left'
+    )
 
 ax.set_xlim(1e1, 10**tmax)
 ax.set_ylim(1e1, 1e4)
@@ -203,9 +232,10 @@ ax.set_yticks((1e1, 1e2, 1e3, 1e4))
 ax.set_xlabel(r'$t$, yr', fontsize=20)
 ax.set_ylabel(r'$a^\ell_j$, yr$^{-1}$', fontsize=20)
 ax.tick_params(axis='both', which='major', labelsize=13)
-ax.legend(handles=lines, 
-          labels=['$^{238}$U', '$^{234}$U', '$^{230}$Th', '$^{226}$Ra'], 
-          loc='upper right', fontsize=15)
+ax.legend(
+    handles=lines, loc='upper right', fontsize=15,
+    labels=['$^{238}$U', '$^{234}$U', '$^{230}$Th', '$^{226}$Ra'], 
+)
 
 fig.supxlabel("Figure 9.2b", fontsize=20)
 
@@ -236,12 +266,22 @@ plt.show()
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
 
-Dtag = ['',r'D_{U}',r'D_{Th}',r'D_{Ra}']
-Ttag = ['','',r'\tau^{(1/2)}_{(230,Th)}',r'\tau^{(1/2)}_{(226,Ra)}']
+Dtag = [
+    '', r'D_{U}', r'D_{Th}', r'D_{Ra}'
+]
+Ttag = [
+    '', '', r'\tau^{(1/2)}_{(230,Th)}', r'\tau^{(1/2)}_{(226,Ra)}'
+]
 
-Ttag_height = np.asarray([0.6, 0.6, 0.6], dtype=np.float128)
-lambda_ = np.asarray([1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], dtype=np.float128)
-D = np.asarray([0.0086, 0.0086, 0.0065, 0.0005], dtype=np.float128)
+Ttag_height = np.asarray(
+    [0.6, 0.6, 0.6], dtype=np.float128
+)
+lambda_ = np.asarray(
+    [1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], dtype=np.float128
+)
+D = np.asarray(
+    [0.0086, 0.0086, 0.0065, 0.0005], dtype=np.float128
+)
 Q = lambda_[2:]*D[2:]/np.log(2.)
 G = np.amin(Q)/100.
 as0 = np.asarray([1., 1., 1., 1.], dtype=np.float128)
@@ -258,7 +298,9 @@ expmLd = np.asarray([np.diag(expm(Ld*tj)) for tj in t])
 expmLd = np.asarray([np.diag(eLd) for eLd in expmLd])
 VeLdVi = np.asarray([np.dot(V, np.dot(eLd, Vi)) for eLd in expmLd])
 ald = np.asarray([np.dot(VeVi, as0/D) for VeVi in VeLdVi])
-al = np.asarray([np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)])
+al = np.asarray(
+    [np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)]
+)
 alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 
@@ -311,12 +353,24 @@ plt.show()
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
 
-Dtag = ['',r'D_{U}',r'D_{Th}',r'D_{Ra}']
-Ttag = ['','',r'\tau^{(1/2)}_{(230,Th)}',r'\tau^{(1/2)}_{(226,Ra)}']
+Dtag = [
+    '', r'D_{U}', r'D_{Th}', r'D_{Ra}'
+]
+Ttag = [
+    '', '', r'\tau^{(1/2)}_{(230,Th)}', r'\tau^{(1/2)}_{(226,Ra)}'
+]
 
-Ttag_height = np.asarray([0.6, 0.6, 0.6], dtype=np.float128)
-lambda_ = np.asarray([1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], dtype=np.float128)
-D = np.asarray([0.0086, 0.0086, 0.0065, 0.0005], dtype=np.float128)
+Ttag_height = np.asarray(
+    [0.6, 0.6, 0.6], dtype=np.float128
+)
+lambda_ = np.asarray(
+    [1.5e-10, 2.83e-6, 9.19e-6, 4.33e-4], 
+    dtype=np.float128
+)
+D = np.asarray(
+    [0.0086, 0.0086, 0.0065, 0.0005], 
+    dtype=np.float128
+)
 Q = lambda_[2:]*D[2:]/np.log(2.)
 G = np.amax(Q)*100.
 as0 = np.asarray([1., 1., 1., 1.], dtype=np.float128)
@@ -331,9 +385,13 @@ V, Vi = eigenvectors(lambda_)
 F = np.minimum(t, 1., dtype=np.float128)
 expmLd = np.asarray([np.diag(expm(Ld*tj)) for tj in t])
 expmLd = np.asarray([np.diag(eLd) for eLd in expmLd])
-VeLdVi = np.asarray([np.dot(V, np.dot(eLd, Vi)) for eLd in expmLd])
+VeLdVi = np.asarray(
+    [np.dot(V, np.dot(eLd, Vi)) for eLd in expmLd]
+)
 ald = np.asarray([np.dot(VeVi, as0/D) for VeVi in VeLdVi])
-al = np.asarray([np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)])
+al = np.asarray(
+    [np.dot(VeVi, as0/(D + (1.-D)*f)) for VeVi, f in zip(VeLdVi, F)]
+)
 alb = np.asarray([as0/(D + (1-D)*f) for f in F])
 lines = []
 

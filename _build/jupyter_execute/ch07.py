@@ -109,7 +109,7 @@ ax.set_ylim(-0.01, 1.01)
 
 ax.plot([2. * np.pi, 2. * np.pi], [-0.01, 1.01], ':r')
 ax.text(
-    2. * np.pi * 1.1, 0.85, r'$l=2\pi\delta_{0}$', 
+    2. * np.pi * 1.1, 0.75, r'$l=2\pi\delta_{0}$', 
     rotation=-90, va='bottom', fontsize=20
 )
 ax.set_xlabel(r'$l/\delta_{0}$', fontsize=20)
@@ -120,7 +120,7 @@ ax.set_ylabel(
     fontsize=20
 )
 ax.set_yticks((0.0, 0.25, 0.5, 0.75, 1.))
-ax.tick_params(axis='both', which='major', labelsize=13)
+ax.tick_params(axis='both', which='major', labelsize=15)
 plt.gca().yaxis.grid(True, which='major')
 
 fig.supxlabel("Figure 7.4a", fontsize=20)
@@ -158,7 +158,7 @@ ax.text(
     2. * np.pi * 1.1, 0.005, r'$l=2\pi\delta_{0}$', 
     rotation=-90, va='bottom', fontsize=20
 )
-ax.tick_params(axis='both', which='major', labelsize=13)
+ax.tick_params(axis='both', which='major', labelsize=15)
 
 fig.supxlabel("Figure 7.4b", fontsize=20)
 
@@ -181,7 +181,7 @@ th2 = 20.0
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 4.5)
+fig.set_size_inches(6., 6.)
 
 rot = -th2*np.pi/180.
 M = np.asarray(((np.cos(rot), -np.sin(rot)), (np.sin(rot), np.cos(rot))))
@@ -243,7 +243,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(15.0, 9.0)
+fig.set_size_inches(12., 8.)
 
 th0 = np.arange(5, 61, 5)*np.pi/180.
 t = np.linspace(0., 3., 1000)
@@ -286,7 +286,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(15.0, 9.0)
+fig.set_size_inches(12., 8.)
 
 theta = np.linspace(0., np.pi, 1000)
 
@@ -333,16 +333,20 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(15.0, 9.0)
+fig.set_size_inches(12., 8.)
 
 ax.plot([15., 15.], [-2., 2.], ':k')
-n = np.asarray((1, 2, 4, 6))
+n = np.asarray((1., 2., 4., 6.))
 theta = np.linspace(0., np.pi, 1000)
 for i in n:
-    N = (i-1)/i
-    colr = [1.0-i/np.amax(n), 1.-i/np.amax(n), 1.-i/np.amax(n)]
-    ax.plot(theta*180./np.pi, np.sin(2.*theta)/(1.-N*np.cos(2.*theta)**2),
-            linewidth=2, label=r'$n='+str(i)+'$', color=colr)
+    N = (i - 1.)/i
+    colr = [
+        1. - i/np.amax(n), 1. - i/np.amax(n), 1. - i/np.amax(n)
+    ]
+    ax.plot(
+        theta*180./np.pi, np.sin(2.*theta)/(1.-N*np.cos(2.*theta)**2),
+        linewidth=2, label=r'$n='+str(i)+'$', color=colr
+    )
 
 ax.set_xlim(0., 180.)
 ax.set_ylim(-1.4, 1.4)
@@ -384,7 +388,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(15., 9.)
+fig.set_size_inches(12., 8.)
 
 ncontours = 20
 
@@ -446,7 +450,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(15.0, 9.0)
+fig.set_size_inches(12., 8.)
 
 eps = 2.2204e-16
 n = 6.
@@ -531,7 +535,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(9., 9.)
 
 k = np.logspace(-2, 3, 10000)
 Rb = np.asarray([0., 0.0001, 0.001, 0.01])
@@ -570,7 +574,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(9., 9.)
 
 k = np.logspace(-2,3,10000)
 Rb = np.asarray([0., 0.0001, 0.001, 0.01])
@@ -610,7 +614,7 @@ plt.show()
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(9.0, 9.0)
+fig.set_size_inches(9., 9.)
 
 Rb = np.logspace(-5., 1., 10000)
 ks = np.sqrt((np.sqrt(Rb+1.) - np.sqrt(Rb))/np.sqrt(Rb))

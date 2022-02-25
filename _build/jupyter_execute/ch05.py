@@ -72,7 +72,7 @@ Theta = 30.0  # the dihedral angle
 
 
 fig, ax = plt.subplots(1, 2)
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(12.0, 6.0)
 
 # Figure 5.2 a
 
@@ -132,15 +132,29 @@ ysh = 0.2
 
 xI = 0.3 
 x = np.linspace(0.0, xI, 100)
-y = 0.5 * xI *     ((x**2/xI**2 - 1.)*np.tan(np.pi/6. - 0.5*theta_rad) + 2.0*np.tan(np.pi/6.))
+y = 0.5 * xI * (
+    (x**2/xI**2 - 1.)*np.tan(np.pi/6. - 0.5*theta_rad) 
+    + 2.0*np.tan(np.pi/6.)
+)
 X = np.zeros(x.shape[0] * 2 * 2).reshape(2, 2*x.shape[0])
 X[0, :] = np.concatenate((-x[::-1], x), axis=0)
 X[1, :] = np.concatenate((y[::-1], y), axis=0)
-R = np.array(((np.cos(beta*2.), -np.sin(beta*2)), (np.sin(beta*2), np.cos(beta*2))))
+R = np.array(
+    (
+        (np.cos(beta*2.), -np.sin(beta*2)), 
+        (np.sin(beta*2), np.cos(beta*2))
+    )
+)
 RX = np.fliplr(np.dot(R, X))
 RRX = np.fliplr(np.dot(np.linalg.inv(R), X))
-x = np.concatenate((np.fliplr(RX)[0, :], X[0,:], np.fliplr(RRX)[0, :]), axis=0)
-y = np.concatenate((np.fliplr(RX)[1, :], X[1,:], np.fliplr(RRX)[1, :]), axis=0)
+x = np.concatenate(
+    (np.fliplr(RX)[0, :], X[0,:], np.fliplr(RRX)[0, :]), 
+    axis=0
+)
+y = np.concatenate(
+    (np.fliplr(RX)[1, :], X[1,:], np.fliplr(RRX)[1, :]), 
+    axis=0
+)
 ax[1].plot(x, y+ysh, '--k', linewidth=2)
 
 cT = np.cos(beta) 
@@ -171,8 +185,8 @@ vy = [
 ]
 ax[1].plot(vx, vy, '-r', linewidth=0.6)
 ax[1].annotate(
-    r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], 
-    verticalalignment='bottom', horizontalalignment='center', fontsize=20
+    r'$\Theta$', xy=[0.001, np.amin(y)+ysh+0.09], fontsize=20,
+    verticalalignment='bottom', horizontalalignment='center'
 )
 
 ax[1].annotate(
@@ -252,7 +266,6 @@ data = np.asarray([[float(l) for l in l_] for l_ in lst[1:]])
 
 fig, ax = plt.subplots()
 fig.set_size_inches(9.0, 9.0)
-fig.set_facecolor('w')
 
 ax.loglog(
     phi, K2, '-k', label=r'$k_0(\phi/\phi_0)^{2.7}$', linewidth=2

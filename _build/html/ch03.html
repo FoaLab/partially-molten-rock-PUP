@@ -344,13 +344,7 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solution_polar_coords</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Python implementation of velocity and pressure solutions in Polar coordinates</span>
-<span class="sd">    :param X: X Cartesian coordinates (generated with np.meshgrid)</span>
-<span class="sd">    :param Z: Z Cartesian coordinates (generated with np.meshgrid)</span>
-<span class="sd">    :param theta: dip of the lithosphere base</span>
-<span class="sd">    :return: velocity and pressure fields. The return shape equals the shape of X and Z.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Z</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">-</span><span class="n">Z</span><span class="p">)</span>
     <span class="n">C1</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span><span class="p">))</span>
@@ -364,6 +358,7 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
         <span class="p">[</span><span class="n">p</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">theta</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rT</span><span class="p">,</span> <span class="n">rP</span><span class="p">)]</span> 
         <span class="k">for</span> <span class="n">rT</span><span class="p">,</span> <span class="n">rP</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
     <span class="p">])</span>
+
     <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">P</span>
 </pre></div>
 </div>
@@ -386,13 +381,7 @@ P &amp;= \frac{2\eta U_0}{r}C_4\cos\theta.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solution_cartesian_coords</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Python implementation of velocity and pressure solutions in Cartesian coordinates</span>
-<span class="sd">    :param X: X Cartesian coordinates (generated with np.meshgrid)</span>
-<span class="sd">    :param Z: Z Cartesian coordinates (generated with np.meshgrid)</span>
-<span class="sd">    :param theta: dip of the lithosphere base</span>
-<span class="sd">    :return: velocity and pressure fields. The return shape equals the shape of X and Z.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">C1</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span><span class="p">))</span>
     <span class="n">C4</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">theta</span><span class="p">))</span>
     <span class="n">T</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">X</span><span class="o">/</span><span class="n">Z</span><span class="p">)</span>
@@ -440,7 +429,7 @@ physically varies from <span class="math notranslate nohighlight">\(0^\circ\)</s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">18.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">12.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">)</span>
 
 <span class="n">nlines</span> <span class="o">=</span> <span class="mi">7</span>
 <span class="n">sm</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_p</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_p</span><span class="p">))</span>

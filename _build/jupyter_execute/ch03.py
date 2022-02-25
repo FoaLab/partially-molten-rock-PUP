@@ -82,13 +82,7 @@ warnings.filterwarnings('ignore')
 
 
 def solution_polar_coords(X, Z, theta):
-    """
-    Python implementation of velocity and pressure solutions in Polar coordinates
-    :param X: X Cartesian coordinates (generated with np.meshgrid)
-    :param Z: Z Cartesian coordinates (generated with np.meshgrid)
-    :param theta: dip of the lithosphere base
-    :return: velocity and pressure fields. The return shape equals the shape of X and Z.
-    """
+
     R = np.sqrt(X ** 2 + Z ** 2)
     T = np.arctan2(X, -Z)
     C1 = 2. * np.sin(theta) ** 2 / (np.pi - 2. * theta - np.sin(2. * theta))
@@ -102,6 +96,7 @@ def solution_polar_coords(X, Z, theta):
         [p if np.abs(t) <= 0.5 * np.pi - theta else np.NaN for t, p in zip(rT, rP)] 
         for rT, rP in zip(T, P)
     ])
+
     return U, W, P
 
 
@@ -125,13 +120,7 @@ def solution_polar_coords(X, Z, theta):
 
 
 def solution_cartesian_coords(X, Z, theta):
-    """
-    Python implementation of velocity and pressure solutions in Cartesian coordinates
-    :param X: X Cartesian coordinates (generated with np.meshgrid)
-    :param Z: Z Cartesian coordinates (generated with np.meshgrid)
-    :param theta: dip of the lithosphere base
-    :return: velocity and pressure fields. The return shape equals the shape of X and Z.
-    """
+
     C1 = 2. * (np.sin(theta)) ** 2 / (np.pi - 2. * theta - np.sin(2. * theta))
     C4 = -2. / (np.pi - 2. * theta - np.sin(2. * theta))
     T = -np.arctan(X/Z)
@@ -179,7 +168,7 @@ z = np.linspace(-1.0, 0.0, 500)
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(18., 9.)
+fig.set_size_inches(12., 6.)
 
 nlines = 7
 sm = 0.2 * np.minimum(np.sin(theta_p), np.cos(theta_p))
