@@ -374,12 +374,13 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">15.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
     <span class="s1">&#39;axes&#39;</span><span class="p">,</span> 
     <span class="n">prop_cycle</span><span class="o">=</span><span class="p">(</span>
-        <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="n">cycler</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">])</span>
+        <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">])</span> 
+        <span class="o">+</span> <span class="n">cycler</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">])</span>
     <span class="p">)</span>
 <span class="p">)</span>
 
@@ -389,6 +390,7 @@
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$z$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
@@ -410,6 +412,7 @@
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="o">-</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
@@ -422,6 +425,7 @@
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
@@ -434,6 +438,7 @@
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
@@ -877,7 +882,7 @@
                 <span class="n">s_guess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">par</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">fails</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="nb">print</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s1">&#39;Iteration </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">: &#39;</span> <span class="o">+</span> 
                         <span class="sa">f</span><span class="s1">&#39; searching for solution at k=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Lk_guess</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
@@ -885,7 +890,7 @@
                 <span class="n">s_guess</span> <span class="o">=</span> <span class="n">s_guess</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
     
             <span class="k">elif</span> <span class="n">fails</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="nb">print</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s1">&#39;Iteration </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">: &#39;</span> <span class="o">+</span> 
                         <span class="sa">f</span><span class="s1">&#39; searching for solution at sigma=</span><span class="si">{</span><span class="n">s_guess</span><span class="si">}</span><span class="s1">&#39;</span>
@@ -938,48 +943,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1988709536468964
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.4170492395167464
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.9634875144806418
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.7334681741075595
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.2405416712675925
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=7.646015891452607
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=22.486452560086157
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=68.49264095622937
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=147.77748323071222
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=147.77748323071222
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at sigma=2.4521173824742863
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500:  searching for solution at k=223.86959964354207
-Iteration 500:  searching for solution at k=223.86959964354207
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500:  searching for solution at sigma=1.9865134870866583
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -989,79 +952,12 @@ Iteration 500:  searching for solution at k=223.86959964354207
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1245687200977983
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.417227638952335
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=2.211204287544978
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=3.9827841895310336
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=10.085980268799723
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=18.399710762004737
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=29.1735691954528
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=49.38013398663095
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=49.38013398663095
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at sigma=0.6296684995591252
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpar</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
 <span class="n">dpar</span><span class="o">.</span><span class="n">Da</span> <span class="o">=</span> <span class="mf">100.0</span>
 <span class="n">DC_b</span> <span class="o">=</span> <span class="n">reactive_flow_trace_dispersion_curve</span><span class="p">(</span><span class="n">dpar</span><span class="p">,</span> <span class="n">Lkbounds</span><span class="p">,</span> <span class="n">sbounds</span><span class="p">,</span> <span class="n">init_Lks</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1966003592232886
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.418080086637226
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.9699826564506784
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.765015405546866
-Iteration 200:  searching for solution at k=1.765015405546866
-Iteration 200:  searching for solution at sigma=0.5850777050304234
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.5085653228971196
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=9.45412303467715
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=27.39805955332484
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=50.49777052084663
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=76.75033695919055
-Iteration 450:  searching for solution at k=76.75033695919055
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at sigma=1.7843440109574253
 </pre></div>
 </div>
 </div>
@@ -1109,7 +1005,7 @@ Iteration 450:  searching for solution at k=76.75033695919055
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">18.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 
 <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
@@ -1124,6 +1020,7 @@ Iteration 450:  searching for solution at k=76.75033695919055
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">1e0</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">))</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">1.1</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
@@ -1150,6 +1047,7 @@ Iteration 450:  searching for solution at k=76.75033695919055
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
@@ -1202,202 +1100,14 @@ Iteration 450:  searching for solution at k=76.75033695919055
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1245687200977983
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.417227638952335
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=2.211204287544978
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=3.9827841895310336
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=10.085980268799723
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=18.399710762004737
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=29.1735691954528
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=49.38013398663095
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=49.38013398663095
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at sigma=0.6296684995591252
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=2.84732236857825
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.1684539523192434
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=2.0034318446076798
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=3.86608010058592
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=7.210475812868525
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=12.975098176484222
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=19.613590761853956
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=31.41769767157009
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1966003592232886
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.418080086637226
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.9699826564506784
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.765015405546866
-Iteration 200:  searching for solution at k=1.765015405546866
-Iteration 200:  searching for solution at sigma=0.5850777050304234
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.5085653228971196
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=9.45412303467715
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=27.39805955332484
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=50.49777052084663
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=76.75033695919055
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=76.75033695919055
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at sigma=1.7843440109574253
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1716081333693054
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.3918713804638836
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.945828226514917
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.7430875031866153
-Iteration 200:  searching for solution at k=1.7430875031866153
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at sigma=0.6016792317767701
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.465834516125023
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=5.541144794491063
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=14.72956310901313
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=36.39072173903741
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=59.33073009263027
-Iteration 450:  searching for solution at k=59.33073009263027
-Iteration 450:  searching for solution at sigma=2.100154801117684
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.1988709536468964
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.4170492395167464
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.9634875144806418
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.7334681741075595
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.2405416712675925
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=7.646015891452607
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=22.486452560086157
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=68.49264095622937
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at k=147.77748323071222
-Iteration 450:  searching for solution at k=147.77748323071222
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 450:  searching for solution at sigma=2.4521173824742863
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500:  searching for solution at k=223.86959964354207
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 500:  searching for solution at k=223.86959964354207
-Iteration 500:  searching for solution at sigma=1.9865134870866583
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 50:  searching for solution at k=3.196354480290182
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 100:  searching for solution at k=2.414394543711485
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 150:  searching for solution at k=1.9610736498597616
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 200:  searching for solution at k=1.7312772090354447
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 250:  searching for solution at k=2.23934650936661
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 300:  searching for solution at k=6.6767421271372545
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 350:  searching for solution at k=18.743160117361917
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 400:  searching for solution at k=58.1216832034402
-Iteration 400:  searching for solution at k=58.1216832034402
-Iteration 400:  searching for solution at sigma=2.893477059140404
-</pre></div>
-</div>
-</div>
 </div>
 <p>Figure 12.4 below plots the dispersion curves for growth rate <span class="math notranslate nohighlight">\(\sigma\)</span> as a function of wavenumber <span class="math notranslate nohighlight">\(\wavenumber\)</span>. Curves come from numerical solutions to the full problem (cubic polynomial <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-cbs}\)</span>, solid lines) and the large-<span class="math notranslate nohighlight">\(\Da\)</span> problem (quadratic <span class="math notranslate nohighlight">\(\eqref{eq:characteristic-poly-quad}\)</span>, dashed lines). The agreement for <span class="math notranslate nohighlight">\(\Da \ge 100\)</span> suggests that the large-Damköhler approximation is very good for geologically relevant conditions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">vals</span><span class="p">,</span> <span class="n">gray</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">1000.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]):</span>
+<span class="k">for</span> <span class="n">vals</span><span class="p">,</span> <span class="n">gray</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">1000.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]):</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">DC_cube</span><span class="p">[</span><span class="n">vals</span><span class="p">]</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">DC_cube</span><span class="p">[</span><span class="n">vals</span><span class="p">]</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
@@ -1414,6 +1124,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.4&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1571,7 +1282,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <p>Figure 12.5 below plot the results for the modified problem with <span class="math notranslate nohighlight">\(\cmppres\first=0\)</span> at <span class="math notranslate nohighlight">\(z=1\)</span>. <strong>(a)</strong> Dispersion curves for <span class="math notranslate nohighlight">\(n=3\)</span>, <span class="math notranslate nohighlight">\(\Da=1000\)</span>, <span class="math notranslate nohighlight">\(\Pe=100\)</span> and four values of <span class="math notranslate nohighlight">\(\stiff\)</span>. Maximum values of the growth rate for each curve are marked by stars. The eigenfunctions for each of these maxima are plotted in subsequent panels. <strong>(b)</strong> The <span class="math notranslate nohighlight">\(\cmppres\first\)</span> eigenfunction for <span class="math notranslate nohighlight">\(\stiff=1\)</span>. White curves are streamlines of the flow <span class="math notranslate nohighlight">\(\vel\liq = \zhat + \smallpar\vel\first\)</span>, with <span class="math notranslate nohighlight">\(\smallpar\)</span> chosen to be <span class="math notranslate nohighlight">\(3\times10^{-3}\)</span>. <strong>(c)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.1\)</span> with superimposed contours of the porosity perturbation <span class="math notranslate nohighlight">\(\por\first\)</span>. Porosity is larger in the low-pressure channels. <strong>(d)</strong> <span class="math notranslate nohighlight">\(\cmppres\first\)</span> for <span class="math notranslate nohighlight">\(\stiff=0.01\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">21.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">18.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">))</span>
 <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1591,6 +1302,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.5e4</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
@@ -1626,6 +1338,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">AR</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="o">*</span><span class="n">AR</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
@@ -1649,6 +1362,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(())</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x/\lambda^*$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
@@ -1667,6 +1381,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
     <span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
 <span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.5&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
@@ -1827,7 +1542,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <p>Properties of the dispersion curve near its maximum, with <span class="math notranslate nohighlight">\(n=3,\,\Da=10^4,\,b=\pi\)</span>. <strong>(a)</strong> Comparison of the exact dispersion relation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytical-sigma-full}\)</span> (solid lines) with the asymptotic relations <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-asymptotic-sigma}\)</span>-<span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytic-real-im-asymptotic_e}\)</span> (dashed lines) for <span class="math notranslate nohighlight">\(\Pe/\Da=10^{-2}\)</span> and two values of <span class="math notranslate nohighlight">\(\stiff\)</span>, as given in the legend. <strong>(b)</strong> Contours of fastest-growing (non-dimensional) wavelength <span class="math notranslate nohighlight">\(\lambda^*\)</span> for a range of <span class="math notranslate nohighlight">\(\stiff\)</span> and <span class="math notranslate nohighlight">\(\Pe\)</span> from equation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-kstar-full}\)</span>. Dotted lines are at <span class="math notranslate nohighlight">\(\Pe/\Da = 4\)</span> and <span class="math notranslate nohighlight">\(\stiff = 1/2\pi\)</span>. In both panels, stars indicate the maximum (<span class="math notranslate nohighlight">\(\wavenumber^*,\sigma^*\)</span>) of the asymptotic curves, computed with <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-kstar-full}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-sstar-full}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">15.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">12.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">))</span>
 <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1877,6 +1592,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 <span class="n">ax0</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
 <span class="n">ax0</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
@@ -1911,6 +1627,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mf">1.e-2</span><span class="p">,</span> <span class="mf">1.e0</span><span class="p">))</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{S}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Pe$/$Da&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.0002</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
     <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">backgroundcolor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span>
@@ -2057,7 +1774,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <p>Figure below plots the time-scale of channel growth <span class="math notranslate nohighlight">\(1/\sigma\)</span> as a function of the horizontal wavelength of channels.  This curve is computed using the full dispersion relation <span class="math notranslate nohighlight">\(\eqref{eq:rxflow-analytical-sigma-full}\)</span> with preferred parameter values from table above. Horizontal dotted lines mark the minimum growth time (<span class="math notranslate nohighlight">\(\sigma=1/\permexp\)</span>, in non-dimensional terms) and this value plus 2%.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">9.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">))</span>
 
 <span class="n">par</span> <span class="o">=</span> <span class="n">PAR</span><span class="p">()</span>
 <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
@@ -2077,6 +1794,7 @@ Iteration 400:  searching for solution at sigma=2.893477059140404
 <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Horizontal wavelength, m&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Growth time, Ma&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 12.7&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 

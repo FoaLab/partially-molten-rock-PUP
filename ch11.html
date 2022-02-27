@@ -399,15 +399,23 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.e3</span><span class="p">,</span> <span class="mf">1.e4</span><span class="p">])</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mf">8.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">qi</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">Fmax</span> <span class="o">*</span> <span class="n">qi</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">qi</span> <span class="ow">in</span> <span class="n">Q</span><span class="p">])</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">1.</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">qi</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">Fmax</span> <span class="o">*</span> <span class="n">qi</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+        <span class="k">for</span> <span class="n">qi</span> <span class="ow">in</span> <span class="n">Q</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">Fmax</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">phi_i</span> <span class="k">for</span> <span class="n">phi_i</span> <span class="ow">in</span> <span class="n">phi</span><span class="p">])</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">phi_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">phi_i</span> <span class="ow">in</span> <span class="n">phi</span><span class="p">])</span>
 
 <span class="n">imphi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
-    <span class="p">[</span><span class="n">fsolve</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">f_</span><span class="p">:</span> <span class="n">implicit_porosity</span><span class="p">(</span><span class="n">f_</span><span class="p">,</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">Z</span><span class="p">,</span> <span class="n">qi</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">phi_ij</span>
-    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">Z</span><span class="p">,</span> <span class="n">phi_ij</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">phi_i</span><span class="p">)]</span>
+    <span class="p">[</span>  
+        <span class="n">fsolve</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">f_</span><span class="p">:</span> <span class="n">implicit_porosity</span><span class="p">(</span><span class="n">f_</span><span class="p">,</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">Z</span><span class="p">,</span> <span class="n">qi</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> 
+            <span class="n">phi_ij</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">Z</span><span class="p">,</span> <span class="n">phi_ij</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">phi_i</span><span class="p">)</span>
+    <span class="p">]</span>
     <span class="k">for</span> <span class="n">qi</span><span class="p">,</span> <span class="n">phi_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 <span class="p">])</span>
 </pre></div>
@@ -431,8 +439,8 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-    <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$F_</span><span class="si">{max}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
-    <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mf">90.0</span>
+    <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$F_</span><span class="si">{max}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mf">90.0</span><span class="p">,</span>
+    <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span>
 <span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
@@ -507,7 +515,12 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">zmin</span> <span class="o">=</span> <span class="mf">1e-5</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">zmin</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.5</span><span class="o">/</span><span class="n">qi</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">Fmax</span><span class="o">*</span><span class="n">qi</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">qi</span> <span class="ow">in</span> <span class="n">Q</span><span class="p">])</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">0.5</span><span class="o">/</span><span class="n">qi</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">Fmax</span><span class="o">*</span><span class="n">qi</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> 
+        <span class="k">for</span> <span class="n">qi</span> <span class="ow">in</span> <span class="n">Q</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
 <span class="n">DP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
     <span class="o">-</span><span class="n">Fmax</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">/</span><span class="mf">0.01</span><span class="p">),</span>
@@ -896,7 +909,9 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Cb</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Cb</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$(\overline</span><span class="si">{c}</span><span class="s1">-c^</span><span class="si">{s}</span><span class="s1">\vert_0)/\Delta c$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;$(\overline</span><span class="si">{c}</span><span class="s1">-c^</span><span class="si">{s}</span><span class="s1">\vert_0)/\Delta c$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -951,73 +966,73 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>The simulation parameters are summarized below:</p>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<tr class="row-odd"><th class="text-align:center head"><p>Quantity</p></th>
 <th class="text-align:center head"><p>      value        </p></th>
 <th class="text-align:right head"><p>unit</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\solslope\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\solslope\)</span></p></td>
 <td class="text-align:center"><p>-4</p></td>
 <td class="text-align:right"><p>K/ppm</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\coninflow{}\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\coninflow{}\)</span></p></td>
 <td class="text-align:center"><p>100</p></td>
 <td class="text-align:right"><p>ppm</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\por_0\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\por_0\)</span></p></td>
 <td class="text-align:center"><p>0.01</p></td>
 <td class="text-align:right"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
 <td class="text-align:center"><p>0.01</p></td>
 <td class="text-align:right"><p>––</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\phi_0\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\phi_0\)</span></p></td>
 <td class="text-align:center"><p>0.01</p></td>
 <td class="text-align:right"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
 <td class="text-align:center"><p>60</p></td>
 <td class="text-align:right"><p>km</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\soltemp_0\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\soltemp_0\)</span></p></td>
 <td class="text-align:center"><p>1650</p></td>
 <td class="text-align:right"><p>K</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
 <td class="text-align:center"><p>2</p></td>
 <td class="text-align:right"><p>––</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\density\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\density\)</span></p></td>
 <td class="text-align:center"><p>3000</p></td>
 <td class="text-align:right"><p>kg/<span class="math notranslate nohighlight">\(m^3\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\heatcapacity\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\heatcapacity\)</span></p></td>
 <td class="text-align:center"><p>1200</p></td>
 <td class="text-align:right"><p>J/kg/K</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\expansivity\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\expansivity\)</span></p></td>
 <td class="text-align:center"><p><span class="math notranslate nohighlight">\(3 \times 10^{-5}\)</span></p></td>
 <td class="text-align:right"><p><span class="math notranslate nohighlight">\(K^{-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\latent\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\latent\)</span></p></td>
 <td class="text-align:center"><p><span class="math notranslate nohighlight">\(5 \times 10^{5}\)</span></p></td>
 <td class="text-align:right"><p>J/kg</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\dFdT\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\dFdT\)</span></p></td>
 <td class="text-align:center"><p><span class="math notranslate nohighlight">\(1/500\)</span></p></td>
 <td class="text-align:right"><p><span class="math notranslate nohighlight">\(K^{-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\clapeyron\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\clapeyron\)</span></p></td>
 <td class="text-align:center"><p><span class="math notranslate nohighlight">\(6.5 \times 10^6\)</span></p></td>
 <td class="text-align:right"><p>Pa/K</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\soltemp_0\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\soltemp_0\)</span></p></td>
 <td class="text-align:center"><p>1373</p></td>
 <td class="text-align:right"><p>K</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\potemp\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\potemp\)</span></p></td>
 <td class="text-align:center"><p>1623</p></td>
 <td class="text-align:right"><p>K</p></td>
 </tr>
@@ -1047,10 +1062,15 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 
 <span class="n">A1</span> <span class="o">=</span> <span class="n">L</span><span class="o">*</span><span class="n">c0</span><span class="o">/</span><span class="n">c</span><span class="o">/</span><span class="n">M</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">D</span><span class="p">)</span>
 <span class="n">A2</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span><span class="o">/</span><span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">Ts0</span><span class="o">/</span><span class="n">c</span> <span class="o">-</span> <span class="n">rho</span><span class="o">/</span><span class="n">C</span><span class="p">)</span>
-<span class="n">cs</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">c0</span> <span class="o">-</span> <span class="n">A1</span><span class="o">/</span><span class="n">c0</span> <span class="o">+</span> <span class="n">A2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.</span><span class="o">*</span><span class="n">A1</span> <span class="o">+</span> <span class="p">(</span><span class="n">A2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">c0</span> <span class="o">-</span> <span class="n">A1</span><span class="o">/</span><span class="n">c0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">F</span> <span class="o">=</span> <span class="n">c</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span> <span class="o">+</span> <span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="n">c0</span><span class="o">-</span><span class="n">cs</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Ts0</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">c0</span> <span class="o">-</span> <span class="n">A1</span><span class="o">/</span><span class="n">c0</span> <span class="o">+</span> <span class="n">A2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> 
+    <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="mf">4.</span><span class="o">*</span><span class="n">A1</span> <span class="o">+</span> <span class="p">(</span><span class="n">A2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">c0</span> <span class="o">-</span> <span class="n">A1</span><span class="o">/</span><span class="n">c0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">c</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="p">(</span><span class="n">rho</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">z</span> <span class="o">/</span> <span class="n">C</span> <span class="o">+</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="n">c0</span> <span class="o">-</span> <span class="n">cs</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">Ts0</span> <span class="o">*</span> <span class="n">z</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">Ts0</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="n">C</span> <span class="o">+</span> <span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="n">cs</span><span class="o">-</span><span class="n">c0</span><span class="p">)</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">4.</span><span class="o">*</span><span class="n">F</span><span class="o">*</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">F</span> <span class="o">*</span> <span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
 
 <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">D</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="n">L</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span><span class="o">*</span><span class="n">rho</span><span class="o">/</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">C</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">Ts0</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">*</span><span class="n">M</span><span class="p">)</span>
@@ -1112,7 +1132,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-    <span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;Clausius-Clapeyron slope&#39;</span><span class="p">,</span> 
+    <span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.73</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;Clausius-Clapeyron slope&#39;</span><span class="p">,</span> 
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=-</span><span class="mi">30</span>
 <span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
@@ -1136,15 +1156,12 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 
 <span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.5&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
-</pre></div>
-</div>
-<img alt="_images/ch11_21_1.png" src="_images/ch11_21_1.png" />
+<img alt="_images/ch11_21_0.png" src="_images/ch11_21_0.png" />
 </div>
 </div>
 </div>
@@ -1183,31 +1200,31 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>Table below summarizes the simulation parameters</p>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Quantity</p></th>
-<th class="head"><p>value     </p></th>
+<tr class="row-odd"><th class="text-align:center head"><p>Quantity</p></th>
+<th class="text-align:center head"><p>value     </p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\cmplength\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(0.1\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\cmplength\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(0.1\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(0.01\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(0.01\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\por_0\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(0.01\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\por_0\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(0.01\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
-<td><p>2</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
+<td class="text-align:center"><p>2</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
-<td><p>0.225</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
+<td class="text-align:center"><p>0.225</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(z_b\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z_0/100\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(z_b\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(z_0/100\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\cmpvisc\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\por^{-1}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\cmpvisc\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\por^{-1}\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1255,10 +1272,12 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">phidot</span> <span class="o">+</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">MeltingColNumerical</span><span class="p">(</span><span class="n">Q</span><span class="o">=</span><span class="mf">1.e4</span><span class="p">,</span>  <span class="c1"># flux parameter</span>
-                        <span class="n">d0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>  <span class="c1"># cmplength/colheight</span>
-                        <span class="n">F0</span><span class="o">=</span><span class="mf">0.22</span><span class="p">,</span> <span class="c1"># max degree melting</span>
-                        <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>    <span class="c1"># perm exponent</span>
+<span class="k">def</span> <span class="nf">MeltingColNumerical</span><span class="p">(</span>
+    <span class="n">Q</span><span class="o">=</span><span class="mf">1.e4</span><span class="p">,</span>  <span class="c1"># flux parameter</span>
+    <span class="n">d0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>  <span class="c1"># cmplength/colheight</span>
+    <span class="n">F0</span><span class="o">=</span><span class="mf">0.22</span><span class="p">,</span> <span class="c1"># max degree melting</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">2</span>      <span class="c1"># perm exponent</span>
+<span class="p">):</span>    
 
     <span class="c1"># domain is four times the estimated boundary layer thickness</span>
     <span class="n">zb</span> <span class="o">=</span> <span class="n">d0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
@@ -1314,20 +1333,22 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Pbl</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">/</span><span class="n">delta</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">Z</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Pbl</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">/</span><span class="n">delta</span><span class="o">*</span><span class="p">(</span><span class="mf">2.</span> <span class="o">-</span> <span class="n">Z</span><span class="p">)</span>
 <span class="n">Pbl</span><span class="p">[</span><span class="n">Z</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">P</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">zb</span><span class="o">*</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">P</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">zb</span><span class="o">*</span><span class="n">Z</span><span class="p">)</span>
 
-<span class="n">V</span> <span class="o">=</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">zb</span> <span class="o">-</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">zb</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">Z</span><span class="o">-</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
-    <span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">+</span> <span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">Z</span><span class="o">-</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">Fmax</span> <span class="o">*</span> <span class="n">Z</span> <span class="o">*</span> <span class="n">zb</span> <span class="o">-</span> <span class="p">(</span>
+    <span class="n">Fmax</span> <span class="o">*</span> <span class="n">zb</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span> <span class="o">+</span> <span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">))</span>
 <span class="p">)</span>
 <span class="n">V</span><span class="p">[</span><span class="n">Z</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 <span class="n">Wbl</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">V</span>
 <span class="n">Wbl</span><span class="p">[</span><span class="n">Z</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">W</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">Fmax</span><span class="o">*</span><span class="p">(</span><span class="n">zb</span><span class="o">*</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">W</span>   <span class="o">=</span> <span class="mf">1.</span> <span class="o">-</span> <span class="n">Fmax</span> <span class="o">*</span> <span class="n">zb</span> <span class="o">*</span> <span class="n">Z</span>
 
 <span class="n">phibl</span> <span class="o">=</span> <span class="n">Fmax</span><span class="o">*</span><span class="n">zb</span><span class="o">*</span><span class="n">Z</span> <span class="o">-</span> <span class="n">V</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.0</span><span class="o">/</span><span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">zb</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">Fmax</span><span class="o">*</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.0</span><span class="o">/</span><span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">zb</span> <span class="o">*</span> <span class="n">Z</span> <span class="o">*</span> <span class="n">Fmax</span> <span class="o">*</span> <span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1339,7 +1360,12 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;:k&#39;</span><span class="p">,</span> <span class="n">Wbl</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">S_W</span><span class="p">,</span> <span class="n">S_z</span><span class="o">/</span><span class="n">zb</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;:k&#39;</span><span class="p">,</span> 
+    <span class="n">Wbl</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> 
+    <span class="n">S_W</span><span class="p">,</span> <span class="n">S_z</span><span class="o">/</span><span class="n">zb</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">,</span> 
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.9995</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.9996</span><span class="p">,</span> <span class="mf">0.9998</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
@@ -1369,13 +1395,21 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Numerical&#39;</span><span class="p">,</span> <span class="s1">&#39;Darcy&#39;</span><span class="p">,</span> <span class="s1">&#39;Boundary layer&#39;</span><span class="p">],</span> 
+    <span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Numerical&#39;</span><span class="p">,</span> <span class="s1">&#39;Darcy&#39;</span><span class="p">,</span> <span class="s1">&#39;Boundary layer&#39;</span><span class="p">],</span> 
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">.2</span><span class="p">),</span>  
     <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span>
 <span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;:k&#39;</span><span class="p">,</span> <span class="n">phibl</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">S_phi</span><span class="p">,</span> <span class="n">S_z</span><span class="o">/</span><span class="n">zb</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">S_phi</span><span class="p">)],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">phi</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;:k&#39;</span><span class="p">,</span> 
+    <span class="n">phibl</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> 
+    <span class="n">S_phi</span><span class="p">,</span> <span class="n">S_z</span><span class="o">/</span><span class="n">zb</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> 
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">[</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">S_phi</span><span class="p">)],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2e-4</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">2e-4</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
@@ -1450,7 +1484,12 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">G</span>   <span class="o">=</span> <span class="p">(</span><span class="n">zeta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">Gp</span>  <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">zeta</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">Gpp</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">Phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">R2i</span><span class="o">*</span><span class="n">Gpp</span><span class="p">),</span> <span class="mf">1.</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">R2i</span> <span class="ow">in</span> <span class="n">R2</span><span class="p">])</span>
+<span class="n">Phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">R2i</span><span class="o">*</span><span class="n">Gpp</span><span class="p">),</span> <span class="mf">1.</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> 
+        <span class="k">for</span> <span class="n">R2i</span> <span class="ow">in</span> <span class="n">R2</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([(</span><span class="mi">1</span><span class="o">-</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="n">Phii</span> <span class="k">for</span> <span class="n">Phii</span> <span class="ow">in</span> <span class="n">Phi</span><span class="p">])</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fovri</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">G</span><span class="p">)</span> <span class="k">for</span> <span class="n">fovri</span> <span class="ow">in</span> <span class="n">fovr</span><span class="p">])</span>
 </pre></div>
@@ -1460,70 +1499,69 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>Figure 11.7 below plot the decompaction column. <strong>(a)</strong> Quantities <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(G'\)</span> and <span class="math notranslate nohighlight">\(G''\)</span> as given by equations <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-G}\)</span>, <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gp}\)</span> and <span class="math notranslate nohighlight">\(\eqref{eq:shape_function_tanh-Gpp}\)</span>, respectively. <strong>(b)</strong> The normalised porosity computed with equation <span class="math notranslate nohighlight">\(\eqref{eq:decmp_porosity}\)</span> for various values of <span class="math notranslate nohighlight">\(R=\cmplength_0/\freezelength\)</span>. <strong>(c)</strong> Normalised liquid upwelling speed for various values of <span class="math notranslate nohighlight">\(R\)</span>. <strong>(d)</strong> Normalised solid upwelling speed, equation <span class="math notranslate nohighlight">\(\eqref{eq:decomp_col_solid_vel}\)</span>, for various flux ratios <span class="math notranslate nohighlight">\(q_\infty/W_0\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Gp</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G^\prime$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Gpp</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;-.k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G^{\prime\prime}$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z/\delta_f$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Gp</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G^\prime$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Gpp</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="s1">&#39;-.k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$G^{\prime\prime}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$z/\delta_f$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
 <span class="p">)</span>
                     
 <span class="k">for</span> <span class="n">Phii</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">R2i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;:k&#39;</span><span class="p">,</span><span class="s1">&#39;-.k&#39;</span><span class="p">,</span><span class="s1">&#39;--k&#39;</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">},</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R2</span><span class="p">)):</span>
-    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">Phii</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;R=</span><span class="si">{0:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">R2i</span><span class="p">)</span>
     <span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\phi/\phi_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\phi/\phi_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.32</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">wi</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">R2i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;:k&#39;</span><span class="p">,</span><span class="s1">&#39;-.k&#39;</span><span class="p">,</span><span class="s1">&#39;--k&#39;</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">},</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R2</span><span class="p">)):</span>
-    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">wi</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;R=</span><span class="si">{0:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">R2i</span><span class="p">)</span>
     <span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$w/w_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$w/w_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.95</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">Wi</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">fovri</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;:k&#39;</span><span class="p">,</span><span class="s1">&#39;-.k&#39;</span><span class="p">,</span><span class="s1">&#39;--k&#39;</span><span class="p">,</span><span class="s1">&#39;-k&#39;</span><span class="p">},</span> <span class="n">fovr</span><span class="p">):</span>
-    <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">Wi</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">pltstyi</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$q_\infty/W_0=</span><span class="si">{0:.2f}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fovri</span><span class="p">)</span>
     <span class="p">)</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$W/W_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(())</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$W/W_0$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9</span><span class="p">,</span> <span class="s1">&#39;(d)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
     <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
 <span class="p">)</span>
@@ -1584,39 +1622,39 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>Figure 11.8 below plots the ingrowth factors at the top of the column, with the following parameters</p>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Parameters</p></th>
-<th class="head"><p>          value          </p></th>
-<th class="head"><p>unit</p></th>
+<tr class="row-odd"><th class="text-align:center head"><p>Parameters</p></th>
+<th class="text-align:center head"><p>          value          </p></th>
+<th class="text-align:center head"><p>unit</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
-<td><p>0.2</p></td>
-<td><p>––</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
+<td class="text-align:center"><p>0.2</p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
-<td><p>60</p></td>
-<td><p>km</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
+<td class="text-align:center"><p>60</p></td>
+<td class="text-align:center"><p>km</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_1\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-2}\)</span></p></td>
-<td><p>––</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(D_1\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(10^{-2}\)</span></p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(5\times10^{-3}\)</span></p></td>
-<td><p>––</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(D_2\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(5\times10^{-3}\)</span></p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_3\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(5\times10^{-4}\)</span></p></td>
-<td><p>––</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(D_3\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(5\times10^{-4}\)</span></p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\deco_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-5}\)</span></p></td>
-<td><p>yr<span class="math notranslate nohighlight">\(^{-1}\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\deco_2\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(10^{-5}\)</span></p></td>
+<td class="text-align:center"><p>yr<span class="math notranslate nohighlight">\(^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\deco_3\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-4}\)</span></p></td>
-<td><p>yr<span class="math notranslate nohighlight">\(^{-1}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\deco_3\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(10^{-4}\)</span></p></td>
+<td class="text-align:center"><p>yr<span class="math notranslate nohighlight">\(^{-1}\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1625,8 +1663,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">12.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">)</span>
 
 <span class="n">p0</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span> <span class="n">al2s</span><span class="p">,</span> <span class="s1">&#39;-k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">p1</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span> <span class="n">al3s</span><span class="p">,</span> <span class="s1">&#39;--k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -1710,35 +1747,35 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <p>The simulation parameters are summarized below</p>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Parameter</p></th>
-<th class="head"><p>value</p></th>
-<th class="head"><p>unit</p></th>
+<tr class="row-odd"><th class="text-align:center head"><p>Parameter</p></th>
+<th class="text-align:center head"><p>value</p></th>
+<th class="text-align:center head"><p>unit</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
-<td><p>50</p></td>
-<td><p>km</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(z_0\)</span></p></td>
+<td class="text-align:center"><p>50</p></td>
+<td class="text-align:center"><p>km</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(W_0\)</span></p></td>
-<td><p>5</p></td>
-<td><p>cm/yr</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(W_0\)</span></p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>cm/yr</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
-<td><p>0.25</p></td>
-<td><p>––</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\Fmax\)</span></p></td>
+<td class="text-align:center"><p>0.25</p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\pormax\)</span></p></td>
-<td><p>0.005</p></td>
-<td><p>––</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pormax\)</span></p></td>
+<td class="text-align:center"><p>0.005</p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
-<td><p>0.001</p></td>
-<td><p>––</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\velratio\)</span></p></td>
+<td class="text-align:center"><p>0.001</p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
-<td><p>2</p></td>
-<td><p>––</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\permexp\)</span></p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>––</p></td>
 </tr>
 </tbody>
 </table>
@@ -1851,8 +1888,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">18.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">15.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">)</span>
 
 <span class="n">lsty</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">]</span>
 
@@ -2006,8 +2042,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">18.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">16.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">)</span>
     
 <span class="n">actratio</span> <span class="o">=</span> <span class="n">coltop</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">/</span> <span class="n">coltop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">a</span>
 <span class="n">cvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
@@ -2051,7 +2086,7 @@ W(z) &amp;= W_0 \frac{1-F}{1-\phi}.
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">])</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\phi_</span><span class="si">{max}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(b) $a^\ell_</span><span class="si">{226Ra}</span><span class="s1">/a^\ell_</span><span class="si">{230Th}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
 <span class="n">f</span><span class="o">.</span><span class="n">supxlabel</span><span class="p">(</span><span class="s2">&quot;Figure 11.10&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
