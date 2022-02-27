@@ -77,15 +77,23 @@ Fmax = 0.2
 Q = np.asarray([1.e3, 1.e4])
 
 z = np.logspace(-8., 0., 100)
-phi = np.asarray([1. / 2. / qi * (np.sqrt(1. + 4 * z * Fmax * qi)-1) for qi in Q])
+phi = np.asarray(
+    [
+        1. / 2. / qi * (np.sqrt(1. + 4 * z * Fmax * qi)-1) 
+        for qi in Q
+    ]
+)
 w = np.asarray([Fmax*z/phi_i for phi_i in phi])
 W = np.asarray([(1.0 - Fmax*z)/(1.0 - phi_i) for phi_i in phi])
 
 imphi = np.asarray([
-    [fsolve(
-        lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), phi_ij
-    )[0]
-    for Z, phi_ij in zip(z, phi_i)]
+    [  
+        fsolve(
+            lambda f_: implicit_porosity(f_, Fmax*Z, qi, n), 
+            phi_ij
+        )[0]
+        for Z, phi_ij in zip(z, phi_i)
+    ]
     for qi, phi_i in zip(Q, phi)
 ])
 
@@ -109,8 +117,8 @@ ax[0, 0].set_ylabel(r'$z/z_0$', fontsize=20)
 ax[0, 0].set_yticks(np.arange(0.0, 1.1, 0.2))
 ax[0, 0].tick_params(axis='both', which='major', labelsize=13)
 ax[0, 0].text(
-    0.26, 0.1, r'$F_{max}$', fontsize=20, 
-    verticalalignment='bottom', horizontalalignment='center', rotation=-90.0
+    0.26, 0.1, r'$F_{max}$', fontsize=20, rotation=-90.0,
+    verticalalignment='bottom', horizontalalignment='center'
 )
 ax[0, 0].text(
     0.98, 0.01, '(a)', fontsize=20, 
@@ -182,7 +190,12 @@ Q = np.asarray([1e3, 1e4])
 zmin = 1e-5
 
 z = np.logspace(np.log10(zmin), 0.0, 1000)
-phi = np.asarray([0.5/qi*(np.sqrt(1+4*z*Fmax*qi) - 1.0) for qi in Q])
+phi = np.asarray(
+    [
+        0.5/qi*(np.sqrt(1+4*z*Fmax*qi) - 1.0) 
+        for qi in Q
+    ]
+)
 
 DP = np.asarray([
     -Fmax/(phi[0, :]/0.01),
@@ -384,21 +397,21 @@ f.supxlabel("Figure 11.3", fontsize=20);
 # 
 # The simulation parameters are summarized below:
 # 
-# Quantity | &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; | unit
-# ---      | :---:   | ---:
-# $\solslope\Delta\con$ | 700 | $K$
-# $\phi_0$ | 0.01  | ––
-# $z_0$ | 60 | km
-# $\soltemp_0$ | 1650 | K
-# $\permexp$ |  2 | ––
-# $\density$| 3000 | kg/$m^3$
-# $\heatcapacity$ | 1200 | J/kg/K
-# $\expansivity$ | $3 \times 10^{-5}$ | $K^{-1}$
-# $\latent$ | $5 \times 10^{5}$ | J/kg
-# $\dFdT$ | $1/500$ | $K^{-1}$
-# $\clapeyron$ | $6.5 \times 10^6$ | Pa/K
-# $\soltemp_0$ | 1373 | K
-# $\potemp$ | 1623 | K
+# | Quantity | &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; | unit |
+# | ---      | :---:   | ---: |
+# | $\solslope\Delta\con$ | 700 | $K$ |
+# | $\phi_0$ | 0.01  | –– |
+# | $z_0$ | 60 | km |
+# | $\soltemp_0$ | 1650 | K |
+# | $\permexp$ |  2 | –– |
+# | $\density$| 3000 | kg/$m^3$ |
+# | $\heatcapacity$ | 1200 | J/kg/K |
+# | $\expansivity$ | $3 \times 10^{-5}$ | $K^{-1}$ |
+# | $\latent$ | $5 \times 10^{5}$ | J/kg |
+# | $\dFdT$ | $1/500$ | $K^{-1}$ |
+# | $\clapeyron$ | $6.5 \times 10^6$ | Pa/K |
+# | $\soltemp_0$ | 1373 | K |
+# | $\potemp$ | 1623 | K |
 
 # In[8]:
 
@@ -478,7 +491,9 @@ plt.legend(
 
 ax[2].plot(Cb[0, :], z, '-k', linewidth=2)
 ax[2].plot(Cb[1, :], z, '--k', linewidth=2)
-ax[2].set_xlabel(r'$(\overline{c}-c^{s}\vert_0)/\Delta c$', fontsize=20)
+ax[2].set_xlabel(
+    r'$(\overline{c}-c^{s}\vert_0)/\Delta c$', fontsize=20
+)
 ax[2].set_xlim(0.0, 0.23)
 ax[2].set_xticks((0.0, 0.1, 0.2))
 ax[2].set_ylim(0.0, 1.0)
@@ -529,24 +544,24 @@ plt.show()
 # 
 # The simulation parameters are summarized below:
 # 
-# Quantity | &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; | unit
-# ---      | :---:   | ---:
-# $\solslope$ | -4 | K/ppm
-# $\coninflow{}$ | 100 | ppm
-# $\por_0$ | 0.01 | –– 
-# $\velratio$ | 0.01 | ––
-# $\phi_0$ | 0.01  | ––
-# $z_0$    | 60    | km  
-# $\soltemp_0$ | 1650 | K
-# $\permexp$ |  2 | ––              
-# $\density$| 3000 | kg/$m^3$
-# $\heatcapacity$ | 1200 | J/kg/K
-# $\expansivity$ | $3 \times 10^{-5}$ | $K^{-1}$
-# $\latent$ | $5 \times 10^{5}$ | J/kg
-# $\dFdT$ | $1/500$ | $K^{-1}$
-# $\clapeyron$ | $6.5 \times 10^6$ | Pa/K
-# $\soltemp_0$ | 1373 | K
-# $\potemp$ | 1623 | K
+# | Quantity | &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; | unit
+# | :-:      | :---:   | ---: |
+# | $\solslope$ | -4 | K/ppm |
+# | $\coninflow{}$ | 100 | ppm |
+# | $\por_0$ | 0.01 | –– |
+# | $\velratio$ | 0.01 | –– |
+# | $\phi_0$ | 0.01  | –– |
+# | $z_0$    | 60    | km |
+# | $\soltemp_0$ | 1650 | K |
+# | $\permexp$ |  2 | –– |     
+# | $\density$| 3000 | kg/$m^3$ |
+# | $\heatcapacity$ | 1200 | J/kg/K |
+# | $\expansivity$ | $3 \times 10^{-5}$ | $K^{-1}$ |
+# | $\latent$ | $5 \times 10^{5}$ | J/kg |
+# | $\dFdT$ | $1/500$ | $K^{-1}$ |
+# | $\clapeyron$ | $6.5 \times 10^6$ | Pa/K |
+# | $\soltemp_0$ | 1373 | K |
+# | $\potemp$ | 1623 | K |
 
 # In[10]:
 
@@ -573,10 +588,15 @@ Tcc = Ts0 - rho*g/C*z
 
 A1 = L*c0/c/M/(1.-1./D)
 A2 = -g/M*(alpha*Ts0/c - rho/C)
-cs = 0.5*(c0 - A1/c0 + A2*z + np.sqrt(4.*A1 + (A2*z + c0 - A1/c0)**2))
-F = c/L*(rho*g*z/C + M*(c0-cs) - alpha*g*Ts0*z/c)
+cs = 0.5 * (
+    c0 - A1/c0 + A2*z + 
+    np.sqrt(
+        4.*A1 + (A2*z + c0 - A1/c0)**2
+    )
+)
+F = c/L*(rho * g * z / C + M * (c0 - cs) - alpha * g * Ts0 * z / c)
 T = Ts0 - rho*g*z/C + M*(cs-c0)
-phi = 1./2./Q*(np.sqrt(1.0 + 4.*F*Q) - 1.0)
+phi = 1./2./Q*(np.sqrt(1.0 + 4. * F * Q) - 1.0)
 
 a = (1/D - 1)*c*M/L
 beta = -g*rho/(M*C) + alpha*g*Ts0/(c*M)
@@ -638,7 +658,7 @@ ax[1, 0].set_ylim(0.0, 1.0)
 ax[1, 0].set_yticks(())
 ax[1, 0].tick_params(axis='both', which='major', labelsize=13)
 ax[1, 0].text(
-    0.90, 0.78, r'Clausius-Clapeyron slope', 
+    0.94, 0.73, r'Clausius-Clapeyron slope', 
     fontsize=15, horizontalalignment='left', rotation=-30
 )
 ax[1, 0].text(
@@ -662,7 +682,7 @@ ax[1, 1].text(
 
 f.supxlabel("Figure 11.5", fontsize=20)
 
-plt.plot()
+plt.plot();
 
 
 # ## The visco-gravitational boundary layer
@@ -700,15 +720,15 @@ plt.plot()
 # 
 # Table below summarizes the simulation parameters
 # 
-# Quantity | value &nbsp;  &nbsp; 
-# --- | ---
-# $\cmplength$ | $0.1$
-# $\velratio$ | $0.01$
-# $\por_0$ | $0.01$
-# $\permexp$ | 2 
-# $\Fmax$ | 0.225
-# $z_b$ | $z_0/100$
-# $\cmpvisc$ | $\por^{-1}$
+# | Quantity | value &nbsp;  &nbsp; |
+# | :-: | :-: |
+# | $\cmplength$ | $0.1$ |
+# | $\velratio$ | $0.01$ |
+# | $\por_0$ | $0.01$ |
+# | $\permexp$ | 2 |
+# | $\Fmax$ | 0.225 |
+# | $z_b$ | $z_0/100$ |
+# | $\cmpvisc$ | $\por^{-1}$ | 
 
 # In[12]:
 
@@ -755,10 +775,12 @@ def AssembleRHS_phi(z, phi, W, dz, F0, dt):
     return np.concatenate((phi[0], dt * phidot + phi[1:]), axis=None)
 
 
-def MeltingColNumerical(Q=1.e4,  # flux parameter
-                        d0=0.1,  # cmplength/colheight
-                        F0=0.22, # max degree melting
-                        n=2):    # perm exponent
+def MeltingColNumerical(
+    Q=1.e4,  # flux parameter
+    d0=0.1,  # cmplength/colheight
+    F0=0.22, # max degree melting
+    n=2      # perm exponent
+):    
 
     # domain is four times the estimated boundary layer thickness
     zb = d0 / np.sqrt(Q)
@@ -812,20 +834,22 @@ S_z, S_W, S_phi, S_P = MeltingColNumerical(Q, delta, Fmax, 2)
 # In[14]:
 
 
-Pbl = -np.sqrt(Q)/delta*(2.0 - Z)
+Pbl = -np.sqrt(Q)/delta*(2. - Z)
 Pbl[Z > 1.5] = np.nan
-P   = -1.0/(zb*Z)
+P   = -1./(zb*Z)
 
-V = Fmax*Z*zb - Fmax*zb*np.sqrt(np.pi/2.0)*np.exp(0.5*(Z-2.0)**2) * (
-    erf(np.sqrt(2.0)) + erf(np.sqrt(2.0) * 0.5*(Z-2.0))
+V = Fmax * Z * zb - (
+    Fmax * zb * np.sqrt(np.pi/2.0) * np.exp(0.5 * (Z - 2.)**2)
+) * (
+    erf(np.sqrt(2.)) + erf(np.sqrt(2.) * 0.5 * (Z - 2.))
 )
 V[Z > 1.5] = np.nan
 Wbl = 1 - V
 Wbl[Z > 1.5] = np.nan
-W   = 1.0 - Fmax*(zb*Z)
+W   = 1. - Fmax * zb * Z
 
 phibl = Fmax*zb*Z - V
-phi = 1.0/2.0/Q*(np.sqrt(1.0 + 4.0*zb*Z*Fmax*Q) - 1.0)
+phi = 1.0/2.0/Q*(np.sqrt(1. + 4. * zb * Z * Fmax * Q) - 1.)
 
 
 # Figure 11.6 below plot the numerical, Darcy, and boundary layer solutions to the one-dimensional melting column with constant decompressional melting productivity. The numerical solution of the system $\eqref{eq:tdcol-mechanics-compaction-nd}$-$\eqref{eq:tdcol-mechanics-porosity-nd}$ is discretised by finite differences and run to steady state.  The domain is limited to $0\le z \le 2z_b$. Non-dimensional parameters used to compute these solutions are $\cmplength=0.1$, $\fluxpar=10^4$, $\permexp=2$ and $\Fmax=0.22$. For these parameters, $z_b = z_0/100$. The non-dimensional augmented compaction viscosity is $\cmpvisc = \por^{-1}$. __(a)__ Solid upwelling rate. __(b)__ Compaction pressure non-dimensionalised by $\cmppres_0 = \xi_0W_0/z_0$. __(c)__ Porosity.
@@ -837,7 +861,12 @@ f, ax = plt.subplots(1, 3)
 f.set_size_inches(12.0, 9.0)
 f.set_facecolor('w')
 
-ax[0].plot(W, Z, ':k', Wbl, Z, '--k', S_W, S_z/zb,'-k', linewidth=2)
+ax[0].plot(
+    W, Z, ':k', 
+    Wbl, Z, '--k', 
+    S_W, S_z/zb,'-k', 
+    linewidth=2
+)
 ax[0].plot([0.0, 2], [1.0, 1.0], '-', color=[0.5, 0.5, 0.5])
 ax[0].set_xlim(0.9995, 1.0)
 ax[0].set_xticks((0.9996, 0.9998, 1.0))
@@ -867,13 +896,21 @@ ax[1].text(
 )
 
 plt.legend(
-    handles=[p0, p1, p2], labels=['Numerical', 'Darcy', 'Boundary layer'], 
+    handles=[p0, p1, p2], 
+    labels=['Numerical', 'Darcy', 'Boundary layer'], 
     fontsize=15, bbox_to_anchor=(-1.0, 1.02, 2.0, .2),  
     loc='lower left', ncol=3, mode="expand", borderaxespad=0.
 )
 
-ax[2].plot(phi, Z, ':k', phibl, Z, '--k', S_phi, S_z/zb, '-k', linewidth=2)
-ax[2].plot([1e-10, 2.0*np.max(S_phi)], [1.0, 1.0], '-', color=[0.5, 0.5, 0.5])
+ax[2].plot(
+    phi, Z, ':k', 
+    phibl, Z, '--k', 
+    S_phi, S_z/zb, '-k', 
+    linewidth=2
+)
+ax[2].plot(
+    [1e-10, 2.0*np.max(S_phi)], [1.0, 1.0], '-', color=[0.5, 0.5, 0.5]
+)
 ax[2].set_xlim(0.0, 2e-4)
 ax[2].set_xticks((0.0, 1e-4, 2e-4))
 ax[2].set_ylim(0.0, 2.0)
@@ -949,7 +986,12 @@ A = 1.5
 G   = (zeta + np.log(2) + np.log(np.cosh(zeta)))/np.log(2)
 Gp  = (1 + np.tanh(zeta))/np.log(2)
 Gpp = 1./(np.cosh(zeta)**2 * np.log(2))
-Phi = np.asarray([np.power((1-G)/(1-R2i*Gpp), 1./n) for R2i in R2])
+Phi = np.asarray(
+    [
+        np.power((1-G)/(1-R2i*Gpp), 1./n) 
+        for R2i in R2
+    ]
+)
 w = np.asarray([(1-G)/Phii for Phii in Phi])
 W = np.asarray([1 - fovri*(1-G) for fovri in fovr])
 
@@ -959,70 +1001,69 @@ W = np.asarray([1 - fovri*(1-G) for fovri in fovr])
 # In[17]:
 
 
-f, ax = plt.subplots(1, 4)
-f.set_size_inches(15.0, 9.0)
-f.set_facecolor('w')
+f, ax = plt.subplots(2, 2)
+f.set_size_inches(9.0, 18.0)
 
-ax[0].plot(G, zeta, '-k', linewidth=2, label=r'$G$')
-ax[0].plot(Gp, zeta, '--k', linewidth=2, label=r'$G^\prime$')
-ax[0].plot(Gpp, zeta, '-.k', linewidth=2, label=r'$G^{\prime\prime}$')
-ax[0].set_ylim(-4.0, 0.0)
-ax[0].set_ylabel(r'$z/\delta_f$', fontsize=20)
-ax[0].set_xticks((0.0, 0.5, 1.0, 1.5))
-ax[0].set_yticks((-4, -3, -2, -1, 0))
-ax[0].legend(loc='lower right', fontsize=15)
-ax[0].tick_params(axis='both', which='major', labelsize=13)
-ax[0].text(
+ax[0, 0].plot(G, zeta, '-k', linewidth=2, label=r'$G$')
+ax[0, 0].plot(Gp, zeta, '--k', linewidth=2, label=r'$G^\prime$')
+ax[0, 0].plot(Gpp, zeta, '-.k', linewidth=2, label=r'$G^{\prime\prime}$')
+ax[0, 0].set_ylim(-4.0, 0.0)
+ax[0, 0].set_ylabel(r'$z/\delta_f$', fontsize=20)
+ax[0, 0].set_xticks((0.0, 0.5, 1.0, 1.5))
+ax[0, 0].set_yticks((-4, -3, -2, -1, 0))
+ax[0, 0].legend(loc='lower right', fontsize=15)
+ax[0, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 0].text(
     0.22, -3.9, '(a)', fontsize=20,
     verticalalignment='bottom', horizontalalignment='right'
 )
                     
 for Phii, pltstyi, R2i in zip(Phi, {':k','-.k','--k','-k'}, np.sqrt(R2)):
-    ax[1].plot(
+    ax[0, 1].plot(
         Phii, zeta, pltstyi, linewidth=2, label="R={0:.2f}".format(R2i)
     )
 
-ax[1].set_xlim(0.0, 2.3)
-ax[1].set_ylim(-4.0, 0.0)
-ax[1].set_xticks((0.0, 1.0, 2.0))
-ax[1].set_yticks(())
-ax[1].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
-ax[1].legend(loc='lower right', fontsize=15)
-ax[1].tick_params(axis='both', which='major', labelsize=13)
-ax[1].text(
+ax[0, 1].set_xlim(0.0, 2.3)
+ax[0, 1].set_ylim(-4.0, 0.0)
+ax[0, 1].set_xticks((0.0, 1.0, 2.0))
+ax[0, 1].set_yticks(())
+ax[0, 1].set_xlabel(r'$\phi/\phi_0$', fontsize=20)
+ax[0, 1].legend(loc='lower right', fontsize=15)
+ax[0, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[0, 1].text(
     0.32, -3.9, '(b)', fontsize=20, 
     verticalalignment='bottom', horizontalalignment='right'
 )
 
 for wi, pltstyi, R2i in zip(w, {':k','-.k','--k','-k'}, np.sqrt(R2)):
-    ax[2].plot(
+    ax[1, 0].plot(
         wi, zeta, pltstyi, linewidth=2, label="R={0:.2f}".format(R2i)
     )
 
-ax[2].set_xlabel(r'$w/w_0$', fontsize=20)
-ax[2].set_ylim(-4.0, 0.0)
-ax[2].set_xticks((0.0, 0.5, 1.0))
-ax[2].set_yticks(())
-ax[2].legend(loc='lower left', fontsize=15)
-ax[2].tick_params(axis='both', which='major', labelsize=13)
-ax[2].text(
+ax[1, 0].set_xlabel(r'$w/w_0$', fontsize=20)
+ax[1, 0].set_ylim(-4.0, 0.0)
+ax[1, 0].set_xticks((0.0, 0.5, 1.0))
+ax[1, 0].set_yticks(())
+ax[1, 0].legend(loc='lower left', fontsize=15)
+ax[1, 0].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 0].text(
     0.95, -3.9, '(c)', fontsize=20, 
     verticalalignment='bottom', horizontalalignment='right'
 )
 
 for Wi, pltstyi, fovri in zip(W, {':k','-.k','--k','-k'}, fovr):
-    ax[3].plot(
+    ax[1, 1].plot(
         Wi, zeta, pltstyi, linewidth=2, 
         label="$q_\infty/W_0={0:.2f}$".format(fovri)
     )
 
-ax[3].set_yticks(())
-ax[3].set_ylim(-4.0, 0.0)
-ax[3].set_xticks((0.0, 0.5, 1.0))
-ax[3].set_xlabel('$W/W_0$', fontsize=20)
-ax[3].legend(loc='lower right', fontsize=15)
-ax[3].tick_params(axis='both', which='major', labelsize=13)
-ax[3].text(
+ax[1, 1].set_yticks(())
+ax[1, 1].set_ylim(-4.0, 0.0)
+ax[1, 1].set_xticks((0.0, 0.5, 1.0))
+ax[1, 1].set_xlabel('$W/W_0$', fontsize=20)
+ax[1, 1].legend(loc='lower right', fontsize=15)
+ax[1, 1].tick_params(axis='both', which='major', labelsize=13)
+ax[1, 1].text(
     0.15, -3.9, '(d)', fontsize=20, 
     verticalalignment='bottom', horizontalalignment='right'
 )
@@ -1077,15 +1118,15 @@ al3f = 1 + lmbda[2]*z0/W0/Fmax*(D[1]-D[2])
 
 # Figure 11.8 below plots the ingrowth factors at the top of the column, with the following parameters
 # 
-# Parameters | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | unit
-# --- | --- | ---
-# $\Fmax$ | 0.2 | ––
-# $z_0$ | 60 | km
-# $D_1$ | $10^{-2}$ | ––
-# $D_2$ | $5\times10^{-3}$ | ––
-# $D_3$ | $5\times10^{-4}$ | ––
-# $\deco_2$ | $10^{-5}$ | yr$^{-1}$
-# $\deco_3$ | $10^{-4}$ | yr$^{-1}$
+# | Parameters | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | unit
+# | :-: | :-: | :-: |
+# | $\Fmax$ | 0.2 | –– |
+# | $z_0$ | 60 | km |
+# | $D_1$ | $10^{-2}$ | –– |
+# | $D_2$ | $5\times10^{-3}$ | –– |
+# | $D_3$ | $5\times10^{-4}$ | –– |
+# | $\deco_2$ | $10^{-5}$ | yr$^{-1}$ |
+# | $\deco_3$ | $10^{-4}$ | yr$^{-1}$ |
 # 
 # __(a)__ Slow transport regime, computed with equations $\eqref{eq:const-coltop-slow-approx}$. 
 # 
@@ -1095,8 +1136,7 @@ al3f = 1 + lmbda[2]*z0/W0/Fmax*(D[1]-D[2])
 
 
 f, ax = plt.subplots(1, 2)
-f.set_size_inches(15.0, 9.0)
-f.set_facecolor('w')
+f.set_size_inches(12., 9.)
 
 p0, = ax[0].loglog(fmax, al2s, '-k', linewidth=2)
 p1, = ax[0].loglog(fmax, al3s, '--k', linewidth=2)
@@ -1176,14 +1216,14 @@ plt.show()
 # 
 # The simulation parameters are summarized below
 # 
-# Parameter | value | unit
-# --- | --- | ---
-# $z_0$ | 50 | km
-# $W_0$ | 5  | cm/yr
-# $\Fmax$ | 0.25 | ––
-# $\pormax$ | 0.005 | ––
-# $\velratio$ | 0.001 | ––
-# $\permexp$ | 2 | ––
+# | Parameter | value | unit |
+# | :-: | :-: | :-: |
+# | $z_0$ | 50 | km |
+# | $W_0$ | 5  | cm/yr |
+# | $\Fmax$ | 0.25 | –– |
+# | $\pormax$ | 0.005 | –– |
+# | $\velratio$ | 0.001 | –– |
+# | $\permexp$ | 2 | –– |
 
 # In[20]:
 
@@ -1294,8 +1334,7 @@ DecayChainColumnSolver(el, col)
 
 
 f, ax = plt.subplots(1, 5)
-f.set_size_inches(18.0, 9.0)
-f.set_facecolor('w')
+f.set_size_inches(15., 9.)
 
 lsty = ['-', '-.', '--']
 
@@ -1444,8 +1483,7 @@ for j, fmaxj in enumerate(fmax):
 
 
 f, ax = plt.subplots(1, 2)
-f.set_size_inches(18.0, 9.0)
-f.set_facecolor('w')
+f.set_size_inches(16., 8.)
     
 actratio = coltop[1].a / coltop[0].a
 cvec = np.arange(1.0, 2.005, 0.01)
@@ -1489,7 +1527,7 @@ ax[1].set_xticklabels([1e-3, 1e-2, 1e-1])
 ax[1].set_yticks([-3.0, -2.0, -1.0])
 ax[1].set_yticklabels([1e-3, 1e-2, 1e-1])
 ax[1].set_xlabel(r'$\phi_{max}$', fontsize=20)
-ax[1].tick_params(axis='both', which='major', labelsize=13)
+ax[1].tick_params(axis='both', which='major', labelsize=15)
 ax[1].set_title(r'(b) $a^\ell_{226Ra}/a^\ell_{230Th}$', fontsize=15)
 
 f.supxlabel("Figure 11.10", fontsize=20)

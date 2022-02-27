@@ -78,12 +78,13 @@ wl = np.asarray(
 
 
 f, ax = plt.subplots(1, 4)
-f.set_size_inches(15.0, 9.0)
+f.set_size_inches(15., 9.)
 
 plt.rc(
     'axes', 
     prop_cycle=(
-        cycler(color=['k', 'k', 'k', 'k']) + cycler(linestyle=['-', '--', ':', '-.'])
+        cycler(color=['k', 'k', 'k', 'k']) 
+        + cycler(linestyle=['-', '--', ':', '-.'])
     )
 )
 
@@ -93,6 +94,7 @@ ax[0].set_xlim(0.0, 1.3)
 ax[0].set_xticks((0.0, 0.5, 1.0))
 ax[0].set_ylabel('$z$', fontsize=18)
 ax[0].set_ylim(0.0, 1.0)
+ax[0].tick_params(axis='both', which='major', labelsize=13)
 ax[0].text(
     0.02, 0.01, '(a)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='left'
@@ -114,6 +116,7 @@ ax[1].set_xlim(-2.3, 0.0)
 ax[1].set_xticks((-2.0, -1.0, 0.0))
 ax[1].set_yticks(())
 ax[1].set_ylim(0.0, 1.0)
+ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].text(
     -0.35, 0.01, '(b)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='left'
@@ -126,6 +129,7 @@ ax[2].set_xlabel(r'$\phi^{(0)}$', fontsize=18)
 ax[2].set_xlim(0.0, 1.1)
 ax[2].set_xticks((0.0, 0.5, 1.0))
 ax[2].set_ylim(0.0, 1.0)
+ax[2].tick_params(axis='both', which='major', labelsize=13)
 ax[2].text(
     0.02, 0.01, '(c)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='left'
@@ -138,6 +142,7 @@ ax[3].set_yticks(())
 ax[3].set_xlim(0.0, 1.3)
 ax[3].set_ylim(0.0, 1.0)
 ax[3].set_xticks((0.0, 0.5, 1.0))
+ax[3].tick_params(axis='both', which='major', labelsize=13)
 ax[3].text(
     0.02, 0.01, '(d)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='left'
@@ -572,7 +577,7 @@ def reactive_flow_trace_dispersion_curve(
                 s_guess = np.linspace(0.1, par.n, 30)
 
             elif fails <= 1:
-                if n % 50 == 0 or n == 0:
+                if verbose and (n % 50 == 0 or n == 0):
                     print(
                         f'Iteration {n}: ' + 
                         f' searching for solution at k={np.power(10, Lk_guess)}'
@@ -580,7 +585,7 @@ def reactive_flow_trace_dispersion_curve(
                 s_guess = s_guess * np.linspace(0.99, 1.01, 16)
     
             elif fails == 2:
-                if n % 50 == 0 or n == 0:
+                if verbose and (n % 50 == 0 or n == 0):
                     print(
                         f'Iteration {n}: ' + 
                         f' searching for solution at sigma={s_guess}'
@@ -691,7 +696,7 @@ Chi = (Chi - np.amin(Chi))/(np.amax(Chi) - np.amin(Chi))
 
 
 f, ax = plt.subplots()
-f.set_size_inches(18.0, 9.0)
+f.set_size_inches(12.0, 9.0)
 
 gs = gridspec.GridSpec(1, 2, width_ratios=[1.5, 1])
 
@@ -706,6 +711,7 @@ ax0.set_xlim(1.0, 400.0)
 ax0.set_xticks((1e0, 1e1, 1e2))
 ax0.set_ylim(0.0, 3.2)
 ax0.set_ylabel(r'$\sigma$', fontsize=24)
+ax0.tick_params(axis='both', which='major', labelsize=13)
 ax0.text(
     1.1, 3.1, '(a)', fontsize=20, 
     verticalalignment='top', horizontalalignment='left'
@@ -732,6 +738,7 @@ ax1.set_xticklabels((0, 1, 2))
 ax1.set_ylabel(r'$z$', fontsize=24)
 ax1.set_ylim(0.0, 1.0)
 ax1.set_yticks((0, 0.5, 1))
+ax1.tick_params(axis='both', which='major', labelsize=13)
 ax1.text(
     -0.04, 0.98, '(b)', fontsize=20, 
     verticalalignment='top', horizontalalignment='right'
@@ -786,9 +793,9 @@ for vals in [10., 100., 1000.]:
 
 
 f, ax = plt.subplots()
-f.set_size_inches(9.0, 9.0)
+f.set_size_inches(9., 9.)
 
-for vals, gray in zip([10., 100., 1000.], [0.8, 0.4, 0.0]):
+for vals, gray in zip([10., 100., 1000.], [0.8, 0.4, 0.]):
 
     plt.plot(
         DC_cube[vals].k, DC_cube[vals].s, '-', linewidth=2, 
@@ -805,6 +812,7 @@ plt.xlabel(r'$k$', fontsize=24)
 plt.ylim(0, 3.2)
 plt.ylabel(r'$\sigma$', fontsize=24)
 plt.legend()
+plt.tick_params(axis='both', which='major', labelsize=13)
 f.supxlabel("Figure 12.4", fontsize=20)
 plt.show()
 
@@ -958,7 +966,7 @@ for s_ in S:
 # In[21]:
 
 
-fig = plt.figure(figsize=(21., 9.))
+fig = plt.figure(figsize=(18., 9.))
 gs = gridspec.GridSpec(1, 4, width_ratios=[6, 3, 2, 1])
 
 ax0 = plt.subplot(gs[0])
@@ -978,6 +986,7 @@ ax0.set_xticks(ticks=(1.e0, 1.e1, 1.e2, 1.e3))
 ax0.set_ylabel(r'$\sigma$', fontsize=24)
 ax0.set_ylim(0.0, 3.0)
 ax0.legend(fontsize=16)
+ax0.tick_params(axis='both', which='major', labelsize=13)
 ax0.text(
     0.5e4, 0.05, '(a)', fontsize=16, 
     verticalalignment='bottom', horizontalalignment='right'
@@ -1013,6 +1022,7 @@ ax1.streamplot(
 
 ax1.set_xticks((0, AR[0], 2*AR[0]))
 ax1.set_xticklabels((0, 1, 2))
+ax1.tick_params(axis='both', which='major', labelsize=13)
 ax1.text(
     -0.01, 0.01, '(b)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='right'
@@ -1036,6 +1046,7 @@ ax2.set_xticks((0, lambda_, 2*lambda_))
 ax2.set_xticklabels((0, 1, 2))
 ax2.set_yticklabels(())
 ax2.set_xlabel(r'$x/\lambda^*$', fontsize=24)
+ax2.tick_params(axis='both', which='major', labelsize=13)
 ax2.text(
     -0.01, 0.01, r'(c)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='right'
@@ -1054,6 +1065,7 @@ plt.text(
     -0.02, 0.01, r'(d)', fontsize=18, 
     verticalalignment='bottom', horizontalalignment='right'
 )
+ax3.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 12.5", fontsize=20)
 
@@ -1214,7 +1226,7 @@ def full_dispersion(k, n, Da, Pe, S, l):
 # In[24]:
 
 
-fig = plt.figure(figsize=(15., 9.))
+fig = plt.figure(figsize=(12., 9.))
 gs = gridspec.GridSpec(1, 2, width_ratios=[1, 1])
 
 ax0 = plt.subplot(gs[0])
@@ -1264,6 +1276,7 @@ ax0.set_ylabel(r'$\sigma$', fontsize=20)
 ax0.set_ylim(1.0, 3.1)
 ax0.set_yscale('linear')
 ax0.set_yticks([1, 2, 3])
+ax0.tick_params(axis='both', which='major', labelsize=13)
 
 ax0.text(
     0.4, 1.1, r'(a)', fontsize=16, 
@@ -1298,6 +1311,7 @@ ax1.set_xticks((1.e-4, 1.e-2, 1.e0, 1.e2, 1.e4))
 ax1.set_yticks((1.e-2, 1.e0))
 ax1.set_ylabel(r'$\mathcal{S}$', fontsize=20)
 ax1.set_xlabel(r'Pe$/$Da', fontsize=20)
+ax1.tick_params(axis='both', which='major', labelsize=13)
 ax1.text(
     0.0002, 0.002, r'(b)', fontsize=20, verticalalignment='bottom',
     horizontalalignment='left', backgroundcolor='w'
@@ -1390,7 +1404,7 @@ def Dispersion(k, n, Da, Pe, S):
 # In[26]:
 
 
-fig = plt.figure(figsize=(15.0, 9.0))
+fig = plt.figure(figsize=(9., 9.))
 
 par = PAR()
 k = np.logspace(4, 8, 10000)
@@ -1410,6 +1424,7 @@ plt.xticks((1e-2, 1e0, 1e2))
 plt.yticks((1.5, 2.0, 2.5))
 plt.xlabel('Horizontal wavelength, m', fontsize=18)
 plt.ylabel('Growth time, Ma', fontsize=18)
+plt.tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 12.7", fontsize=20)
 

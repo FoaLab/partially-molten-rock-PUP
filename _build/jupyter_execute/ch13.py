@@ -87,24 +87,30 @@ warnings.filterwarnings('ignore')
 def vel_solid_radial(alph, theta):
 
     return -(
-        2.*np.sin(alph)**2 * np.cos(theta) - 2.*np.cos(theta) 
-        + 2.*theta*np.sin(theta))/(2.*alph - np.pi + np.sin(2.*alph)
+        2. * np.sin(alph)**2 * np.cos(theta) 
+        - 2.*np.cos(theta) 
+        + 2.*theta*np.sin(theta)
+    )/(
+        2.*alph - np.pi + np.sin(2.*alph)
     )
 
 def vel_solid_tangential(alph, theta):
 
     return (
-        2.*np.sin(alph)**2 * np.sin(theta) - 2.*theta*np.cos(theta)
+        2.*np.sin(alph)**2 * np.sin(theta) 
+        - 2.*theta*np.cos(theta)
     )/(
         2.*alph - np.pi + np.sin(2.*alph)
     )
 
 def vel_liquid_radial(alph, theta, r, e):
+
     sin_a = np.sin(alph)
     sin_t = np.sin(theta)
     cos_t = np.cos(theta)
     numer = 2.*sin_a**2 * cos_t - 2.*cos_t + 2.*theta*sin_t
     denom = 2.*alph - np.pi + np.sin(2.*alph)
+
     return -numer/denom - (
         cos_t - (
             numer/denom - (2.*sin_a**2 * cos_t - 6.*cos_t + 2.*theta*sin_t)/denom
@@ -112,11 +118,13 @@ def vel_liquid_radial(alph, theta, r, e):
     )/e
 
 def vel_liquid_tangential(alph, theta, r, e):
+
     sin_t = np.sin(theta)
     sin_a = np.sin(alph)
     cos_t = np.cos(theta)
     numer = -2.*sin_a**2 * sin_t + 2.*theta*cos_t
     denom = 2.*alph - np.pi + np.sin(2.*alph)
+
     return (sin_t - (
             (4.*sin_t + numer)/denom - (8.*sin_t + numer)/denom
         )/r**2
@@ -129,7 +137,7 @@ def vel_liquid_tangential(alph, theta, r, e):
 
 
 f, ax = plt.subplots(2, 2)
-f.set_size_inches(15.0, 12.0)
+f.set_size_inches(12.0, 9.0)
 
 Ny = 500
 aspect = 2.0
@@ -314,6 +322,7 @@ def integrand(zeta, Rsquared):
     return (Rsquared*Gpp - G)/(1-Rsquared*Gpp)
 
 def integrand_Dx(zeta, Rsquared):
+
     G   = (zeta + np.log(2.0) + np.log(np.cosh(zeta)))/np.log(2.0)
     Gpp = 1./(np.cosh(zeta)**2 * np.log(2.0))
 
@@ -326,7 +335,7 @@ def integrand_Dx(zeta, Rsquared):
 
 
 fig, ax = plt.subplots(1, 2)
-fig.set_size_inches(18.0, 9.0)
+fig.set_size_inches(12.0, 6.0)
 
 eps = 1.1920929e-07  # extracted from np.finfo(np.float32)
 R2 = np.asarray([0.0, 0.3, 0.6, 0.69])
@@ -341,7 +350,10 @@ labels = []
 for Rsquared, pltsty in zip(R2, plot_style):
     integ = lambda z: integrand(z, Rsquared)
     ExFlx = quad(integ, -100, 0.0)
-    p = ax[0].plot(alpha*180.0/np.pi, np.tan(alpha)*ExFlx[0], pltsty, linewidth=2)
+    p = ax[0].plot(
+        alpha*180.0/np.pi, np.tan(alpha)*ExFlx[0], 
+        pltsty, linewidth=2
+    )
     plots.append(p[0])
     labels.append('$R={:1.2f}$'.format(np.sqrt(Rsquared)))
 
@@ -350,6 +362,7 @@ ax[0].set_xticks((0, 10, 20, 30, 40))
 ax[0].set_yticks((-1, 0, 1, 2, 3))
 ax[0].set_xlabel(r'$\alpha$, degrees', fontsize=18)
 ax[0].set_ylabel(r'$E_F$', fontsize=18)
+ax[0].tick_params(axis='both', which='major', labelsize=13)
 ax[0].text(
     0.5, 2.95, '(a)', fontsize=16, 
     verticalalignment='top', horizontalalignment='left'
@@ -359,7 +372,8 @@ for Rsquared, pltsty in zip(R2, plot_style):
     integ_dx = lambda z: integrand_Dx(z, Rsquared)
     ExDlx = quad(integ_dx, -100, eps)
     ax[1].plot(
-        alpha*180.0/np.pi, np.tan(alpha)*ExDlx[0], pltsty, linewidth=2
+        alpha*180.0/np.pi, np.tan(alpha)*ExDlx[0], 
+        pltsty, linewidth=2
     )
 
 ax[1].set_xlim(0.0, amax*180/np.pi)
@@ -367,6 +381,7 @@ ax[1].set_xticks((0, 10, 20, 30, 40))
 ax[1].set_yticks((0, 5, 10, 15, 20, 25))
 ax[1].set_xlabel(r'$\alpha$, degrees', fontsize=18)
 ax[1].set_ylabel(r'$\Delta x_F/\delta_f$', fontsize=18)
+ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].text(
     0.5, 24.7, '(b)', fontsize=16, 
     verticalalignment='top', horizontalalignment='left'
@@ -418,7 +433,7 @@ class PAR:
 
 
 f, ax = plt.subplots()
-f.set_size_inches(12.0, 9.0)
+f.set_size_inches(9.0, 9.0)
 
 p = PAR()
 xd = -(p.zb - p.zh0)/np.tan(p.alpha)
@@ -438,6 +453,7 @@ ax.text(
 )
 ax.set_xlabel(r'$x$, km', fontsize=20)
 ax.set_ylabel(r'$z$, km', fontsize=20)
+ax.tick_params(axis='both', which='major', labelsize=13)
 
 ax.text(
     x[75], zh[75], r'$z_h(x)$', fontsize=20,
@@ -592,7 +608,7 @@ def FocusingModelTriangle(par=None):
 
 
 f, ax = plt.subplots(2, 1)
-f.set_size_inches(21.0, 10.0)
+f.set_size_inches(12.0, 10.0)
 
 A = FocusingModelTriangle()
 
@@ -601,6 +617,7 @@ ax[0].set_ylabel(r'$-G$, mm/yr', fontsize=24)
 ax[0].set_xticks(())
 ax[0].set_xlim(0.0, A.xd)
 ax[0].set_yticks((0, 1, 2, 3, 4))
+ax[0].tick_params(axis='both', which='major', labelsize=13)
 ax[0].text(0.1, 0.1, r'(a)', fontsize=18)
 
 ax[1].plot(A.x, A.cruth, '-k', linewidth=2)
@@ -610,6 +627,7 @@ ax[1].set_xlim(0.0, A.xd)
 ax[1].set_ylim(0.0, 4.0)
 ax[1].set_xticks(np.arange(0, 101, 10))
 ax[1].set_yticks((0, 1, 2, 3, 4))
+ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].text(0.1, 0.1, r'(b)', fontsize=18)
 
 f.supxlabel("Figure 13.5", fontsize=20)
@@ -624,7 +642,7 @@ plt.show()
 
 
 f, ax = plt.subplots(1, 3)
-f.set_size_inches(15.0, 9.0)
+f.set_size_inches(12., 9.)
 
 par = FocusingModelTriangle()
 
@@ -650,6 +668,7 @@ ax[0].text(
     verticalalignment='top', horizontalalignment='left'
 )
 ax[0].text(0.1, 0.1, '(a)', fontsize=18)
+ax[0].tick_params(axis='both', which='major', labelsize=13)
 ax[0].legend(fontsize=13)
 
 secperyr = 60. * 60. * 24. * 365.5
@@ -670,9 +689,10 @@ ax[1].text(
     0.05, 7.9, r'$\alpha=30^\circ$', fontsize=16, 
     verticalalignment='top', horizontalalignment='left'
 )
+ax[1].tick_params(axis='both', which='major', labelsize=13)
 ax[1].legend(fontsize=13)
 
-secperyr = 60*60*24*365.5;
+secperyr = 60 * 60 * 24 * 365.5
 C = 2.32  # prefactor in lithospheric thickness
 K = 1e-6  # diffusivity, m^2/sec
 U0 = np.array([2., 4., 8., 16.])/100./secperyr  # m/sec
@@ -697,6 +717,7 @@ ax[2].text(
     2.0, 0.3, r'(c)', fontsize=16, 
     verticalalignment='top', horizontalalignment='left'
 )
+ax[2].tick_params(axis='both', which='major', labelsize=13)
 ax[2].legend(fontsize=13);
 
 f.supxlabel("Figure 13.6", fontsize=20);

@@ -76,11 +76,14 @@ def SolveCompactionRateFiniteDifference(phi, dz):
 
     # matrix size
     n_ = len(phi)
+
     # form permeability
     K = np.power(0.5*(phi[0:-1] + phi[1:]), par.n)
+
     # form RHS
     b = np.zeros(n_, dtype=float)
     b[1:-1] = dz*(K[1:] - K[0:-1])
+    
     # create sparse matrix
     offsets = np.array([0, -1, 1])
     data = np.zeros(3 * n_).reshape(3, n_)
@@ -146,12 +149,21 @@ def SolveCompactionRateFiniteDifference(phi, dz):
 
 def SolveCompactionRateFiniteElement(phi, dz):
 
-    N = len(phi)  # number of nodes
-    N_elements = N - 1  # number of elements
-    A = sp.dok_matrix((N, N), dtype=np.double)  # allocate memory
-    b = np.zeros(N, dtype=np.double)  # allocate memory
-    for e in range(N_elements):  # loop over elements
-        A[e:e+2, e:e+2] = 0.0  # initializing matrix
+    # number of nodes
+    N = len(phi)
+
+    # number of elements
+    N_elements = N - 1  
+    
+    # allocate memory
+    A = sp.dok_matrix((N, N), dtype=np.double)
+    
+    # allocate memory
+    b = np.zeros(N, dtype=np.double)
+
+    # loop over elements
+    for e in range(N_elements):
+        A[e:e+2, e:e+2] = 0.  # initializing matrix
 
     Me = sp.dok_matrix([[1./dz, -1./dz], [-1.0/dz, 1./dz]], dtype=np.double)
     Ce = sp.dok_matrix([[dz/3., dz/6.], [dz/6., dz/3.]], dtype=np.double)
@@ -160,19 +172,21 @@ def SolveCompactionRateFiniteElement(phi, dz):
     # form permeability at element centres
     K = np.power(0.5 * (phi[0:-1] + phi[1:]), par.n)
 
-    for e in range(N_elements):  # loop over elements
+    # loop over elements
+    for e in range(N_elements):
         # element bilinear form
         Ae = Me * K[e] + Ce
-        be = re * K[e]  # element linear form
-        # cur_Ae = A[e:e+2, e:e+2]
+        be = re * K[e]         # element linear form
         A[e:e+2, e:e+2] += Ae  # assemble global matrix
-        b[e:e+2] += be  # assemble global RHS
+        b[e:e+2] += be         # assemble global RHS
 
     A[[0, -1], [0, -1]] = 1.0
     A[[0, -1], [1, -2]] = 0.0  # zero boundary rows
-    b[0] = b[-1] = 0  # boundary condition
+    b[0] = b[-1] = 0           # boundary condition
     A = A.tocsr()
-    x = spla.dsolve.spsolve(A, b)  # solve
+
+    # solve
+    x = spla.dsolve.spsolve(A, b)
 
     return x
 
@@ -265,7 +279,7 @@ for n, ni in enumerate(par.ni):
 
 
 fig, ax = plt.subplots()
-fig.set_size_inches(12., 9.)
+fig.set_size_inches(9., 9.)
 
 # plotting
 p1, = plt.loglog(par.ni, err_fd, '-ok', linewidth=2)
@@ -281,6 +295,7 @@ plt.text(
 )
 plt.xlim(10.0, 3.e4)
 plt.ylim(1.e-8, 1.0)
+plt.tick_params(axis='both', which='major', labelsize=13)
 leg = plt.legend(
     handles=[p1, p2], labels=['finite difference', 'finite element']
 )
@@ -434,7 +449,7 @@ class PAR:
 
 
 fig, ax = plt.subplots(1, 3)
-fig.set_size_inches(15.0, 9.0)
+fig.set_size_inches(12., 6.)
 
 par = PAR()
 
@@ -464,6 +479,7 @@ ax[0].text(
     verticalalignment='bottom', horizontalalignment='left', 
     color='white'
 )
+ax[0].tick_params(axis='both', which='major', labelsize=13)
 
 U = MnfcSoln_U(X, Y, par)
 Vx, Vy = MnfcSoln_GradU(X, Y, par)
@@ -482,6 +498,7 @@ ax[1].text(
     verticalalignment='bottom', horizontalalignment='left', 
     color='white'
 )
+ax[1].tick_params(axis='both', which='major', labelsize=13)
 
 phi = MnfcSoln_phi(X, Y, par)
 Vx, Vy = MnfcSoln_VelS(X, Y, par)
@@ -496,6 +513,7 @@ ax[2].text(
 )
 ax[2].set_xlabel('$x$', fontsize=24)
 ax[2].set_xticklabels((0.0, 0.2, 0.4, 0.6, 0.8, 1.0), fontsize=20)
+ax[2].tick_params(axis='both', which='major', labelsize=13)
 
 fig.supxlabel("Figure 14.4", fontsize=20)
 
@@ -966,18 +984,26 @@ for ni, nj in zip(par.ni, par.ni):
 
 # plotting
 f, ax = plt.subplots()
-f.set_size_inches(12.0, 9.0)
+f.set_size_inches(9., 9.)
 
-ax.loglog(par.ni, ev, '-ok', linewidth=2, label='velocity')
-ax.loglog(par.ni, ep,'--ok', linewidth=2, label='pressure')
-ax.loglog(par.ni[2:], 15./np.power(par.ni[2:], 2), '-k', linewidth=1)
+ax.loglog(
+    par.ni, ev, '-ok', linewidth=2, label='velocity'
+)
+ax.loglog(
+    par.ni, ep,'--ok', linewidth=2, label='pressure'
+)
+ax.loglog(
+    par.ni[2:], 15./np.power(par.ni[2:], 2), '-k', linewidth=1
+)
 ax.set_xlabel(r'$\sqrt{N}$', fontsize=20)
 ax.set_ylabel(r'$E(P),\,E(v^s)$', fontsize=20)
-ax.text(40.0, 0.01, 'slope$=-2$',
-         fontsize=16, rotation=-28, horizontalalignment='center')
+ax.text(
+    40.0, 0.01, 'slope$=-2$', fontsize=16, 
+    rotation=-28, horizontalalignment='center'
+)
 ax.set_xlim(5.0, 100.0)
 ax.set_ylim(1.e-4, 1.0)
-ax.tick_params(axis='both', labelsize='large')
+ax.tick_params(axis='both', which='major', labelsize=13)
 f.supxlabel("Figure 14.7", fontsize=20)
 plt.show()
 
