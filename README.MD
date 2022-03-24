@@ -1,4 +1,4 @@
-# The Dynamics of Partially Molten Rocks
+# The Dynamics of Partially Molten Rock
 
 By Richard F. Katz
 
