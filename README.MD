@@ -8,7 +8,7 @@ Published by Princeton University Press
 
 https://press.princeton.edu/books/hardcover/9780691176567/the-dynamics-of-partially-molten-rock
 
-Online supplement developed by Frederico Teixeira. Cite as: 
+This online supplement can be cited as follows: Teixeira & Katz (2021), _Online Supplement to The Dynamics of Partially Molten Rock_.  DOI: XXXX.
 
 ## Requirements:
 
