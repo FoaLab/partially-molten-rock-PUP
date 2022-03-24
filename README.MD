@@ -1,5 +1,3 @@
-[![DOI](https://zenodo.org/badge/233942449.svg)](https://zenodo.org/badge/latestdoi/233942449)
-
 # The Dynamics of Partially Molten Rocks
 
 By Richard F. Katz
@@ -10,7 +8,7 @@ Published by Princeton University Press
 
 https://press.princeton.edu/books/hardcover/9780691176567/the-dynamics-of-partially-molten-rock
 
-This online supplement can be cited as follows: Teixeira & Katz (2021), _Online Supplement to The Dynamics of Partially Molten Rock_.  DOI: XXXX.
+This online supplement can be cited as follows: Teixeira & Katz (2021), _Online Supplement to The Dynamics of Partially Molten Rock_. [![DOI](https://zenodo.org/badge/233942449.svg)](https://zenodo.org/badge/latestdoi/233942449)
 
 ## Requirements:
 
