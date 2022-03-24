@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/233942449.svg)](https://zenodo.org/badge/latestdoi/233942449)
+
 # The Dynamics of Partially Molten Rocks
 
 By Richard F. Katz
