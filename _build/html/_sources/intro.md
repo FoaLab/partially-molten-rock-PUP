@@ -8,4 +8,4 @@ Here you will find Python scripts that reproduce the calculations used to genera
 
 Please, use the “open issue” link above right to inform us of any bugs or other issues with the code.
 
-They can be cited as follows: Teixeira & Katz (2021), _Online Supplement to The Dynamics of Partially Molten Rock_.  DOI: XXXX.
+For information on how to cite this online supplement, please click [here](https://github.com/FoaLab/partially-molten-rock-PUP).
